@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" width="145mm" height="120.8mm">
+  <rect x="0" y="0" width="1200" height="1000" fill="#ffffff"/>
+  <defs>
+    <marker id="c3a" markerWidth="13" markerHeight="13" refX="10" refY="6.5" orient="auto">
+      <path d="M0,0 L13,6.5 L0,13 z" fill="#334155"/>
+    </marker>
+    <marker id="c3p" markerWidth="13" markerHeight="13" refX="10" refY="6.5" orient="auto">
+      <path d="M0,0 L13,6.5 L0,13 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="c3o" markerWidth="13" markerHeight="13" refX="10" refY="6.5" orient="auto">
+      <path d="M0,0 L13,6.5 L0,13 z" fill="#ea580c"/>
+    </marker>
+  </defs>
+
+  <text x="600" y="50" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#0f172a">C3: Component Diagram ของคอนเทนเนอร์ API Application</text>
+
+  <!-- SPA (upstream container) -->
+  <rect x="380" y="86" width="440" height="76" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <text x="600" y="120" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Web Application (React SPA)</text>
+  <text x="600" y="150" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e40af">คอนเทนเนอร์ต้นทางของคำขอ</text>
+
+  <line x1="600" y1="162" x2="600" y2="262" stroke="#334155" stroke-width="4" marker-end="url(#c3a)"/>
+  <text x="616" y="212" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">JSON/HTTPS</text>
+
+  <!-- API Application boundary -->
+  <rect x="60" y="196" width="1080" height="580" rx="18" fill="none" stroke="#94a3b8" stroke-width="4" stroke-dasharray="16 10"/>
+  <text x="80" y="234" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#64748b">คอนเทนเนอร์ API Application — Node.js + Express + Prisma</text>
+
+  <!-- Auth / RBAC : gateway component -->
+  <rect x="330" y="268" width="540" height="94" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="4"/>
+  <text x="600" y="304" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#5b21b6">Auth / RBAC Component</text>
+  <text x="600" y="336" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#6d28d9">ตรวจตัวตนและสิทธิ์ทุกคำขอ · POST /auth/login</text>
+
+  <line x1="600" y1="362" x2="600" y2="402" stroke="#7c3aed" stroke-width="4" marker-end="url(#c3p)"/>
+
+  <!-- Row 1 : domain services -->
+  <rect x="80" y="406" width="250" height="118" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="205" y="442" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#14532d">Record Service</text>
+  <text x="205" y="474" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#166534">บันทึกข้อมูลและหลักฐาน</text>
+  <text x="205" y="504" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#15803d">/records</text>
+
+  <rect x="350" y="406" width="250" height="118" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="475" y="442" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#14532d">Audit / Finding</text>
+  <text x="475" y="474" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#166534">รอบตรวจและประเด็นที่พบ</text>
+  <text x="475" y="504" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#15803d">/audits · /findings</text>
+
+  <rect x="620" y="406" width="250" height="118" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="745" y="442" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#14532d">CAR Service</text>
+  <text x="745" y="474" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#166534">วงจร 4 สถานะ + Overdue</text>
+  <text x="745" y="504" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#15803d">/cars · /cars/{id}/verify</text>
+
+  <rect x="890" y="406" width="230" height="118" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="1005" y="442" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#14532d">Export Service</text>
+  <text x="1005" y="474" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#166534">รายงานสรุป</text>
+  <text x="1005" y="504" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#15803d">/exports/*</text>
+
+  <!-- Row 2 -->
+  <rect x="80" y="550" width="250" height="118" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="4"/>
+  <text x="205" y="586" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#5b21b6">Audit Trail</text>
+  <text x="205" y="618" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#6d28d9">บันทึกทุกเหตุการณ์สำคัญ</text>
+  <text x="205" y="648" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#7c3aed">/audit-trails</text>
+
+  <rect x="350" y="550" width="240" height="118" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="470" y="586" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#14532d">Dashboard</text>
+  <text x="470" y="616" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#14532d">Aggregator</text>
+  <text x="470" y="648" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#15803d">/dashboard/summary</text>
+
+  <line x1="590" y1="609" x2="644" y2="609" stroke="#ea580c" stroke-width="4" marker-end="url(#c3o)"/>
+
+  <rect x="650" y="550" width="470" height="118" rx="12" fill="#ffedd5" stroke="#ea580c" stroke-width="4"/>
+  <text x="885" y="586" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#7c2d12">Group A Integration Client</text>
+  <text x="885" y="616" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#9a3412">จุดเดียวที่ติดต่อกลุ่ม A · มีเวลารอและทางเลือกสำรอง</text>
+  <text x="885" y="648" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#c2410c">/integration/document-summary · /ack-summary</text>
+
+  <!-- notes inside boundary -->
+  <text x="80" y="712" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#64748b">ทุกส่วนประกอบแบ่งภายในเป็นส่วนรับคำขอ ตรรกะธุรกิจ และเข้าถึงข้อมูล (NFR-05)</text>
+  <text x="80" y="746" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#64748b">ทุกส่วนประกอบผ่าน Auth / RBAC ก่อน และเรียก Audit Trail เมื่อเกิดเหตุการณ์สำคัญ</text>
+
+  <!-- arrows down to data stores -->
+  <line x1="260" y1="776" x2="260" y2="828" stroke="#334155" stroke-width="4" marker-end="url(#c3a)"/>
+  <text x="276" y="810" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">SQL ผ่าน Prisma</text>
+
+  <line x1="640" y1="776" x2="640" y2="828" stroke="#334155" stroke-width="4" marker-end="url(#c3a)"/>
+  <text x="656" y="810" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">อ่าน/เขียนไฟล์</text>
+
+  <!-- Shared Contract arrow to Group A -->
+  <line x1="1040" y1="776" x2="1040" y2="828" stroke="#ea580c" stroke-width="4" stroke-dasharray="12 8" marker-end="url(#c3o)"/>
+  <text x="900" y="810" text-anchor="end" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">Shared Contract (อ่านเท่านั้น)</text>
+
+  <!-- Database -->
+  <rect x="80" y="832" width="380" height="122" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="4"/>
+  <text x="270" y="870" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#0f172a">Database (PostgreSQL)</text>
+  <text x="270" y="902" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#475569">Record · Finding · CAR</text>
+  <text x="270" y="934" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#475569">Verification · AuditTrail</text>
+
+  <!-- File storage -->
+  <rect x="490" y="832" width="300" height="122" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="4"/>
+  <text x="640" y="870" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#0f172a">File Storage</text>
+  <text x="640" y="902" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#475569">ไฟล์หลักฐานประกอบ</text>
+  <text x="640" y="934" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#475569">อ้างอิงด้วย file path</text>
+
+  <!-- Group A external system -->
+  <rect x="900" y="832" width="280" height="122" rx="12" fill="#ffffff" stroke="#ea580c" stroke-width="4"/>
+  <text x="1040" y="870" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#7c2d12">ระบบกลุ่ม A</text>
+  <text x="1040" y="902" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#9a3412">Document Control / DAR / Ack</text>
+  <text x="1040" y="934" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" fill="#9a3412">(ระบบภายนอก)</text>
+</svg>

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="145mm" height="74.9mm">
+  <rect x="0" y="0" width="1200" height="620" fill="#ffffff"/>
+  <defs>
+    <marker id="a3" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto">
+      <path d="M0,0 L14,7 L0,14 z" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <!-- Document -->
+  <rect x="30" y="150" width="300" height="220" rx="14" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <text x="180" y="200" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#1e3a8a">Document</text>
+  <text x="180" y="244" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="32" fill="#1e3a8a">(เอกสาร)</text>
+  <text x="180" y="292" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#1e3a8a">แบบฟอร์ม FM เปล่า</text>
+  <text x="180" y="330" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#1e3a8a">บอกวิธีทำงาน</text>
+  <text x="180" y="368" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#1d4ed8">ต้อง maintain</text>
+
+  <!-- action -->
+  <path d="M 340 260 L 430 260" stroke="#334155" stroke-width="5" marker-end="url(#a3)"/>
+  <text x="385" y="230" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#334155">กรอกข้อมูล</text>
+  <text x="385" y="320" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#334155">/ปฏิบัติงาน</text>
+
+  <!-- Record -->
+  <rect x="440" y="150" width="300" height="220" rx="14" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="590" y="200" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#14532d">Record</text>
+  <text x="590" y="244" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="32" fill="#14532d">(บันทึก/หลักฐาน)</text>
+  <text x="590" y="292" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#14532d">ฟอร์มที่กรอกแล้ว</text>
+  <text x="590" y="330" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#14532d">Audit Report · ใบ CAR</text>
+  <text x="590" y="368" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#15803d">ต้อง retain</text>
+
+  <!-- store -->
+  <path d="M 750 260 L 840 260" stroke="#334155" stroke-width="5" marker-end="url(#a3)"/>
+  <text x="795" y="230" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#334155">จัดเก็บ</text>
+  <text x="795" y="320" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#334155">ในระบบ</text>
+
+  <!-- Audit trail -->
+  <rect x="850" y="150" width="320" height="220" rx="14" fill="#f3e8ff" stroke="#7e22ce" stroke-width="4"/>
+  <text x="1010" y="200" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#581c87">Audit Trail</text>
+  <text x="1010" y="244" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="32" fill="#581c87">(ร่องรอยการตรวจสอบ)</text>
+  <text x="1010" y="292" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#581c87">ใครสร้าง/แก้ไข/ปิดงาน</text>
+  <text x="1010" y="330" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#581c87">เมื่อใด</text>
+  <text x="1010" y="368" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#6b21a8">ระบบบันทึกอัตโนมัติ</text>
+
+  <!-- header band -->
+  <rect x="30" y="40" width="1140" height="80" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="3"/>
+  <text x="600" y="92" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#0f172a">สารสนเทศที่จัดทำเป็นเอกสาร (Documented Information) ตาม ISO 9001:2015</text>
+
+  <!-- purpose row -->
+  <rect x="30" y="420" width="300" height="150" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="180" y="470" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#334155">ใช้สื่อสารวิธีทำงาน</text>
+  <text x="180" y="516" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#64748b">ควบคุมโดยกลุ่ม A</text>
+  <text x="180" y="552" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#64748b">(Document Control)</text>
+
+  <rect x="440" y="420" width="300" height="150" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="590" y="470" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#334155">ใช้ตรวจสอบย้อนหลัง</text>
+  <text x="590" y="516" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#64748b">ขอบเขตของโครงงานนี้</text>
+  <text x="590" y="552" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#64748b">(Records/Audit/CAR)</text>
+
+  <rect x="850" y="420" width="320" height="150" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="1010" y="470" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#334155">ใช้พิสูจน์ความโปร่งใส</text>
+  <text x="1010" y="516" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#64748b">ขอบเขตของโครงงานนี้</text>
+  <text x="1010" y="552" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#64748b">(Audit Trail)</text>
+</svg>

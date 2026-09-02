@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="145mm" height="99mm">
+  <rect x="0" y="0" width="1200" height="820" fill="#ffffff"/>
+  <defs>
+    <marker id="a9" markerWidth="13" markerHeight="13" refX="10" refY="6.5" orient="auto">
+      <path d="M0,0 L13,6.5 L0,13 z" fill="#1e293b"/>
+    </marker>
+    <marker id="a9o" markerWidth="13" markerHeight="13" refX="10" refY="6.5" orient="auto">
+      <path d="M0,0 L13,6.5 L0,13 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <text x="600" y="48" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="36" font-weight="700" fill="#0f172a">ลำดับการทำงานของการเรียกดูแดชบอร์ดผ่าน Shared Contract</text>
+
+  <!-- lifelines -->
+  <rect x="40" y="80" width="230" height="80" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="3"/>
+  <text x="155" y="130" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#0f172a">ISO/QA User</text>
+  <line x1="155" y1="160" x2="155" y2="770" stroke="#94a3b8" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <rect x="300" y="80" width="230" height="80" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <text x="415" y="118" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#1e3a8a">React SPA</text>
+  <text x="415" y="150" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#475569">หน้า Dashboard</text>
+  <line x1="415" y1="160" x2="415" y2="770" stroke="#93c5fd" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <rect x="560" y="80" width="250" height="80" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="3"/>
+  <text x="685" y="118" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#9a3412">Dashboard</text>
+  <text x="685" y="150" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">Aggregator (Express)</text>
+  <line x1="685" y1="160" x2="685" y2="770" stroke="#fdba74" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <rect x="840" y="80" width="150" height="80" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="915" y="130" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#14532d">PostgreSQL</text>
+  <line x1="915" y1="160" x2="915" y2="770" stroke="#86efac" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <rect x="1020" y="80" width="160" height="80" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="3"/>
+  <text x="1100" y="118" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#5b21b6">Group A</text>
+  <text x="1100" y="150" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#5b21b6">API</text>
+  <line x1="1100" y1="160" x2="1100" y2="770" stroke="#c4b5fd" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <!-- messages -->
+  <path d="M 155 210 L 410 210" stroke="#1e293b" stroke-width="4" marker-end="url(#a9)"/>
+  <text x="170" y="198" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#1e293b">1. เปิดหน้า Dashboard</text>
+
+  <path d="M 415 270 L 680 270" stroke="#1e293b" stroke-width="4" marker-end="url(#a9)"/>
+  <text x="430" y="258" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#1e293b">2. GET /api/dashboard/summary</text>
+
+  <path d="M 685 330 L 910 330" stroke="#1e293b" stroke-width="4" marker-end="url(#a9)"/>
+  <text x="700" y="318" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#1e293b">3. รวบรวมข้อมูล Finding/CAR/Overdue</text>
+
+  <path d="M 910 388 L 690 388" stroke="#1e293b" stroke-width="4" stroke-dasharray="10 6" marker-end="url(#a9)"/>
+  <text x="700" y="376" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#334155">4. ผลรวมเชิงสถิติของกลุ่ม B</text>
+
+  <path d="M 685 448 L 1095 448" stroke="#7c3aed" stroke-width="4" marker-end="url(#a9o)"/>
+  <text x="700" y="436" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#7c3aed">5. GET /api/documents/ack-summary (read-only)</text>
+
+  <path d="M 1095 506 L 690 506" stroke="#7c3aed" stroke-width="4" stroke-dasharray="10 6" marker-end="url(#a9o)"/>
+  <text x="700" y="494" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#7c3aed">6. สถานะเอกสาร + อัตราการรับทราบ</text>
+
+  <!-- aggregate box -->
+  <rect x="600" y="540" width="180" height="80" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="3"/>
+  <text x="690" y="576" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#9a3412">7. รวมผลลัพธ์</text>
+  <text x="690" y="606" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">ทั้งสองระบบ</text>
+
+  <path d="M 680 660 L 420 660" stroke="#1e293b" stroke-width="4" stroke-dasharray="10 6" marker-end="url(#a9)"/>
+  <text x="430" y="648" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#334155">8. JSON: cards + charts + recent lists</text>
+
+  <path d="M 410 720 L 160 720" stroke="#1e293b" stroke-width="4" stroke-dasharray="10 6" marker-end="url(#a9)"/>
+  <text x="170" y="708" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#334155">9. แสดงผลภาพรวมสถานะระบบคุณภาพ</text>
+
+  <!-- note -->
+  <rect x="40" y="760" width="1140" height="50" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="600" y="794" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#334155">หมายเหตุ: ระบบกลุ่ม B อ่านข้อมูลเอกสารจากกลุ่ม A เท่านั้น ไม่สร้างหรือแก้ไขข้อมูลเอกสารซ้ำ (Single Source of Truth)</text>
+</svg>

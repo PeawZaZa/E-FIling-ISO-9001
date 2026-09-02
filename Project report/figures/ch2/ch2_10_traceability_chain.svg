@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="145mm" height="77.3mm">
+  <rect x="0" y="0" width="1200" height="640" fill="#ffffff"/>
+  <defs>
+    <marker id="a10" markerWidth="14" markerHeight="14" refX="10" refY="7" orient="auto">
+      <path d="M0,0 L14,7 L0,14 z" fill="#0f172a"/>
+    </marker>
+    <marker id="a10b" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#7c3aed"/>
+    </marker>
+  </defs>
+
+  <text x="600" y="50" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="36" font-weight="700" fill="#0f172a">การตรวจสอบย้อนกลับ (Traceability) และร่องรอยการตรวจสอบ (Audit Trail)</text>
+
+  <!-- document from group A -->
+  <rect x="40" y="110" width="220" height="110" rx="12" fill="#f5f3ff" stroke="#7c3aed" stroke-width="4"/>
+  <text x="150" y="152" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#5b21b6">Document</text>
+  <text x="150" y="188" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#5b21b6">เอกสารอ้างอิง</text>
+  <text x="150" y="214" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#6d28d9">(จากกลุ่ม A)</text>
+
+  <!-- chain -->
+  <rect x="310" y="110" width="200" height="110" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <text x="410" y="158" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Record</text>
+  <text x="410" y="196" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">หลักฐาน/ไฟล์แนบ</text>
+
+  <rect x="560" y="110" width="200" height="110" rx="12" fill="#fef9c3" stroke="#ca8a04" stroke-width="4"/>
+  <text x="660" y="158" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#713f12">Finding</text>
+  <text x="660" y="196" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">ประเด็นที่พบ</text>
+
+  <rect x="810" y="110" width="180" height="110" rx="12" fill="#ffedd5" stroke="#ea580c" stroke-width="4"/>
+  <text x="900" y="158" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#9a3412">CAR</text>
+  <text x="900" y="196" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">ใบแก้ไข</text>
+
+  <rect x="1040" y="110" width="140" height="110" rx="12" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="1110" y="158" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#14532d">Closure</text>
+  <text x="1110" y="196" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#14532d">ปิดงาน</text>
+
+  <path d="M 262 165 L 305 165" stroke="#0f172a" stroke-width="5" marker-end="url(#a10)"/>
+  <path d="M 512 165 L 555 165" stroke="#0f172a" stroke-width="5" marker-end="url(#a10)"/>
+  <path d="M 762 165 L 805 165" stroke="#0f172a" stroke-width="5" marker-end="url(#a10)"/>
+  <path d="M 992 165 L 1035 165" stroke="#0f172a" stroke-width="5" marker-end="url(#a10)"/>
+
+  <!-- forward/backward labels -->
+  <text x="600" y="270" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#0f172a">Forward Traceability: เอกสาร/หลักฐาน → ประเด็น → การแก้ไข → การปิดงาน</text>
+  <path d="M 1110 300 L 410 300" stroke="#0f172a" stroke-width="4" stroke-dasharray="12 8" marker-end="url(#a10)"/>
+  <text x="600" y="340" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#0f172a">Backward Traceability: ปิดงานแล้วย้อนดูได้ว่าแก้จากประเด็นใดและหลักฐานใด</text>
+
+  <!-- audit trail band -->
+  <rect x="40" y="380" width="1140" height="120" rx="14" fill="#f3e8ff" stroke="#7e22ce" stroke-width="4"/>
+  <text x="600" y="426" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="32" font-weight="700" fill="#581c87">Audit Trail — บันทึกทุกเหตุการณ์สำคัญของทุกขั้นในลูกโซ่</text>
+  <text x="600" y="470" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#581c87">ใคร (actor) · ทำอะไร (action) · กับข้อมูลใด (entity + id) · เมื่อใด (timestamp) · ค่าก่อน–หลัง</text>
+  <path d="M 410 224 L 410 375" stroke="#7c3aed" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#a10b)"/>
+  <path d="M 660 224 L 660 375" stroke="#7c3aed" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#a10b)"/>
+  <path d="M 900 224 L 900 375" stroke="#7c3aed" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#a10b)"/>
+  <path d="M 1110 224 L 1110 375" stroke="#7c3aed" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#a10b)"/>
+
+  <!-- benefit boxes -->
+  <rect x="40" y="530" width="360" height="90" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="220" y="570" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#334155">พร้อมรับการตรวจติดตาม</text>
+  <text x="220" y="602" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#475569">ทั้งภายในและภายนอก</text>
+
+  <rect x="420" y="530" width="360" height="90" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="600" y="570" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#334155">ตรวจได้ว่าใครแก้ไขอะไร</text>
+  <text x="600" y="602" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#475569">เมื่อใด โดยไม่ต้องถามย้อน</text>
+
+  <rect x="800" y="530" width="380" height="90" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="990" y="570" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#334155">ข้อมูลชุดเดียวกันทั้งองค์กร</text>
+  <text x="990" y="602" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" fill="#475569">ลดการตีความไม่ตรงกัน</text>
+</svg>

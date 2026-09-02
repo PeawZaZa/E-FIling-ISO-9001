@@ -1,0 +1,71 @@
+%% C3: Component Diagram ของคอนเทนเนอร์ API Application — ระบบกลุ่ม B
+%% แก้ไขไฟล์นี้แล้วนำไปแสดงผลที่ https://mermaid.live เพื่อส่งออกเป็น SVG/PNG
+%% สีที่ใช้ตรงกับรูป C2 (รูปที่ 2.9) และรูปสถาปัตยกรรมสามชั้น (รูปที่ 2.7)
+
+flowchart TB
+    SPA["<b>Web Application (React SPA)</b><br/>คอนเทนเนอร์ต้นทางของคำขอ"]
+
+    subgraph API["คอนเทนเนอร์ API Application — Node.js + Express + Prisma"]
+        direction TB
+        AUTH["<b>Auth / RBAC Component</b><br/>ตรวจตัวตนและสิทธิ์ทุกคำขอ<br/>POST /auth/login"]
+
+        subgraph SVC[" "]
+            direction LR
+            REC["<b>Record Service</b><br/>บันทึกข้อมูลและหลักฐาน<br/>/records"]
+            AUDIT["<b>Audit / Finding Service</b><br/>รอบตรวจและประเด็นที่พบ<br/>/audits · /findings"]
+            CAR["<b>CAR Service</b><br/>วงจร 4 สถานะ + Overdue<br/>/cars · /cars/:id/verify"]
+            EXPORT["<b>Export Service</b><br/>รายงานสรุป<br/>/exports"]
+        end
+
+        DASH["<b>Dashboard Aggregator</b><br/>รวบรวมข้อมูลสรุป<br/>/dashboard/summary"]
+        TRAIL["<b>Audit Trail</b><br/>บันทึกทุกเหตุการณ์สำคัญ<br/>/audit-trails"]
+        INTG["<b>Group A Integration Client</b><br/>จุดเดียวที่ติดต่อกลุ่ม A · มีเวลารอและทางเลือกสำรอง<br/>/integration/document-summary · /ack-summary"]
+    end
+
+    DB[("<b>Database (PostgreSQL)</b><br/>Record · Finding · CAR<br/>Verification · AuditTrail")]
+    FS[("<b>File Storage</b><br/>ไฟล์หลักฐานประกอบ<br/>อ้างอิงด้วย file path")]
+    GA["<b>ระบบกลุ่ม A</b><br/>Document Control / DAR / Ack<br/>(ระบบภายนอก)"]
+
+    SPA -->|"JSON/HTTPS"| AUTH
+    AUTH --> REC
+    AUTH --> AUDIT
+    AUTH --> CAR
+    AUTH --> EXPORT
+    AUTH --> DASH
+
+    REC -.->|"บันทึกเหตุการณ์"| TRAIL
+    AUDIT -.-> TRAIL
+    CAR -.-> TRAIL
+    EXPORT -.-> TRAIL
+
+    DASH -->|"ดึงข้อมูลเอกสารและการรับทราบ"| INTG
+    INTG -.->|"Shared Contract (อ่านเท่านั้น)"| GA
+
+    REC -->|"SQL ผ่าน Prisma"| DB
+    AUDIT --> DB
+    CAR --> DB
+    EXPORT --> DB
+    DASH --> DB
+    TRAIL --> DB
+    REC -->|"อ่าน/เขียนไฟล์"| FS
+
+    NOTE["<i>ทุกส่วนประกอบแบ่งภายในเป็นส่วนรับคำขอ ตรรกะธุรกิจ และเข้าถึงข้อมูล ตาม NFR-05<br/>ทุกส่วนประกอบผ่าน Auth / RBAC ก่อน และเรียก Audit Trail เมื่อเกิดเหตุการณ์สำคัญ</i>"]
+
+    classDef note fill:#f8fafc,stroke:#cbd5e1,stroke-width:2px,color:#64748b
+    classDef container fill:#dbeafe,stroke:#2563eb,stroke-width:3px,color:#1e3a8a
+    classDef shared fill:#f5f3ff,stroke:#7c3aed,stroke-width:3px,color:#5b21b6
+    classDef service fill:#dcfce7,stroke:#16a34a,stroke-width:3px,color:#14532d
+    classDef external fill:#ffedd5,stroke:#ea580c,stroke-width:3px,color:#7c2d12
+    classDef store fill:#ffffff,stroke:#cbd5e1,stroke-width:3px,color:#0f172a
+    classDef extsys fill:#ffffff,stroke:#ea580c,stroke-width:3px,color:#7c2d12
+
+    class SPA container
+    class AUTH,TRAIL shared
+    class REC,AUDIT,CAR,EXPORT,DASH service
+    class INTG external
+    class DB,FS store
+    class GA extsys
+    class NOTE note
+
+    style API fill:#f8fafc,stroke:#94a3b8,stroke-width:3px,stroke-dasharray: 8 6
+    style SVC fill:#f8fafc,stroke:none

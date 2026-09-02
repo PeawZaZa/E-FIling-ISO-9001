@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="145mm" height="94.25mm">
+  <rect x="0" y="0" width="1200" height="780" fill="#ffffff"/>
+
+  <!-- level 1 -->
+  <polygon points="600,40 760,180 440,180" fill="#1e40af" stroke="#1e3a8a" stroke-width="3"/>
+  <text x="600" y="145" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#ffffff">QM</text>
+  <text x="800" y="130" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="34" font-weight="700" fill="#1e3a8a">คู่มือคุณภาพ (Quality Manual)</text>
+  <text x="800" y="170" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#475569">ตัวอย่าง QM-2301-01 · อธิบายภาพรวมและขอบเขต QMS</text>
+
+  <!-- level 2 -->
+  <polygon points="437,190 763,190 823,320 377,320" fill="#2563eb" stroke="#1e3a8a" stroke-width="3"/>
+  <text x="600" y="270" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#ffffff">QP</text>
+  <text x="860" y="255" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="34" font-weight="700" fill="#1e3a8a">ระเบียบปฏิบัติ (Quality Procedure)</text>
+  <text x="860" y="295" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#475569">QP-2301-0102 การตรวจติดตามคุณภาพภายใน</text>
+  <text x="860" y="330" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#475569">QP-2301-0109 การแก้ไขและการป้องกัน</text>
+
+  <!-- level 3 -->
+  <polygon points="374,330 826,330 886,460 314,460" fill="#3b82f6" stroke="#1e3a8a" stroke-width="3"/>
+  <text x="600" y="410" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#ffffff">WI</text>
+  <text x="920" y="405" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="34" font-weight="700" fill="#1e3a8a">วิธีปฏิบัติงาน</text>
+  <text x="920" y="445" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#475569">(Work Instruction)</text>
+
+  <!-- level 4 -->
+  <polygon points="311,470 889,470 949,600 251,600" fill="#60a5fa" stroke="#1e3a8a" stroke-width="3"/>
+  <text x="600" y="550" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#0f172a">SD</text>
+  <text x="980" y="545" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="34" font-weight="700" fill="#1e3a8a">เอกสารสนับสนุน</text>
+  <text x="980" y="585" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#475569">(Support Document)</text>
+
+  <!-- level 5 -->
+  <polygon points="248,610 952,610 1012,740 188,740" fill="#bfdbfe" stroke="#1e3a8a" stroke-width="3"/>
+  <text x="600" y="678" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#0f172a">FM</text>
+  <text x="600" y="718" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" fill="#1e3a8a">แบบฟอร์ม เช่น Audit Checklist · Audit Report · ใบ CAR</text>
+
+  <!-- left annotation -->
+  <text x="30" y="180" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#b45309">กำหนดกรอบ</text>
+  <text x="30" y="400" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#b45309">กำหนดวิธีทำ</text>
+  <text x="30" y="690" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#b45309">ใช้เก็บหลักฐาน</text>
+  <line x1="170" y1="120" x2="170" y2="740" stroke="#d97706" stroke-width="3" stroke-dasharray="10 8"/>
+</svg>

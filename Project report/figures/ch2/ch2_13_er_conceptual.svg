@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="145mm" height="108.75mm">
+  <rect x="0" y="0" width="1200" height="900" fill="#ffffff"/>
+  <defs>
+    <marker id="a13" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#334155"/>
+    </marker>
+  </defs>
+
+  <text x="600" y="48" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="36" font-weight="700" fill="#0f172a">แผนภาพความสัมพันธ์ของข้อมูลระดับแนวคิด (Conceptual ER Diagram)</text>
+
+  <!-- Document (external) -->
+  <rect x="40" y="90" width="250" height="150" rx="10" fill="#f5f3ff" stroke="#7c3aed" stroke-width="4" stroke-dasharray="12 8"/>
+  <text x="165" y="130" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#5b21b6">Document</text>
+  <line x1="55" y1="145" x2="275" y2="145" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="65" y="178" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#5b21b6">document_id (จากกลุ่ม A)</text>
+  <text x="65" y="210" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#5b21b6">document_code, version</text>
+  <text x="65" y="236" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#5b21b6">status (อ่านเท่านั้น)</text>
+
+  <!-- Record -->
+  <rect x="380" y="90" width="250" height="180" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <text x="505" y="130" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Record</text>
+  <line x1="395" y1="145" x2="615" y2="145" stroke="#93c5fd" stroke-width="2"/>
+  <text x="405" y="178" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">record_id (PK)</text>
+  <text x="405" y="208" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">record_type, title</text>
+  <text x="405" y="238" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">document_id (FK)</text>
+  <text x="405" y="266" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">created_by, created_at</text>
+
+  <!-- Evidence -->
+  <rect x="720" y="90" width="250" height="180" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <text x="845" y="130" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Evidence</text>
+  <line x1="735" y1="145" x2="955" y2="145" stroke="#93c5fd" stroke-width="2"/>
+  <text x="745" y="178" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">evidence_id (PK)</text>
+  <text x="745" y="208" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">record_id (FK)</text>
+  <text x="745" y="238" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">file_path, file_type</text>
+  <text x="745" y="266" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">uploaded_at</text>
+
+  <!-- Audit -->
+  <rect x="40" y="330" width="250" height="160" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="4"/>
+  <text x="165" y="370" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#713f12">Audit</text>
+  <line x1="55" y1="385" x2="275" y2="385" stroke="#fde047" stroke-width="2"/>
+  <text x="65" y="418" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">audit_id (PK)</text>
+  <text x="65" y="448" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">audit_date, scope</text>
+  <text x="65" y="478" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">auditor_id (FK)</text>
+
+  <!-- Finding -->
+  <rect x="380" y="330" width="250" height="190" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="4"/>
+  <text x="505" y="370" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#713f12">Finding</text>
+  <line x1="395" y1="385" x2="615" y2="385" stroke="#fde047" stroke-width="2"/>
+  <text x="405" y="418" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">finding_id (PK)</text>
+  <text x="405" y="448" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">audit_id (FK), record_id (FK)</text>
+  <text x="405" y="478" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">finding_type, description</text>
+  <text x="405" y="508" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#713f12">status</text>
+
+  <!-- CAR -->
+  <rect x="720" y="330" width="250" height="220" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="4"/>
+  <text x="845" y="370" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#9a3412">CAR</text>
+  <line x1="735" y1="385" x2="955" y2="385" stroke="#fdba74" stroke-width="2"/>
+  <text x="745" y="418" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">car_id (PK)</text>
+  <text x="745" y="448" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">finding_id (FK)</text>
+  <text x="745" y="478" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">owner_id (FK), due_date</text>
+  <text x="745" y="508" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">root_cause, action_plan</text>
+  <text x="745" y="538" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#9a3412">status</text>
+
+  <!-- Verification -->
+  <rect x="1000" y="600" width="180" height="180" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="4"/>
+  <text x="1090" y="640" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#14532d">Verification</text>
+  <line x1="1015" y1="655" x2="1165" y2="655" stroke="#86efac" stroke-width="2"/>
+  <text x="1025" y="688" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#14532d">verify_id (PK)</text>
+  <text x="1025" y="716" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#14532d">car_id (FK)</text>
+  <text x="1025" y="744" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#14532d">verified_by, result</text>
+  <text x="1025" y="772" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#14532d">verified_at</text>
+
+  <!-- User / Role -->
+  <rect x="40" y="600" width="240" height="160" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="4"/>
+  <text x="160" y="640" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#0f172a">User</text>
+  <line x1="55" y1="655" x2="265" y2="655" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="65" y="688" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">user_id (PK)</text>
+  <text x="65" y="718" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">username, email</text>
+  <text x="65" y="748" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">role_id (FK)</text>
+
+  <rect x="330" y="600" width="220" height="160" rx="10" fill="#f1f5f9" stroke="#475569" stroke-width="4"/>
+  <text x="440" y="640" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#0f172a">Role</text>
+  <line x1="345" y1="655" x2="535" y2="655" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="355" y="688" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">role_id (PK)</text>
+  <text x="355" y="718" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">role_name</text>
+  <text x="355" y="748" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#334155">permissions</text>
+
+  <!-- AuditTrail -->
+  <rect x="600" y="600" width="360" height="180" rx="10" fill="#f3e8ff" stroke="#7e22ce" stroke-width="4"/>
+  <text x="780" y="640" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#581c87">AuditTrail</text>
+  <line x1="615" y1="655" x2="945" y2="655" stroke="#d8b4fe" stroke-width="2"/>
+  <text x="625" y="688" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#581c87">trail_id (PK), user_id (FK)</text>
+  <text x="625" y="718" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#581c87">entity_name, entity_id</text>
+  <text x="625" y="748" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#581c87">action, old_value, new_value</text>
+  <text x="625" y="776" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#581c87">created_at</text>
+
+  <!-- relationships -->
+  <path d="M 292 165 L 375 165" stroke="#334155" stroke-width="4" marker-end="url(#a13)"/>
+  <text x="333" y="150" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#475569">1 : N</text>
+
+  <path d="M 632 180 L 715 180" stroke="#334155" stroke-width="4" marker-end="url(#a13)"/>
+  <text x="673" y="165" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#475569">1 : N</text>
+
+  <path d="M 505 272 L 505 325" stroke="#334155" stroke-width="4" marker-end="url(#a13)"/>
+  <text x="530" y="305" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#475569">อ้างอิงหลักฐาน</text>
+
+  <path d="M 292 400 L 375 400" stroke="#334155" stroke-width="4" marker-end="url(#a13)"/>
+  <text x="333" y="385" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#475569">1 : N</text>
+
+  <path d="M 632 420 L 715 420" stroke="#334155" stroke-width="4" marker-end="url(#a13)"/>
+  <text x="673" y="405" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#475569">1 : N</text>
+
+  <path d="M 972 480 L 1090 480 L 1090 595" fill="none" stroke="#334155" stroke-width="4" marker-end="url(#a13)"/>
+  <text x="1100" y="540" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#475569">1 : N</text>
+
+  <path d="M 282 680 L 325 680" stroke="#334155" stroke-width="4" marker-end="url(#a13)"/>
+  <text x="303" y="665" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#475569">N : 1</text>
+
+  <path d="M 160 598 L 160 560 L 845 560 L 845 555" fill="none" stroke="#94a3b8" stroke-width="3" stroke-dasharray="10 6"/>
+  <text x="480" y="586" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#64748b">ผู้รับผิดชอบ CAR / ผู้ตรวจติดตาม อ้างอิงจากตาราง User</text>
+
+  <path d="M 780 598 L 780 570" fill="none" stroke="#7c3aed" stroke-width="3" stroke-dasharray="10 6" marker-end="url(#a13)"/>
+  <text x="800" y="590" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#6d28d9">บันทึกทุกเหตุการณ์ของทุกตาราง</text>
+
+  <!-- legend -->
+  <rect x="1000" y="90" width="180" height="140" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
+  <text x="1015" y="128" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" font-weight="700" fill="#334155">คำอธิบาย</text>
+  <rect x="1015" y="142" width="30" height="20" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="1055" y="160" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#5b21b6">กลุ่ม A</text>
+  <rect x="1015" y="176" width="30" height="20" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="1055" y="194" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="22" fill="#1e3a8a">กลุ่ม B</text>
+  <text x="1015" y="222" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="20" fill="#475569">PK/FK = คีย์หลัก/คีย์นอก</text>
+</svg>
