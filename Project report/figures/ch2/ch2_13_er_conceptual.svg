@@ -26,13 +26,14 @@
   <text x="405" y="266" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">created_by, created_at</text>
 
   <!-- Evidence -->
-  <rect x="720" y="90" width="250" height="180" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
-  <text x="845" y="130" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Evidence</text>
-  <line x1="735" y1="145" x2="955" y2="145" stroke="#93c5fd" stroke-width="2"/>
-  <text x="745" y="178" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">evidence_id (PK)</text>
-  <text x="745" y="208" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">record_id (FK)</text>
-  <text x="745" y="238" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">file_path, file_type</text>
-  <text x="745" y="266" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">uploaded_at</text>
+  <rect x="720" y="90" width="250" height="212" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+  <text x="845" y="126" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="30" font-weight="700" fill="#1e3a8a">Evidence</text>
+  <line x1="735" y1="140" x2="955" y2="140" stroke="#93c5fd" stroke-width="2"/>
+  <text x="745" y="170" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">evidence_id (PK)</text>
+  <text x="745" y="198" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">record_id (FK, nullable)</text>
+  <text x="745" y="226" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">finding_id (FK, nullable)</text>
+  <text x="745" y="254" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">car_id (FK, nullable)</text>
+  <text x="745" y="282" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="24" fill="#1e3a8a">file_path, file_type, uploaded_at</text>
 
   <!-- Audit -->
   <rect x="40" y="330" width="250" height="160" rx="10" fill="#fef9c3" stroke="#ca8a04" stroke-width="4"/>

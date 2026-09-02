@@ -53,7 +53,7 @@
 
   <!-- verify fail: back to In Progress -->
   <path d="M 800 290 L 700 330 L 595 330 L 595 322" fill="none" stroke="#dc2626" stroke-width="5" stroke-dasharray="12 8" marker-end="url(#a5r)"/>
-  <text x="640" y="392" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#dc2626">ทวนสอบไม่ผ่าน (Reopen)</text>
+  <text x="640" y="392" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#dc2626">ทวนสอบไม่ผ่าน</text>
   <text x="640" y="428" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" fill="#dc2626">กลับไปแก้ไขเพิ่มเติม</text>
 
   <!-- overdue flag -->
