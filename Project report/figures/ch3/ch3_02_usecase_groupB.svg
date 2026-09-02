@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1080" width="145mm" height="130.5mm">
+  <rect x="0" y="0" width="1200" height="1080" fill="#ffffff"/>
+
+  <text x="600" y="46" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="36" font-weight="700" fill="#0f172a">แผนภาพกรณีการใช้งานของระบบกลุ่ม B</text>
+
+  <!-- system boundary -->
+  <rect x="310" y="80" width="580" height="960" rx="10" fill="none" stroke="#334155" stroke-width="4"/>
+  <text x="600" y="118" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="28" font-weight="700" fill="#334155">ระบบทะเบียนหลักฐาน การตรวจติดตามภายใน และการติดตามการแก้ไข</text>
+
+  <!-- ===== Actors: left ===== -->
+  <!-- ISO/QA User -->
+  <g stroke="#0f172a" stroke-width="3" fill="none">
+    <circle cx="120" cy="290" r="20" fill="#f1f5f9"/>
+    <line x1="120" y1="310" x2="120" y2="360"/>
+    <line x1="88" y1="326" x2="152" y2="326"/>
+    <line x1="120" y1="360" x2="96" y2="398"/>
+    <line x1="120" y1="360" x2="144" y2="398"/>
+  </g>
+  <text x="120" y="428" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#0f172a">ผู้ใช้งานฝ่าย ISO/QA</text>
+
+  <!-- CAR Owner -->
+  <g stroke="#0f172a" stroke-width="3" fill="none">
+    <circle cx="120" cy="700" r="20" fill="#f1f5f9"/>
+    <line x1="120" y1="720" x2="120" y2="770"/>
+    <line x1="88" y1="736" x2="152" y2="736"/>
+    <line x1="120" y1="770" x2="96" y2="808"/>
+    <line x1="120" y1="770" x2="144" y2="808"/>
+  </g>
+  <text x="120" y="838" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#0f172a">ผู้รับผิดชอบการแก้ไข</text>
+
+  <!-- ===== Actors: right ===== -->
+  <!-- Auditor -->
+  <g stroke="#0f172a" stroke-width="3" fill="none">
+    <circle cx="1080" cy="330" r="20" fill="#f1f5f9"/>
+    <line x1="1080" y1="350" x2="1080" y2="400"/>
+    <line x1="1048" y1="366" x2="1112" y2="366"/>
+    <line x1="1080" y1="400" x2="1056" y2="438"/>
+    <line x1="1080" y1="400" x2="1104" y2="438"/>
+  </g>
+  <text x="1080" y="468" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#0f172a">ผู้ตรวจติดตาม</text>
+
+  <!-- Admin -->
+  <g stroke="#0f172a" stroke-width="3" fill="none">
+    <circle cx="1080" cy="740" r="20" fill="#f1f5f9"/>
+    <line x1="1080" y1="760" x2="1080" y2="810"/>
+    <line x1="1048" y1="776" x2="1112" y2="776"/>
+    <line x1="1080" y1="810" x2="1056" y2="848"/>
+    <line x1="1080" y1="810" x2="1104" y2="848"/>
+  </g>
+  <text x="1080" y="878" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="26" font-weight="700" fill="#0f172a">ผู้ดูแลระบบ</text>
+
+  <!-- ===== Use cases ===== -->
+  <ellipse cx="600" cy="168" rx="150" ry="34" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <text x="600" y="178" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#1e3a8a">UC-01 เข้าสู่ระบบ</text>
+
+  <ellipse cx="600" cy="248" rx="150" ry="34" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <text x="600" y="258" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#1e3a8a">UC-02 จัดการผู้ใช้และบทบาท</text>
+
+  <ellipse cx="600" cy="328" rx="150" ry="34" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  <text x="600" y="338" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#1e3a8a">UC-03 ดูร่องรอยการตรวจสอบ</text>
+
+  <ellipse cx="600" cy="408" rx="150" ry="34" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="418" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-04 บันทึกข้อมูลและหลักฐาน</text>
+
+  <ellipse cx="600" cy="488" rx="150" ry="34" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="498" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-05 สร้างรอบการตรวจติดตาม</text>
+
+  <ellipse cx="600" cy="568" rx="150" ry="34" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="578" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-06 บันทึกประเด็นที่พบ</text>
+
+  <ellipse cx="600" cy="648" rx="150" ry="34" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="658" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-07 เปิดใบคำร้อง</text>
+
+  <ellipse cx="600" cy="728" rx="150" ry="34" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="738" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-08 บันทึกสาเหตุและการแก้ไข</text>
+
+  <ellipse cx="600" cy="808" rx="150" ry="34" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="818" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-09 ทวนสอบและปิดใบคำร้อง</text>
+
+  <ellipse cx="600" cy="888" rx="150" ry="34" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="898" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-10 ติดตามงานเกินกำหนด</text>
+
+  <ellipse cx="600" cy="948" rx="150" ry="30" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="958" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-11 ดูแดชบอร์ดปฏิบัติการ</text>
+
+  <ellipse cx="600" cy="1008" rx="150" ry="30" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  <text x="600" y="1018" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="25" fill="#14532d">UC-12 ส่งออกรายงานสรุป</text>
+
+  <!-- ===== Associations: ISO/QA User (left, from x=150 y=300) ===== -->
+  <g stroke="#475569" stroke-width="2.5" fill="none">
+    <line x1="152" y1="300" x2="450" y2="172"/>
+    <line x1="152" y1="302" x2="450" y2="330"/>
+    <line x1="152" y1="306" x2="450" y2="410"/>
+    <line x1="152" y1="310" x2="450" y2="490"/>
+    <line x1="152" y1="314" x2="450" y2="570"/>
+    <line x1="152" y1="318" x2="450" y2="650"/>
+    <line x1="152" y1="322" x2="450" y2="810"/>
+    <line x1="152" y1="326" x2="450" y2="888"/>
+    <line x1="152" y1="330" x2="450" y2="948"/>
+    <line x1="152" y1="334" x2="450" y2="1006"/>
+  </g>
+
+  <!-- ===== Associations: CAR Owner (left, from x=152 y=710) ===== -->
+  <g stroke="#475569" stroke-width="2.5" fill="none">
+    <line x1="152" y1="700" x2="450" y2="180"/>
+    <line x1="152" y1="706" x2="450" y2="726"/>
+    <line x1="152" y1="712" x2="450" y2="890"/>
+  </g>
+
+  <!-- ===== Associations: Auditor (right, from x=1048 y=340) ===== -->
+  <g stroke="#475569" stroke-width="2.5" fill="none">
+    <line x1="1048" y1="336" x2="750" y2="176"/>
+    <line x1="1048" y1="340" x2="750" y2="332"/>
+    <line x1="1048" y1="344" x2="750" y2="412"/>
+    <line x1="1048" y1="348" x2="750" y2="492"/>
+    <line x1="1048" y1="352" x2="750" y2="572"/>
+    <line x1="1048" y1="356" x2="750" y2="652"/>
+    <line x1="1048" y1="360" x2="750" y2="812"/>
+    <line x1="1048" y1="364" x2="750" y2="952"/>
+    <line x1="1048" y1="368" x2="750" y2="1010"/>
+  </g>
+
+  <!-- ===== Associations: Admin (right, from x=1048 y=750) ===== -->
+  <g stroke="#475569" stroke-width="2.5" fill="none">
+    <line x1="1048" y1="742" x2="750" y2="184"/>
+    <line x1="1048" y1="746" x2="750" y2="252"/>
+    <line x1="1048" y1="750" x2="750" y2="336"/>
+    <line x1="1048" y1="756" x2="750" y2="892"/>
+    <line x1="1048" y1="760" x2="750" y2="954"/>
+  </g>
+
+  <!-- legend -->
+  <rect x="40" y="972" width="240" height="86" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="56" y="1000" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="23" font-weight="700" fill="#475569">คำอธิบาย</text>
+  <ellipse cx="72" cy="1022" rx="16" ry="9" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="96" y="1030" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="21" fill="#475569">งานพื้นฐานร่วม</text>
+  <ellipse cx="72" cy="1046" rx="16" ry="9" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="96" y="1054" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="21" fill="#475569">งานของกลุ่ม B</text>
+</svg>
