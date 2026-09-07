@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>รายการตรวจสอบระบบ E-Filing</title>
+<style>
+  :root {
+    --bg: #f8fafc; --panel: #ffffff; --ink: #0f172a; --muted: #64748b;
+    --line: #e2e8f0; --done: #16a34a; --wip: #ca8a04; --todo: #cbd5e1; --gap: #dc2626;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f172a; --panel: #1e293b; --ink: #f1f5f9; --muted: #94a3b8;
+      --line: #334155; --todo: #475569;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 2rem 1.25rem; background: var(--bg); color: var(--ink);
+    font-family: "TH Sarabun New", Sarabun, "Segoe UI", Tahoma, sans-serif;
+    font-size: 17px; line-height: 1.6;
+  }
+  main { max-width: 1400px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.35rem; margin: 2.5rem 0 .75rem; padding-bottom: .4rem; border-bottom: 2px solid var(--line); }
+  .lede { color: var(--muted); margin: 0 0 2rem; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; }
+  .stat h3 { margin: 0 0 .35rem; font-size: .95rem; color: var(--muted); font-weight: 600; }
+  .stat .n { font-size: 2rem; font-weight: 700; line-height: 1; }
+  .stat .n span { font-size: 1rem; color: var(--muted); font-weight: 400; }
+  .stat p { margin: .5rem 0 0; font-size: .85rem; color: var(--muted); }
+  .bar { display: flex; height: 8px; border-radius: 99px; overflow: hidden; margin-top: .7rem; background: var(--todo); }
+  .bar i.done { background: var(--done); } .bar i.wip { background: var(--wip); } .bar i.todo { background: var(--todo); }
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; font-size: .93rem; }
+  th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--bg); font-weight: 600; white-space: nowrap; position: sticky; top: 0; }
+  tr:last-child td { border-bottom: 0; }
+  code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .85em; }
+  .files { margin-top: .3rem; }
+  .files code { color: var(--muted); font-size: .78em; display: block; }
+  .badge { display: inline-block; padding: .15rem .5rem; border-radius: 99px; font-size: .78rem; white-space: nowrap; color: #fff; }
+  .badge.done { background: var(--done); } .badge.wip { background: var(--wip); }
+  .badge.todo { background: var(--todo); color: var(--ink); }
+  td.gap { color: var(--gap); }
+  .note { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--gap); border-radius: 8px; padding: 1rem 1.1rem; }
+  footer { margin-top: 3rem; color: var(--muted); font-size: .85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>รายการตรวจสอบระบบ E-Filing</h1>
+  <p class="lede">
+    สถานะมาจากการสแกนความเห็น <code>@trace</code> ในโค้ดจริง ไม่ได้พิมพ์ด้วยมือ ·
+    สร้างเมื่อ 2026-09-07
+  </p>
+
+  <div class="stats">
+    <div class="stat"><h3>กรณีการใช้งาน</h3><div class="n">0<span>/16</span></div>
+     <div class="bar"><i class="done" style="flex:0"></i><i class="wip" style="flex:1"></i><i class="todo" style="flex:15"></i></div>
+     <p>⬜ 15 · 🟡 1 · ✅ 0</p></div>
+    <div class="stat"><h3>ความต้องการเชิงหน้าที่</h3><div class="n">0<span>/38</span></div>
+     <div class="bar"><i class="done" style="flex:0"></i><i class="wip" style="flex:3"></i><i class="todo" style="flex:35"></i></div>
+     <p>⬜ 35 · 🟡 3 · ✅ 0</p></div>
+    <div class="stat"><h3>เกณฑ์การยอมรับ</h3><div class="n">0<span>/13</span></div>
+     <div class="bar"><i class="done" style="flex:0"></i><i class="wip" style="flex:0"></i><i class="todo" style="flex:13"></i></div>
+     <p>⬜ 13 · 🟡 0 · ✅ 0</p></div>
+  </div>
+
+  <h2>กรณีการใช้งาน พร้อมสายโยงกลับไปต้นทาง</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>สถานะ</th><th>รหัส</th><th>ชื่อ</th><th>กลุ่ม</th><th>ผู้กระทำหลัก</th><th>วัตถุประสงค์</th><th>ความต้องการเชิงธุรกิจ</th><th>ความต้องการเชิงหน้าที่</th><th>เกณฑ์การยอมรับ</th></tr></thead>
+    <tbody><tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-01</code></td>
+      <td>Create Document Draft<div class="files"></div></td>
+      <td>A</td>
+      <td>Document Owner</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-01, BR-18</td>
+      <td>FR-A01, FR-A02, FR-A03</td>
+      <td>AC-01</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-02</code></td>
+      <td>Submit DAR<div class="files"></div></td>
+      <td>A</td>
+      <td>Document Owner</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-03</td>
+      <td>FR-A05</td>
+      <td>AC-02</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-03</code></td>
+      <td>Review/Approve/Reject DAR<div class="files"></div></td>
+      <td>A</td>
+      <td>Approver</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-04</td>
+      <td>FR-A06</td>
+      <td>AC-02</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-04</code></td>
+      <td>Publish Current Version<div class="files"></div></td>
+      <td>A</td>
+      <td>ISO Admin</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-02, BR-05, BR-06, BR-16</td>
+      <td>FR-A04, FR-A07, FR-A08</td>
+      <td>AC-03</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-05</code></td>
+      <td>Obsolete Document<div class="files"></div></td>
+      <td>A</td>
+      <td>ISO Admin</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-05, BR-16</td>
+      <td>FR-A04, FR-A07, FR-A08</td>
+      <td>AC-04</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-06</code></td>
+      <td>Search/View Document<div class="files"></div></td>
+      <td>A</td>
+      <td>End User</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-01, BR-16</td>
+      <td>FR-A09, FR-A15</td>
+      <td>AC-12</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-07</code></td>
+      <td>Acknowledge Document<div class="files"></div></td>
+      <td>A</td>
+      <td>End User</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-07</td>
+      <td>FR-A10, FR-A11</td>
+      <td>AC-05</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-08</code></td>
+      <td>Create Record/Evidence<div class="files"></div></td>
+      <td>B</td>
+      <td>ISO User / CAR Owner</td>
+      <td class="">OBJ-1.2.1</td>
+      <td>BR-08</td>
+      <td>FR-B01, FR-B02, FR-B16, FR-B17</td>
+      <td>AC-06</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-09</code></td>
+      <td>Create Finding (Audit / Non-Audit Source)<div class="files"></div></td>
+      <td>B</td>
+      <td>Auditor / ISO Admin (DCC)</td>
+      <td class="">OBJ-1.2.2</td>
+      <td>BR-09</td>
+      <td>FR-B03, FR-B04, FR-B05</td>
+      <td>AC-07</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-10</code></td>
+      <td>Open CAR<div class="files"></div></td>
+      <td>B</td>
+      <td>ISO Admin / Auditor</td>
+      <td class="">OBJ-1.2.3</td>
+      <td>BR-10</td>
+      <td>FR-B06</td>
+      <td>AC-08</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-11</code></td>
+      <td>Update/Verify/Close CAR<div class="files"></div></td>
+      <td>B</td>
+      <td>CAR Owner / Auditor</td>
+      <td class="">OBJ-1.2.3</td>
+      <td>BR-10, BR-11</td>
+      <td>FR-B07, FR-B08, FR-B09, FR-B10</td>
+      <td>AC-08</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-12</code></td>
+      <td>View Operational Dashboard<div class="files"></div></td>
+      <td>B</td>
+      <td>ISO Admin / Manager</td>
+      <td class="">OBJ-1.2.4</td>
+      <td>BR-11, BR-12, BR-13</td>
+      <td>FR-B11, FR-B12, FR-B13</td>
+      <td>AC-09</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-13</code></td>
+      <td>Export Summary<div class="files"></div></td>
+      <td>B</td>
+      <td>ISO Admin / Auditor</td>
+      <td class="">OBJ-1.2.2</td>
+      <td>—</td>
+      <td>FR-A12, FR-B14</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="badge wip">มีโค้ดแล้ว</span></td>
+      <td><code>UC-14</code></td>
+      <td>View Audit Trail<div class="files"><code>apps/api/src/modules/shared/audittrail/audit-trail.routes.ts:18</code> <code>apps/api/src/modules/shared/audittrail/audit-trail.service.ts:3</code></div></td>
+      <td>Shared</td>
+      <td>ISO Admin / Auditor</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ</td>
+      <td>BR-06, BR-14</td>
+      <td>FR-SH04</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-15</code></td>
+      <td>Data Retention &amp; Destruction Management<div class="files"></div></td>
+      <td>Shared</td>
+      <td>ISO Admin (DCC) / QMR</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ</td>
+      <td>BR-15</td>
+      <td>FR-A13, FR-B15, FR-SH06</td>
+      <td>AC-11</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>UC-16</code></td>
+      <td>My Task Checklist<div class="files"></div></td>
+      <td>A</td>
+      <td>End User / Document Owner / Approver</td>
+      <td class="gap">ยังไม่มีเอกสารวัตถุประสงค์รองรับ (กลุ่ม A)</td>
+      <td>BR-17</td>
+      <td>FR-A16</td>
+      <td>AC-13</td>
+    </tr></tbody>
+  </table></div>
+
+  <h2>ความต้องการเชิงหน้าที่</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>สถานะ</th><th>รหัส</th><th>ข้อกำหนด</th><th>กลุ่ม</th><th>ลำดับความสำคัญ</th><th>กรณีการใช้งาน</th></tr></thead>
+    <tbody><tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A01</code></td>
+      <td>ระบบต้องสร้าง แก้ไข แสดง และค้นหา document master ได้</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-01</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A02</code></td>
+      <td>ระบบต้องเก็บ metadata: document_code, title, type, department, owner, approver, version, status</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-01</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A03</code></td>
+      <td>ระบบต้อง upload/download ไฟล์เอกสารได้ พร้อมตรวจสอบขนาดไฟล์สูงสุดตามประเภทเอกสาร (BRULE-EFL-27)</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-01</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A04</code></td>
+      <td>ระบบต้องควบคุมสถานะ Draft/Review/Approved/Published/Obsolete</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-04, UC-05</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A05</code></td>
+      <td>ระบบต้องสร้าง DAR พร้อม action type ครบ 4 ประเภท (CREATE / AMEND / CANCEL / REQUEST_UNCONTROLLED) และ reason ได้ — ปรับปรุงตามมติผู้ใช้อ้างอิง QP-2301-0107 ข้อ 6.5.1 (REF-13) แทนที่แนวทางเดิมที่เคยพิจารณาเพิ่มประเภท hold/cancel-hold</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-02</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A06</code></td>
+      <td>ระบบต้องมี approval queue และ approve/reject พร้อม comment</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-03</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A07</code></td>
+      <td>ระบบต้อง publish current version ได้เพียงหนึ่งฉบับ (และตั้ง Obsolete รุ่นก่อนหน้าอัตโนมัติ)</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-04, UC-05</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A08</code></td>
+      <td>ระบบต้องบันทึก revision history ของเอกสาร (เข้าถึงได้จำกัดสิทธิ์ผ่าน Alternate Flow A1)</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-04, UC-05</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A09</code></td>
+      <td>ระบบต้องค้นหาด้วย code/title/type/department ได้</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-06</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A10</code></td>
+      <td>ระบบต้องกำหนดกลุ่มเป้าหมายผู้รับทราบเอกสารได้ทั้งแบบแผนก/บทบาท และเจาะจงรายบุคคล (Dual Mapping) — สถาปัตยกรรมยืนยันแล้วจาก TBD-EFL-05 RESOLVED เพื่อลด Alert Fatigue</td>
+      <td>A</td>
+      <td>Should (ตามเอกสารต้นทาง)</td>
+      <td>UC-07</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A11</code></td>
+      <td>ระบบต้องบันทึก acknowledgement user/time/document version</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-07</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A12</code></td>
+      <td>ระบบต้องให้ Group B module ดึง Document/Acknowledgement Summary ผ่าน Internal Interface ได้ (กลไกอัตโนมัติ — ดู §3.3.1)</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-13</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A13</code></td>
+      <td>ระบบต้องรองรับกระบวนการขอทำลายเอกสาร (Document) สถานะ Obsolete ที่ครบเกณฑ์จัดเก็บขั้นต่ำ ผ่านการอนุมัติก่อนเสมอ</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-15</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A15</code></td>
+      <td>ระบบต้องแสดงป้ายกำกับ/ลายน้ำ "สำเนาไม่ควบคุม / Uncontrolled Copy" บนหน้าพรีวิว ไฟล์ดาวน์โหลด และผลพิมพ์ของเอกสาร Published ทุกครั้ง (มติผู้ใช้ อ้างอิง QP-2301-0107 ข้อ 6.6, REF-13)</td>
+      <td>A</td>
+      <td>Must</td>
+      <td>UC-06</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-A16</code></td>
+      <td>ระบบต้องแสดงรายการงานค้างส่วนบุคคล (DAR รออนุมัติ/ทบทวน, เอกสารรอรับทราบ) เฉพาะของผู้ใช้ปัจจุบัน แยกจาก Operational Dashboard รวมของ Group B</td>
+      <td>A</td>
+      <td>Should</td>
+      <td>UC-16</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B01</code></td>
+      <td>ระบบต้องสร้าง/แก้ไข/ค้นหา record ได้</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-08</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B02</code></td>
+      <td>ระบบต้องแนบ evidence file และผูกกับ document_id, finding_id หรือ car_id ได้อย่างน้อยหนึ่งรายการ (ปรับปรุงให้สอดคล้องกับ BRULE-EFL-06 และ Direct Issue Linkage)</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-08</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B03</code></td>
+      <td>ระบบควรสร้าง audit header หรือ AuditRound ได้ (Single Header ต่อรอบปี ผูก Lead Auditor และ Finding/NC เป็น Child Record — สถาปัตยกรรมยืนยันแล้วจาก TBD-EFL-06 RESOLVED)</td>
+      <td>B</td>
+      <td>Should (ตามเอกสารต้นทาง)</td>
+      <td>UC-09</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B04</code></td>
+      <td>ระบบต้องบันทึก finding และ type/severity/description ได้ ไม่ว่าจะมาจาก Audit หรือ Non-Audit Source</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-09</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B05</code></td>
+      <td>ระบบต้องผูก finding กับ document/record/evidence ได้ (audit_round_id เป็น Nullable — TBD-EFL-15 RESOLVED)</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-09</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B06</code></td>
+      <td>ระบบต้องสร้าง CAR จาก finding ได้</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-10</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B07</code></td>
+      <td>ระบบต้องเก็บ owner, due_date, root_cause, corrective_action, status</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-11</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B08</code></td>
+      <td>ระบบต้องแนบ evidence ให้ CAR ได้</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-11</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B09</code></td>
+      <td>ระบบต้องคำนวณ overdue status จาก due_date และ status</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-11</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B10</code></td>
+      <td>ระบบควรรองรับ Verify/Close/Reopen CAR แบบ Two-Step Authorization โดยแยกสิทธิ์ผู้ Verify (Assistant DCC/Auditor ผู้แจ้งพบ) ออกจากผู้ Close (QMR/Lead Auditor) — สถาปัตยกรรมยืนยันแล้วจาก TBD-EFL-07 RESOLVED</td>
+      <td>B</td>
+      <td>Should (ตามเอกสารต้นทาง)</td>
+      <td>UC-11</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B11</code></td>
+      <td>dashboard ต้องแสดง document status จาก Group A</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-12</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B12</code></td>
+      <td>dashboard ต้องแสดง acknowledgement rate จาก Group A (ต้องป้องกัน Divide-by-Zero — E2)</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-12</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B13</code></td>
+      <td>dashboard ต้องแสดง CAR open/overdue/closed และ recent findings</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-12</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B14</code></td>
+      <td>ระบบควร export summary report เบื้องต้นได้ (เช่น Acknowledgement Logs เป็น CSV/xlsx)</td>
+      <td>B</td>
+      <td>Should</td>
+      <td>UC-13</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B15</code></td>
+      <td>ระบบต้องรองรับกระบวนการขอทำลายบันทึกคุณภาพ (Quality Record) ที่ Retention Clock ครบกำหนดตามตารางระยะเวลาจัดเก็บ ผ่านการอนุมัติก่อนเสมอ</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-15</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B16</code></td>
+      <td>ระบบต้องรองรับการแนบไฟล์หลักฐานมากกว่า 1 ไฟล์ต่อ record เดียว (Multi-File Attachment ผ่าน Entity RecordFile)</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-08</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-B17</code></td>
+      <td>ระบบต้องรองรับการผูก record เข้ากับ finding_id หรือ car_id ได้โดยตรงโดยไม่บังคับต้องมี document_id (Direct Issue Linkage — document_id เป็น Nullable)</td>
+      <td>B</td>
+      <td>Must</td>
+      <td>UC-08</td>
+    </tr>
+<tr>
+      <td><span class="badge wip">มีโค้ดแล้ว</span></td>
+      <td><code>FR-SH01</code></td>
+      <td>ระบบต้องมี Login และ JWT-based session หรือเทียบเท่า</td>
+      <td>Shared</td>
+      <td>Must</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="badge wip">มีโค้ดแล้ว</span></td>
+      <td><code>FR-SH02</code></td>
+      <td>ระบบต้องมี RBAC ขั้นพื้นฐาน</td>
+      <td>Shared</td>
+      <td>Must</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-SH03</code></td>
+      <td>ระบบต้องมี shared role และ shared user id ระหว่าง Group A/B</td>
+      <td>Shared</td>
+      <td>Must</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="badge wip">มีโค้ดแล้ว</span></td>
+      <td><code>FR-SH04</code></td>
+      <td>ระบบต้องบันทึก audit trail สำหรับ event สำคัญ</td>
+      <td>Shared</td>
+      <td>Must</td>
+      <td>UC-14</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-SH05</code></td>
+      <td>ระบบต้องมี seed data จาก Master List/DAR/Pilot documents</td>
+      <td>Shared</td>
+      <td>Must</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>FR-SH06</code></td>
+      <td>ระบบต้องบันทึก Destruction Log (ผู้ร้องขอ, ผู้อนุมัติ, รายการ, วันที่) ทุกครั้งที่มีการทำลายข้อมูล และเก็บรักษา log นี้ไว้อย่างน้อย 5 ปี โดยห้ามลบข้อมูลอัตโนมัติ (No Auto-Deletion)</td>
+      <td>Shared</td>
+      <td>Must</td>
+      <td>UC-15</td>
+    </tr></tbody>
+  </table></div>
+
+  <h2>เกณฑ์การยอมรับ</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>สถานะ</th><th>รหัส</th><th>เมื่อ</th><th>เมื่อทำ</th><th>ต้องได้</th><th>กรณีการใช้งาน</th></tr></thead>
+    <tbody><tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-01</code></td>
+      <td>มี Document Draft ที่กรอก metadata ครบ</td>
+      <td>Document Owner สร้าง/บันทึกเอกสารพร้อมไฟล์แนบ</td>
+      <td>สร้าง document draft และแนบไฟล์ได้สำเร็จ</td>
+      <td>UC-01</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-02</code></td>
+      <td>มี Document ที่ต้องการแก้ไข/ยกเลิก</td>
+      <td>Document Owner submit DAR แล้ว Approver ตัดสินใจ</td>
+      <td>DAR flow ทำได้อย่างน้อย submit → review/approve/reject</td>
+      <td>UC-02, UC-03</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-03</code></td>
+      <td>Document อยู่ในสถานะ Approved</td>
+      <td>ISO Admin publish เอกสาร</td>
+      <td>ผู้ใช้เห็น current version ได้</td>
+      <td>UC-04</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-04</code></td>
+      <td>Document ถูก obsolete</td>
+      <td>End User ทั่วไปเปิดดูเอกสาร</td>
+      <td>ผู้ใช้ทั่วไปไม่เห็นเป็นฉบับใช้งาน</td>
+      <td>UC-05</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-05</code></td>
+      <td>มี current document ที่มอบหมายให้รับทราบ</td>
+      <td>End User กดรับทราบ</td>
+      <td>acknowledgement เก็บ user/time/document version ได้</td>
+      <td>UC-07</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-06</code></td>
+      <td>มี document_id, finding_id หรือ car_id อย่างน้อยหนึ่งรายการที่ต้องการอ้างอิง</td>
+      <td>ISO User/CAR Owner สร้าง record พร้อมแนบไฟล์ (หนึ่งไฟล์ขึ้นไป)</td>
+      <td>record/evidence ผูกกับ document, finding หรือ CAR ได้อย่างน้อยหนึ่งรายการ และรองรับไฟล์แนบหลายไฟล์ผ่าน RecordFile</td>
+      <td>UC-08</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-07</code></td>
+      <td>มี evidence หรือ document ที่เกี่ยวข้อง</td>
+      <td>Auditor สร้าง finding</td>
+      <td>finding ผูกกับ evidence หรือ document ได้</td>
+      <td>UC-09</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-08</code></td>
+      <td>มี finding ที่ต้องดำเนินการแก้ไข</td>
+      <td>ISO Admin/Auditor เปิด CAR และ CAR Owner ดำเนินการ</td>
+      <td>CAR ผูกกับ finding และมี due date/status/owner ได้</td>
+      <td>UC-10, UC-11</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-09</code></td>
+      <td>มีข้อมูล document/ack/CAR/finding ในระบบจริง</td>
+      <td>ผู้ใช้เปิด dashboard</td>
+      <td>dashboard แสดง document status, acknowledgement, CAR status, overdue ได้จากฐานข้อมูลจริง</td>
+      <td>UC-12</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-10</code></td>
+      <td>มี document ที่เชื่อมกับ record/finding/CAR</td>
+      <td>ผู้ใช้ตรวจสอบ traceability</td>
+      <td>มี traceability จาก document → record/finding/CAR และจาก CAR → evidence</td>
+      <td>—</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-11</code></td>
+      <td>มีเอกสาร Obsolete ที่เก็บครบ ≥1 Revision หรือบันทึกคุณภาพที่ Retention Clock ครบกำหนด</td>
+      <td>ISO/QA Admin ยื่นคำร้องขอทำลายและได้รับอนุมัติจาก QMR/ผู้อนุมัติ</td>
+      <td>ระบบทำลายเฉพาะรายการที่อนุมัติแล้ว (Hard Delete) และบันทึก Destruction Log ครบถ้วน</td>
+      <td>UC-15</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-12</code></td>
+      <td>มีเอกสาร Published ที่ถูกเปิด preview/ดาวน์โหลด/พิมพ์</td>
+      <td>ผู้ใช้เปิดดู/ดาวน์โหลด/พิมพ์เอกสารดังกล่าว</td>
+      <td>ระบบแสดงป้ายกำกับ/ลายน้ำ "สำเนาไม่ควบคุม / Uncontrolled Copy" ทุกช่องทางเสมอ</td>
+      <td>UC-06</td>
+    </tr>
+<tr>
+      <td><span class="badge todo">ยังไม่ได้ทำ</span></td>
+      <td><code>AC-13</code></td>
+      <td>End User/Document Owner/Approver มีงาน DAR หรือ Acknowledgement ค้างที่ผูกกับตนเอง</td>
+      <td>ผู้ใช้เปิดเมนู "งานของฉัน (My Task Checklist)"</td>
+      <td>ระบบแสดงเฉพาะงานค้างของผู้ใช้เอง แยกจาก Operational Dashboard รวมของ Group B โดยสมบูรณ์</td>
+      <td>UC-16</td>
+    </tr></tbody>
+  </table></div>
+
+  <h2>ช่องว่างที่ยังปิดไม่ได้</h2>
+  <div class="note">
+    <p><strong>วัตถุประสงค์ของกรณีการใช้งานฝั่งกลุ่ม A ยังไม่มีเอกสารรองรับ</strong></p>
+    <p>
+      <code>SRS_A+B.md</code> ไม่มีหัวข้อวัตถุประสงค์ วัตถุประสงค์ที่มีเอกสารรองรับคือ
+      ข้อ 1.2.1 ถึง 1.2.4 ในบทที่ 1 ของกลุ่ม B เท่านั้น ช่องนี้จึงเว้นไว้ตามความจริง
+      ไม่เติมด้วยการเดา
+    </p>
+  </div>
+
+  <footer>
+    สร้างด้วย <code>npm run trace</code> · แหล่งความจริงคือ
+    <code>packages/traceability/traceability.yaml</code> และความเห็น <code>@trace</code> ในโค้ด
+  </footer>
+</main>
+</body>
+</html>
