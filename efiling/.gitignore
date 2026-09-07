@@ -1,9 +1,0 @@
-node_modules/
-dist/
-build/
-.env
-.env.local
-*.log
-uploads/
-prisma/migrations/dev.db*
-# docs/checklist.html เข้า git ด้วย เพื่อให้เปิดดูได้โดยไม่ต้องรันสคริปต์
