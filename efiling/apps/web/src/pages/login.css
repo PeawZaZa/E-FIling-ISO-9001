@@ -1,0 +1,101 @@
+.login {
+  min-height: 100vh;
+  display: grid;
+  align-content: center;
+  gap: var(--gap-5);
+  padding: var(--gap-6) var(--gap-4);
+  max-width: 68rem;
+  margin: 0 auto;
+}
+
+/* ---------- บล็อกควบคุมเอกสาร ---------- */
+
+.login__masthead {
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.login__ident {
+  padding: var(--gap-5) var(--gap-5) var(--gap-4);
+  border-bottom: 1px solid var(--rule);
+}
+
+.login__org {
+  font-size: var(--size-sm);
+  color: var(--ink-faint);
+}
+
+.login__ident h1 {
+  margin: var(--gap-1) 0 var(--gap-2);
+  font-size: var(--size-2xl);
+  letter-spacing: -0.01em;
+}
+
+.login__sub {
+  color: var(--ink-soft);
+  font-size: var(--size-sm);
+  max-width: 46ch;
+}
+
+.login__control {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  background: var(--rule);
+}
+
+.login__control > div {
+  padding: var(--gap-3) var(--gap-5);
+  background: var(--paper-sunk);
+}
+
+.login__control dt {
+  font-size: var(--size-xs);
+  color: var(--ink-faint);
+}
+
+.login__control dd {
+  margin: var(--gap-1) 0 0;
+  font-size: var(--size-sm);
+}
+
+/* ---------- แบบฟอร์มเข้าสู่ระบบ ---------- */
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-4);
+  align-self: start;
+  padding: var(--gap-5);
+  max-width: 26rem;
+  width: 100%;
+}
+
+.login__hint {
+  font-size: var(--size-xs);
+  color: var(--ink-faint);
+}
+
+/* รหัสเอกสารต้องไม่ตัดคำกลางรหัส เพราะผู้ใช้อ่านรหัสเป็นก้อนเดียว */
+.login__control dt.code {
+  white-space: nowrap;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.login__control dd {
+  color: var(--ink-soft);
+}
+
+@media (min-width: 52rem) {
+  .login {
+    grid-template-columns: 1fr 26rem;
+    align-items: center;
+    gap: var(--gap-6);
+  }
+  .login__control {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
