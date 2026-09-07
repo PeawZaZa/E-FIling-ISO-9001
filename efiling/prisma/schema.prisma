@@ -1,0 +1,351 @@
+// โครงสร้างฐานข้อมูลระบบ E-Filing
+// อ้างอิง SRS_A+B.md ภาคผนวก B.3 (Logical Data Entities)
+//
+// หลักการที่ยึดในไฟล์นี้
+//   1. ฟิลด์ status ทุกตัวเป็น String ไม่ใช่ enum ของ Prisma
+//      เพราะชุดสถานะของใบคำร้องมาจาก Policy Pack ซึ่งสลับได้ระหว่าง
+//      ฉบับรวมของกลุ่ม A (5 สถานะ) กับแบบเสนอหัวข้อ (4 สถานะ)
+//      ถ้าประกาศเป็น enum จะต้องย้ายฐานข้อมูลทุกครั้งที่สลับแพ็ก
+//   2. ตาราง Role เก็บเฉพาะรายชื่อบทบาท ไม่เก็บสิทธิ์
+//      สิทธิ์อยู่ใน Policy Pack ที่เดียวเพื่อไม่ให้มีสองแหล่งความจริง
+//   3. ไฟล์จริงเก็บบนระบบไฟล์ ฐานข้อมูลเก็บเฉพาะเส้นทางและข้อมูลกำกับ
+//      ตามมติ TBD-EFL-03 และ ADR-06
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- ใช้ร่วมกันทั้งสองกลุ่ม ----------
+
+model Department {
+  id       String    @id @default(cuid()) @map("department_id")
+  name     String    @unique
+  users    User[]
+  findings Finding[]
+
+  @@map("departments")
+}
+
+/// ชื่อบทบาทต้องตรงกับรหัสใน Policy Pack ที่กำลังใช้งาน
+/// ตรวจความสอดคล้องตอนระบบเริ่มทำงาน
+model Role {
+  id    String @id @default(cuid()) @map("role_id")
+  code  String @unique
+  name  String
+  users User[]
+
+  @@map("roles")
+}
+
+model User {
+  id           String  @id @default(cuid()) @map("user_id")
+  fullName     String  @map("full_name")
+  email        String  @unique
+  passwordHash String  @map("password_hash")
+  /// ปิดใช้งานด้วยการตั้งค่าเป็น false ห้ามลบบัญชีจริง (BRULE-EFL-13)
+  isActive     Boolean @default(true) @map("is_active")
+
+  roleId       String      @map("role_id")
+  role         Role        @relation(fields: [roleId], references: [id])
+  departmentId String?     @map("department_id")
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  documentsOwned        Document[]        @relation("DocumentOwner")
+  darsRequested         Dar[]             @relation("DarRequester")
+  darsToApprove         Dar[]             @relation("DarApprover")
+  acknowledgements      Acknowledgement[]
+  recordsCreated        Record[]          @relation("RecordCreator")
+  recordFiles           RecordFile[]
+  filesUploaded         FileAsset[]
+  auditRoundsLed        AuditRound[]
+  findingsReported      Finding[]         @relation("FindingReporter")
+  carsOwned             Car[]             @relation("CarOwner")
+  carsVerified          Car[]             @relation("CarVerifier")
+  carsClosed            Car[]             @relation("CarCloser")
+  auditTrail            AuditTrail[]
+  destructionsRequested DestructionLog[]  @relation("DestructionRequester")
+  destructionsApproved  DestructionLog[]  @relation("DestructionApprover")
+
+  @@map("users")
+}
+
+/// ไฟล์ที่อัปโหลด — ฐานข้อมูลเก็บเฉพาะเส้นทาง ไม่เก็บตัวไฟล์
+model FileAsset {
+  id               String   @id @default(cuid()) @map("file_id")
+  filePath         String   @map("file_path")
+  originalFilename String   @map("original_filename")
+  mimeType         String   @map("mime_type")
+  sizeBytes        Int      @map("size_bytes")
+  uploadedById     String   @map("uploaded_by")
+  uploadedBy       User     @relation(fields: [uploadedById], references: [id])
+  uploadedAt       DateTime @default(now()) @map("uploaded_at")
+
+  revisions   DocumentRevision[]
+  recordFiles RecordFile[]
+
+  @@map("files")
+}
+
+/// ร่องรอยการตรวจสอบ เก็บถาวร ห้ามลบ (FR-SH04, NFR-02)
+model AuditTrail {
+  id         String @id @default(cuid()) @map("log_id")
+  actorId    String? @map("actor_id")
+  actor      User?   @relation(fields: [actorId], references: [id])
+  entityType String  @map("entity_type")
+  entityId   String  @map("entity_id")
+  action     String
+  /// ค่าก่อนและหลังการเปลี่ยนแปลง เก็บเท่าที่จำเป็นตาม NFR-02
+  before     Json?
+  after      Json?
+  reason     String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_trail")
+}
+
+// ---------- กลุ่ม A: ควบคุมเอกสาร ----------
+
+model Document {
+  id             String   @id @default(cuid()) @map("document_id")
+  documentCode   String   @unique @map("document_code")
+  title          String
+  /// QM / QP / WI / SD / FM
+  type           String
+  departmentName String   @map("department_name")
+  ownerId        String   @map("owner_id")
+  owner          User     @relation("DocumentOwner", fields: [ownerId], references: [id])
+  status         String
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  revisions        DocumentRevision[]
+  dars             Dar[]
+  acknowledgements Acknowledgement[]
+  distributionList DistributionList[]
+  records          Record[]
+  findings         Finding[]
+
+  @@map("documents")
+}
+
+/// เผยแพร่ได้เพียงหนึ่งฉบับต่อรหัสเอกสาร ณ เวลาใดเวลาหนึ่ง (BRULE-EFL-01)
+/// บังคับด้วยตรรกะในชั้นบริการ เพราะเป็นเงื่อนไขที่ขึ้นกับสถานะ
+model DocumentRevision {
+  id            String     @id @default(cuid()) @map("revision_id")
+  documentId    String     @map("document_id")
+  document      Document   @relation(fields: [documentId], references: [id])
+  revisionNo    Int        @map("revision_no")
+  issueNo       Int        @default(1) @map("issue_no")
+  fileId        String?    @map("file_id")
+  file          FileAsset? @relation(fields: [fileId], references: [id])
+  effectiveDate DateTime?  @map("effective_date")
+  status        String
+  obsoletedAt   DateTime?  @map("obsoleted_at")
+  createdAt     DateTime   @default(now()) @map("created_at")
+
+  acknowledgements Acknowledgement[]
+  distributionList DistributionList[]
+
+  @@unique([documentId, revisionNo])
+  @@map("document_revisions")
+}
+
+/// คำขอดำเนินการกับเอกสาร สี่ประเภทตาม QP-2301-0107 ข้อ 6.5.1
+model Dar {
+  id          String    @id @default(cuid()) @map("dar_id")
+  darNo       String    @unique @map("dar_no")
+  documentId  String?   @map("document_id")
+  document    Document? @relation(fields: [documentId], references: [id])
+  /// CREATE / AMEND / CANCEL / REQUEST_UNCONTROLLED
+  actionType  String    @map("action_type")
+  reason      String
+  requesterId String    @map("requester_id")
+  requester   User      @relation("DarRequester", fields: [requesterId], references: [id])
+  approverId  String?   @map("approver_id")
+  approver    User?     @relation("DarApprover", fields: [approverId], references: [id])
+  status      String
+  comment     String?
+  /// ใช้ตรวจการบันทึกทับซ้อนของผู้อนุมัติหลายคน (BRULE-EFL-20)
+  version     Int       @default(0)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  decidedAt   DateTime? @map("decided_at")
+
+  @@map("dars")
+}
+
+/// การรับทราบผูกกับฉบับแก้ไข ไม่ใช่แค่รหัสเอกสาร (BRULE-EFL-05)
+model Acknowledgement {
+  id             String           @id @default(cuid()) @map("ack_id")
+  documentId     String           @map("document_id")
+  document       Document         @relation(fields: [documentId], references: [id])
+  revisionId     String           @map("revision_id")
+  revision       DocumentRevision @relation(fields: [revisionId], references: [id])
+  userId         String           @map("user_id")
+  user           User             @relation(fields: [userId], references: [id])
+  /// DEPARTMENT_ROLE หรือ INDIVIDUAL (TBD-EFL-05)
+  assignmentType String           @map("assignment_type")
+  assignedAt     DateTime         @default(now()) @map("assigned_at")
+  ackAt          DateTime?        @map("ack_at")
+
+  @@unique([revisionId, userId])
+  @@map("acknowledgements")
+}
+
+/// บัญชีผู้ถือครองสำเนาควบคุม (QM-2301-01 ข้อ 7.5.3)
+model DistributionList {
+  id                  String           @id @default(cuid()) @map("distribution_id")
+  documentId          String           @map("document_id")
+  document            Document         @relation(fields: [documentId], references: [id])
+  revisionId          String           @map("revision_id")
+  revision            DocumentRevision @relation(fields: [revisionId], references: [id])
+  recipientRoleId     String?          @map("recipient_role_id")
+  recipientDepartment String?          @map("recipient_department")
+  copyNo              String           @map("copy_no")
+  /// Active หรือ Withdrawn เรียกคืนอัตโนมัติเมื่อเอกสารถูกยกเลิก (BRULE-EFL-23)
+  status              String
+  issuedAt            DateTime         @default(now()) @map("issued_at")
+
+  @@map("distribution_list")
+}
+
+// ---------- กลุ่ม B: หลักฐาน การตรวจติดตาม และการแก้ไข ----------
+
+/// บันทึกข้อมูลและหลักฐาน
+/// ต้องมีอย่างน้อยหนึ่งใน documentId / findingId / carId (BRULE-EFL-06)
+/// บังคับในชั้นบริการเพราะเป็นเงื่อนไขข้ามคอลัมน์
+model Record {
+  id         String    @id @default(cuid()) @map("record_id")
+  title      String
+  recordType String    @map("record_type")
+  documentId String?   @map("document_id")
+  document   Document? @relation(fields: [documentId], references: [id])
+  findingId  String?   @map("finding_id")
+  finding    Finding?  @relation(fields: [findingId], references: [id])
+  carId      String?   @map("car_id")
+  car        Car?      @relation(fields: [carId], references: [id])
+
+  createdById String   @map("created_by")
+  createdBy   User     @relation("RecordCreator", fields: [createdById], references: [id])
+  createdAt   DateTime @default(now()) @map("created_at")
+  /// จุดเริ่มนับอายุการจัดเก็บ (BRULE-EFL-15)
+  closedAt    DateTime? @map("closed_at")
+
+  retentionTier       Int?      @map("retention_tier")
+  retentionExpiryDate DateTime? @map("retention_expiry_date")
+
+  files RecordFile[]
+
+  @@map("records")
+}
+
+/// ไฟล์แนบของบันทึก รองรับหลายไฟล์ต่อหนึ่งบันทึก (FR-B16)
+model RecordFile {
+  id           String    @id @default(cuid()) @map("record_file_id")
+  recordId     String    @map("record_id")
+  record       Record    @relation(fields: [recordId], references: [id], onDelete: Cascade)
+  fileId       String    @map("file_id")
+  file         FileAsset @relation(fields: [fileId], references: [id])
+  uploadedById String    @map("uploaded_by")
+  uploadedBy   User      @relation(fields: [uploadedById], references: [id])
+  uploadedAt   DateTime  @default(now()) @map("uploaded_at")
+
+  @@map("record_files")
+}
+
+/// รอบการตรวจติดตาม หนึ่งหัวเรื่องต่อรอบ (TBD-EFL-06)
+model AuditRound {
+  id            String   @id @default(cuid()) @map("audit_round_id")
+  name          String
+  scope         String
+  startDate     DateTime @map("start_date")
+  endDate       DateTime @map("end_date")
+  leadAuditorId String   @map("lead_auditor_id")
+  leadAuditor   User     @relation(fields: [leadAuditorId], references: [id])
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  findings Finding[]
+
+  @@map("audit_rounds")
+}
+
+/// ประเด็นที่พบ เกิดจากรอบตรวจหรือจากแหล่งอื่นก็ได้ (BRULE-EFL-22)
+/// เมื่อ auditRoundId เป็นค่าว่าง ต้องมี recordId หรือ sourceReference แทน
+model Finding {
+  id           String      @id @default(cuid()) @map("finding_id")
+  auditRoundId String?     @map("audit_round_id")
+  auditRound   AuditRound? @relation(fields: [auditRoundId], references: [id])
+  /// ที่มาเมื่อไม่ได้เกิดจากรอบตรวจ เช่น เลขที่บันทึกข้อร้องเรียน
+  sourceReference String?  @map("source_reference")
+  documentId   String?     @map("document_id")
+  document     Document?   @relation(fields: [documentId], references: [id])
+  departmentId String?     @map("department_id")
+  department   Department? @relation(fields: [departmentId], references: [id])
+  /// NC / OFI / OBSERVATION
+  type         String
+  severity     String?
+  description  String
+  status       String
+  reportedById String      @map("reported_by")
+  reportedBy   User        @relation("FindingReporter", fields: [reportedById], references: [id])
+  createdAt    DateTime    @default(now()) @map("created_at")
+
+  cars    Car[]
+  records Record[]
+
+  @@map("findings")
+}
+
+/// ใบคำร้องขอให้ดำเนินการแก้ไข
+/// ชุดสถานะที่ใช้ได้มาจาก Policy Pack ไม่ได้ล็อกไว้ในฐานข้อมูล
+model Car {
+  id               String   @id @default(cuid()) @map("car_id")
+  carNo            String   @unique @map("car_no")
+  findingId        String   @map("finding_id")
+  finding          Finding  @relation(fields: [findingId], references: [id])
+  ownerId          String   @map("owner_id")
+  owner            User     @relation("CarOwner", fields: [ownerId], references: [id])
+  dueDate          DateTime @map("due_date")
+  status           String
+  rootCause        String?  @map("root_cause")
+  correctiveAction String?  @map("corrective_action")
+
+  verifiedById String?   @map("verified_by")
+  verifiedBy   User?     @relation("CarVerifier", fields: [verifiedById], references: [id])
+  verifiedAt   DateTime? @map("verified_at")
+  closedById   String?   @map("closed_by")
+  closedBy     User?     @relation("CarCloser", fields: [closedById], references: [id])
+  closedAt     DateTime? @map("closed_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  records Record[]
+
+  @@index([status, dueDate])
+  @@map("cars")
+}
+
+/// บันทึกการทำลายข้อมูล เก็บอย่างน้อย 5 ปี (BRULE-EFL-17)
+model DestructionLog {
+  id            String    @id @default(cuid()) @map("destruction_log_id")
+  itemType      String    @map("item_type")
+  itemRefId     String    @map("item_ref_id")
+  itemCode      String    @map("item_code")
+  retentionTier Int?      @map("retention_tier")
+  requestedById String    @map("requested_by")
+  requestedBy   User      @relation("DestructionRequester", fields: [requestedById], references: [id])
+  approvedById  String?   @map("approved_by")
+  approvedBy    User?     @relation("DestructionApprover", fields: [approvedById], references: [id])
+  status        String
+  requestedAt   DateTime  @default(now()) @map("requested_at")
+  destroyedAt   DateTime? @map("destroyed_at")
+
+  @@map("destruction_logs")
+}
