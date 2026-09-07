@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { findActivePath } from '../lib/active-nav';
 import { useAuth } from '../lib/auth';
-import { navSections } from '../nav';
+import { allNavItems, navSections } from '../nav';
 import './app-shell.css';
 
 interface Props {
@@ -17,6 +18,12 @@ export function AppShell({ children, ready }: Props) {
 
   // ปิดลิ้นชักเมนูเมื่อเปลี่ยนหน้า เพื่อไม่ให้บังเนื้อหาบนจอเล็ก
   useEffect(() => setDrawerOpen(false), [location.pathname]);
+
+  // มีได้เพียงเมนูเดียวที่ทำงานอยู่ คือเส้นทางที่เจาะจงที่สุดที่ตรงกับหน้าปัจจุบัน
+  const activePath = useMemo(
+    () => findActivePath(allNavItems.map((i) => i.path), location.pathname),
+    [location.pathname],
+  );
 
   const visibleSections = navSections
     .map((s) => ({ ...s, items: s.items.filter((i) => can(i.useCase)) }))
@@ -64,16 +71,20 @@ export function AppShell({ children, ready }: Props) {
               <ul>
                 {section.items.map((item) => (
                   <li key={item.useCase}>
-                    <NavLink
+                    <Link
                       to={item.path}
-                      className={({ isActive }) =>
-                        [isActive ? 'is-current' : '', ready.has(item.useCase) ? '' : 'is-pending']
+                      aria-current={item.path === activePath ? 'page' : undefined}
+                      className={
+                        [
+                          item.path === activePath ? 'is-current' : '',
+                          ready.has(item.useCase) ? '' : 'is-pending',
+                        ]
                           .filter(Boolean)
                           .join(' ') || undefined
                       }
                     >
                       {item.label}
-                    </NavLink>
+                    </Link>
                   </li>
                 ))}
               </ul>
