@@ -13,3 +13,6 @@ desktop.ini
 # ไม่ขึ้น repo เพราะเป็นเอกสารภายในจริงและไฟล์ใหญ่
 # สาระที่สกัดมาใช้อ้างอิงอยู่ใน ISO_Source_Notes.md แล้ว
 ISO files/
+
+# โฟลเดอร์ชั่วคราวของ scripts/srs_to_docx.py
+.build_srs/
