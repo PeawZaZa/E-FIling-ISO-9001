@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ขอบเขตระบบ E-Filing และเส้นแบ่งความรับผิดชอบระหว่างโมดูล</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff; --paper-2:#f4f5f7;
+    --ink:#1f2430; --muted:#5b6472; --soft:#8a919e;
+    --rule:rgba(31,36,48,0.14);
+    --accent:#1f6f8b; --accent-tint:rgba(31,111,139,0.07);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:2.5rem 2rem;background:var(--paper);
+       font-family:'Sarabun',sans-serif;color:var(--ink);}
+  .wrap{max-width:1040px;margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 .4rem}
+  h1{font-family:'Sarabun',sans-serif;font-weight:600;font-size:1.5rem;margin:0 0 .3rem;line-height:1.35}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem;line-height:1.6}
+  svg{width:100%;height:auto;display:block}
+  footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);
+         font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.12em;
+         text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Appendix B.1 · System Context</p>
+  <h1>ขอบเขตระบบ E-Filing และเส้นแบ่งความรับผิดชอบระหว่างโมดูล</h1>
+  <p class="sub">โมดูลที่เอกสารฉบับนี้กำหนดความต้องการแสดงส่วนประกอบภายใน ส่วนโมดูลควบคุมเอกสารแสดงเป็นกล่องเดียวโดยไม่ลงรายละเอียด เพราะอยู่นอกขอบเขตของเอกสารฉบับนี้</p>
+
+<svg viewBox="0 0 960 640" role="img" aria-labelledby="b1-title b1-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="b1-title">ขอบเขตระบบ E-Filing และเส้นแบ่งความรับผิดชอบระหว่างโมดูล</title>
+  <desc id="b1-desc">แผนภาพขอบเขตระบบแสดงระบบ E-Filing ที่ประกอบด้วยสองโมดูล โมดูลทะเบียนหลักฐานการตรวจติดตามใบคำร้องและแดชบอร์ดซึ่งเป็นขอบเขตของเอกสารฉบับนี้แสดงส่วนประกอบภายในสี่ส่วน และโมดูลควบคุมเอกสารซึ่งอยู่นอกขอบเขตแสดงเป็นกล่องเดียว ทั้งสองโมดูลแลกเปลี่ยนข้อมูลผ่านส่วนเชื่อมต่อระหว่างโมดูลและใช้ฐานข้อมูลกับพื้นที่จัดเก็บไฟล์ร่วมกัน</desc>
+
+  <defs>
+    <marker id="b1-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5b6472"/>
+    </marker>
+    <marker id="b1-arrow-s" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto">
+      <polygon points="8 0, 0 3, 8 6" fill="#1f6f8b"/>
+    </marker>
+    <marker id="b1-arrow-e" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1f6f8b"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="640" fill="#ffffff"/>
+
+  <!-- ===== zone: ระบบ E-Filing ===== -->
+  <rect x="32" y="152" width="896" height="392" rx="8" fill="#f4f5f7" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="48" y="176" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" letter-spacing="0.14em">SYSTEM</text>
+  <text x="104" y="176" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ระบบ E-Filing</text>
+
+  <!-- ===== zone: โมดูลของเอกสารฉบับนี้ ===== -->
+  <rect x="56" y="200" width="464" height="208" rx="8" fill="rgba(31,111,139,0.07)" stroke="#1f6f8b" stroke-width="1.2"/>
+  <text x="72" y="222" fill="#1f6f8b" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">โมดูลทะเบียนหลักฐาน การตรวจติดตาม ใบคำร้อง และแดชบอร์ด</text>
+  <text x="72" y="238" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" letter-spacing="0.1em">SCOPE OF THIS DOCUMENT</text>
+
+  <!-- ===== arrows (drawn before boxes) ===== -->
+  <!-- ผู้ใช้ → โมดูล B -->
+  <line x1="288" y1="120" x2="288" y2="200" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b1-arrow)"/>
+  <!-- โมดูล B ↔ โมดูล A -->
+  <line x1="520" y1="320" x2="688" y2="320" stroke="#1f6f8b" stroke-width="1.2"
+        marker-start="url(#b1-arrow-s)" marker-end="url(#b1-arrow-e)"/>
+  <!-- โมดูล B → ฐานข้อมูล -->
+  <line x1="216" y1="408" x2="216" y2="452" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b1-arrow)"/>
+  <!-- โมดูล B → ระบบไฟล์ -->
+  <line x1="424" y1="408" x2="424" y2="452" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b1-arrow)"/>
+
+  <!-- arrow labels: mask sits ≥8px clear of the stroke -->
+  <rect x="300" y="132" width="164" height="16" rx="2" fill="#ffffff"/>
+  <text x="304" y="144" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เข้าใช้งานตามบทบาทที่เลือก</text>
+
+  <rect x="524" y="284" width="160" height="16" rx="2" fill="#f4f5f7"/>
+  <text x="604" y="296" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ส่วนเชื่อมต่อระหว่างโมดูล</text>
+  <rect x="524" y="332" width="160" height="14" rx="2" fill="#f4f5f7"/>
+  <text x="604" y="343" fill="#8a919e" font-size="9" font-family="'Sarabun',sans-serif" text-anchor="middle">รหัสเอกสาร · สถานะ · การรับทราบ</text>
+
+  <!-- ===== ผู้ใช้งาน ===== -->
+  <rect x="160" y="56" width="256" height="64" rx="6" fill="#ffffff"/>
+  <rect x="160" y="56" width="256" height="64" rx="6" fill="rgba(91,100,114,0.10)" stroke="#8a919e" stroke-width="1"/>
+  <rect x="168" y="62" width="40" height="12" rx="2" fill="transparent" stroke="rgba(91,100,114,0.45)" stroke-width="0.8"/>
+  <text x="188" y="71" fill="#5b6472" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">ACTORS</text>
+  <text x="288" y="94" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้ใช้งาน 7 บทบาทในขอบเขตนี้</text>
+  <text x="288" y="110" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ISO/QA Admin · QMR · ผู้ตรวจติดตาม · ผู้รับผิดชอบการแก้ไข</text>
+
+  <!-- ===== ส่วนประกอบของโมดูลนี้ ===== -->
+  <rect x="80" y="256" width="200" height="56" rx="6" fill="#ffffff"/>
+  <rect x="80" y="256" width="200" height="56" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="180" y="282" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ทะเบียนบันทึกข้อมูล</text>
+  <text x="180" y="300" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">และหลักฐาน</text>
+
+  <rect x="296" y="256" width="200" height="56" rx="6" fill="#ffffff"/>
+  <rect x="296" y="256" width="200" height="56" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="396" y="282" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">การตรวจติดตาม</text>
+  <text x="396" y="300" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">และประเด็นที่พบ</text>
+
+  <rect x="80" y="332" width="200" height="56" rx="6" fill="#ffffff"/>
+  <rect x="80" y="332" width="200" height="56" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="180" y="358" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ใบคำร้องขอให้</text>
+  <text x="180" y="376" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ดำเนินการแก้ไข</text>
+
+  <rect x="296" y="332" width="200" height="56" rx="6" fill="#ffffff"/>
+  <rect x="296" y="332" width="200" height="56" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="396" y="358" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">แดชบอร์ด</text>
+  <text x="396" y="376" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">และรายงานสรุป</text>
+
+  <!-- ===== โมดูลควบคุมเอกสาร — ไม่ลงรายละเอียด ===== -->
+  <rect x="688" y="264" width="216" height="112" rx="6" fill="#ffffff"/>
+  <rect x="688" y="264" width="216" height="112" rx="6" fill="rgba(31,36,48,0.05)" stroke="rgba(31,36,48,0.30)" stroke-width="1" stroke-dasharray="5,4"/>
+  <rect x="696" y="272" width="60" height="12" rx="2" fill="transparent" stroke="rgba(31,36,48,0.30)" stroke-width="0.8"/>
+  <text x="726" y="281" fill="#8a919e" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">OUT OF SCOPE</text>
+  <text x="796" y="312" fill="#5b6472" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">โมดูลควบคุมเอกสาร</text>
+  <text x="796" y="332" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">เอกสาร · คำร้องทางเอกสาร</text>
+  <text x="796" y="348" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">การรับทราบเอกสาร</text>
+  <text x="796" y="366" fill="#8a919e" font-size="9" font-family="'Sarabun',sans-serif" text-anchor="middle" font-style="italic">ไม่ลงรายละเอียดภายใน</text>
+
+  <!-- ===== ทรัพยากรที่ใช้ร่วมกัน ===== -->
+  <rect x="116" y="452" width="200" height="56" rx="6" fill="#ffffff"/>
+  <rect x="116" y="452" width="200" height="56" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="216" y="478" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ฐานข้อมูล</text>
+  <text x="216" y="496" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">shared · both modules</text>
+
+  <rect x="324" y="452" width="200" height="56" rx="6" fill="#ffffff"/>
+  <rect x="324" y="452" width="200" height="56" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="424" y="478" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">พื้นที่จัดเก็บไฟล์หลักฐาน</text>
+  <text x="424" y="496" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">file system · path ref</text>
+
+  <!-- ===== legend ===== -->
+  <line x1="32" y1="572" x2="928" y2="572" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="32" y="592" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <rect x="112" y="582" width="14" height="12" rx="2" fill="rgba(31,111,139,0.07)" stroke="#1f6f8b" stroke-width="1"/>
+  <text x="134" y="592" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ขอบเขตของเอกสารฉบับนี้</text>
+
+  <rect x="292" y="582" width="14" height="12" rx="2" fill="rgba(31,36,48,0.05)" stroke="rgba(31,36,48,0.30)" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="314" y="592" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">อยู่นอกขอบเขต ไม่ลงรายละเอียด</text>
+
+  <rect x="524" y="582" width="14" height="12" rx="2" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="546" y="592" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ทรัพยากรที่ใช้ร่วมกัน</text>
+
+  <line x1="700" y1="588" x2="736" y2="588" stroke="#1f6f8b" stroke-width="1.2" marker-end="url(#b1-arrow-e)"/>
+  <text x="746" y="592" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ส่วนเชื่อมต่อระหว่างโมดูล</text>
+</svg>
+
+  <footer>รูปที่ ข.1 · SRS โมดูลทะเบียนหลักฐาน การตรวจติดตาม ใบคำร้อง และแดชบอร์ด · SE02 Group B</footer>
+</div>
+</body>
+</html>

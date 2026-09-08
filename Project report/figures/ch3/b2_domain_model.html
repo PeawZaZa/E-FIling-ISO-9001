@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แบบจำลองข้อมูลเชิงแนวคิด</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#ffffff;--ink:#1f2430;--muted:#5b6472;--soft:#8a919e;
+        --rule:rgba(31,36,48,0.14);--accent:#1f6f8b;}
+  *{box-sizing:border-box}
+  body{margin:0;padding:2.5rem 2rem;background:var(--paper);
+       font-family:'Sarabun',sans-serif;color:var(--ink)}
+  .wrap{max-width:1200px;margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 .4rem}
+  h1{font-weight:600;font-size:1.5rem;margin:0 0 .3rem;line-height:1.35}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem;line-height:1.6}
+  svg{width:100%;height:auto;display:block}
+  footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);
+         font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.12em;
+         text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Appendix B.2 · Conceptual Domain Model</p>
+  <h1>แบบจำลองข้อมูลเชิงแนวคิด</h1>
+  <p class="sub">เอนทิตีที่โมดูลนี้เป็นเจ้าของแสดงเขตข้อมูลสำคัญ ส่วนเอกสารซึ่งเป็นของโมดูลควบคุมเอกสารแสดงเป็นกล่องเดียวโดยไม่ลงเขตข้อมูล เพราะโมดูลนี้อ้างอิงผ่านรหัสเท่านั้นและห้ามสร้างทะเบียนเอกสารซ้ำ</p>
+
+<svg viewBox="0 0 1280 760" role="img" aria-labelledby="b2-title b2-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="b2-title">แบบจำลองข้อมูลเชิงแนวคิดของโมดูลทะเบียนหลักฐาน การตรวจติดตาม และใบคำร้อง</title>
+  <desc id="b2-desc">แบบจำลองข้อมูลแสดงเอนทิตีเจ็ดรายการที่โมดูลนี้เป็นเจ้าของ ได้แก่ บันทึกข้อมูล หลักฐาน รอบการตรวจติดตาม ประเด็นที่พบ ใบคำร้อง แผนการปฏิบัติการแก้ไข และร่องรอยการตรวจสอบ พร้อมเอนทิตีเอกสารของโมดูลควบคุมเอกสารที่อ้างอิงผ่านรหัสเท่านั้น หลักฐานผูกได้กับบันทึกข้อมูล ประเด็นที่พบ หรือใบคำร้อง โดยการอ้างอิงทั้งสามเป็นแบบไม่บังคับ</desc>
+
+  <defs>
+    <marker id="b2-dot" markerWidth="6" markerHeight="6" refX="3" refY="3">
+      <circle cx="3" cy="3" r="2.4" fill="#5b6472"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="760" fill="#ffffff"/>
+
+  <!-- ============ RELATIONSHIP LINES (drawn first) ============ -->
+  <!-- เอกสาร → บันทึกข้อมูล : straight horizontal -->
+  <line x1="264" y1="120" x2="352" y2="120" stroke="#8a919e" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <!-- เอกสาร → ประเด็นที่พบ : elbow down-right -->
+  <path d="M 168,180 V 292 Q 168,300 176,300 H 352" fill="none" stroke="#8a919e" stroke-width="1.2" stroke-dasharray="5,4"/>
+
+  <!-- รอบการตรวจติดตาม → ประเด็นที่พบ : elbow ลงจากขอบล่างแล้ววิ่งซ้าย -->
+  <path d="M 848,180 V 268 Q 848,276 840,276 H 700" fill="none" stroke="#5b6472" stroke-width="1.2"/>
+
+  <!-- บันทึกข้อมูล → ประเด็นที่พบ : vertical -->
+  <line x1="440" y1="228" x2="440" y2="248" stroke="#5b6472" stroke-width="1.2"/>
+
+  <!-- ประเด็นที่พบ → ใบคำร้อง : vertical -->
+  <line x1="524" y1="404" x2="524" y2="440" stroke="#1f6f8b" stroke-width="1.4"/>
+
+  <!-- ใบคำร้อง → แผนการปฏิบัติการแก้ไข : straight horizontal -->
+  <line x1="700" y1="524" x2="784" y2="524" stroke="#5b6472" stroke-width="1.2"/>
+
+  <!-- หลักฐาน → บันทึกข้อมูล -->
+  <path d="M 200,596 V 340 Q 200,332 208,332 H 352" fill="none" stroke="#5b6472" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <!-- หลักฐาน → ประเด็นที่พบ -->
+  <line x1="352" y1="628" x2="352" y2="628" stroke="none"/>
+  <path d="M 232,596 V 424 Q 232,416 240,416 H 352" fill="none" stroke="#5b6472" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <!-- หลักฐาน → ใบคำร้อง -->
+  <path d="M 264,596 V 528 Q 264,520 272,520 H 352" fill="none" stroke="#5b6472" stroke-width="1.2" stroke-dasharray="4,3"/>
+
+  <!-- ร่องรอยการตรวจสอบ ← ใบคำร้อง (transit, dashed) -->
+  <line x1="1000" y1="596" x2="1000" y2="628" stroke="#8a919e" stroke-width="1.2" stroke-dasharray="4,3"/>
+
+  <!-- ============ CARDINALITY + RELATION LABELS ============ -->
+  <rect x="272" y="96" width="72" height="16" rx="2" fill="#ffffff"/>
+  <text x="308" y="108" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">อ้างอิง</text>
+  <text x="276" y="134" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <text x="336" y="134" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">N</text>
+
+  <rect x="196" y="276" width="72" height="16" rx="2" fill="#ffffff"/>
+  <text x="232" y="288" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">อ้างอิง</text>
+
+  <rect x="732" y="252" width="76" height="16" rx="2" fill="#ffffff"/>
+  <text x="770" y="264" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">เป็นแม่ของ</text>
+  <text x="712" y="292" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">N</text>
+  <text x="836" y="200" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+
+  <rect x="452" y="228" width="72" height="16" rx="2" fill="#ffffff"/>
+  <text x="488" y="240" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผูกหลักฐาน</text>
+
+  <rect x="536" y="408" width="132" height="16" rx="2" fill="#ffffff"/>
+  <text x="544" y="420" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif">เปิดใบได้ไม่เกิน 1 ใบที่ยังไม่ปิด</text>
+
+  <rect x="704" y="500" width="76" height="16" rx="2" fill="#ffffff"/>
+  <text x="742" y="512" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">มีแผน</text>
+  <text x="708" y="538" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <text x="772" y="538" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+
+  <rect x="276" y="340" width="68" height="16" rx="2" fill="#ffffff"/>
+  <text x="310" y="352" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">0..1</text>
+
+  <!-- ============ ENTITY: เอกสาร (โมดูลควบคุมเอกสาร) ============ -->
+  <rect x="72" y="60" width="192" height="120" rx="6" fill="#ffffff"/>
+  <rect x="72" y="60" width="192" height="120" rx="6" fill="rgba(31,36,48,0.05)" stroke="rgba(31,36,48,0.30)" stroke-width="1" stroke-dasharray="5,4"/>
+  <rect x="80" y="68" width="60" height="12" rx="2" fill="transparent" stroke="rgba(31,36,48,0.30)" stroke-width="0.8"/>
+  <text x="110" y="77" fill="#8a919e" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">OUT OF SCOPE</text>
+  <text x="168" y="106" fill="#5b6472" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">เอกสาร</text>
+  <text x="168" y="128" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">โมดูลควบคุมเอกสาร</text>
+  <text x="168" y="148" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">เป็นเจ้าของ</text>
+  <text x="168" y="168" fill="#8a919e" font-size="9" font-family="'Sarabun',sans-serif" text-anchor="middle" font-style="italic">อ้างผ่านรหัสเท่านั้น</text>
+
+  <!-- ============ ENTITY: บันทึกข้อมูล ============ -->
+  <rect x="352" y="60" width="176" height="168" rx="6" fill="#ffffff"/>
+  <rect x="352" y="60" width="176" height="168" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="352" y="60" width="176" height="32" rx="6" fill="rgba(31,36,48,0.05)"/>
+  <text x="440" y="82" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">บันทึกข้อมูล</text>
+  <line x1="352" y1="92" x2="528" y2="92" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="364" y="112" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif"># รหัสบันทึก</text>
+  <text x="364" y="132" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ชนิด · ชื่อเรื่อง</text>
+  <text x="364" y="152" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">วันที่ · ผู้รับผิดชอบ</text>
+  <text x="364" y="172" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif">→ รหัสเอกสาร</text>
+  <text x="364" y="196" fill="#8a919e" font-size="9" font-family="'Sarabun',sans-serif" font-style="italic">ค้นตามชนิด วันที่</text>
+  <text x="364" y="212" fill="#8a919e" font-size="9" font-family="'Sarabun',sans-serif" font-style="italic">ผู้รับผิดชอบ เอกสาร</text>
+
+  <!-- ============ ENTITY: รอบการตรวจติดตาม ============ -->
+  <rect x="784" y="60" width="184" height="120" rx="6" fill="#ffffff"/>
+  <rect x="784" y="60" width="184" height="120" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="784" y="60" width="184" height="32" rx="6" fill="rgba(31,36,48,0.05)"/>
+  <text x="876" y="82" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">รอบการตรวจติดตาม</text>
+  <line x1="784" y1="92" x2="968" y2="92" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="796" y="112" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif"># รหัสรอบการตรวจ</text>
+  <text x="796" y="132" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ขอบเขต · วันที่</text>
+  <text x="796" y="152" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เกณฑ์การตรวจติดตาม</text>
+  <text x="796" y="172" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ทีมผู้ตรวจ · ผู้รับการตรวจ</text>
+
+  <!-- ============ ENTITY: ประเด็นที่พบ ============ -->
+  <rect x="352" y="248" width="348" height="156" rx="6" fill="#ffffff"/>
+  <rect x="352" y="248" width="348" height="156" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="352" y="248" width="348" height="32" rx="6" fill="rgba(31,36,48,0.05)"/>
+  <text x="526" y="270" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ประเด็นที่พบ</text>
+  <line x1="352" y1="280" x2="700" y2="280" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="364" y="300" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif"># รหัสประเด็น</text>
+  <text x="364" y="320" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ชนิด (ความไม่สอดคล้อง · ข้อสังเกต · ข้อเสนอแนะ)</text>
+  <text x="364" y="340" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">แหล่งที่มา 5 แหล่ง · ระดับความรุนแรง</text>
+  <text x="364" y="360" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">คำอธิบาย · ข้อกำหนดที่ถูกฝ่าฝืน (บังคับ)</text>
+  <text x="364" y="380" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif">→ รหัสรอบการตรวจ (ไม่บังคับ) · → รหัสเอกสาร</text>
+
+  <!-- ============ ENTITY: ใบคำร้อง ============ -->
+  <rect x="352" y="440" width="348" height="156" rx="6" fill="#ffffff"/>
+  <rect x="352" y="440" width="348" height="156" rx="6" fill="rgba(31,111,139,0.07)" stroke="#1f6f8b" stroke-width="1.4"/>
+  <rect x="352" y="440" width="348" height="32" rx="6" fill="rgba(31,111,139,0.12)"/>
+  <text x="526" y="462" fill="#1f6f8b" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ใบคำร้องขอให้ดำเนินการแก้ไข</text>
+  <line x1="352" y1="472" x2="700" y2="472" stroke="rgba(31,111,139,0.25)" stroke-width="0.8"/>
+  <text x="364" y="492" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif"># รหัสใบคำร้อง</text>
+  <text x="364" y="512" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ประเภทใบ (CAR หรือ NCR) · สถานะ 1 ใน 8</text>
+  <text x="364" y="532" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้รับผิดชอบ · กำหนดเวลารายขั้น · วันที่ปิด</text>
+  <text x="364" y="552" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">การแก้ไขเฉพาะหน้า · สาเหตุรากเหง้า</text>
+  <text x="364" y="572" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif">→ รหัสประเด็นที่พบ</text>
+
+  <!-- ============ ENTITY: แผนการปฏิบัติการแก้ไข ============ -->
+  <rect x="784" y="440" width="232" height="156" rx="6" fill="#ffffff"/>
+  <rect x="784" y="440" width="232" height="156" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="784" y="440" width="232" height="32" rx="6" fill="rgba(31,36,48,0.05)"/>
+  <text x="900" y="462" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">แผนการปฏิบัติการแก้ไข</text>
+  <line x1="784" y1="472" x2="1016" y2="472" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="796" y="492" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif"># รหัสแผน · สถานะการอนุมัติ</text>
+  <text x="796" y="512" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้อนุมัติ · เหตุผลกรณีไม่อนุมัติ</text>
+  <text x="796" y="536" fill="#1f2430" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif">กิจกรรมในแผน (1..N)</text>
+  <text x="796" y="556" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">— ผู้รับผิดชอบรายกิจกรรม</text>
+  <text x="796" y="576" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">— กำหนดเวลาแล้วเสร็จ · หลักฐาน</text>
+
+  <!-- ============ ENTITY: หลักฐาน ============ -->
+  <rect x="72" y="596" width="328" height="120" rx="6" fill="#ffffff"/>
+  <rect x="72" y="596" width="328" height="120" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="72" y="596" width="328" height="32" rx="6" fill="rgba(31,36,48,0.05)"/>
+  <text x="236" y="618" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">หลักฐาน</text>
+  <line x1="72" y1="628" x2="400" y2="628" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="84" y="648" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif"># รหัสหลักฐาน · ชื่อไฟล์ · ชนิด · ขนาด</text>
+  <text x="84" y="668" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เส้นทางไฟล์ · ผู้อัปโหลด · เวลา</text>
+  <text x="84" y="692" fill="#1f6f8b" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif">→ รหัสบันทึก · → รหัสประเด็น · → รหัสใบคำร้อง</text>
+  <text x="84" y="708" fill="#8a919e" font-size="9" font-family="'Sarabun',sans-serif" font-style="italic">ทั้งสามเป็นแบบไม่บังคับ ผูกกับสิ่งใดสิ่งหนึ่งได้โดยตรง</text>
+
+  <!-- ============ ENTITY: ร่องรอยการตรวจสอบ ============ -->
+  <rect x="880" y="628" width="240" height="88" rx="6" fill="#ffffff"/>
+  <rect x="880" y="628" width="240" height="88" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="1000" y="652" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ร่องรอยการตรวจสอบ</text>
+  <text x="892" y="674" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้กระทำ · บทบาทขณะกระทำ · การกระทำ</text>
+  <text x="892" y="692" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ชนิดและรหัสข้อมูล · เวลา · สถานะก่อน/หลัง</text>
+  <text x="892" y="710" fill="#8a919e" font-size="9" font-family="'Sarabun',sans-serif" font-style="italic">เพิ่มอย่างเดียว แก้ไขและลบไม่ได้</text>
+
+  <rect x="1010" y="600" width="112" height="16" rx="2" fill="#ffffff"/>
+  <text x="1014" y="612" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif">บันทึกทุกเหตุการณ์</text>
+
+  <!-- ============ LEGEND ============ -->
+  <line x1="72" y1="736" x2="1208" y2="736" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="72" y="754" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+  <rect x="152" y="744" width="14" height="12" rx="2" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="174" y="754" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เอนทิตีของโมดูลนี้</text>
+  <rect x="312" y="744" width="14" height="12" rx="2" fill="rgba(31,111,139,0.07)" stroke="#1f6f8b" stroke-width="1.4"/>
+  <text x="334" y="754" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เอนทิตีศูนย์กลางของกระบวนการ</text>
+  <rect x="540" y="744" width="14" height="12" rx="2" fill="rgba(31,36,48,0.05)" stroke="rgba(31,36,48,0.30)" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="562" y="754" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เอนทิตีของโมดูลควบคุมเอกสาร ไม่ลงเขตข้อมูล</text>
+  <text x="856" y="754" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif"># คีย์หลัก · → คีย์อ้างอิง · เส้นประ = ความสัมพันธ์แบบไม่บังคับ</text>
+</svg>
+
+  <footer>รูปที่ ข.2 · SRS โมดูลทะเบียนหลักฐาน การตรวจติดตาม ใบคำร้อง และแดชบอร์ด · SE02 Group B</footer>
+</div>
+</body>
+</html>

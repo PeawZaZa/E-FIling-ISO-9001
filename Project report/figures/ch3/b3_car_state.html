@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>วงจรสถานะใบคำร้องขอให้ดำเนินการแก้ไข</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#ffffff;--ink:#1f2430;--muted:#5b6472;--soft:#8a919e;
+        --rule:rgba(31,36,48,0.14);--accent:#1f6f8b;}
+  *{box-sizing:border-box}
+  body{margin:0;padding:2.5rem 2rem;background:var(--paper);
+       font-family:'Sarabun',sans-serif;color:var(--ink)}
+  .wrap{max-width:900px;margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 .4rem}
+  h1{font-weight:600;font-size:1.5rem;margin:0 0 .3rem;line-height:1.35}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem;line-height:1.6}
+  svg{width:100%;height:auto;display:block}
+  footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);
+         font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.12em;
+         text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Appendix B.3 · State Machine</p>
+  <h1>วงจรสถานะใบคำร้องขอให้ดำเนินการแก้ไข</h1>
+  <p class="sub">แปดสถานะครอบคลุมเก้าขั้นของระเบียบปฏิบัติ QP-2301-0109 · เส้นทึบคือเส้นทางเดินหน้า เส้นประคือเส้นทางย้อนกลับสามเส้นที่ระเบียบปฏิบัติกำหนดไว้ · กำหนดเวลากำกับแต่ละสถานะนับเป็นวันทำการ</p>
+
+<svg viewBox="0 0 880 1000" role="img" aria-labelledby="b3-title b3-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="b3-title">วงจรสถานะใบคำร้องขอให้ดำเนินการแก้ไขแปดสถานะ</title>
+  <desc id="b3-desc">แผนภาพสถานะแสดงใบคำร้องเดินหน้าจากเปิดใบ ผ่านการแก้ไขเฉพาะหน้า การวิเคราะห์สาเหตุและจัดทำแผน การรออนุมัติแผนโดยผู้แทนฝ่ายบริหาร การดำเนินการตามแผน การรอตรวจสอบประสิทธิผล และการรอปิดใบ จนถึงปิดใบแล้ว พร้อมเส้นทางย้อนกลับสามเส้น คือไม่อนุมัติแผนย้อนกลับไปจัดทำแผนใหม่ ตรวจสอบไม่ครบถ้วนย้อนกลับไปดำเนินการตามแผน และไม่มีประสิทธิผลย้อนกลับไปวิเคราะห์สาเหตุใหม่</desc>
+
+  <defs>
+    <marker id="b3-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5b6472"/>
+    </marker>
+    <marker id="b3-arrow-back" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#1f6f8b"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="1000" fill="#ffffff"/>
+
+  <!-- ============ FORWARD TRANSITIONS (vertical, x=520) ============ -->
+  <line x1="520" y1="76" x2="520" y2="100" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <line x1="520" y1="164" x2="520" y2="204" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <line x1="520" y1="268" x2="520" y2="308" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <line x1="520" y1="372" x2="520" y2="412" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <line x1="520" y1="476" x2="520" y2="516" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <line x1="520" y1="580" x2="520" y2="620" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <line x1="520" y1="684" x2="520" y2="724" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <line x1="520" y1="788" x2="520" y2="828" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+
+  <!-- ============ BACK TRANSITIONS — 3 เลนซ้อนกัน ไม่มีเส้นตัดกัน ============ -->
+  <!-- เลน 1 (x=176): รออนุมัติแผน → อยู่ระหว่างวิเคราะห์ฯ -->
+  <path d="M 312,444 H 184 Q 176,444 176,436 V 348 Q 176,340 184,340 H 312"
+        fill="none" stroke="#1f6f8b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#b3-arrow-back)"/>
+  <!-- เลน 2 (x=128): รอตรวจสอบประสิทธิผล → อยู่ระหว่างดำเนินการตามแผน -->
+  <path d="M 312,652 H 136 Q 128,652 128,644 V 556 Q 128,548 136,548 H 312"
+        fill="none" stroke="#1f6f8b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#b3-arrow-back)"/>
+  <!-- เลน 3 (x=80): รอปิดใบ → อยู่ระหว่างวิเคราะห์ฯ (เข้าขอบบนของกล่อง) -->
+  <path d="M 312,756 H 88 Q 80,756 80,748 V 292 Q 80,284 88,284 H 352 Q 360,284 360,292 V 308"
+        fill="none" stroke="#1f6f8b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#b3-arrow-back)"/>
+
+  <!-- ============ FORWARD LABELS (right of the line, 12px clear) ============ -->
+  <rect x="536" y="80" width="128" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="91" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เริ่มดำเนินการ</text>
+
+  <rect x="536" y="176" width="200" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="187" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">บันทึกการแก้ไขเฉพาะหน้าแล้ว</text>
+
+  <rect x="536" y="280" width="200" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="291" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ส่งแผนขออนุมัติ</text>
+
+  <rect x="536" y="384" width="200" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="395" fill="#1f6f8b" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif">อนุมัติแผน · ผู้อนุมัติ ≠ ผู้จัดทำ</text>
+
+  <rect x="536" y="488" width="200" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="499" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ส่งตรวจสอบประสิทธิผล</text>
+
+  <rect x="536" y="592" width="216" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="603" fill="#1f6f8b" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif">ผลตรวจสอบผ่าน · ผู้ตรวจ ≠ ผู้รับผิดชอบ</text>
+
+  <rect x="536" y="696" width="216" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="707" fill="#1f6f8b" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif">ปิดใบ · ผู้ปิด ≠ ผู้ตรวจสอบ</text>
+
+  <rect x="536" y="800" width="200" height="14" rx="2" fill="#ffffff"/>
+  <text x="536" y="811" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">จัดเก็บเข้าระบบ</text>
+
+  <!-- ============ BACK LABELS — วางบนช่วงขาออกของแต่ละเลน เว้น 8px และไม่ล้ำเข้ากล่อง (x < 312) ============ -->
+  <rect x="192" y="420" width="108" height="16" rx="2" fill="#ffffff"/>
+  <text x="300" y="432" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ไม่อนุมัติแผน</text>
+
+  <rect x="144" y="628" width="156" height="16" rx="2" fill="#ffffff"/>
+  <text x="300" y="640" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ตรวจสอบไม่ครบถ้วน</text>
+
+  <rect x="96" y="732" width="204" height="16" rx="2" fill="#ffffff"/>
+  <text x="300" y="744" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ไม่มีประสิทธิผล · วิเคราะห์สาเหตุใหม่</text>
+
+  <!-- ============ STATES ============ -->
+  <!-- start dot -->
+  <circle cx="520" cy="40" r="6" fill="#1f2430"/>
+  <text x="536" y="44" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">START</text>
+
+  <!-- 1 เปิดใบ -->
+  <rect x="312" y="100" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="100" width="416" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="328" y="124" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">1 · OPEN</text>
+  <text x="328" y="146" fill="#1f2430" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">เปิดใบ</text>
+  <text x="712" y="146" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ทันทีที่บ่งชี้ปัญหา</text>
+
+  <!-- 2 อยู่ระหว่างแก้ไขเฉพาะหน้า -->
+  <rect x="312" y="204" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="204" width="416" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="328" y="228" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">2 · CORRECTION</text>
+  <text x="328" y="250" fill="#1f2430" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">อยู่ระหว่างแก้ไขเฉพาะหน้า</text>
+  <text x="712" y="250" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">1–3 วันทำการ</text>
+
+  <!-- 3 อยู่ระหว่างวิเคราะห์สาเหตุและจัดทำแผน -->
+  <rect x="312" y="308" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="308" width="416" height="64" rx="8" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="328" y="332" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">3 · ANALYSIS_PLANNING</text>
+  <text x="328" y="354" fill="#1f2430" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">อยู่ระหว่างวิเคราะห์สาเหตุและจัดทำแผน</text>
+  <text x="712" y="354" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">5–7 · 7–10 วันทำการ</text>
+
+  <!-- 4 รออนุมัติแผน — focal -->
+  <rect x="312" y="412" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="412" width="416" height="64" rx="8" fill="rgba(31,111,139,0.07)" stroke="#1f6f8b" stroke-width="1.6"/>
+  <text x="328" y="436" fill="#1f6f8b" font-size="9" font-family="'Geist Mono',monospace">4 · PENDING_PLAN_APPROVAL</text>
+  <text x="328" y="458" fill="#1f6f8b" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">รออนุมัติแผน · ผู้แทนฝ่ายบริหาร</text>
+  <text x="712" y="458" fill="#1f6f8b" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="end">2 วันทำการ</text>
+
+  <!-- 5 อยู่ระหว่างดำเนินการตามแผน -->
+  <rect x="312" y="516" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="516" width="416" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="328" y="540" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">5 · IMPLEMENTING</text>
+  <text x="328" y="562" fill="#1f2430" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">อยู่ระหว่างดำเนินการตามแผน</text>
+  <text x="712" y="562" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ตามกำหนดในแผน</text>
+
+  <!-- 6 รอตรวจสอบประสิทธิผล -->
+  <rect x="312" y="620" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="620" width="416" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="328" y="644" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">6 · PENDING_VERIFICATION</text>
+  <text x="328" y="666" fill="#1f2430" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">รอตรวจสอบประสิทธิผล</text>
+  <text x="712" y="666" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">7–14 วันทำการ</text>
+
+  <!-- 7 รอปิดใบ -->
+  <rect x="312" y="724" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="724" width="416" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="328" y="748" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">7 · PENDING_CLOSURE</text>
+  <text x="328" y="770" fill="#1f2430" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">รอปิดใบ · QMR หรือหัวหน้าทีมผู้ตรวจ</text>
+  <text x="712" y="770" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ทันทีที่ตรวจสอบเสร็จ</text>
+
+  <!-- 8 ปิดใบแล้ว -->
+  <rect x="312" y="828" width="416" height="64" rx="8" fill="#ffffff"/>
+  <rect x="312" y="828" width="416" height="64" rx="8" fill="rgba(31,36,48,0.05)" stroke="#1f2430" stroke-width="1.6"/>
+  <text x="328" y="852" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace">8 · CLOSED</text>
+  <text x="328" y="874" fill="#1f2430" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">ปิดใบแล้ว</text>
+  <text x="712" y="874" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">เก็บรักษา 5 ปี</text>
+
+  <!-- ============ LEGEND ============ -->
+  <line x1="72" y1="928" x2="808" y2="928" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="72" y="948" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <line x1="152" y1="944" x2="192" y2="944" stroke="#5b6472" stroke-width="1.2" marker-end="url(#b3-arrow)"/>
+  <text x="204" y="948" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เส้นทางเดินหน้า</text>
+
+  <line x1="332" y1="944" x2="372" y2="944" stroke="#1f6f8b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#b3-arrow-back)"/>
+  <text x="384" y="948" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เส้นทางย้อนกลับ ต้องบันทึกเหตุผลทุกครั้ง</text>
+
+  <rect x="656" y="938" width="14" height="12" rx="2" fill="rgba(31,111,139,0.07)" stroke="#1f6f8b" stroke-width="1.6"/>
+  <text x="678" y="948" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ขั้นอนุมัติที่เอกสารชุดเดิมไม่มี</text>
+
+  <text x="72" y="976" fill="#8a919e" font-size="10" font-family="'Sarabun',sans-serif">ไม่มีสถานะเปิดซ้ำแยกต่างหาก · การย้อนกลับคือการกลับไปยังสถานะเดิมของขั้นนั้น · สถานะเกินกำหนดเป็นค่าที่คำนวณ ไม่ใช่สถานะของใบ</text>
+</svg>
+
+  <footer>รูปที่ ข.3 · SRS โมดูลทะเบียนหลักฐาน การตรวจติดตาม ใบคำร้อง และแดชบอร์ด · SE02 Group B</footer>
+</div>
+</body>
+</html>
