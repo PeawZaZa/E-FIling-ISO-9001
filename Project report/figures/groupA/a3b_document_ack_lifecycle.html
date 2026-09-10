@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>วงจรของฉบับเอกสารและงานรับทราบ</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff; --paper-2:#f4f5f7;
+    --ink:#1f2430; --muted:#5b6472; --soft:#8a919e;
+    --rule:rgba(31,36,48,0.14);
+    --a:#0F766E; --tbd:#B45309;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:2.5rem 2rem;background:var(--paper);
+       font-family:'Sarabun',sans-serif;color:var(--ink);}
+  .wrap{max-width:1080px;margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 .4rem}
+  h1{font-family:'Sarabun',sans-serif;font-weight:600;font-size:1.5rem;margin:0 0 .3rem;line-height:1.35}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem;line-height:1.6}
+  svg{width:100%;height:auto;display:block}
+  footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);
+         font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.12em;
+         text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">SRS Appendix B.1 · Version &amp; Acknowledgement Lifecycle</p>
+  <h1>วงจรของฉบับเอกสารและงานรับทราบ</h1>
+  <p class="sub">แยกจากเส้นทางของคำขอในรูปก่อนหน้า เพราะเป็นวงจรของคนละสิ่ง ฉบับเอกสารเปลี่ยนสถานะเมื่อผู้คุมทะเบียนดำเนินการตามคำขอที่อนุมัติแล้ว ส่วนงานรับทราบเป็นงานแยกที่ผูกกับบุคคลและฉบับ ไม่ใช่เงื่อนไขปิดคำขอทุกประเภท</p>
+
+<svg viewBox="0 0 1000 700" role="img" aria-labelledby="a3b-title a3b-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="a3b-title">วงจรของฉบับเอกสารและงานรับทราบ</title>
+  <desc id="a3b-desc">แผนภาพสองแถบ แถบบนคือวงจรของฉบับเอกสาร เริ่มจากร่างที่ไม่กระทบฉบับใช้งาน ไปสู่ประกาศใช้เมื่อมีผลอนุมัติที่ตรงฉบับและผู้คุมทะเบียนดำเนินการ และไปสู่ยกเลิกใช้งานได้สองทาง คือถูกแทนด้วยฉบับใหม่ หรือยกเลิกตามคำขอที่อนุมัติโดยไม่มีฉบับแทน แถบล่างคือการรับทราบต่อฉบับ ซึ่งเริ่มจากการมอบหมายผู้รับทราบต่อฉบับที่ประกาศใช้ สถานะยังไม่รับทราบเปลี่ยนเป็นรับทราบแล้วเมื่อผู้ได้รับมอบหมายยืนยันด้วยตนเอง การเปิดอ่านหรือรับสำเนาไม่ถือเป็นการยืนยัน</desc>
+
+  <defs>
+    <marker id="a3b-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5b6472"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="700" fill="#ffffff"/>
+
+  <!-- ===== lane 1: ฉบับเอกสาร ===== -->
+  <rect x="32" y="56" width="936" height="216" rx="8" fill="rgba(31,36,48,0.02)" stroke="rgba(31,36,48,0.10)" stroke-width="0.8"/>
+  <rect x="48" y="60" width="88" height="14" rx="2" fill="#fbfbfb"/>
+  <text x="48" y="72" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LANE 01</text>
+  <text x="116" y="72" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ฉบับเอกสาร</text>
+
+  <!-- ===== lane 2: การรับทราบ ===== -->
+  <rect x="32" y="320" width="936" height="176" rx="8" fill="rgba(31,36,48,0.02)" stroke="rgba(31,36,48,0.10)" stroke-width="0.8"/>
+  <rect x="48" y="324" width="88" height="14" rx="2" fill="#fbfbfb"/>
+  <text x="48" y="336" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LANE 02</text>
+  <text x="116" y="336" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">การรับทราบต่อฉบับ</text>
+
+  <!-- ===== transitions ===== -->
+  <line x1="96" y1="168" x2="112" y2="168" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3b-arrow)"/>
+  <line x1="288" y1="168" x2="400" y2="168" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3b-arrow)"/>
+  <line x1="576" y1="168" x2="712" y2="168" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3b-arrow)"/>
+  <line x1="888" y1="168" x2="912" y2="168" stroke="#5b6472" stroke-width="1.2"/>
+
+  <!-- ยกเลิกตามคำขอที่อนุมัติ โดยไม่มีฉบับแทน -->
+  <path d="M 488,200 V 216 Q 488,224 496,224 H 792 Q 800,224 800,216 V 204"
+        fill="none" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3b-arrow)"/>
+
+  <!-- ประกาศใช้ → มอบหมายผู้รับทราบ -->
+  <line x1="440" y1="200" x2="440" y2="384" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3b-arrow)"/>
+
+  <!-- ยังไม่รับทราบ → รับทราบแล้ว -->
+  <line x1="576" y1="416" x2="712" y2="416" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3b-arrow)"/>
+
+  <!-- ===== transition labels ===== -->
+  <rect x="296" y="142" width="96" height="16" rx="2" fill="#fbfbfb"/>
+  <text x="344" y="154" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">DCC ประกาศใช้</text>
+
+  <rect x="584" y="142" width="120" height="16" rx="2" fill="#fbfbfb"/>
+  <text x="644" y="154" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ถูกแทนด้วยฉบับใหม่</text>
+
+  <rect x="512" y="234" width="264" height="16" rx="2" fill="#fbfbfb"/>
+  <text x="644" y="246" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ยกเลิกตามคำขอที่อนุมัติ โดยไม่มีฉบับแทน · UC-A-07</text>
+
+  <rect x="452" y="284" width="240" height="16" rx="2" fill="#ffffff"/>
+  <text x="456" y="296" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">มอบหมายผู้รับทราบต่อฉบับ · UC-A-09</text>
+
+  <rect x="592" y="390" width="120" height="16" rx="2" fill="#fbfbfb"/>
+  <text x="652" y="402" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ยืนยันด้วยตนเอง</text>
+
+  <!-- ===== start / end ===== -->
+  <circle cx="88" cy="168" r="6" fill="#1f2430"/>
+  <circle cx="920" cy="168" r="8" fill="none" stroke="#1f2430" stroke-width="1.2"/>
+  <circle cx="920" cy="168" r="4" fill="#1f2430"/>
+
+  <!-- ===== states lane 1 ===== -->
+  <rect x="112" y="136" width="176" height="64" rx="8" fill="#ffffff"/>
+  <rect x="112" y="136" width="176" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="200" y="164" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ร่าง</text>
+  <text x="200" y="184" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ไม่กระทบฉบับใช้งาน · UC-A-01</text>
+
+  <rect x="400" y="136" width="176" height="64" rx="8" fill="#ffffff"/>
+  <rect x="400" y="136" width="176" height="64" rx="8" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="488" y="164" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ประกาศใช้</text>
+  <text x="488" y="184" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ฉบับปัจจุบัน · UC-A-06</text>
+
+  <rect x="712" y="136" width="176" height="64" rx="8" fill="#ffffff"/>
+  <rect x="712" y="136" width="176" height="64" rx="8" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="800" y="164" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ยกเลิกใช้งาน</text>
+  <text x="800" y="184" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">เก็บประวัติไว้ ไม่ลบรายการ</text>
+
+  <!-- ===== states lane 2 ===== -->
+  <rect x="400" y="384" width="176" height="64" rx="8" fill="#ffffff"/>
+  <rect x="400" y="384" width="176" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="488" y="412" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ยังไม่รับทราบ</text>
+  <text x="488" y="432" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">มอบหมายแล้ว รายบุคคลต่อฉบับ</text>
+
+  <rect x="712" y="384" width="176" height="64" rx="8" fill="#ffffff"/>
+  <rect x="712" y="384" width="176" height="64" rx="8" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="800" y="412" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">รับทราบแล้ว</text>
+  <text x="800" y="432" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">เก็บผู้ยืนยัน เวลา และฉบับ</text>
+
+  <!-- ===== note ใน lane 2 ===== -->
+  <rect x="64" y="368" width="288" height="96" rx="6" fill="#ffffff"/>
+  <rect x="64" y="368" width="288" height="96" rx="6" fill="rgba(31,36,48,0.03)" stroke="rgba(31,36,48,0.20)" stroke-width="1"/>
+  <text x="80" y="392" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">การรับทราบเป็นงานแยก</text>
+  <text x="80" y="412" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">การเปิดอ่านหรือรับสำเนาไม่ถือว่ารับทราบ</text>
+  <text x="80" y="428" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ต้องมีคำยืนยันของบุคคลนั้นเอง (BR-A-07)</text>
+  <text x="80" y="450" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">มอบหมายและผลแยกต่อฉบับ ไม่ใช่ต่อรหัสเอกสาร</text>
+
+  <!-- ===== notes ===== -->
+  <rect x="32" y="528" width="456" height="80" rx="6" fill="#ffffff"/>
+  <rect x="32" y="528" width="456" height="80" rx="6" fill="rgba(31,36,48,0.03)" stroke="rgba(31,36,48,0.20)" stroke-width="1"/>
+  <text x="48" y="550" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">ข้อกำหนดที่ภาพนี้บังคับไว้</text>
+  <text x="48" y="570" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">รหัสเอกสารหนึ่งรหัสมีฉบับปัจจุบันได้ไม่เกินหนึ่งฉบับ (BR-A-01)</text>
+  <text x="48" y="586" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ยกเลิกโดยไม่มีฉบับแทนได้ จึงเหลือศูนย์ฉบับปัจจุบันได้ (UC-A-07)</text>
+  <text x="48" y="602" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ประกาศฉบับใหม่ไม่เปลี่ยนการอ้างอิงฉบับเดิม (BR-A-10)</text>
+
+  <rect x="512" y="528" width="456" height="80" rx="6" fill="#ffffff"/>
+  <rect x="512" y="528" width="456" height="80" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="528" y="550" fill="#B45309" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">ส่วนที่ยังรอยืนยัน</text>
+  <text x="528" y="570" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">กฎเพิ่มฉบับที่ แก้ไขครั้งที่ และวันที่มีผลใช้ (TBD-A-05)</text>
+  <text x="528" y="586" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">การรอประกาศใช้วันที่อนาคต ยังไม่กำหนดเป็นสถานะ (TBD-A-13)</text>
+  <text x="528" y="602" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ฉบับถูกแทนขณะรับทราบ ผลเก่าไม่ย้ายไปฉบับใหม่ (TBD-A-06)</text>
+
+  <!-- ===== legend ===== -->
+  <line x1="32" y1="640" x2="968" y2="640" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="32" y="660" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <rect x="112" y="650" width="14" height="12" rx="2" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="134" y="660" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">สถานะระหว่างทาง</text>
+
+  <rect x="288" y="650" width="14" height="12" rx="2" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="310" y="660" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ฉบับที่มีผลใช้งาน / ผลยืนยันที่ได้แล้ว</text>
+
+  <rect x="576" y="650" width="14" height="12" rx="2" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="598" y="660" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ฉบับที่ไม่ใช้งานแล้วแต่ยังสอบกลับได้</text>
+
+  <circle cx="856" cy="656" r="5" fill="#1f2430"/>
+  <text x="870" y="660" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">จุดเริ่ม / จุดสิ้นสุด</text>
+</svg>
+
+  <footer>รูปที่ ข.2 · GroupA_SRS_v2.md ภาคผนวก ข.1 · Case X (A) — โมดูลควบคุมเอกสาร · Working Draft</footer>
+</div>
+</body>
+</html>

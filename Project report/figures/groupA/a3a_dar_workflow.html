@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เส้นทางของคำขอดำเนินการเอกสาร</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff; --paper-2:#f4f5f7;
+    --ink:#1f2430; --muted:#5b6472; --soft:#8a919e;
+    --rule:rgba(31,36,48,0.14);
+    --a:#0F766E; --tbd:#B45309;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:2.5rem 2rem;background:var(--paper);
+       font-family:'Sarabun',sans-serif;color:var(--ink);}
+  .wrap{max-width:1080px;margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 .4rem}
+  h1{font-family:'Sarabun',sans-serif;font-weight:600;font-size:1.5rem;margin:0 0 .3rem;line-height:1.35}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem;line-height:1.6}
+  svg{width:100%;height:auto;display:block}
+  footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);
+         font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.12em;
+         text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">SRS Appendix B.1 · DAR Workflow</p>
+  <h1>เส้นทางของคำขอดำเนินการเอกสาร</h1>
+  <p class="sub">แสดงเส้นทางของคำขอเท่านั้น ไม่รวมวงจรของฉบับเอกสารและงานรับทราบซึ่งอยู่ในรูปถัดไป ชื่อสถานะใช้ภาษาไทยตามตารางความหมายสถานะในภาคผนวก ข.4 เส้นประสีส้มคือเส้นทางที่ยังไม่ได้ข้อสรุป จึงไม่เชื่อมกลับเข้าขั้นใดขั้นหนึ่งเพื่อทำให้ภาพครบ</p>
+
+<svg viewBox="0 0 1000 720" role="img" aria-labelledby="a3a-title a3a-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="a3a-title">เส้นทางของคำขอดำเนินการเอกสาร</title>
+  <desc id="a3a-desc">แผนภาพเส้นทางของคำขอดำเนินการเอกสาร เริ่มจากร่างคำขอโดยผู้ขอ ส่งเข้าสู่การรอตรวจรับโดยผู้คุมทะเบียน แล้วรอทบทวนตามประเภทเอกสาร และรอพิจารณาอนุมัติ ผลอาจเป็นอนุมัติแล้วซึ่งนำไปสู่การดำเนินงานตามประเภทคำขอและปิดคำขอเมื่องานและหลักฐานครบ หรือไม่อนุมัติซึ่งไม่เปลี่ยนฉบับปัจจุบันและไม่ปิดคำขอเอง ทั้งการตรวจรับและการทบทวนสามารถให้แก้ไขพร้อมเหตุผล โดยขั้นที่คำขอกลับเข้ากระบวนการหลังแก้ไขยังไม่ได้ข้อสรุป</desc>
+
+  <defs>
+    <marker id="a3a-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5b6472"/>
+    </marker>
+    <marker id="a3a-arrow-tbd" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#B45309"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="720" fill="#ffffff"/>
+
+  <!-- ===== transitions (drawn before boxes) ===== -->
+  <line x1="80" y1="144" x2="96" y2="144" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <line x1="232" y1="144" x2="320" y2="144" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <line x1="456" y1="144" x2="544" y2="144" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <line x1="680" y1="144" x2="768" y2="144" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+
+  <!-- รอตรวจรับ → ให้แก้ไข -->
+  <path d="M 388,176 V 216 Q 388,224 396,224 H 412 Q 420,224 420,232 V 272"
+        fill="none" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <!-- รอทบทวน → ให้แก้ไข -->
+  <path d="M 612,176 V 216 Q 612,224 604,224 H 492 Q 484,224 484,232 V 272"
+        fill="none" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <!-- รอพิจารณาอนุมัติ → อนุมัติแล้ว -->
+  <path d="M 800,176 V 216 Q 800,224 792,224 H 652 Q 644,224 644,232 V 272"
+        fill="none" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <!-- รอพิจารณาอนุมัติ → ไม่อนุมัติ -->
+  <line x1="856" y1="176" x2="856" y2="272" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <!-- อนุมัติแล้ว → ดำเนินงานตามประเภทคำขอ -->
+  <line x1="644" y1="336" x2="644" y2="432" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <!-- ดำเนินงาน → ปิดคำขอแล้ว -->
+  <line x1="560" y1="464" x2="456" y2="464" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a3a-arrow)"/>
+  <!-- ปิดคำขอแล้ว → end -->
+  <line x1="320" y1="464" x2="280" y2="464" stroke="#5b6472" stroke-width="1.2"/>
+  <!-- ให้แก้ไข → ขั้นที่กลับเข้ารอยืนยัน -->
+  <line x1="384" y1="304" x2="280" y2="304" stroke="#B45309" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#a3a-arrow-tbd)"/>
+
+  <!-- ===== transition labels ===== -->
+  <rect x="240" y="118" width="72" height="16" rx="2" fill="#ffffff"/>
+  <text x="276" y="130" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ส่งคำขอ</text>
+
+  <rect x="464" y="118" width="72" height="16" rx="2" fill="#ffffff"/>
+  <text x="500" y="130" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ข้อมูลครบ</text>
+
+  <rect x="688" y="118" width="72" height="16" rx="2" fill="#ffffff"/>
+  <text x="724" y="130" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ผ่านทบทวน</text>
+
+  <rect x="288" y="196" width="88" height="16" rx="2" fill="#ffffff"/>
+  <text x="332" y="208" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ขาดข้อมูล</text>
+
+  <rect x="504" y="196" width="88" height="16" rx="2" fill="#ffffff"/>
+  <text x="548" y="208" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">มีความเห็นให้แก้</text>
+
+  <rect x="672" y="196" width="112" height="16" rx="2" fill="#ffffff"/>
+  <text x="728" y="208" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">อนุมัติตามอำนาจ</text>
+
+  <rect x="864" y="216" width="96" height="16" rx="2" fill="#ffffff"/>
+  <text x="868" y="228" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ไม่อนุมัติ</text>
+
+  <rect x="656" y="376" width="152" height="16" rx="2" fill="#ffffff"/>
+  <text x="660" y="388" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">DCC ดำเนินงานหลังอนุมัติ</text>
+
+  <rect x="464" y="438" width="88" height="16" rx="2" fill="#ffffff"/>
+  <text x="508" y="450" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">งานและหลักฐานครบ</text>
+
+  <rect x="288" y="278" width="88" height="16" rx="2" fill="#ffffff"/>
+  <text x="332" y="290" fill="#B45309" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">แก้ไขแล้วส่งกลับ</text>
+
+  <!-- ===== start / end ===== -->
+  <circle cx="72" cy="144" r="6" fill="#1f2430"/>
+  <circle cx="264" cy="464" r="8" fill="none" stroke="#1f2430" stroke-width="1.2"/>
+  <circle cx="264" cy="464" r="4" fill="#1f2430"/>
+
+  <!-- ===== states row 1 ===== -->
+  <rect x="96" y="112" width="136" height="64" rx="8" fill="#ffffff"/>
+  <rect x="96" y="112" width="136" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="164" y="140" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ร่างคำขอ</text>
+  <text x="164" y="160" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้ขอที่มีสิทธิ์</text>
+
+  <rect x="320" y="112" width="136" height="64" rx="8" fill="#ffffff"/>
+  <rect x="320" y="112" width="136" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="388" y="140" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">รอตรวจรับ</text>
+  <text x="388" y="160" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้คุมทะเบียน</text>
+
+  <rect x="544" y="112" width="136" height="64" rx="8" fill="#ffffff"/>
+  <rect x="544" y="112" width="136" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="612" y="140" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">รอทบทวน</text>
+  <text x="612" y="160" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้ทบทวนตามประเภท</text>
+
+  <rect x="768" y="112" width="136" height="64" rx="8" fill="#ffffff"/>
+  <rect x="768" y="112" width="136" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="836" y="140" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">รอพิจารณาอนุมัติ</text>
+  <text x="836" y="160" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้อนุมัติตามอำนาจ</text>
+
+  <!-- ===== states row 2 ===== -->
+  <rect x="96" y="272" width="184" height="64" rx="8" fill="#ffffff"/>
+  <rect x="96" y="272" width="184" height="64" rx="8" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="188" y="298" fill="#B45309" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ขั้นที่กลับเข้ายังไม่ยืนยัน</text>
+  <text x="188" y="318" fill="#B45309" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">TBD-A-02 · 06 · 13</text>
+
+  <rect x="384" y="272" width="136" height="64" rx="8" fill="#ffffff"/>
+  <rect x="384" y="272" width="136" height="64" rx="8" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="452" y="300" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ให้แก้ไข</text>
+  <text x="452" y="320" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ต้องระบุเหตุผล</text>
+
+  <rect x="576" y="272" width="136" height="64" rx="8" fill="#ffffff"/>
+  <rect x="576" y="272" width="136" height="64" rx="8" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="644" y="300" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">อนุมัติแล้ว</text>
+  <text x="644" y="320" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ยังไม่ประกาศใช้ ยังไม่ปิด</text>
+
+  <rect x="768" y="272" width="176" height="112" rx="8" fill="#ffffff"/>
+  <rect x="768" y="272" width="176" height="112" rx="8" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="856" y="300" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ไม่อนุมัติ</text>
+  <text x="856" y="322" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ไม่เปลี่ยนฉบับปัจจุบัน</text>
+  <text x="856" y="340" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">และไม่ปิดคำขอเอง</text>
+  <text x="856" y="364" fill="#B45309" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">สิ้นสุด/ยื่นใหม่ · TBD-A-13</text>
+
+  <!-- ===== states row 3 ===== -->
+  <rect x="560" y="432" width="176" height="64" rx="8" fill="#ffffff"/>
+  <rect x="560" y="432" width="176" height="64" rx="8" fill="rgba(31,36,48,0.03)" stroke="#5b6472" stroke-width="1"/>
+  <text x="648" y="460" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ดำเนินงานตามประเภทคำขอ</text>
+  <text x="648" y="480" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ประกาศใช้ หรือ ยกเลิกใช้งาน</text>
+
+  <rect x="320" y="432" width="136" height="64" rx="8" fill="#ffffff"/>
+  <rect x="320" y="432" width="136" height="64" rx="8" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="388" y="460" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ปิดคำขอแล้ว</text>
+  <text x="388" y="480" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">มีผู้ปิดและวันที่</text>
+
+  <!-- ===== notes ===== -->
+  <rect x="32" y="544" width="456" height="80" rx="6" fill="#ffffff"/>
+  <rect x="32" y="544" width="456" height="80" rx="6" fill="rgba(31,36,48,0.03)" stroke="rgba(31,36,48,0.20)" stroke-width="1"/>
+  <text x="48" y="566" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">ข้อกำหนดที่ภาพนี้บังคับไว้</text>
+  <text x="48" y="586" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">การอนุมัติคำขอไม่เท่ากับการปิดคำขอ (BR-A-08)</text>
+  <text x="48" y="602" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">“พร้อมปิด” เป็นผลตรวจตามประเภทคำขอ ไม่ใช่สถานะหลัก</text>
+  <text x="48" y="618" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">งานรับทราบไม่เป็นเงื่อนไขปิดคำขอทุกประเภท</text>
+
+  <rect x="512" y="544" width="456" height="80" rx="6" fill="#ffffff"/>
+  <rect x="512" y="544" width="456" height="80" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="528" y="566" fill="#B45309" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">ส่วนที่ยังรอยืนยัน</text>
+  <text x="528" y="586" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ประเภทคำขอและงานที่ต้องทำต่อประเภท (TBD-A-01, TBD-A-03)</text>
+  <text x="528" y="602" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">อำนาจทบทวนและอนุมัติตามประเภทเอกสาร (TBD-A-02, TBD-A-06)</text>
+  <text x="528" y="618" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">รหัสสถานะภายในยังเป็น Provisional (TBD-A-13)</text>
+
+  <!-- ===== legend ===== -->
+  <line x1="32" y1="656" x2="968" y2="656" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="32" y="676" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <rect x="112" y="666" width="14" height="12" rx="2" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="134" y="676" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">สถานะของคำขอ</text>
+
+  <rect x="272" y="666" width="14" height="12" rx="2" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="294" y="676" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผลตัดสินและการปิดงาน</text>
+
+  <rect x="472" y="666" width="14" height="12" rx="2" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="494" y="676" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ประเด็นรอยืนยัน</text>
+
+  <line x1="648" y1="672" x2="684" y2="672" stroke="#B45309" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#a3a-arrow-tbd)"/>
+  <text x="694" y="676" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เส้นทางที่ยังไม่ได้ข้อสรุป</text>
+
+  <circle cx="880" cy="672" r="5" fill="#1f2430"/>
+  <text x="894" y="676" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">จุดเริ่ม / จุดสิ้นสุด</text>
+</svg>
+
+  <footer>รูปที่ ข.1 · GroupA_SRS_v2.md ภาคผนวก ข.1 · Case X (A) — โมดูลควบคุมเอกสาร · Working Draft</footer>
+</div>
+</body>
+</html>

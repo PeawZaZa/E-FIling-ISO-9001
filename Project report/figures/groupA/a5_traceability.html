@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ภาพรวมการสอบกลับของโมดูลควบคุมเอกสาร</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff; --paper-2:#f4f5f7;
+    --ink:#1f2430; --muted:#5b6472; --soft:#8a919e;
+    --rule:rgba(31,36,48,0.14);
+    --a:#0F766E; --shared:#2563EB; --tbd:#B45309;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:2.5rem 2rem;background:var(--paper);
+       font-family:'Sarabun',sans-serif;color:var(--ink);}
+  .wrap{max-width:1080px;margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 .4rem}
+  h1{font-family:'Sarabun',sans-serif;font-weight:600;font-size:1.5rem;margin:0 0 .3rem;line-height:1.35}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem;line-height:1.6}
+  svg{width:100%;height:auto;display:block}
+  footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);
+         font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.12em;
+         text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">SRS Appendix E · Traceability Overview</p>
+  <h1>ภาพรวมการสอบกลับของโมดูลควบคุมเอกสาร</h1>
+  <p class="sub">แต่ละแถวคือสายการสอบกลับหนึ่งสาย จากหลักฐานต้นทางไปยังข้อกำหนด กรณีการใช้งาน เกณฑ์การยอมรับ และองค์ประกอบแบบจำลอง จัดกลุ่มตามความสามารถใน §2.2.1 เพื่อให้อ่านภาพรวมได้ รายการสอบกลับรายข้ออยู่ในตารางภาคผนวก จ.1 และ จ.2 ซึ่งเป็นแหล่งอ้างอิงจริง</p>
+
+<svg viewBox="0 0 1000 784" role="img" aria-labelledby="a5-title a5-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="a5-title">ภาพรวมการสอบกลับของโมดูลควบคุมเอกสาร</title>
+  <desc id="a5-desc">แผนภาพภาพรวมการสอบกลับ จัดเป็นหกแถว ห้าแถวแรกคือกลุ่มความสามารถตั้งแต่การเตรียมเอกสารและคำขอ การทบทวนและอนุมัติ การควบคุมทะเบียนและฉบับใช้งาน การเข้าถึงและรับทราบ จนถึงการติดตามและปิดคำขอ แถวสุดท้ายคือพฤติกรรมที่ใช้ร่วมทุกกลุ่ม แต่ละแถวไล่จากหลักฐานต้นทางรหัส REF ไปยังข้อกำหนดรหัส FR และ BR แล้วไปยังกรณีการใช้งานรหัส UC เกณฑ์การยอมรับรหัส AC และองค์ประกอบแบบจำลองรหัส M ตามลำดับ</desc>
+
+  <defs>
+    <marker id="a5-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#8a919e"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="784" fill="#ffffff"/>
+
+  <!-- ===== column headers ===== -->
+  <line x1="200" y1="120" x2="936" y2="120" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="264" y="108" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">หลักฐานต้นทาง</text>
+  <text x="416" y="108" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ข้อกำหนด</text>
+  <text x="568" y="108" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">กรณีการใช้งาน</text>
+  <text x="720" y="108" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">เกณฑ์การยอมรับ</text>
+  <text x="872" y="108" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">องค์ประกอบแบบจำลอง</text>
+  <text x="32" y="108" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">GROUP</text>
+
+  <!-- ===== chain arrows (drawn before cells) ===== -->
+  <line x1="328" y1="168" x2="352" y2="168" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="480" y1="168" x2="504" y2="168" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="632" y1="168" x2="656" y2="168" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="784" y1="168" x2="808" y2="168" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+
+  <line x1="328" y1="248" x2="352" y2="248" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="480" y1="248" x2="504" y2="248" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="632" y1="248" x2="656" y2="248" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="784" y1="248" x2="808" y2="248" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+
+  <line x1="328" y1="328" x2="352" y2="328" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="480" y1="328" x2="504" y2="328" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="632" y1="328" x2="656" y2="328" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="784" y1="328" x2="808" y2="328" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+
+  <line x1="328" y1="408" x2="352" y2="408" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="480" y1="408" x2="504" y2="408" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="632" y1="408" x2="656" y2="408" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="784" y1="408" x2="808" y2="408" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+
+  <line x1="328" y1="488" x2="352" y2="488" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="480" y1="488" x2="504" y2="488" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="632" y1="488" x2="656" y2="488" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="784" y1="488" x2="808" y2="488" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+
+  <line x1="328" y1="568" x2="352" y2="568" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="480" y1="568" x2="504" y2="568" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="632" y1="568" x2="656" y2="568" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <line x1="784" y1="568" x2="808" y2="568" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+
+  <!-- ===== row 1 : CAP-A-01 ===== -->
+  <rect x="32" y="136" width="152" height="64" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="108" y="162" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">เตรียมเอกสารและคำขอ</text>
+  <text x="108" y="182" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-01</text>
+
+  <rect x="200" y="136" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="264" y="162" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-03 · 05–07</text>
+  <text x="264" y="180" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-11–12</text>
+
+  <rect x="352" y="136" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="416" y="162" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-01–06</text>
+  <text x="416" y="180" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">BR-A-01</text>
+
+  <rect x="504" y="136" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="568" y="172" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-01–03</text>
+
+  <rect x="656" y="136" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="720" y="172" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">AC-A-01–04</text>
+
+  <rect x="808" y="136" width="128" height="64" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="872" y="172" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">M-A-01–04</text>
+
+  <!-- ===== row 2 : CAP-A-02 ===== -->
+  <rect x="32" y="216" width="152" height="64" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="108" y="242" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ทบทวนและอนุมัติ</text>
+  <text x="108" y="262" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-02</text>
+
+  <rect x="200" y="216" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="264" y="242" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-05–06</text>
+  <text x="264" y="262" fill="#5b6472" font-size="9" font-family="'Sarabun',sans-serif" text-anchor="middle">มติแยกทบทวน/อนุมัติ</text>
+
+  <rect x="352" y="216" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="416" y="242" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-07–08</text>
+  <text x="416" y="260" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">BR-A-03–04</text>
+
+  <rect x="504" y="216" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="568" y="252" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-04–05</text>
+
+  <rect x="656" y="216" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="720" y="252" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">AC-A-05–07</text>
+
+  <rect x="808" y="216" width="128" height="64" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="872" y="252" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">M-A-04</text>
+
+  <!-- ===== row 3 : CAP-A-03 ===== -->
+  <rect x="32" y="296" width="152" height="64" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="108" y="322" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ควบคุมทะเบียนและฉบับ</text>
+  <text x="108" y="342" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-03</text>
+
+  <rect x="200" y="296" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="264" y="322" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-05 · 07</text>
+  <text x="264" y="340" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-11</text>
+
+  <rect x="352" y="296" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="416" y="322" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-09–11 · 17</text>
+  <text x="416" y="340" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">BR-A-01–02 · 06</text>
+
+  <rect x="504" y="296" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="568" y="332" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-06–07</text>
+
+  <rect x="656" y="296" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="720" y="332" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">AC-A-08–09</text>
+
+  <rect x="808" y="296" width="128" height="64" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="872" y="332" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">M-A-02 · M-A-07</text>
+
+  <!-- ===== row 4 : CAP-A-04 ===== -->
+  <rect x="32" y="376" width="152" height="64" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="108" y="402" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">เข้าถึงและรับทราบ</text>
+  <text x="108" y="422" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-04</text>
+
+  <rect x="200" y="376" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="264" y="402" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-03</text>
+  <text x="264" y="420" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-11–12</text>
+
+  <rect x="352" y="376" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="416" y="402" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-03 · 12–14</text>
+  <text x="416" y="420" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">BR-A-05 · BR-A-07</text>
+
+  <rect x="504" y="376" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="568" y="412" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-08–10</text>
+
+  <rect x="656" y="376" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="720" y="412" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">AC-A-10–12</text>
+
+  <rect x="808" y="376" width="128" height="64" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="872" y="412" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">M-A-02 · M-A-05</text>
+
+  <!-- ===== row 5 : CAP-A-05 ===== -->
+  <rect x="32" y="456" width="152" height="64" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="108" y="482" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ติดตามและปิดคำขอ</text>
+  <text x="108" y="502" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-05</text>
+
+  <rect x="200" y="456" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="264" y="482" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-06</text>
+  <text x="264" y="500" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-11</text>
+
+  <rect x="352" y="456" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="416" y="482" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-05 · 15–17</text>
+  <text x="416" y="500" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">BR-A-08</text>
+
+  <rect x="504" y="456" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="568" y="492" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-11–12</text>
+
+  <rect x="656" y="456" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="720" y="492" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">AC-A-13–14</text>
+
+  <rect x="808" y="456" width="128" height="64" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="872" y="492" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">M-A-03 · 06 · 07</text>
+
+  <!-- ===== row 6 : พฤติกรรมร่วม ===== -->
+  <rect x="32" y="536" width="152" height="64" rx="6" fill="rgba(37,99,235,0.06)" stroke="#2563EB" stroke-width="1"/>
+  <text x="108" y="562" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ใช้ร่วมทุกกลุ่ม</text>
+  <text x="108" y="582" fill="#2563EB" font-size="9" font-family="'Sarabun',sans-serif" text-anchor="middle">สิทธิ์ · ประวัติ · ข้อมูลร่วม</text>
+
+  <rect x="200" y="536" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="264" y="562" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">REF-A-03 · 06 · 11</text>
+  <text x="264" y="582" fill="#5b6472" font-size="9" font-family="'Sarabun',sans-serif" text-anchor="middle">มติสิทธิ์และระบบเดียว</text>
+
+  <rect x="352" y="536" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="416" y="562" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-18–20</text>
+  <text x="416" y="580" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">BR-A-09–10 · NFR-A-01</text>
+
+  <rect x="504" y="536" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="568" y="562" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-01–12</text>
+  <text x="568" y="580" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">§4.13</text>
+
+  <rect x="656" y="536" width="128" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="720" y="572" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">AC-A-15–16</text>
+
+  <rect x="808" y="536" width="128" height="64" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="872" y="572" fill="#1f2430" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">M-A-07 · 08 · 09</text>
+
+  <!-- ===== notes ===== -->
+  <rect x="32" y="632" width="456" height="72" rx="6" fill="rgba(31,36,48,0.03)" stroke="rgba(31,36,48,0.20)" stroke-width="1"/>
+  <text x="48" y="654" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">วิธีอ่านภาพนี้</text>
+  <text x="48" y="674" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เป็นภาพรวมระดับกลุ่ม รายการรายข้ออยู่ในตาราง จ.1 และ จ.2</text>
+  <text x="48" y="692" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">รหัสทุกตัวมาจากตารางในเอกสาร ไม่ได้เพิ่มรหัสตามจำนวนกล่อง</text>
+
+  <rect x="512" y="632" width="456" height="72" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="528" y="654" fill="#B45309" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">ข้อจำกัดของการสอบกลับชุดนี้</text>
+  <text x="528" y="674" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">AC ทุกข้อเป็นแผนทวนสอบ ยังไม่ได้ทดสอบระบบจริง</text>
+  <text x="528" y="692" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">แถวที่พึ่งประเด็นเปิดยังใช้ตัดสินผ่านไม่ได้ (ภาคผนวก ค)</text>
+
+  <!-- ===== legend ===== -->
+  <line x1="32" y1="736" x2="968" y2="736" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="32" y="756" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <rect x="112" y="746" width="14" height="12" rx="2" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="134" y="756" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">กลุ่มความสามารถ</text>
+
+  <rect x="288" y="746" width="14" height="12" rx="2" fill="rgba(37,99,235,0.06)" stroke="#2563EB" stroke-width="1"/>
+  <text x="310" y="756" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">พฤติกรรมที่ใช้ร่วมทุกกลุ่ม</text>
+
+  <rect x="504" y="746" width="14" height="12" rx="2" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="526" y="756" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ปลายทางของสายการสอบกลับ</text>
+
+  <line x1="744" y1="752" x2="780" y2="752" stroke="#8a919e" stroke-width="1" marker-end="url(#a5-arrow)"/>
+  <text x="790" y="756" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ทิศทางการสอบกลับไปข้างหน้า</text>
+</svg>
+
+  <footer>รูปที่ จ.1 · GroupA_SRS_v2.md ภาคผนวก จ · Case X (A) — โมดูลควบคุมเอกสาร · Working Draft</footer>
+</div>
+</body>
+</html>

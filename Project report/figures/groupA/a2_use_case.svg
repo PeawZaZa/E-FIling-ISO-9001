@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 1084" role="img" aria-labelledby="a2-title a2-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="a2-title">กรณีการใช้งานของโมดูลควบคุมเอกสาร</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap');</style>
+  </defs>
+  <desc id="a2-desc">แผนภาพกรณีการใช้งานแสดงขอบเขตโมดูลควบคุมเอกสารซึ่งบรรจุกรณีการใช้งานสิบสองรายการ ตั้งแต่การจัดทำร่างเอกสาร การส่งและตรวจรับคำขอดำเนินการเอกสาร การทบทวน การอนุมัติ การขึ้นทะเบียนประกาศใช้ การยกเลิกใช้งาน การค้นหา การมอบหมายและยืนยันรับทราบ การติดตามคำขอ จนถึงการตรวจครบถ้วนก่อนปิดคำขอ ผู้ทำการทางซ้ายคือเจ้าของเอกสาร ผู้ทบทวนตามการมอบหมาย ผู้อนุมัติตามการมอบหมาย และผู้มีสิทธิ์อ่าน ผู้ทำการทางขวาคือผู้คุมทะเบียนเอกสาร ผู้ได้รับมอบหมายรับทราบ และผู้เกี่ยวข้องตามสิทธิ์ เส้นประหมายถึงการเข้าถึงตามขอบเขตสิทธิ์อ่าน และกรอบสีส้มระบุอำนาจที่ยังรอยืนยัน</desc>
+
+  <rect width="1000" height="1084" fill="#ffffff"/>
+
+  <!-- ===== ขอบเขตระบบ ===== -->
+  <rect x="344" y="56" width="312" height="940" rx="8" fill="rgba(15,118,110,0.05)" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="500" y="80" fill="#0F766E" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">โมดูลควบคุมเอกสาร</text>
+
+  <!-- ===== associations (drawn before boxes) ===== -->
+  <!-- เจ้าของเอกสาร: spine x=304 -->
+  <line x1="304" y1="130" x2="304" y2="850" stroke="#5b6472" stroke-width="1"/>
+  <line x1="280" y1="130" x2="368" y2="130" stroke="#5b6472" stroke-width="1"/>
+  <line x1="304" y1="202" x2="368" y2="202" stroke="#5b6472" stroke-width="1"/>
+  <line x1="304" y1="622" x2="368" y2="622" stroke="#5b6472" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="304" y1="850" x2="368" y2="850" stroke="#5b6472" stroke-width="1"/>
+
+  <!-- ผู้คุมทะเบียน (DCC): spine x=696 -->
+  <line x1="696" y1="274" x2="696" y2="922" stroke="#5b6472" stroke-width="1"/>
+  <line x1="720" y1="274" x2="632" y2="274" stroke="#5b6472" stroke-width="1"/>
+  <line x1="696" y1="490" x2="632" y2="490" stroke="#5b6472" stroke-width="1"/>
+  <line x1="696" y1="562" x2="632" y2="562" stroke="#5b6472" stroke-width="1"/>
+  <line x1="696" y1="634" x2="632" y2="634" stroke="#5b6472" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="696" y1="706" x2="632" y2="706" stroke="#5b6472" stroke-width="1"/>
+  <line x1="696" y1="838" x2="632" y2="838" stroke="#5b6472" stroke-width="1"/>
+  <line x1="696" y1="922" x2="632" y2="922" stroke="#5b6472" stroke-width="1"/>
+
+  <!-- ผู้ทบทวน → UC-A-04 (hop over spine) -->
+  <path d="M 280,346 H 296 a 8,8 0 0,1 16,0 H 368" fill="none" stroke="#5b6472" stroke-width="1"/>
+  <!-- ผู้อนุมัติ → UC-A-05 (hop over spine) -->
+  <path d="M 280,418 H 296 a 8,8 0 0,1 16,0 H 368" fill="none" stroke="#5b6472" stroke-width="1"/>
+  <!-- ผู้มีสิทธิ์อ่าน → UC-A-08 (hop over spine) -->
+  <path d="M 280,646 H 296 a 8,8 0 0,1 16,0 H 368" fill="none" stroke="#5b6472" stroke-width="1"/>
+  <!-- ผู้ได้รับมอบหมายรับทราบ → UC-A-10 (hop over spine) -->
+  <path d="M 720,778 H 704 a 8,8 0 0,0 -16,0 H 632" fill="none" stroke="#5b6472" stroke-width="1"/>
+  <!-- ผู้เกี่ยวข้องตามสิทธิ์ → UC-A-11 (hop over spine) -->
+  <path d="M 720,862 H 704 a 8,8 0 0,0 -16,0 H 632" fill="none" stroke="#5b6472" stroke-width="1"/>
+
+  <!-- ===== use cases ===== -->
+  <rect x="368" y="104" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="104" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="126" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">จัดทำและแก้ไขร่างเอกสาร</text>
+  <text x="500" y="144" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-01</text>
+
+  <rect x="368" y="176" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="176" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="198" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">จัดทำและส่งคำขอ DAR</text>
+  <text x="500" y="216" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-02</text>
+
+  <rect x="368" y="248" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="248" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="270" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ตรวจรับคำขอ DAR</text>
+  <text x="500" y="288" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-03</text>
+
+  <rect x="368" y="320" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="320" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="342" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ทบทวนเอกสารและคำขอ</text>
+  <text x="500" y="360" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-04</text>
+
+  <rect x="368" y="392" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="392" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="414" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">พิจารณาอนุมัติคำขอ</text>
+  <text x="500" y="432" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-05</text>
+
+  <rect x="368" y="464" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="464" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="486" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ขึ้นทะเบียนและประกาศใช้เอกสาร</text>
+  <text x="500" y="504" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-06</text>
+
+  <rect x="368" y="536" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="536" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="558" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ยกเลิกการใช้งานเอกสารตามคำขอ</text>
+  <text x="500" y="576" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-07</text>
+
+  <rect x="368" y="608" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="608" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="630" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ค้นหาและเข้าถึงเอกสาร</text>
+  <text x="500" y="648" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-08</text>
+
+  <rect x="368" y="680" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="680" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="702" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">กำหนดผู้รับทราบและติดตามผล</text>
+  <text x="500" y="720" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-09</text>
+
+  <rect x="368" y="752" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="752" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="774" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ยืนยันรับทราบเอกสาร</text>
+  <text x="500" y="792" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-10</text>
+
+  <rect x="368" y="824" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="824" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="846" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ติดตามคำขอและตรวจประวัติ</text>
+  <text x="500" y="864" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-11</text>
+
+  <rect x="368" y="896" width="264" height="52" rx="26" fill="#ffffff"/>
+  <rect x="368" y="896" width="264" height="52" rx="26" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="500" y="918" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ตรวจความครบถ้วนและปิด DAR</text>
+  <text x="500" y="936" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">UC-A-12</text>
+
+  <text x="500" y="976" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">§4.13 การอ้างอิงข้อมูลภายในระบบเป็นพฤติกรรมสนับสนุน ไม่ใช่กรณีการใช้งาน</text>
+
+  <!-- ===== actors ซ้าย ===== -->
+  <rect x="32" y="104" width="248" height="52" rx="6" fill="#ffffff"/>
+  <rect x="32" y="104" width="248" height="52" rx="6" fill="rgba(91,100,114,0.10)" stroke="#8a919e" stroke-width="1"/>
+  <text x="156" y="126" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">เจ้าของเอกสาร</text>
+  <text x="156" y="144" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ร่างและคำขอในงานที่รับผิดชอบ</text>
+
+  <rect x="32" y="324" width="248" height="44" rx="6" fill="#ffffff"/>
+  <rect x="32" y="324" width="248" height="44" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="156" y="344" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้ทบทวนตามการมอบหมาย</text>
+  <text x="156" y="360" fill="#B45309" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">TBD-A-02 · TBD-A-06</text>
+
+  <rect x="32" y="396" width="248" height="44" rx="6" fill="#ffffff"/>
+  <rect x="32" y="396" width="248" height="44" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="156" y="416" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้อนุมัติตามการมอบหมาย</text>
+  <text x="156" y="432" fill="#B45309" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">TBD-A-02 · TBD-A-06</text>
+
+  <rect x="32" y="624" width="248" height="44" rx="6" fill="#ffffff"/>
+  <rect x="32" y="624" width="248" height="44" rx="6" fill="rgba(91,100,114,0.10)" stroke="#8a919e" stroke-width="1"/>
+  <text x="156" y="644" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้มีสิทธิ์อ่าน</text>
+  <text x="156" y="660" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ตามขอบเขตสิทธิ์ ไม่ใช่อ่านได้ทุกฉบับ</text>
+
+  <!-- ===== actors ขวา ===== -->
+  <rect x="720" y="248" width="248" height="52" rx="6" fill="#ffffff"/>
+  <rect x="720" y="248" width="248" height="52" rx="6" fill="rgba(91,100,114,0.10)" stroke="#8a919e" stroke-width="1"/>
+  <text x="844" y="270" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้คุมทะเบียนเอกสาร (DCC)</text>
+  <text x="844" y="288" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ไม่ได้สิทธิ์อนุมัติคำขอจากบทบาทนี้</text>
+
+  <rect x="720" y="756" width="248" height="44" rx="6" fill="#ffffff"/>
+  <rect x="720" y="756" width="248" height="44" rx="6" fill="rgba(91,100,114,0.10)" stroke="#8a919e" stroke-width="1"/>
+  <text x="844" y="776" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้ได้รับมอบหมายรับทราบ</text>
+  <text x="844" y="792" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ยืนยันของตนต่อฉบับที่มีสิทธิ์อ่าน</text>
+
+  <rect x="720" y="840" width="248" height="44" rx="6" fill="#ffffff"/>
+  <rect x="720" y="840" width="248" height="44" rx="6" fill="rgba(91,100,114,0.10)" stroke="#8a919e" stroke-width="1"/>
+  <text x="844" y="860" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้เกี่ยวข้องตามสิทธิ์</text>
+  <text x="844" y="876" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">สิทธิ์อ่านเอกสารไม่เท่ากับอ่านทุกคำขอ</text>
+
+  <!-- ===== หมายเหตุรอยืนยัน ===== -->
+  <rect x="720" y="344" width="248" height="104" rx="6" fill="#ffffff"/>
+  <rect x="720" y="344" width="248" height="104" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="736" y="366" fill="#B45309" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">อำนาจที่ยังรอยืนยัน</text>
+  <text x="736" y="386" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้ทบทวนและผู้อนุมัติเป็นหน้าที่ตามการ</text>
+  <text x="736" y="402" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">มอบหมาย ยังไม่ล็อกเป็นบทบาทใหม่</text>
+  <text x="736" y="422" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">สิทธิ์มอบหมายรับทราบของเจ้าของเอกสาร</text>
+  <text x="736" y="438" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ยังไม่ยืนยัน จึงไม่เชื่อมกับ UC-A-09</text>
+
+  <rect x="720" y="472" width="248" height="88" rx="6" fill="#ffffff"/>
+  <rect x="720" y="472" width="248" height="88" rx="6" fill="rgba(31,36,48,0.03)" stroke="rgba(31,36,48,0.20)" stroke-width="1"/>
+  <text x="736" y="494" fill="#1f2430" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">ข้อสังเกตการอ่านภาพ</text>
+  <text x="736" y="514" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ไม่แสดง Sponsor และทีมพัฒนาเป็นผู้ใช้</text>
+  <text x="736" y="530" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ระบบ เพราะยังไม่มีการกระทำที่กำหนดไว้</text>
+  <text x="736" y="550" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้ใช้หนึ่งคนถือได้หลายบทบาท ใช้ครั้งละหนึ่ง</text>
+
+  <!-- ===== legend ===== -->
+  <line x1="32" y1="1020" x2="968" y2="1020" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="32" y="1040" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <line x1="112" y1="1036" x2="148" y2="1036" stroke="#5b6472" stroke-width="1"/>
+  <text x="158" y="1040" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ความสัมพันธ์ผู้ทำการกับกรณีการใช้งาน</text>
+
+  <line x1="392" y1="1036" x2="428" y2="1036" stroke="#5b6472" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="438" y="1040" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เข้าถึงตามขอบเขตสิทธิ์อ่าน</text>
+
+  <rect x="632" y="1030" width="14" height="12" rx="2" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="654" y="1040" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">อำนาจหรือสิทธิ์ที่ยังรอยืนยัน</text>
+
+  <rect x="840" y="1030" width="14" height="12" rx="2" fill="rgba(15,118,110,0.05)" stroke="#0F766E" stroke-width="1"/>
+  <text x="862" y="1040" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ขอบเขตโมดูล</text>
+</svg>

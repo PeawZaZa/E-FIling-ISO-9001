@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 800" role="img" aria-labelledby="a4-title a4-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="a4-title">แบบจำลองข้อมูลเชิงแนวคิดของโมดูลควบคุมเอกสาร</title>
+  <desc id="a4-desc">แบบจำลองเชิงแนวคิดแสดงข้อมูลหลักเอกสารซึ่งมีฉบับเอกสารและไฟล์ได้หลายฉบับ แต่ละฉบับมีการมอบหมายและผลรับทราบรายบุคคล คำขอดำเนินการเอกสารมีผลตรวจรับ ทบทวน และตัดสินได้หลายรายการ โดยผลแต่ละรายการผูกกับฉบับที่พิจารณา คำขอหนึ่งใบมีรายการตรวจและผลปิดได้ไม่เกินหนึ่งชุด และมีประวัติฉบับกับเหตุการณ์บันทึกไว้ ผู้กระทำทุกส่วนอ้างบุคคลจากชุดตัวตนและบทบาทใช้งานที่ใช้ร่วมทั้งระบบ ส่วนโมดูลร่วมอีกโมดูลหนึ่งอ้างอิงข้อมูลเอกสาร ฉบับ สถานะ และผลรับทราบตามสิทธิ์โดยไม่แสดงรายละเอียดภายใน</desc>
+
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap');</style>
+    <marker id="a4-arrow-a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#0F766E"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="800" fill="#ffffff"/>
+
+  <!-- ===== relationships (drawn before boxes) ===== -->
+  <!-- 1: ข้อมูลหลักเอกสาร — ฉบับเอกสาร -->
+  <line x1="160" y1="224" x2="160" y2="280" stroke="#5b6472" stroke-width="1"/>
+  <!-- 2: ฉบับเอกสาร — การมอบหมาย/ผลรับทราบ -->
+  <line x1="160" y1="384" x2="160" y2="440" stroke="#5b6472" stroke-width="1"/>
+  <!-- 3: คำขอ DAR — ผลตรวจรับ/ทบทวน/ตัดสิน -->
+  <line x1="504" y1="224" x2="504" y2="280" stroke="#5b6472" stroke-width="1"/>
+  <!-- 5: ฉบับเอกสาร — ผลตัดสิน (ฉบับที่พิจารณา) -->
+  <line x1="272" y1="332" x2="392" y2="332" stroke="#5b6472" stroke-width="1"/>
+  <!-- 4: คำขอ DAR — รายการตรวจและผลปิด (hop over 5) -->
+  <path d="M 392,196 H 352 Q 344,196 344,204 V 324 a 8,8 0 0,0 0,16 V 484 Q 344,492 352,492 H 392"
+        fill="none" stroke="#5b6472" stroke-width="1"/>
+  <!-- 6: คำขอ DAR — ประวัติฉบับและเหตุการณ์ -->
+  <path d="M 616,196 H 656 Q 664,196 664,204 V 316 Q 664,324 672,324 H 736"
+        fill="none" stroke="#5b6472" stroke-width="1"/>
+  <!-- 7: ตัวตนกลาง — การมอบหมาย/ผลรับทราบ และ รายการตรวจ/ผลปิด -->
+  <line x1="160" y1="600" x2="160" y2="544" stroke="#2563EB" stroke-width="1"/>
+  <line x1="504" y1="600" x2="504" y2="544" stroke="#2563EB" stroke-width="1"/>
+  <!-- 8: โมดูลร่วม — อ้างอิงข้อมูลเอกสารตามสิทธิ์ -->
+  <path d="M 160,120 V 96 Q 160,88 168,88 H 840 Q 848,88 848,96 V 116"
+        fill="none" stroke="#0F766E" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#a4-arrow-a)"/>
+
+  <!-- ===== cardinality + relationship labels ===== -->
+  <rect x="168" y="228" width="20" height="14" rx="2" fill="#ffffff"/>
+  <text x="170" y="239" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <rect x="168" y="260" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="170" y="271" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1..*</text>
+  <rect x="208" y="244" width="96" height="14" rx="2" fill="#ffffff"/>
+  <text x="212" y="255" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">มีได้หลายฉบับ</text>
+
+  <rect x="168" y="388" width="20" height="14" rx="2" fill="#ffffff"/>
+  <text x="170" y="399" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <rect x="168" y="420" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="170" y="431" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">0..*</text>
+  <rect x="208" y="404" width="152" height="14" rx="2" fill="#ffffff"/>
+  <text x="212" y="415" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">มอบหมายรายบุคคลต่อฉบับ</text>
+
+  <rect x="512" y="228" width="20" height="14" rx="2" fill="#ffffff"/>
+  <text x="514" y="239" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <rect x="512" y="260" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="514" y="271" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1..*</text>
+  <rect x="552" y="244" width="136" height="14" rx="2" fill="#ffffff"/>
+  <text x="556" y="255" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">มีผลดำเนินการหลายครั้ง</text>
+
+  <rect x="280" y="312" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="282" y="323" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <rect x="352" y="312" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="354" y="323" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">0..*</text>
+  <rect x="272" y="340" width="120" height="14" rx="2" fill="#ffffff"/>
+  <text x="332" y="351" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ผูกกับฉบับที่พิจารณา</text>
+
+  <rect x="300" y="204" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="302" y="215" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <rect x="300" y="476" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="302" y="487" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">0..1</text>
+
+  <rect x="620" y="204" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="622" y="215" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1</text>
+  <rect x="692" y="304" width="36" height="14" rx="2" fill="#ffffff"/>
+  <text x="694" y="315" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">0..*</text>
+
+  <rect x="176" y="556" width="336" height="14" rx="2" fill="#ffffff"/>
+  <text x="180" y="567" fill="#2563EB" font-size="10" font-family="'Sarabun',sans-serif">ผู้มอบหมาย ผู้รับทราบ ผู้กระทำ และผู้ปิดคำขอ</text>
+
+  <rect x="360" y="72" width="288" height="16" rx="2" fill="#ffffff"/>
+  <text x="504" y="84" fill="#0F766E" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">อ้างอิงข้อมูลเอกสาร ฉบับ สถานะ และผลรับทราบตามสิทธิ์</text>
+
+  <!-- ===== entities ===== -->
+  <!-- E1 ข้อมูลหลักเอกสาร -->
+  <rect x="48" y="120" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="48" y="120" width="224" height="104" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="60" y="130" width="52" height="12" rx="2" fill="transparent" stroke="rgba(31,36,48,0.35)" stroke-width="0.8"/>
+  <text x="86" y="139" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-01</text>
+  <text x="160" y="162" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ข้อมูลหลักเอกสาร</text>
+  <line x1="60" y1="176" x2="260" y2="176" stroke="rgba(31,36,48,0.12)" stroke-width="0.8"/>
+  <text x="64" y="194" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">รหัสเอกสาร · ชื่อ · ประเภท</text>
+  <text x="64" y="212" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">หน่วยงาน · เจ้าของเอกสาร</text>
+
+  <!-- E2 ฉบับเอกสารและไฟล์ -->
+  <rect x="48" y="280" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="48" y="280" width="224" height="104" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1.2"/>
+  <rect x="60" y="290" width="52" height="12" rx="2" fill="transparent" stroke="rgba(15,118,110,0.45)" stroke-width="0.8"/>
+  <text x="86" y="299" fill="#0F766E" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-02</text>
+  <text x="160" y="322" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ฉบับเอกสารและไฟล์</text>
+  <line x1="60" y1="336" x2="260" y2="336" stroke="rgba(15,118,110,0.20)" stroke-width="0.8"/>
+  <text x="64" y="354" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ฉบับที่ · แก้ไขครั้งที่ · สถานะ</text>
+  <text x="64" y="372" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">วันที่มีผลใช้ · ไฟล์ที่แนบ</text>
+
+  <!-- E5 การมอบหมายและผลรับทราบ -->
+  <rect x="48" y="440" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="48" y="440" width="224" height="104" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="60" y="450" width="52" height="12" rx="2" fill="transparent" stroke="rgba(31,36,48,0.35)" stroke-width="0.8"/>
+  <text x="86" y="459" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-05</text>
+  <text x="160" y="482" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">การมอบหมายและผลรับทราบ</text>
+  <line x1="60" y1="496" x2="260" y2="496" stroke="rgba(31,36,48,0.12)" stroke-width="0.8"/>
+  <text x="64" y="514" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้ได้รับมอบหมาย · ฉบับที่รับทราบ</text>
+  <text x="64" y="532" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผลยืนยัน · เวลาที่ยืนยัน</text>
+
+  <!-- E3 คำขอ DAR -->
+  <rect x="392" y="120" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="392" y="120" width="224" height="104" rx="6" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1.2"/>
+  <rect x="404" y="130" width="52" height="12" rx="2" fill="transparent" stroke="rgba(15,118,110,0.45)" stroke-width="0.8"/>
+  <text x="430" y="139" fill="#0F766E" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-03</text>
+  <text x="504" y="162" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">คำขอดำเนินการเอกสาร (DAR)</text>
+  <line x1="404" y1="176" x2="604" y2="176" stroke="rgba(15,118,110,0.20)" stroke-width="0.8"/>
+  <text x="408" y="194" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เลขอ้างอิง · ประเภทคำขอ · เหตุผล</text>
+  <text x="408" y="212" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้ขอ · วันที่ส่ง · ฉบับเป้าหมาย</text>
+
+  <!-- E4 ผลตรวจรับ ทบทวน และตัดสิน -->
+  <rect x="392" y="280" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="392" y="280" width="224" height="104" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="404" y="290" width="52" height="12" rx="2" fill="transparent" stroke="rgba(31,36,48,0.35)" stroke-width="0.8"/>
+  <text x="430" y="299" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-04</text>
+  <text x="504" y="322" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผลตรวจรับ ทบทวน และตัดสิน</text>
+  <line x1="404" y1="336" x2="604" y2="336" stroke="rgba(31,36,48,0.12)" stroke-width="0.8"/>
+  <text x="408" y="354" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ชนิดผล · ความเห็น</text>
+  <text x="408" y="372" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้กระทำ · เวลา · ฉบับที่พิจารณา</text>
+
+  <!-- E6 รายการตรวจและผลปิดคำขอ -->
+  <rect x="392" y="440" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="392" y="440" width="224" height="104" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <rect x="404" y="450" width="52" height="12" rx="2" fill="transparent" stroke="rgba(31,36,48,0.35)" stroke-width="0.8"/>
+  <text x="430" y="459" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-06</text>
+  <text x="504" y="482" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">รายการตรวจและผลปิดคำขอ</text>
+  <line x1="404" y1="496" x2="604" y2="496" stroke="rgba(31,36,48,0.12)" stroke-width="0.8"/>
+  <text x="408" y="514" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">งานและหลักฐานที่ต้องครบ</text>
+  <text x="408" y="532" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้ปิดคำขอ · วันที่ปิด</text>
+
+  <!-- E7 ประวัติฉบับและเหตุการณ์ -->
+  <rect x="736" y="280" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="736" y="280" width="224" height="104" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <rect x="748" y="290" width="52" height="12" rx="2" fill="transparent" stroke="rgba(91,100,114,0.45)" stroke-width="0.8"/>
+  <text x="774" y="299" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-07</text>
+  <text x="848" y="322" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ประวัติฉบับและเหตุการณ์</text>
+  <line x1="748" y1="336" x2="948" y2="336" stroke="rgba(31,36,48,0.12)" stroke-width="0.8"/>
+  <text x="752" y="354" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ผู้ดำเนินการ · การกระทำ · เวลา</text>
+  <text x="752" y="372" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ฉบับและคำขอที่อ้าง ไม่เปลี่ยนเอง</text>
+
+  <!-- โมดูลร่วม — บริบท -->
+  <rect x="736" y="120" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="736" y="120" width="224" height="104" rx="6" fill="rgba(100,116,139,0.06)" stroke="#64748B" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <rect x="748" y="130" width="52" height="12" rx="2" fill="transparent" stroke="rgba(100,116,139,0.50)" stroke-width="0.8"/>
+  <text x="774" y="139" fill="#64748B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-09</text>
+  <text x="848" y="162" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">งานบันทึกหลักฐาน ตรวจติดตาม</text>
+  <text x="848" y="180" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">CAR และแดชบอร์ด</text>
+  <text x="848" y="202" fill="#64748B" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle" font-style="italic">บริบท ไม่ลงรายละเอียดภายใน</text>
+  <text x="848" y="218" fill="#64748B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-20 · BR-A-10</text>
+
+  <!-- หมายเหตุรอยืนยัน -->
+  <rect x="736" y="440" width="224" height="104" rx="6" fill="#ffffff"/>
+  <rect x="736" y="440" width="224" height="104" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="752" y="464" fill="#B45309" font-size="11" font-weight="600" font-family="'Sarabun',sans-serif">จำนวนที่ยังไม่ล็อก</text>
+  <text x="752" y="484" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">จำนวนไฟล์ต่อฉบับ และจำนวนรายการ</text>
+  <text x="752" y="500" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เป้าหมายต่อคำขอ ยังไม่มีข้อสรุป</text>
+  <text x="752" y="522" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">กฎฉบับที่ / แก้ไขครั้งที่ ยังไม่ยืนยัน</text>
+  <text x="752" y="538" fill="#B45309" font-size="9" font-family="'Geist Mono',monospace">TBD-A-01 · TBD-A-05 · TBD-A-09</text>
+
+  <!-- E8 ตัวตนและบทบาทใช้งาน -->
+  <rect x="48" y="600" width="912" height="80" rx="6" fill="#ffffff"/>
+  <rect x="48" y="600" width="912" height="80" rx="6" fill="rgba(37,99,235,0.06)" stroke="#2563EB" stroke-width="1.2"/>
+  <rect x="60" y="610" width="52" height="12" rx="2" fill="transparent" stroke="rgba(37,99,235,0.45)" stroke-width="0.8"/>
+  <text x="86" y="619" fill="#2563EB" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">M-A-08</text>
+  <text x="504" y="640" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ตัวตน บทบาทใช้งาน และหน่วยงาน — ข้อมูลกลางของทั้งระบบ</text>
+  <text x="504" y="662" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ทุกรายการที่มีผู้กระทำอ้างบุคคลจากชุดนี้ ไม่สร้างชุดผู้ใช้ของโมดูลแยก · FR-A-19 · BR-A-09 · CON-A-01</text>
+
+  <!-- ===== legend ===== -->
+  <line x1="32" y1="716" x2="968" y2="716" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="32" y="736" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <rect x="112" y="726" width="14" height="12" rx="2" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="134" y="736" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ข้อมูลศูนย์กลางของโมดูลนี้</text>
+
+  <rect x="320" y="726" width="14" height="12" rx="2" fill="rgba(37,99,235,0.06)" stroke="#2563EB" stroke-width="1"/>
+  <text x="342" y="736" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ข้อมูลกลางที่ใช้ร่วมทั้งระบบ</text>
+
+  <rect x="528" y="726" width="14" height="12" rx="2" fill="rgba(100,116,139,0.06)" stroke="#64748B" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="550" y="736" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">บริบท ไม่ลงรายละเอียด</text>
+
+  <rect x="712" y="726" width="14" height="12" rx="2" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="734" y="736" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ประเด็นรอยืนยัน</text>
+
+  <text x="880" y="736" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace">1 · 0..1 · 0..* · 1..*</text>
+</svg>

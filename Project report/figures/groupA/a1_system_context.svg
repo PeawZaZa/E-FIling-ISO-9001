@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1000 700" role="img" aria-labelledby="a1-title a1-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="a1-title">ขอบเขตระบบ E-Filing และตำแหน่งของโมดูลควบคุมเอกสาร</title>
+  <desc id="a1-desc">แผนภาพบริบทแสดงระบบ E-Filing หนึ่งระบบที่มีข้อมูลตัวตน บทบาทใช้งาน และหน่วยงานเป็นชุดกลางร่วมกัน ภายในมีโมดูลควบคุมเอกสารซึ่งเป็นขอบเขตของเอกสารฉบับนี้ ประกอบด้วยกลุ่มความสามารถห้ากลุ่มตั้งแต่การเตรียมเอกสารและคำขอ การทบทวนและอนุมัติ การควบคุมทะเบียน การเข้าถึงและรับทราบ จนถึงการติดตามและปิดคำขอ และมีโมดูลร่วมอีกโมดูลหนึ่งแสดงเป็นกล่องบริบทที่อ้างอิงข้อมูลเอกสาร ฉบับ สถานะ และผลรับทราบตามสิทธิ์ โดยรายละเอียดส่วนเชื่อมต่อยังรอยืนยัน</desc>
+
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap');</style>
+    <marker id="a1-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5b6472"/>
+    </marker>
+    <marker id="a1-arrow-a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#0F766E"/>
+    </marker>
+    <marker id="a1-arrow-sh" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2563EB"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="700" fill="#ffffff"/>
+
+  <!-- ===== zone: ระบบ E-Filing ===== -->
+  <rect x="32" y="152" width="936" height="440" rx="8" fill="#f4f5f7" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <rect x="48" y="156" width="60" height="14" rx="2" fill="#f4f5f7"/>
+  <text x="48" y="168" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">SYSTEM</text>
+  <text x="116" y="168" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ระบบ E-Filing — ระบบเดียว สองโมดูล</text>
+
+  <!-- ===== zone: โมดูลควบคุมเอกสาร (A) ===== -->
+  <rect x="56" y="288" width="496" height="216" rx="8" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1.2"/>
+  <text x="72" y="312" fill="#0F766E" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif">โมดูลควบคุมเอกสาร คำขอดำเนินการเอกสาร และการรับทราบ</text>
+  <text x="72" y="330" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.12em">SCOPE OF THIS DOCUMENT</text>
+
+  <!-- ===== arrows (drawn before boxes) ===== -->
+  <!-- ผู้ใช้งาน → ตัวตนและข้อมูลกลาง -->
+  <line x1="500" y1="112" x2="500" y2="200" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a1-arrow)"/>
+  <!-- ข้อมูลกลาง → โมดูล A -->
+  <line x1="304" y1="256" x2="304" y2="288" stroke="#2563EB" stroke-width="1.2" marker-end="url(#a1-arrow-sh)"/>
+  <!-- ข้อมูลกลาง → โมดูลร่วม -->
+  <line x1="820" y1="256" x2="820" y2="344" stroke="#2563EB" stroke-width="1.2" marker-end="url(#a1-arrow-sh)"/>
+  <!-- โมดูล A → โมดูลร่วม -->
+  <line x1="552" y1="416" x2="696" y2="416" stroke="#0F766E" stroke-width="1.2" marker-end="url(#a1-arrow-a)"/>
+  <!-- โมดูล A → ฐานข้อมูลและไฟล์ -->
+  <line x1="304" y1="504" x2="304" y2="528" stroke="#5b6472" stroke-width="1.2" marker-end="url(#a1-arrow)"/>
+
+  <!-- ===== arrow labels ===== -->
+  <rect x="512" y="128" width="224" height="16" rx="2" fill="#ffffff"/>
+  <text x="516" y="140" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">เข้าใช้งานด้วยบทบาทใช้งานครั้งละหนึ่งบทบาท</text>
+
+  <rect x="560" y="392" width="128" height="16" rx="2" fill="#f4f5f7"/>
+  <text x="624" y="404" fill="#0F766E" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ข้อมูลเอกสาร ฉบับ สถานะ</text>
+  <rect x="560" y="424" width="128" height="16" rx="2" fill="#f4f5f7"/>
+  <text x="624" y="436" fill="#0F766E" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">และผลรับทราบตามสิทธิ์</text>
+
+  <!-- ===== ผู้ใช้งาน ===== -->
+  <rect x="352" y="48" width="296" height="64" rx="6" fill="#ffffff"/>
+  <rect x="352" y="48" width="296" height="64" rx="6" fill="rgba(91,100,114,0.10)" stroke="#8a919e" stroke-width="1"/>
+  <rect x="360" y="54" width="44" height="12" rx="2" fill="transparent" stroke="rgba(91,100,114,0.45)" stroke-width="0.8"/>
+  <text x="382" y="63" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">ACTORS</text>
+  <text x="500" y="86" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ผู้ใช้งานตามบทบาทและขอบเขตสิทธิ์</text>
+  <text x="500" y="104" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">เจ้าของเอกสาร · DCC · ผู้ทบทวน · ผู้อนุมัติ · ผู้ใช้งานเอกสาร</text>
+
+  <!-- ===== ตัวตนและข้อมูลกลาง ===== -->
+  <rect x="56" y="200" width="888" height="56" rx="6" fill="#ffffff"/>
+  <rect x="56" y="200" width="888" height="56" rx="6" fill="rgba(37,99,235,0.06)" stroke="#2563EB" stroke-width="1.2"/>
+  <rect x="64" y="206" width="52" height="12" rx="2" fill="transparent" stroke="rgba(37,99,235,0.45)" stroke-width="0.8"/>
+  <text x="90" y="215" fill="#2563EB" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">SHARED</text>
+  <text x="500" y="226" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">การยืนยันตัวตน บทบาทใช้งาน หน่วยงาน และข้อมูลกลาง</text>
+  <text x="500" y="244" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ชุดเดียวทั้งระบบ ไม่สร้างบัญชีหรือบทบาทแยกรายโมดูล · FR-A-19 · CON-A-01</text>
+
+  <!-- ===== กลุ่มความสามารถของโมดูล A ===== -->
+  <rect x="72" y="344" width="144" height="64" rx="6" fill="#ffffff"/>
+  <rect x="72" y="344" width="144" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="144" y="368" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">เตรียมเอกสารและคำขอ</text>
+  <text x="144" y="388" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-01 · UC-A-01–03</text>
+
+  <rect x="232" y="344" width="144" height="64" rx="6" fill="#ffffff"/>
+  <rect x="232" y="344" width="144" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="304" y="368" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ทบทวนและอนุมัติ</text>
+  <text x="304" y="388" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-02 · UC-A-04–05</text>
+
+  <rect x="392" y="344" width="144" height="64" rx="6" fill="#ffffff"/>
+  <rect x="392" y="344" width="144" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="464" y="364" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ควบคุมทะเบียน</text>
+  <text x="464" y="380" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">และฉบับใช้งาน</text>
+  <text x="464" y="396" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-03 · UC-A-06–07</text>
+
+  <rect x="72" y="424" width="144" height="64" rx="6" fill="#ffffff"/>
+  <rect x="72" y="424" width="144" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="144" y="448" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">เข้าถึงและรับทราบ</text>
+  <text x="144" y="468" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-04 · UC-A-08–10</text>
+
+  <rect x="232" y="424" width="144" height="64" rx="6" fill="#ffffff"/>
+  <rect x="232" y="424" width="144" height="64" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="304" y="448" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ติดตามและปิดคำขอ</text>
+  <text x="304" y="468" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">CAP-A-05 · UC-A-11–12</text>
+
+  <text x="464" y="452" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">กลุ่มความสามารถ ไม่ใช่</text>
+  <text x="464" y="470" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">ส่วนประกอบซอฟต์แวร์</text>
+
+  <!-- ===== โมดูลร่วมในระบบเดียวกัน — ไม่ลงรายละเอียด ===== -->
+  <rect x="696" y="344" width="248" height="144" rx="6" fill="#ffffff"/>
+  <rect x="696" y="344" width="248" height="144" rx="6" fill="rgba(100,116,139,0.06)" stroke="#64748B" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <rect x="704" y="352" width="52" height="12" rx="2" fill="transparent" stroke="rgba(100,116,139,0.50)" stroke-width="0.8"/>
+  <text x="730" y="361" fill="#64748B" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.08em">CONTEXT</text>
+  <text x="820" y="392" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">งานบันทึกหลักฐาน ตรวจติดตาม</text>
+  <text x="820" y="410" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">CAR และแดชบอร์ด</text>
+  <text x="820" y="440" fill="#64748B" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle">โมดูลร่วมในระบบเดียวกัน</text>
+  <text x="820" y="458" fill="#64748B" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="middle" font-style="italic">บริบท ไม่ลงรายละเอียด</text>
+  <text x="820" y="476" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">FR-A-20 · BR-A-10 · AC-A-15</text>
+
+  <!-- ===== ฐานข้อมูลและพื้นที่จัดเก็บไฟล์ ===== -->
+  <rect x="56" y="528" width="560" height="48" rx="6" fill="#ffffff"/>
+  <rect x="56" y="528" width="560" height="48" rx="6" fill="rgba(31,36,48,0.05)" stroke="#5b6472" stroke-width="1"/>
+  <text x="336" y="548" fill="#1f2430" font-size="12" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">ฐานข้อมูลและพื้นที่จัดเก็บไฟล์ภายในระบบ</text>
+  <text x="336" y="566" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">§3.3 · NFR-A-03–04 · CON-A-04</text>
+
+  <!-- ===== หมายเหตุรอยืนยัน ===== -->
+  <rect x="640" y="528" width="304" height="48" rx="6" fill="#ffffff"/>
+  <rect x="640" y="528" width="304" height="48" rx="6" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="792" y="548" fill="#B45309" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="middle">รอยืนยัน — ข้อตกลงส่วนเชื่อมต่อและข้อมูลร่วม</text>
+  <text x="792" y="566" fill="#B45309" font-size="9" font-family="'Geist Mono',monospace" text-anchor="middle">TBD-A-06 · TBD-A-08</text>
+
+  <!-- ===== legend ===== -->
+  <line x1="32" y1="620" x2="968" y2="620" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="32" y="640" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+
+  <rect x="112" y="630" width="14" height="12" rx="2" fill="rgba(15,118,110,0.07)" stroke="#0F766E" stroke-width="1"/>
+  <text x="134" y="640" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ขอบเขตของเอกสารฉบับนี้</text>
+
+  <rect x="288" y="630" width="14" height="12" rx="2" fill="rgba(100,116,139,0.06)" stroke="#64748B" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="310" y="640" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">บริบท ไม่ลงรายละเอียด</text>
+
+  <rect x="464" y="630" width="14" height="12" rx="2" fill="rgba(37,99,235,0.06)" stroke="#2563EB" stroke-width="1"/>
+  <text x="486" y="640" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ส่วนที่ใช้ร่วมทั้งระบบ</text>
+
+  <rect x="632" y="630" width="14" height="12" rx="2" fill="rgba(180,83,9,0.06)" stroke="#B45309" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="654" y="640" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ประเด็นรอยืนยัน</text>
+
+  <line x1="784" y1="636" x2="820" y2="636" stroke="#0F766E" stroke-width="1.2" marker-end="url(#a1-arrow-a)"/>
+  <text x="830" y="640" fill="#5b6472" font-size="10" font-family="'Sarabun',sans-serif">ทิศทางการอ้างอิงข้อมูล</text>
+</svg>
