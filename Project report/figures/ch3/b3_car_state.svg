@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 880 1000" role="img" aria-labelledby="b3-title b3-desc" xmlns="http://www.w3.org/2000/svg">
   <title id="b3-title">วงจรสถานะใบคำร้องขอให้ดำเนินการแก้ไขแปดสถานะ</title>
-  <desc id="b3-desc">แผนภาพสถานะแสดงใบคำร้องเดินหน้าจากเปิดใบ ผ่านการแก้ไขเฉพาะหน้า การวิเคราะห์สาเหตุและจัดทำแผน การรออนุมัติแผนโดยผู้แทนฝ่ายบริหาร การดำเนินการตามแผน การรอตรวจสอบประสิทธิผล และการรอปิดใบ จนถึงปิดใบแล้ว พร้อมเส้นทางย้อนกลับสามเส้น คือไม่อนุมัติแผนย้อนกลับไปจัดทำแผนใหม่ ตรวจสอบไม่ครบถ้วนย้อนกลับไปดำเนินการตามแผน และไม่มีประสิทธิผลย้อนกลับไปวิเคราะห์สาเหตุใหม่</desc>
+  <desc id="b3-desc">แผนภาพสถานะแสดงใบคำร้องเดินหน้าจากเปิดใบ ผ่านการแก้ไขเฉพาะหน้า การวิเคราะห์สาเหตุและจัดทำแผน การรออนุมัติแผนโดยผู้แทนฝ่ายบริหาร การดำเนินการตามแผน การรอตรวจสอบประสิทธิผล และการรอปิดใบ จนถึงปิดใบแล้ว มีเส้นทางย้อนกลับสามเส้นที่ปลายทางเดียวกันคือขั้นวิเคราะห์สาเหตุและจัดทำแผน ได้แก่ ไม่อนุมัติแผน ตรวจสอบแล้วไม่มีประสิทธิผล และผู้ปิดใบเห็นว่าไม่มีประสิทธิผล ไม่มีสถานะเปิดซ้ำ</desc>
+
   <defs>
     <style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap');</style>
-  </defs>
-
-
-  <defs>
     <marker id="b3-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
       <polygon points="0 0, 8 3, 0 6" fill="#5b6472"/>
     </marker>
@@ -32,8 +29,8 @@
   <!-- เลน 1 (x=176): รออนุมัติแผน → อยู่ระหว่างวิเคราะห์ฯ -->
   <path d="M 312,444 H 184 Q 176,444 176,436 V 348 Q 176,340 184,340 H 312"
         fill="none" stroke="#1f6f8b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#b3-arrow-back)"/>
-  <!-- เลน 2 (x=128): รอตรวจสอบประสิทธิผล → อยู่ระหว่างดำเนินการตามแผน -->
-  <path d="M 312,652 H 136 Q 128,652 128,644 V 556 Q 128,548 136,548 H 312"
+  <!-- เลน 2 (x=128): รอตรวจสอบประสิทธิผล → อยู่ระหว่างวิเคราะห์สาเหตุฯ (TBD-B-05) -->
+  <path d="M 312,652 H 136 Q 128,652 128,644 V 364 Q 128,356 136,356 H 312"
         fill="none" stroke="#1f6f8b" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#b3-arrow-back)"/>
   <!-- เลน 3 (x=80): รอปิดใบ → อยู่ระหว่างวิเคราะห์ฯ (เข้าขอบบนของกล่อง) -->
   <path d="M 312,756 H 88 Q 80,756 80,748 V 292 Q 80,284 88,284 H 352 Q 360,284 360,292 V 308"
@@ -68,11 +65,11 @@
   <rect x="192" y="420" width="108" height="16" rx="2" fill="#ffffff"/>
   <text x="300" y="432" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ไม่อนุมัติแผน</text>
 
-  <rect x="144" y="628" width="156" height="16" rx="2" fill="#ffffff"/>
-  <text x="300" y="640" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ตรวจสอบไม่ครบถ้วน</text>
+  <rect x="132" y="628" width="168" height="16" rx="2" fill="#ffffff"/>
+  <text x="300" y="640" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ตรวจสอบแล้วไม่มีประสิทธิผล</text>
 
   <rect x="96" y="732" width="204" height="16" rx="2" fill="#ffffff"/>
-  <text x="300" y="744" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ไม่มีประสิทธิผล · วิเคราะห์สาเหตุใหม่</text>
+  <text x="300" y="744" fill="#1f6f8b" font-size="10" font-family="'Sarabun',sans-serif" text-anchor="end">ผู้ปิดใบเห็นว่าไม่มีประสิทธิผล</text>
 
   <!-- ============ STATES ============ -->
   <!-- start dot -->
@@ -104,7 +101,7 @@
   <rect x="312" y="412" width="416" height="64" rx="8" fill="#ffffff"/>
   <rect x="312" y="412" width="416" height="64" rx="8" fill="rgba(31,111,139,0.07)" stroke="#1f6f8b" stroke-width="1.6"/>
   <text x="328" y="436" fill="#1f6f8b" font-size="9" font-family="'Geist Mono',monospace">4 · PENDING_PLAN_APPROVAL</text>
-  <text x="328" y="458" fill="#1f6f8b" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">รออนุมัติแผน · ผู้แทนฝ่ายบริหาร</text>
+  <text x="328" y="458" fill="#1f6f8b" font-size="13" font-weight="600" font-family="'Sarabun',sans-serif">รออนุมัติแผน · QMR หรือหัวหน้าทีมผู้ตรวจ</text>
   <text x="712" y="458" fill="#1f6f8b" font-size="10" font-weight="600" font-family="'Sarabun',sans-serif" text-anchor="end">2 วันทำการ</text>
 
   <!-- 5 อยู่ระหว่างดำเนินการตามแผน -->
