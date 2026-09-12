@@ -1,0 +1,1444 @@
+<meta charset="utf-8">
+<title>ติวสแตกอีไฟลิ่ง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#f7f8f6; --surface:#ffffff; --surface-2:#eef1ee;
+  --ink:#14202b; --ink-soft:#4a5a63; --ink-faint:#77868c;
+  --rule:#cfd6d3; --rule-strong:#a9b5b1;
+  --accent:#1d5c63; --accent-soft:#e3eeee; --accent-ink:#12464c;
+  --stamp:#b23a2e; --stamp-soft:#f6e5e2;
+  --seal:#2f6b45; --seal-soft:#e2efe6;
+  --code-bg:#12212a; --code-ink:#dbe6e4; --code-dim:#7f9498;
+  --code-key:#7fc7c2; --code-str:#d7b16a; --code-num:#e0897c; --code-com:#61777c;
+  --btn-ink:#ffffff;
+  --shadow:0 1px 2px rgba(20,32,43,.06),0 8px 24px -16px rgba(20,32,43,.28);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0f181d; --surface:#16232a; --surface-2:#1c2c33;
+    --ink:#e4ebe8; --ink-soft:#a6b6b8; --ink-faint:#7b8c8f;
+    --rule:#2c3d44; --rule-strong:#41565d;
+    --accent:#63b3b4; --accent-soft:#173234; --accent-ink:#8fd0cf;
+    --stamp:#e08678; --stamp-soft:#33201d;
+    --seal:#78c295; --seal-soft:#182c21;
+    --code-bg:#0a1318; --code-ink:#d3e1df;
+    --btn-ink:#081216;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0f181d; --surface:#16232a; --surface-2:#1c2c33;
+  --ink:#e4ebe8; --ink-soft:#a6b6b8; --ink-faint:#7b8c8f;
+  --rule:#2c3d44; --rule-strong:#41565d;
+  --accent:#63b3b4; --accent-soft:#173234; --accent-ink:#8fd0cf;
+  --stamp:#e08678; --stamp-soft:#33201d;
+  --seal:#78c295; --seal-soft:#182c21;
+  --code-bg:#0a1318; --code-ink:#d3e1df;
+  --btn-ink:#081216;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans Thai","Noto Sans Thai",system-ui,sans-serif;
+  font-size:16px; line-height:1.75; -webkit-text-size-adjust:100%;
+}
+code,pre,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+
+/* ---------- shell ---------- */
+.shell{display:grid; grid-template-columns:250px minmax(0,1fr); gap:0; min-height:100vh}
+.rail{
+  border-right:1px solid var(--rule); background:var(--surface);
+  padding:22px 0 40px; position:sticky; top:0; height:100vh; overflow-y:auto;
+}
+.rail-head{padding:0 20px 16px; border-bottom:1px solid var(--rule); margin-bottom:12px}
+.rail-title{
+  font-family:"Bai Jamjuree",sans-serif; font-weight:700; font-size:1.05rem;
+  letter-spacing:.01em; margin:0 0 2px;
+}
+.rail-sub{font-size:.72rem; color:var(--ink-faint); letter-spacing:.08em; text-transform:uppercase; margin:0}
+.nav{display:flex; flex-direction:column; gap:1px; padding:0 10px}
+.nav button{
+  display:grid; grid-template-columns:28px 1fr 16px; align-items:center; gap:8px;
+  width:100%; text-align:left; background:none; border:0; cursor:pointer;
+  padding:8px 10px; border-radius:3px; color:var(--ink-soft);
+  font:inherit; font-size:.86rem; line-height:1.35;
+}
+.nav button:hover{background:var(--surface-2); color:var(--ink)}
+.nav button[aria-current="true"]{background:var(--accent-soft); color:var(--accent-ink); font-weight:600}
+.nav .n{
+  font-family:"IBM Plex Mono",monospace; font-size:.7rem; font-weight:500;
+  border:1px solid var(--rule-strong); border-radius:2px; text-align:center;
+  padding:1px 0; color:var(--ink-faint); font-variant-numeric:tabular-nums;
+}
+.nav button[aria-current="true"] .n{border-color:var(--accent); color:var(--accent)}
+.nav .tick{font-size:.8rem; color:var(--seal); opacity:0; transition:opacity .2s}
+.nav .tick.on{opacity:1}
+.rail-foot{padding:16px 20px 0; margin-top:18px; border-top:1px solid var(--rule)}
+.bar{height:4px; background:var(--surface-2); border-radius:2px; overflow:hidden; margin:8px 0 6px}
+.bar span{display:block; height:100%; background:var(--accent); width:0; transition:width .35s ease}
+.rail-foot p{margin:0; font-size:.73rem; color:var(--ink-faint); font-variant-numeric:tabular-nums}
+.linkish{
+  background:none; border:0; padding:0; margin-top:10px; cursor:pointer;
+  font:inherit; font-size:.73rem; color:var(--ink-faint); text-decoration:underline;
+  text-underline-offset:3px;
+}
+.linkish:hover{color:var(--stamp)}
+
+.main{padding:0 0 96px; min-width:0}
+.wrap{max-width:760px; margin:0 auto; padding:0 28px}
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid var(--rule); background:var(--surface); padding:34px 0 26px; margin-bottom:36px}
+.kicker{
+  font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent); margin:0 0 10px;
+}
+.masthead h1{
+  font-family:"Bai Jamjuree",sans-serif; font-weight:700; font-size:clamp(1.7rem,4vw,2.3rem);
+  line-height:1.25; margin:0 0 12px; text-wrap:balance; letter-spacing:-.01em;
+}
+.masthead p{margin:0; color:var(--ink-soft); max-width:60ch}
+.meta{
+  display:flex; flex-wrap:wrap; gap:6px 18px; margin-top:18px; padding-top:14px;
+  border-top:1px solid var(--rule); font-size:.76rem; color:var(--ink-faint);
+}
+.meta b{font-weight:600; color:var(--ink-soft)}
+
+/* ---------- module ---------- */
+.module{display:none}
+.module.on{display:block; animation:rise .28s ease both}
+@keyframes rise{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .module.on{animation:none}
+  .bar span{transition:none}
+}
+.mod-head{display:flex; gap:16px; align-items:flex-start; margin-bottom:6px}
+.mod-num{
+  flex:none; font-family:"IBM Plex Mono",monospace; font-size:.82rem; font-weight:600;
+  border:1.5px solid var(--accent); color:var(--accent); border-radius:3px;
+  padding:5px 9px; margin-top:5px; font-variant-numeric:tabular-nums;
+}
+.mod-head h2{
+  font-family:"Bai Jamjuree",sans-serif; font-weight:600; font-size:1.55rem;
+  line-height:1.3; margin:0; text-wrap:balance;
+}
+.why{
+  border-left:2px solid var(--accent); background:var(--accent-soft);
+  padding:11px 16px; margin:14px 0 26px; font-size:.92rem; color:var(--accent-ink);
+}
+.why b{font-weight:600}
+
+h3{
+  font-family:"Bai Jamjuree",sans-serif; font-weight:600; font-size:1.1rem;
+  margin:34px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--rule);
+}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px; padding-left:22px}
+li{margin-bottom:6px}
+strong{font-weight:600}
+.main code:not(pre code){
+  background:var(--surface-2); border:1px solid var(--rule); border-radius:3px;
+  padding:.05em .34em; font-size:.86em;
+}
+.tag{
+  font-family:"IBM Plex Mono",monospace; font-size:.78em; color:var(--accent-ink);
+  background:var(--accent-soft); border:1px solid var(--accent); border-radius:2px;
+  padding:.05em .34em; white-space:nowrap;
+}
+
+pre{
+  background:var(--code-bg); color:var(--code-ink); border-radius:5px;
+  padding:16px 18px; overflow-x:auto; margin:0 0 16px;
+  font-size:.83rem; line-height:1.7; border:1px solid var(--rule);
+}
+pre .k{color:var(--code-key)} pre .s{color:var(--code-str)}
+pre .n{color:var(--code-num)} pre .c{color:var(--code-com); font-style:italic}
+.caption{
+  font-size:.76rem; color:var(--ink-faint); margin:-8px 0 20px;
+  padding-left:2px; border-left:2px solid var(--rule); padding-left:10px;
+}
+.warn{
+  border:1px solid var(--stamp); background:var(--stamp-soft);
+  border-radius:4px; padding:12px 16px; margin:0 0 18px; font-size:.92rem;
+}
+.warn b{color:var(--stamp); font-weight:600}
+.scroll{overflow-x:auto; margin:0 0 18px}
+table{border-collapse:collapse; width:100%; font-size:.87rem; min-width:420px}
+th,td{border:1px solid var(--rule); padding:7px 10px; text-align:left; vertical-align:top}
+th{background:var(--surface-2); font-weight:600; font-size:.8rem}
+
+/* ---------- exercise ---------- */
+.ex{
+  border:1px solid var(--rule-strong); border-top:3px solid var(--accent);
+  background:var(--surface); border-radius:4px; padding:18px 20px 20px;
+  margin:0 0 20px; box-shadow:var(--shadow);
+}
+.ex-top{
+  display:flex; align-items:baseline; gap:10px; margin-bottom:10px;
+  font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--ink-faint);
+}
+.ex-top .id{color:var(--accent); font-weight:600}
+.ex-q{margin:0 0 14px; font-weight:500}
+.opts{display:flex; flex-direction:column; gap:7px; margin-bottom:14px}
+.opt{
+  display:flex; gap:10px; align-items:flex-start; border:1px solid var(--rule);
+  border-radius:4px; padding:9px 12px; cursor:pointer; background:var(--paper);
+  font-size:.92rem; line-height:1.6;
+}
+.opt:hover{border-color:var(--rule-strong)}
+.opt input{margin:.42em 0 0; accent-color:var(--accent); flex:none}
+.opt.right{border-color:var(--seal); background:var(--seal-soft)}
+.opt.wrong{border-color:var(--stamp); background:var(--stamp-soft)}
+.opt .why-opt{display:block; font-size:.83rem; color:var(--ink-soft); margin-top:4px}
+.lines{
+  background:var(--code-bg); border:1px solid var(--rule); border-radius:5px;
+  padding:10px 0; margin-bottom:14px; overflow-x:auto;
+}
+.ln{
+  display:grid; grid-template-columns:34px 1fr; gap:10px; cursor:pointer;
+  padding:2px 14px 2px 0; font-family:"IBM Plex Mono",monospace;
+  font-size:.82rem; line-height:1.75; color:var(--code-ink); white-space:pre;
+}
+.ln .no{color:var(--code-dim); text-align:right; font-variant-numeric:tabular-nums; user-select:none}
+.ln:hover{background:rgba(255,255,255,.05)}
+.ln.pick{background:rgba(99,179,180,.16)}
+.ln.right{background:rgba(47,107,69,.32)}
+.ln.wrong{background:rgba(178,58,46,.3)}
+.fill{
+  font-family:"IBM Plex Mono",monospace; font-size:.88rem; width:100%;
+  padding:9px 11px; border:1px solid var(--rule-strong); border-radius:4px;
+  background:var(--paper); color:var(--ink); margin-bottom:12px;
+}
+.fill:focus,.opt:focus-within,.ln:focus-visible,button:focus-visible{
+  outline:2px solid var(--accent); outline-offset:2px;
+}
+.btn{
+  font:inherit; font-size:.86rem; font-weight:500; cursor:pointer;
+  border:1px solid var(--accent); background:var(--accent); color:var(--btn-ink);
+  padding:7px 16px; border-radius:4px;
+}
+.btn:hover{background:var(--accent-ink); border-color:var(--accent-ink); color:var(--btn-ink)}
+.btn.ghost{background:none; color:var(--accent)}
+.btn.ghost:hover{background:var(--accent-soft); color:var(--accent-ink)}
+.row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+.stamp{
+  font-family:"Bai Jamjuree",sans-serif; font-weight:700; font-size:.78rem;
+  letter-spacing:.1em; border:2px solid currentColor; border-radius:3px;
+  padding:2px 10px; transform:rotate(-2.5deg); display:inline-block;
+}
+.stamp.ok{color:var(--seal)} .stamp.no{color:var(--stamp)}
+.fb{margin:12px 0 0; font-size:.9rem; color:var(--ink-soft); display:none}
+.fb.show{display:block}
+.fb pre{margin-top:10px}
+.done-row{
+  display:flex; gap:9px; align-items:center; margin-top:13px; padding-top:12px;
+  border-top:1px dashed var(--rule); font-size:.86rem; color:var(--ink-soft);
+}
+.done-row input{accent-color:var(--seal); width:16px; height:16px}
+.pager{
+  display:flex; justify-content:space-between; gap:12px; margin-top:44px;
+  padding-top:20px; border-top:1px solid var(--rule);
+}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static; height:auto; border-right:0; border-bottom:1px solid var(--rule)}
+  .nav{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:4px}
+  .nav .tick{display:none}
+  .wrap{padding:0 18px}
+  .masthead{padding:26px 0 20px}
+}
+</style>
+
+<div class="shell">
+  <aside class="rail">
+    <div class="rail-head">
+      <p class="rail-title">ติวสแตกอีไฟลิ่ง</p>
+      <p class="rail-sub">8 โมดูล · 38 ข้อ</p>
+    </div>
+    <nav class="nav" id="nav" aria-label="สารบัญโมดูล"></nav>
+    <div class="rail-foot">
+      <div class="bar"><span id="barfill"></span></div>
+      <p id="progtext">ยังไม่ได้เริ่ม</p>
+      <button class="linkish" id="reset">ล้างความคืบหน้าทั้งหมด</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="masthead">
+      <div class="wrap">
+        <p class="kicker">ทบทวนก่อนลงมือ</p>
+        <h1>ติวสแตกที่โครงงานนี้ใช้จริง ก่อนเริ่มเขียนโค้ด</h1>
+        <p>ไม่ใช่บทเรียนทั่วไป ทุกตัวอย่างและทุกข้อในนี้ยกมาจากข้อกำหนดจริงของระบบทะเบียนหลักฐานและใบคำร้อง ISO 9001 ที่กำลังจะสร้าง ทำจบแล้วโค้ดที่ได้ต่อยอดเป็นของจริงได้เลย</p>
+        <div class="meta">
+          <span><b>สแตก</b> React · Node.js/Express · PostgreSQL · Prisma · Chart.js</span>
+          <span><b>วิธีใช้</b> อ่านแล้วทำแบบฝึกหัดทันที อย่าข้าม</span>
+          <span><b>ความคืบหน้า</b> บันทึกในเบราว์เซอร์นี้เอง</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrap" id="stage"></div>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   เนื้อหา — แต่ละโมดูลมี blocks (เนื้อหา) และ ex (แบบฝึกหัด)
+   ชนิดแบบฝึกหัด: choice | fill | bug | write
+   ========================================================= */
+const C = s => s.join("\n");
+
+const MODULES = [
+{
+id:"m0", num:"00", title:"ตั้งเครื่องให้พร้อม",
+why:"ถ้าเครื่องยังไม่พร้อม โมดูลที่เหลือทำตามไม่ได้เลย ใช้เวลาไม่เกินครึ่งชั่วโมง",
+blocks:[
+ {t:"h",x:"สามอย่างที่ต้องมี"},
+ {t:"tbl",head:["โปรแกรม","ใช้ทำอะไรในโครงงานนี้","ตรวจว่าลงแล้ว"],rows:[
+   ["<b>Node.js</b> รุ่น LTS","รันฝั่งหลังบ้านทั้งหมด และเป็นตัวรันเครื่องมือของ React","<code>node -v</code>"],
+   ["<b>PostgreSQL</b> 16+","เก็บข้อมูลบันทึก ประเด็นที่พบ และใบคำร้อง ตาม ADR-07","<code>psql --version</code>"],
+   ["<b>VS Code</b>","เขียนโค้ด · ลงส่วนขยาย Prisma และ ESLint ด้วย","เปิดโปรแกรมได้"]
+ ]},
+ {t:"p",x:"<b>LTS ย่อมาจาก Long Term Support</b> คือรุ่นที่ได้แพตช์ความปลอดภัยยาวหลายปี ส่วนรุ่นเลขคี่เป็นรุ่นทดลองที่หยุดซัพพอร์ตเร็ว โครงงานนี้ให้คะแนน Security เต็ม 15/15 จึงต้องใช้ LTS เท่านั้น"},
+ {t:"h",x:"สร้างโครงโฟลเดอร์"},
+ {t:"code",x:C([
+  "<span class='c'># ในโฟลเดอร์ practice/ ของรีโปนี้</span>",
+  "mkdir api web",
+  "",
+  "<span class='c'># ฝั่งหลังบ้าน</span>",
+  "cd api",
+  "npm init -y",
+  "npm install express cors dotenv",
+  "npm install --save-dev nodemon",
+  "npm install prisma --save-dev",
+  "npm install @prisma/client",
+  "npx prisma init",
+  "",
+  "<span class='c'># ฝั่งหน้าบ้าน กลับมาที่ practice/ ก่อน</span>",
+  "cd ../web",
+  "npm create vite@latest . -- --template react",
+  "npm install",
+  "npm install chart.js react-chartjs-2"
+ ])},
+ {t:"cap",x:"<code>npx</code> คือการเรียกโปรแกรมที่ติดตั้งไว้ในโครงการโดยไม่ต้องลงทั่วทั้งเครื่อง"},
+ {t:"warn",x:"<b>ไฟล์ .env ห้าม commit เด็ดขาด</b> เพราะเก็บรหัสผ่านฐานข้อมูล <code>npx prisma init</code> จะสร้างให้พร้อม <code>.gitignore</code> ตรวจให้แน่ใจว่ามีบรรทัด <code>.env</code> อยู่ในนั้นก่อนกด commit ครั้งแรก"}
+],
+ex:[
+ {type:"choice", q:"เปิดเทอร์มินัลพิมพ์ <code>node -v</code> แล้วได้ <code>v23.4.0</code> ควรทำอย่างไร",
+  opts:[
+   {x:"เปลี่ยนไปใช้รุ่น LTS เลขคู่ เช่น 22.x", ok:true, why:"เลขคี่คือรุ่นทดลอง หยุดซัพพอร์ตภายในไม่กี่เดือน ไม่เหมาะกับระบบที่ต้องส่งมอบให้หน่วยงานใช้จริง"},
+   {x:"ใช้ต่อได้เลย เพราะเลขสูงกว่าแปลว่าใหม่กว่าและดีกว่า", why:"ใหม่กว่าจริง แต่รุ่นเลขคี่ไม่มีการซัพพอร์ตระยะยาว พอหยุดแพตช์แล้วช่องโหว่ที่พบภายหลังจะไม่ถูกแก้"},
+   {x:"ถอด Node ออกแล้วใช้ PostgreSQL รันแทน", why:"คนละหน้าที่กันคนละชั้น PostgreSQL คือฐานข้อมูล ไม่ใช่ตัวรันโปรแกรม"}
+  ]},
+ {type:"fill", q:"เติมคำสั่งที่ใช้สร้างโครงร่าง Prisma ครั้งแรกในโฟลเดอร์ api",
+  pre:["npm install prisma --save-dev","____________"], ans:["npx prisma init","prisma init","npx prisma init --datasource-provider postgresql"],
+  fb:"<code>npx prisma init</code> จะสร้าง <code>prisma/schema.prisma</code> และไฟล์ <code>.env</code> ให้พร้อมใช้"}
+]
+},
+
+{
+id:"m1", num:"01", title:"จาวาสคริปต์เท่าที่โครงงานนี้ใช้",
+why:"สี่เรื่องนี้จะโผล่ซ้ำในทุกโมดูลที่เหลือ ถ้าข้ามไปจะติดตลอดทาง โดยเฉพาะ <b>async/await</b> ที่ทุกคำสั่งฐานข้อมูลต้องใช้",
+blocks:[
+ {t:"h",x:"1) แกะค่าออกจากอ็อบเจกต์ (destructuring)"},
+ {t:"p",x:"เขียนสั้นกว่าและอ่านง่ายกว่าการไล่จุดทีละชั้น ใช้บ่อยมากตอนรับค่าจากฟอร์มที่ผู้ใช้ส่งมา"},
+ {t:"code",x:C([
+  "<span class='c'>// แบบยาว</span>",
+  "<span class='k'>const</span> title = req.body.title;",
+  "<span class='k'>const</span> recordType = req.body.recordType;",
+  "",
+  "<span class='c'>// แบบสั้น ได้ผลเหมือนกันทุกประการ</span>",
+  "<span class='k'>const</span> { title, recordType } = req.body;",
+  "",
+  "<span class='c'>// ตั้งค่าเริ่มต้นเผื่อผู้ใช้ไม่ได้ส่งมา</span>",
+  "<span class='k'>const</span> { page = <span class='n'>1</span>, size = <span class='n'>20</span> } = req.query;"
+ ])},
+ {t:"h",x:"2) จัดการอาเรย์ — map · filter · reduce"},
+ {t:"p",x:"สามตัวนี้คือเครื่องมือหลักตอนคำนวณค่าสรุปบนแดชบอร์ด จำง่าย ๆ ว่า <b>map</b> แปลงทีละตัวได้อาเรย์ยาวเท่าเดิม <b>filter</b> คัดเอาเฉพาะที่เข้าเงื่อนไข <b>reduce</b> ยุบทั้งอาเรย์ให้เหลือค่าเดียว"},
+ {t:"code",x:C([
+  "<span class='k'>const</span> requests = [",
+  "  { id: <span class='n'>1</span>, status: <span class='s'>\"OPEN\"</span>, dueDate: <span class='s'>\"2569-09-20\"</span> },",
+  "  { id: <span class='n'>2</span>, status: <span class='s'>\"CLOSED\"</span>, dueDate: <span class='s'>\"2569-09-01\"</span> },",
+  "  { id: <span class='n'>3</span>, status: <span class='s'>\"OPEN\"</span>, dueDate: <span class='s'>\"2569-09-05\"</span> },",
+  "];",
+  "",
+  "<span class='c'>// ใบที่ยังไม่ปิด</span>",
+  "<span class='k'>const</span> active = requests.filter(r =&gt; r.status !== <span class='s'>\"CLOSED\"</span>);",
+  "",
+  "<span class='c'>// เอาเฉพาะเลขที่ใบ</span>",
+  "<span class='k'>const</span> ids = requests.map(r =&gt; r.id);   <span class='c'>// [1, 2, 3]</span>",
+  "",
+  "<span class='c'>// นับจำนวนแยกตามสถานะ ใช้บนแดชบอร์ด FR-B-39.1</span>",
+  "<span class='k'>const</span> byStatus = requests.reduce((acc, r) =&gt; {",
+  "  acc[r.status] = (acc[r.status] ?? <span class='n'>0</span>) + <span class='n'>1</span>;",
+  "  <span class='k'>return</span> acc;",
+  "}, {});",
+  "<span class='c'>// { OPEN: 2, CLOSED: 1 }</span>"
+ ])},
+ {t:"h",x:"3) async / await — เรื่องที่พลาดกันมากที่สุด"},
+ {t:"p",x:"ทุกคำสั่งที่คุยกับฐานข้อมูลใช้เวลา จาวาสคริปต์จึงไม่รอผลแต่คืน <b>สัญญาว่าจะได้ผลทีหลัง (Promise)</b> มาก่อน ถ้าลืมใส่ <code>await</code> โปรแกรมจะเดินต่อไปทั้งที่ยังไม่ได้ข้อมูล และจะได้ค่าเป็นวัตถุ Promise แทนข้อมูลจริง"},
+ {t:"code",x:C([
+  "<span class='c'>// ผิด — ลืม await ได้ Promise มาแทนข้อมูล</span>",
+  "<span class='k'>const</span> record = prisma.record.findUnique({ where: { id } });",
+  "console.log(record.title);  <span class='c'>// undefined</span>",
+  "",
+  "<span class='c'>// ถูก</span>",
+  "<span class='k'>const</span> record = <span class='k'>await</span> prisma.record.findUnique({ where: { id } });",
+  "console.log(record.title);  <span class='c'>// ได้ชื่อเรื่องจริง</span>"
+ ])},
+ {t:"warn",x:"<b>await ในลูปคือกับดักเรื่องความเร็ว</b> ถ้าวน 20 รอบแล้ว await ทีละรอบ เวลาจะบวกกันเป็น 20 เท่า ถ้าแต่ละงานไม่ขึ้นต่อกัน ให้ยิงพร้อมกันด้วย <code>Promise.all</code> แล้วรอทีเดียว"},
+ {t:"code",x:C([
+  "<span class='c'>// ช้า — 20 ไฟล์ รอทีละไฟล์</span>",
+  "<span class='k'>for</span> (<span class='k'>const</span> f <span class='k'>of</span> files) { <span class='k'>await</span> saveEvidence(f); }",
+  "",
+  "<span class='c'>// เร็ว — ยิงพร้อมกันแล้วรอทีเดียว</span>",
+  "<span class='k'>await</span> Promise.all(files.map(f =&gt; saveEvidence(f)));"
+ ])},
+ {t:"h",x:"4) แยกไฟล์ด้วย import / export"},
+ {t:"p",x:"โครงงานนี้บังคับให้แยกโค้ดเป็นสามส่วนตาม ADR-05 จึงต้องส่งของข้ามไฟล์เป็น ใส่ <code>\"type\": \"module\"</code> ใน <code>package.json</code> ก่อน แล้วใช้ไวยากรณ์นี้ได้ทั้งโครงการ"},
+ {t:"code",x:C([
+  "<span class='c'>// recordService.js</span>",
+  "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> createRecord(data, actor) { <span class='c'>/* ... */</span> }",
+  "",
+  "<span class='c'>// recordController.js</span>",
+  "<span class='k'>import</span> { createRecord } <span class='k'>from</span> <span class='s'>\"./recordService.js\"</span>;"
+ ])},
+ {t:"cap",x:"สังเกตว่าต้องมี <code>.js</code> ต่อท้ายเสมอเวลา import ไฟล์ของตัวเอง ต่างจาก React ที่ตัวรวมไฟล์เติมให้เอง"}
+],
+ex:[
+ {type:"fill", q:"เขียนบรรทัดเดียวที่แกะ <code>title</code> กับ <code>severity</code> ออกจาก <code>req.body</code>",
+  pre:["// แทนที่สองบรรทัดนี้ด้วยบรรทัดเดียว","// const title = req.body.title;","// const severity = req.body.severity;","____________"],
+  ans:["const { title, severity } = req.body;","const {title, severity} = req.body;","const { title, severity } = req.body","let { title, severity } = req.body;"],
+  fb:"ชื่อในวงเล็บปีกกาต้องตรงกับชื่อคีย์ในอ็อบเจกต์เป๊ะ ๆ ถ้าอยากเปลี่ยนชื่อให้ใช้ <code>{ title: recordTitle }</code>"},
+ {type:"choice", q:"อยากนับว่ามีใบคำร้องเกินกำหนดกี่ใบ ควรใช้ตัวไหน",
+  opts:[
+   {x:"<code>requests.filter(...).length</code>", ok:true, why:"filter คัดเฉพาะที่เข้าเงื่อนไขได้อาเรย์ใหม่ แล้วอ่าน length ได้จำนวนทันที ตรงไปตรงมาที่สุด"},
+   {x:"<code>requests.map(...)</code>", why:"map คืนอาเรย์ยาวเท่าเดิมเสมอ ไม่ว่าเงื่อนไขจะเป็นจริงกี่ตัว จึงนับไม่ได้"},
+   {x:"<code>requests.forEach(...)</code>", why:"forEach ไม่คืนค่าอะไรกลับมาเลย ต้องไปสร้างตัวแปรนับเองข้างนอก ซึ่งยาวกว่าโดยไม่จำเป็น"}
+  ]},
+ {type:"bug", q:"โค้ดนี้ตั้งใจดึงใบคำร้องมาแสดงชื่อผู้รับผิดชอบ แต่ได้ <code>undefined</code> ตลอด กดเลือกบรรทัดที่ผิด",
+  lines:["async function showOwner(id) {","  const request = prisma.request.findUnique({","    where: { id },","    include: { owner: true },","  });","  console.log(request.owner.fullName);","}"],
+  bad:1,
+  fb:"บรรทัดที่ 2 ลืม <code>await</code> ตัวแปร <code>request</code> จึงเป็น Promise ไม่ใช่ข้อมูล แก้เป็น <code>const request = await prisma.request.findUnique({</code>"},
+ {type:"choice", q:"โค้ดนี้พิมพ์อะไรออกมาตามลำดับ<pre>console.log(\"A\");\nsetTimeout(() =&gt; console.log(\"B\"), 0);\nPromise.resolve().then(() =&gt; console.log(\"C\"));\nconsole.log(\"D\");</pre>",
+  opts:[
+   {x:"A D C B", ok:true, why:"โค้ดปกติเดินให้จบก่อนได้ A D จากนั้นคิวงานเล็ก (Promise) มาก่อนคิวงานใหญ่ (setTimeout) จึงได้ C แล้วค่อย B"},
+   {x:"A B C D", why:"setTimeout แม้ตั้งไว้ 0 มิลลิวินาทีก็ยังต้องรอให้โค้ดปกติจบก่อนเสมอ B จึงไม่มีทางมาก่อน D"},
+   {x:"A D B C", why:"ลำดับถูกครึ่งเดียว งาน Promise อยู่ในคิวที่ถูกเคลียร์ก่อน setTimeout เสมอ C จึงมาก่อน B"}
+  ]},
+ {type:"write", q:"เขียนฟังก์ชัน <code>countByStatus(requests)</code> ที่รับอาเรย์ใบคำร้อง แล้วคืนอ็อบเจกต์นับจำนวนแยกตามสถานะ ใช้ <code>reduce</code>",
+  sol:C([
+   "<span class='k'>function</span> countByStatus(requests) {",
+   "  <span class='k'>return</span> requests.reduce((acc, r) =&gt; {",
+   "    acc[r.status] = (acc[r.status] ?? <span class='n'>0</span>) + <span class='n'>1</span>;",
+   "    <span class='k'>return</span> acc;",
+   "  }, {});",
+   "}"
+  ]),
+  fb:"จุดที่คนลืมบ่อยสองจุด — ต้อง <code>return acc</code> ทุกรอบ ไม่งั้นรอบถัดไปได้ undefined และต้องใส่ <code>{}</code> เป็นค่าตั้งต้นที่พารามิเตอร์ตัวสองของ reduce"}
+]
+},
+{
+id:"m2", num:"02", title:"PostgreSQL กับ Prisma",
+why:"ตาม ADR-07 และ ADR-08 โครงงานนี้ล็อกไว้แล้วว่าใช้ PostgreSQL คู่กับ Prisma เหตุผลคือ Prisma สร้างคำสั่งแบบใส่ค่าผ่านตัวแปรให้เอง จึงกัน SQL injection ตั้งแต่ต้น ซึ่งสำคัญเพราะทีมให้คะแนน Security เต็ม 15/15",
+blocks:[
+ {t:"h",x:"schema.prisma คือแหล่งความจริงเดียวของโครงสร้างข้อมูล"},
+ {t:"p",x:"ไฟล์เดียวนี้กำหนดทั้งตารางในฐานข้อมูลและชนิดข้อมูลในโค้ด แก้ที่นี่ที่เดียวแล้วสั่ง migrate ระบบจะปรับตารางให้ตรงกันเอง"},
+ {t:"code",x:C([
+  "<span class='k'>datasource</span> db {",
+  "  provider = <span class='s'>\"postgresql\"</span>",
+  "  url      = env(<span class='s'>\"DATABASE_URL\"</span>)",
+  "}",
+  "",
+  "<span class='k'>generator</span> client {",
+  "  provider = <span class='s'>\"prisma-client-js\"</span>",
+  "}",
+  "",
+  "<span class='k'>model</span> Record {",
+  "  id          <span class='k'>Int</span>       <span class='n'>@id @default(autoincrement())</span>",
+  "  title       <span class='k'>String</span>",
+  "  recordType  <span class='k'>String</span>",
+  "  recordDate  <span class='k'>DateTime</span>",
+  "  ownerId     <span class='k'>Int</span>",
+  "  owner       <span class='k'>User</span>      <span class='n'>@relation(fields: [ownerId], references: [id])</span>",
+  "  evidences   <span class='k'>Evidence[]</span>",
+  "  createdAt   <span class='k'>DateTime</span>  <span class='n'>@default(now())</span>",
+  "}"
+ ])},
+ {t:"cap",x:"เครื่องหมาย <code>[]</code> ต่อท้ายชนิดแปลว่ามีได้หลายรายการ ส่วน <code>?</code> ต่อท้ายแปลว่าเว้นว่างได้ (null)"},
+ {t:"h",x:"หัวใจของโครงงานนี้ — Evidence ที่มีคีย์นอกสามตัว"},
+ {t:"p",x:"มติ 3 ก.ย. 2569 กำหนดว่าหลักฐานหนึ่งไฟล์ต้องแนบเข้ากับ <b>บันทึกข้อมูล</b> หรือ <b>ประเด็นที่พบ</b> หรือ <b>ใบคำร้อง</b> ก็ได้ จึงมีคีย์นอกสามตัวที่เว้นว่างได้ทั้งหมด แทนที่จะแยกเป็นสามตารางที่หน้าตาเหมือนกัน"},
+ {t:"code",x:C([
+  "<span class='k'>model</span> Evidence {",
+  "  id          <span class='k'>Int</span>       <span class='n'>@id @default(autoincrement())</span>",
+  "  fileName    <span class='k'>String</span>",
+  "  mimeType    <span class='k'>String</span>",
+  "  sizeBytes   <span class='k'>Int</span>",
+  "  storagePath <span class='k'>String</span>    <span class='c'>// เก็บแค่เส้นทาง ไฟล์จริงอยู่นอกฐานข้อมูล ตาม ADR-06</span>",
+  "  uploadedBy  <span class='k'>Int</span>",
+  "  uploadedAt  <span class='k'>DateTime</span>  <span class='n'>@default(now())</span>",
+  "",
+  "  <span class='c'>// สามตัวนี้เว้นว่างได้ทั้งหมด แต่ต้องมีค่าอย่างน้อยหนึ่งตัว</span>",
+  "  recordId    <span class='k'>Int?</span>",
+  "  record      <span class='k'>Record?</span>   <span class='n'>@relation(fields: [recordId], references: [id])</span>",
+  "  findingId   <span class='k'>Int?</span>",
+  "  finding     <span class='k'>Finding?</span>  <span class='n'>@relation(fields: [findingId], references: [id])</span>",
+  "  requestId   <span class='k'>Int?</span>",
+  "  request     <span class='k'>Request?</span>  <span class='n'>@relation(fields: [requestId], references: [id])</span>",
+  "}"
+ ])},
+ {t:"warn",x:"<b>Prisma บังคับ &quot;ต้องมีอย่างน้อยหนึ่งตัว&quot; ให้ไม่ได้</b> กฎข้อนี้เป็นกฎทางธุรกิจ ต้องตรวจในชั้นตรรกะธุรกิจเองตาม NFR-B-04 (ก) ถ้าปล่อยผ่านจะได้หลักฐานลอยที่ไม่ผูกกับอะไรเลยและไม่มีใครเห็นในระบบ"},
+ {t:"h",x:"สั่งให้ฐานข้อมูลตามโครงสร้างใหม่"},
+ {t:"code",x:C([
+  "<span class='c'># แก้ schema.prisma แล้วสั่ง</span>",
+  "npx prisma migrate dev --name add_evidence",
+  "",
+  "<span class='c'># เปิดหน้าจอดูข้อมูลในฐานข้อมูล</span>",
+  "npx prisma studio"
+ ])},
+ {t:"cap",x:"<code>migrate dev</code> ใช้ตอนพัฒนาเท่านั้น จะสร้างไฟล์ SQL เก็บไว้ใน <code>prisma/migrations/</code> ซึ่งต้อง commit ขึ้น git ด้วยเพราะเป็นประวัติการเปลี่ยนโครงสร้าง"},
+ {t:"h",x:"คำสั่งที่จะใช้บ่อยที่สุดสี่แบบ"},
+ {t:"code",x:C([
+  "<span class='c'>// สร้าง</span>",
+  "<span class='k'>const</span> rec = <span class='k'>await</span> prisma.record.create({",
+  "  data: { title, recordType, recordDate, ownerId },",
+  "});",
+  "",
+  "<span class='c'>// ค้นหาหลายรายการ พร้อมกรองและเรียง</span>",
+  "<span class='k'>const</span> list = <span class='k'>await</span> prisma.request.findMany({",
+  "  where: { status: { not: <span class='s'>\"CLOSED\"</span> } },",
+  "  orderBy: { dueDate: <span class='s'>\"asc\"</span> },",
+  "  include: { owner: <span class='k'>true</span>, evidences: <span class='k'>true</span> },",
+  "});",
+  "",
+  "<span class='c'>// แก้ไข</span>",
+  "<span class='k'>await</span> prisma.request.update({",
+  "  where: { id },",
+  "  data: { status: <span class='s'>\"IMPLEMENTING\"</span> },",
+  "});",
+  "",
+  "<span class='c'>// หลายคำสั่งที่ต้องสำเร็จพร้อมกันหรือล้มพร้อมกัน</span>",
+  "<span class='k'>await</span> prisma.$transaction([",
+  "  prisma.request.update({ where: { id }, data: { status: <span class='s'>\"CLOSED\"</span> } }),",
+  "  prisma.auditTrail.create({ data: trail }),",
+  "]);"
+ ])},
+ {t:"p",x:"<b>เรื่อง transaction สำคัญมากกับโครงงานนี้</b> เพราะ NFR-B-01 (จ) บังคับว่าทุกเหตุการณ์สำคัญต้องมีร่องรอยการตรวจสอบครบ ถ้าปิดใบสำเร็จแต่บันทึกร่องรอยล้มเหลว จะได้ใบที่ปิดแล้วโดยไม่มีใครรู้ว่าใครปิด ซึ่งผิดข้อกำหนด"}
+],
+ex:[
+ {type:"fill", q:"เติมชนิดข้อมูลของเขตข้อมูล <code>findingId</code> ใน model Evidence ให้เว้นว่างได้",
+  pre:["model Evidence {","  id         Int  @id @default(autoincrement())","  findingId  ____________","}"],
+  ans:["Int?","int?"],
+  fb:"เครื่องหมาย <code>?</code> ต่อท้ายชนิดคือการบอกว่าเขตข้อมูลนี้เป็น null ได้ ถ้าเขียน <code>Int</code> เฉย ๆ Prisma จะบังคับให้ต้องมีค่าเสมอ ซึ่งจะทำให้แนบหลักฐานเข้ากับบันทึกข้อมูลอย่างเดียวไม่ได้"},
+ {type:"choice", q:"ทำไมโครงงานนี้ถึงใช้ Evidence ตารางเดียวที่มีคีย์นอกสามตัวเว้นว่างได้ แทนที่จะแยกเป็น RecordEvidence, FindingEvidence, RequestEvidence สามตาราง",
+  opts:[
+   {x:"เพราะทั้งสามกรณีเก็บข้อมูลชุดเดียวกันทุกเขตข้อมูล ต่างกันแค่ผูกกับอะไร แยกสามตารางจะเขียนโค้ดอัปโหลดซ้ำสามชุด", ok:true, why:"ตรงกับหลัก Modifiability ที่ได้ 10/15 ถ้าวันหนึ่งต้องเพิ่มเขตข้อมูล เช่น ผลตรวจไวรัส ก็แก้ที่เดียวแทนที่จะไล่แก้สามที่แล้วลืมที่หนึ่ง"},
+   {x:"เพราะ PostgreSQL รองรับได้แค่สามตารางต่อหนึ่งความสัมพันธ์", why:"ไม่มีข้อจำกัดแบบนั้นอยู่จริง PostgreSQL สร้างตารางได้ไม่จำกัดจำนวน"},
+   {x:"เพราะ Prisma เขียน model ได้ทีละตัวเท่านั้น", why:"Prisma เขียนกี่ model ก็ได้ในไฟล์เดียว การตัดสินนี้มาจากเหตุผลเชิงออกแบบ ไม่ใช่ข้อจำกัดของเครื่องมือ"}
+  ]},
+ {type:"bug", q:"schema นี้สั่ง migrate แล้วขึ้นข้อผิดพลาด กดเลือกบรรทัดที่ผิด",
+  lines:["model Finding {","  id        Int      @id @default(autoincrement())","  severity  String","  roundId   Int","  round     AuditRound","  evidences Evidence[]","}"],
+  bad:4,
+  fb:"บรรทัดที่ 5 ประกาศความสัมพันธ์แต่ไม่ได้บอกว่าผูกด้วยเขตข้อมูลไหน ต้องเขียนเป็น <code>round AuditRound @relation(fields: [roundId], references: [id])</code> Prisma ต้องรู้ทั้งคีย์นอกฝั่งนี้และคีย์หลักฝั่งโน้น"},
+ {type:"fill", q:"เขียนคำสั่งดึงใบคำร้องทั้งหมดที่สถานะเป็น <code>PENDING_VERIFICATION</code> ให้เติมเฉพาะส่วน where",
+  pre:["const list = await prisma.request.findMany({","  ____________","});"],
+  ans:['where: { status: "PENDING_VERIFICATION" },','where: { status: "PENDING_VERIFICATION" }','where:{status:"PENDING_VERIFICATION"}'],
+  fb:"รูปแบบคือ <code>where: { ชื่อเขตข้อมูล: ค่า }</code> ถ้าต้องการเงื่อนไขซับซ้อนกว่านี้ใช้ตัวช่วยอย่าง <code>{ not: ... }</code> <code>{ in: [...] }</code> <code>{ lt: ... }</code> ซ้อนเข้าไปได้"},
+ {type:"choice", q:"ตอนปิดใบคำร้อง ระบบต้องทำสองอย่างคือเปลี่ยนสถานะเป็น CLOSED และบันทึกร่องรอยว่าใครปิด ควรเขียนอย่างไร",
+  opts:[
+   {x:"ใส่ทั้งสองคำสั่งไว้ใน <code>prisma.$transaction([...])</code>", ok:true, why:"ถ้าคำสั่งใดล้มเหลว ทั้งชุดจะย้อนกลับหมด ไม่มีทางเกิดใบที่ปิดแล้วแต่ไม่มีร่องรอย ซึ่ง NFR-B-01 (จ) บังคับไว้"},
+   {x:"เรียก update ก่อน แล้วค่อยเรียก create ต่อกันสองบรรทัด", why:"ถ้าบรรทัดแรกสำเร็จแล้วบรรทัดสองล้มเหลว เช่น ไฟดับหรือฐานข้อมูลหลุด จะได้ใบที่ปิดแล้วโดยไม่มีใครรู้ว่าใครปิด ตรวจสอบย้อนหลังไม่ได้"},
+   {x:"เรียก create ร่องรอยก่อน แล้วค่อย update สถานะ", why:"สลับลำดับไม่ได้ช่วยอะไร ปัญหาเดิมยังอยู่ แค่เปลี่ยนเป็นได้ร่องรอยที่บอกว่าปิดแล้วทั้งที่ใบยังไม่ปิด ซึ่งแย่กว่าเดิม"}
+  ]},
+ {type:"write", q:"เขียน model <code>AuditTrail</code> ที่เก็บ ผู้กระทำ บทบาทขณะกระทำ การกระทำ ชนิดและรหัสของสิ่งที่ถูกกระทำ และเวลา ตามที่ §6.1 กำหนด",
+  sol:C([
+   "<span class='k'>model</span> AuditTrail {",
+   "  id         <span class='k'>Int</span>      <span class='n'>@id @default(autoincrement())</span>",
+   "  actorId    <span class='k'>Int</span>",
+   "  actor      <span class='k'>User</span>     <span class='n'>@relation(fields: [actorId], references: [id])</span>",
+   "  actorRole  <span class='k'>String</span>   <span class='c'>// บทบาทขณะกระทำ ไม่ใช่บทบาทปัจจุบันของผู้ใช้</span>",
+   "  action     <span class='k'>String</span>   <span class='c'>// CREATE / UPDATE / APPROVE / CLOSE</span>",
+   "  targetType <span class='k'>String</span>   <span class='c'>// Record / Finding / Request</span>",
+   "  targetId   <span class='k'>Int</span>",
+   "  occurredAt <span class='k'>DateTime</span> <span class='n'>@default(now())</span>",
+   "",
+   "  <span class='n'>@@index([targetType, targetId])</span>",
+   "}"
+  ]),
+  fb:"จุดที่สำคัญที่สุดคือ <code>actorRole</code> ต้องเก็บเป็นข้อความในแถวนั้นเลย <b>ห้ามอ้างไปที่บทบาทปัจจุบันของผู้ใช้</b> เพราะผู้ใช้เปลี่ยนบทบาทได้ ถ้าไปอ่านจากตาราง User ตอนดูย้อนหลัง จะได้บทบาทวันนี้ ไม่ใช่บทบาทวันที่กระทำจริง ร่องรอยจะเพี้ยนทั้งระบบ"}
+]
+},
+
+{
+id:"m3", num:"03", title:"Express กับการแบ่งสามส่วน",
+why:"ADR-05 ตัดสินแล้วว่าแต่ละบริการต้องแบ่งภายในเป็นสามส่วน และ NFR-B-04 (ก) เขียนไว้ตรง ๆ ว่า <b>ห้ามมีกฎทางธุรกิจอยู่ในชั้นรับคำขอ</b> นี่คือกฎที่ถูกละเมิดง่ายที่สุดเวลารีบ",
+blocks:[
+ {t:"h",x:"สามส่วนคืออะไร ใครรู้จักใครได้บ้าง"},
+ {t:"tbl",head:["ส่วน","หน้าที่","รู้จักอะไรได้","ห้ามรู้จัก"],rows:[
+  ["<b>ส่วนรับคำขอ</b><br>controller","อ่านค่าจากคำขอ เรียกส่วนตรรกะ แล้วส่งผลกลับ","req, res, ส่วนตรรกะธุรกิจ","Prisma · SQL · กฎทางธุรกิจ"],
+  ["<b>ส่วนตรรกะธุรกิจ</b><br>service","ตรวจกฎทั้งหมด เช่น เปลี่ยนสถานะได้ไหม ใครมีสิทธิ์","ส่วนเข้าถึงข้อมูล","req · res · HTTP"],
+  ["<b>ส่วนเข้าถึงข้อมูล</b><br>repository","คุยกับฐานข้อมูลอย่างเดียว","Prisma","กฎทางธุรกิจ · HTTP"]
+ ]},
+ {t:"p",x:"กติกาจำง่าย ๆ คือ <b>ส่วนตรรกะธุรกิจต้องไม่รู้เลยว่ามี HTTP อยู่ในโลก</b> ถ้าวันหนึ่งเปลี่ยนจากเว็บเป็นงานตั้งเวลา ส่วนตรรกะต้องใช้ต่อได้โดยไม่ต้องแก้"},
+ {t:"h",x:"หน้าตาจริงของทั้งสามไฟล์"},
+ {t:"code",x:C([
+  "<span class='c'>// repositories/requestRepository.js — รู้จักแค่ฐานข้อมูล</span>",
+  "<span class='k'>import</span> { prisma } <span class='k'>from</span> <span class='s'>\"../db.js\"</span>;",
+  "",
+  "<span class='k'>export</span> <span class='k'>function</span> findById(id) {",
+  "  <span class='k'>return</span> prisma.request.findUnique({ where: { id } });",
+  "}",
+  "",
+  "<span class='k'>export</span> <span class='k'>function</span> updateStatus(id, status) {",
+  "  <span class='k'>return</span> prisma.request.update({ where: { id }, data: { status } });",
+  "}"
+ ])},
+ {t:"code",x:C([
+  "<span class='c'>// services/requestService.js — รู้จักกฎ ไม่รู้จัก HTTP</span>",
+  "<span class='k'>import</span> * <span class='k'>as</span> repo <span class='k'>from</span> <span class='s'>\"../repositories/requestRepository.js\"</span>;",
+  "",
+  "<span class='k'>const</span> ALLOWED = {",
+  "  OPEN: [<span class='s'>\"CORRECTION\"</span>],",
+  "  CORRECTION: [<span class='s'>\"ANALYSIS_PLANNING\"</span>],",
+  "  ANALYSIS_PLANNING: [<span class='s'>\"PENDING_PLAN_APPROVAL\"</span>],",
+  "  PENDING_PLAN_APPROVAL: [<span class='s'>\"IMPLEMENTING\"</span>, <span class='s'>\"ANALYSIS_PLANNING\"</span>],",
+  "};",
+  "",
+  "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> changeStatus(id, next, actor) {",
+  "  <span class='k'>const</span> req = <span class='k'>await</span> repo.findById(id);",
+  "  <span class='k'>if</span> (!req) <span class='k'>throw</span> Object.assign(<span class='k'>new</span> Error(<span class='s'>\"ไม่พบใบคำร้อง\"</span>), { status: <span class='n'>404</span> });",
+  "",
+  "  <span class='k'>const</span> allowed = ALLOWED[req.status] ?? [];",
+  "  <span class='k'>if</span> (!allowed.includes(next))",
+  "    <span class='k'>throw</span> Object.assign(<span class='k'>new</span> Error(<span class='s'>\"เปลี่ยนสถานะนี้ไม่ได้\"</span>), { status: <span class='n'>409</span> });",
+  "",
+  "  <span class='k'>return</span> repo.updateStatus(id, next);",
+  "}"
+ ])},
+ {t:"code",x:C([
+  "<span class='c'>// controllers/requestController.js — บาง ๆ ไม่มีกฎ</span>",
+  "<span class='k'>import</span> * <span class='k'>as</span> service <span class='k'>from</span> <span class='s'>\"../services/requestService.js\"</span>;",
+  "",
+  "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> patchStatus(req, res, next) {",
+  "  <span class='k'>try</span> {",
+  "    <span class='k'>const</span> { status } = req.body;",
+  "    <span class='k'>const</span> updated = <span class='k'>await</span> service.changeStatus(Number(req.params.id), status, req.actor);",
+  "    res.json(updated);",
+  "  } <span class='k'>catch</span> (err) { next(err); }",
+  "}"
+ ])},
+ {t:"h",x:"ต่อทุกอย่างเข้าด้วยกัน"},
+ {t:"code",x:C([
+  "<span class='c'>// routes/requestRoutes.js</span>",
+  "<span class='k'>import</span> { Router } <span class='k'>from</span> <span class='s'>\"express\"</span>;",
+  "<span class='k'>import</span> * <span class='k'>as</span> c <span class='k'>from</span> <span class='s'>\"../controllers/requestController.js\"</span>;",
+  "",
+  "<span class='k'>const</span> router = Router();",
+  "router.patch(<span class='s'>\"/:id/status\"</span>, c.patchStatus);",
+  "<span class='k'>export</span> <span class='k'>default</span> router;",
+  "",
+  "<span class='c'>// app.js</span>",
+  "<span class='k'>import</span> express <span class='k'>from</span> <span class='s'>\"express\"</span>;",
+  "<span class='k'>import</span> requestRoutes <span class='k'>from</span> <span class='s'>\"./routes/requestRoutes.js\"</span>;",
+  "",
+  "<span class='k'>const</span> app = express();",
+  "app.use(express.json());                 <span class='c'>// อ่าน JSON จาก body</span>",
+  "app.use(<span class='s'>\"/api/requests\"</span>, requestRoutes);",
+  "",
+  "<span class='c'>// ตัวจัดการข้อผิดพลาด ต้องอยู่ท้ายสุดเสมอ และต้องมีสี่พารามิเตอร์</span>",
+  "app.use((err, req, res, _next) =&gt; {",
+  "  res.status(err.status ?? <span class='n'>500</span>).json({ message: err.message });",
+  "});",
+  "",
+  "app.listen(<span class='n'>3000</span>);"
+ ])},
+ {t:"warn",x:"<b>ลำดับของ app.use สำคัญ</b> Express เดินจากบนลงล่าง ถ้าวาง <code>express.json()</code> ไว้หลังเส้นทาง ตัว <code>req.body</code> จะเป็น undefined และถ้าวางตัวจัดการข้อผิดพลาดไว้ก่อนเส้นทาง มันจะไม่มีวันถูกเรียกเลย"}
+],
+ex:[
+ {type:"bug", q:"โค้ดนี้ละเมิด NFR-B-04 (ก) กดเลือกบรรทัดที่เป็นปัญหา",
+  lines:["export async function patchStatus(req, res, next) {","  try {","    const { status } = req.body;","    const current = await prisma.request.findUnique({ where: { id } });","    const updated = await service.changeStatus(Number(req.params.id), status);","    res.json(updated);","  } catch (err) { next(err); }","}"],
+  bad:3,
+  fb:"บรรทัดที่ 4 เรียก Prisma ตรงจากส่วนรับคำขอ ทำให้ชั้นนี้รู้จักฐานข้อมูล ซึ่งขัดกับ ADR-05 ผลเสียจริงคือกฎจะกระจายไปสองที่ พอต้องแก้เงื่อนไขจะลืมแก้ที่หนึ่ง และเขียนชุดทดสอบกฎทางธุรกิจโดยไม่ต้องตั้งฐานข้อมูลไม่ได้"},
+ {type:"choice", q:"ชั้นไหนควรเป็นที่เดียวที่รู้ว่า &quot;ใบที่สถานะ รออนุมัติแผน ไปต่อได้แค่ อยู่ระหว่างดำเนินการตามแผน หรือย้อนกลับไป วิเคราะห์สาเหตุ&quot;",
+  opts:[
+   {x:"ส่วนตรรกะธุรกิจ (service)", ok:true, why:"เป็นกฎทางธุรกิจแท้ ๆ NFR-B-04 (ก) ระบุชื่อเงื่อนไขการเปลี่ยนสถานะใบคำร้องไว้เป็นตัวอย่างตรง ๆ ว่าห้ามอยู่ในชั้นรับคำขอ"},
+   {x:"ส่วนรับคำขอ (controller) เพราะรู้ค่าที่ผู้ใช้ส่งมาก่อนใคร", why:"รู้ก่อนไม่ได้แปลว่าควรตัดสิน ถ้าวางกฎไว้ที่นี่ พอมีทางเข้าที่สองเช่นงานตั้งเวลาปิดใบอัตโนมัติ กฎจะไม่ถูกบังคับใช้"},
+   {x:"ส่วนเข้าถึงข้อมูล (repository) เพราะเขียนฐานข้อมูลที่นี่", why:"ชั้นนี้ควรโง่ที่สุดในระบบ รู้แค่วิธีอ่านเขียน ถ้าใส่กฎลงไปจะเปลี่ยนฐานข้อมูลทีหลังไม่ได้โดยไม่กระทบกฎ"},
+   {x:"หน้าเว็บ React เพราะผู้ใช้เห็นปุ่มที่กดได้อยู่แล้ว", why:"หน้าเว็บซ่อนปุ่มได้ แต่คนที่ยิงคำขอตรงเข้า API จะข้ามไปได้ทั้งหมด การตรวจฝั่งหน้าบ้านเป็นเรื่องความสะดวก ไม่ใช่การบังคับ"}
+  ]},
+ {type:"fill", q:"เติมบรรทัดที่ทำให้ Express อ่าน JSON จาก body ได้",
+  pre:["const app = express();","____________","app.use(\"/api/requests\", requestRoutes);"],
+  ans:["app.use(express.json());","app.use(express.json())"],
+  fb:"ถ้าลืมบรรทัดนี้ <code>req.body</code> จะเป็น undefined แล้วการแกะค่าด้วย destructuring จะพังทันที เป็นหนึ่งในข้อผิดพลาดที่เสียเวลาหาที่สุดสำหรับคนเพิ่งกลับมาเขียน Express"},
+ {type:"choice", q:"ตัวจัดการข้อผิดพลาดของ Express ต้องมีพารามิเตอร์กี่ตัว",
+  opts:[
+   {x:"สี่ตัว คือ err, req, res, next", ok:true, why:"Express ดูจากจำนวนพารามิเตอร์เพื่อแยกว่าเป็นตัวจัดการข้อผิดพลาดหรือ middleware ธรรมดา ถ้ามีสามตัวจะถูกมองว่าเป็น middleware ปกติและไม่มีวันรับ error"},
+   {x:"สามตัว คือ req, res, next", why:"นั่นคือ middleware ธรรมดา ถ้าเขียนแบบนี้ error ที่ส่งผ่าน next(err) จะข้ามไปที่ตัวจัดการมาตรฐานของ Express แทน"},
+   {x:"สองตัว คือ req, res", why:"เป็นรูปแบบของตัวจัดการเส้นทางปลายทาง ไม่ใช่ตัวจัดการข้อผิดพลาด"}
+  ]},
+ {type:"write", q:"เขียนฟังก์ชันในส่วนตรรกะธุรกิจชื่อ <code>attachEvidence(payload)</code> ที่บังคับกฎว่าหลักฐานต้องผูกกับอย่างน้อยหนึ่งใน recordId, findingId, requestId",
+  sol:C([
+   "<span class='c'>// services/evidenceService.js</span>",
+   "<span class='k'>import</span> * <span class='k'>as</span> repo <span class='k'>from</span> <span class='s'>\"../repositories/evidenceRepository.js\"</span>;",
+   "",
+   "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> attachEvidence(payload) {",
+   "  <span class='k'>const</span> { recordId, findingId, requestId } = payload;",
+   "  <span class='k'>const</span> links = [recordId, findingId, requestId].filter(Boolean);",
+   "",
+   "  <span class='k'>if</span> (links.length === <span class='n'>0</span>)",
+   "    <span class='k'>throw</span> Object.assign(",
+   "      <span class='k'>new</span> Error(<span class='s'>\"หลักฐานต้องผูกกับบันทึกข้อมูล ประเด็นที่พบ หรือใบคำร้อง อย่างน้อยหนึ่งอย่าง\"</span>),",
+   "      { status: <span class='n'>400</span> }",
+   "    );",
+   "",
+   "  <span class='k'>return</span> repo.create(payload);",
+   "}"
+  ]),
+  fb:"สังเกตว่าข้อความผิดพลาดเป็นภาษาไทยและบอกว่าต้องทำอะไรจึงจะผ่าน ไม่ใช่แค่บอกว่าผิด · ส่วน <code>filter(Boolean)</code> เป็นวิธีสั้น ๆ ในการตัดค่า null และ undefined ออกจากอาเรย์"}
+]
+},
+
+{
+id:"m4", num:"04", title:"สิทธิ์และร่องรอยการตรวจสอบ",
+why:"นี่คือโมดูลที่สำคัญที่สุดของโครงงาน เพราะ Security ได้ 15/15 เต็มทุกเสียง และเป็นข้อกำหนดที่ตรวจย้อนหลังได้จากระเบียบ ISO จริง ถ้าทำผิดที่นี่ ระบบใช้งานจริงไม่ได้แม้ฟีเจอร์จะครบ",
+blocks:[
+ {t:"h",x:"กฎสี่ข้อที่ต้องบังคับด้วยโค้ด"},
+ {t:"tbl",head:["รหัส","กฎ","แปลเป็นโค้ดว่าอย่างไร"],rows:[
+  ["<span class='tag'>BR-B-10</span>","สิทธิ์คิดจาก <b>บทบาทใช้งานปัจจุบันเท่านั้น</b> ไม่ใช่ผลรวมของทุกบทบาทที่ถือ","เก็บ <code>activeRole</code> ไว้ในโทเคน แล้วตรวจจากค่านั้นค่าเดียว"],
+  ["<span class='tag'>BR-B-05</span>","ผู้รับผิดชอบการแก้ไข ≠ ผู้ตรวจสอบประสิทธิผล ≠ ผู้ปิดใบ","เทียบ userId กับผู้ที่บันทึกไว้ในขั้นก่อนหน้า แล้วปฏิเสธถ้าซ้ำ"],
+  ["<span class='tag'>NFR-B-01</span> (ค)","กรองข้อมูลตั้งแต่ชั้นข้อมูล <b>ห้ามส่งเกินสิทธิ์ไปให้หน้าเว็บซ่อน</b>","ใส่เงื่อนไขสิทธิ์ลงใน where ของคำสั่งค้นหา"],
+  ["<span class='tag'>NFR-B-01</span> (จ)","ทุกเหตุการณ์สำคัญต้องมีร่องรอยครบ พร้อม <b>บทบาทขณะกระทำ</b>","บันทึก AuditTrail ในธุรกรรมเดียวกับการเปลี่ยนข้อมูล"]
+ ]},
+ {t:"h",x:"บทบาทใช้งานปัจจุบัน — จุดที่คนเข้าใจผิดบ่อย"},
+ {t:"p",x:"ผู้ใช้หนึ่งคนถือได้หลายบทบาท เช่น เป็นทั้งผู้ตรวจติดตามและผู้รับผิดชอบการแก้ไขในกลุ่มงานตัวเอง แต่ <b>ใช้งานได้ครั้งละหนึ่งบทบาท</b> เหมือนสวมหมวกได้ทีละใบ ถ้าคิดสิทธิ์จากผลรวมของทุกบทบาท หลักการแยกหน้าที่จะพังทันทีเพราะคนคนเดียวจะทั้งแก้และตรวจงานตัวเองได้"},
+ {t:"code",x:C([
+  "<span class='c'>// middleware/auth.js</span>",
+  "<span class='k'>export</span> <span class='k'>function</span> requireRole(...allowed) {",
+  "  <span class='k'>return</span> (req, res, next) =&gt; {",
+  "    <span class='k'>const</span> role = req.actor?.activeRole;   <span class='c'>// ไม่ใช่ req.actor.roles</span>",
+  "    <span class='k'>if</span> (!role) <span class='k'>return</span> res.status(<span class='n'>401</span>).json({ message: <span class='s'>\"กรุณาเข้าสู่ระบบ\"</span> });",
+  "    <span class='k'>if</span> (!allowed.includes(role))",
+  "      <span class='k'>return</span> res.status(<span class='n'>403</span>).json({ message: <span class='s'>\"บทบาทที่ใช้งานอยู่ไม่มีสิทธิ์ในขั้นนี้\"</span> });",
+  "    next();",
+  "  };",
+  "}",
+  "",
+  "<span class='c'>// routes — ใบ CAR ให้ QMR หรือหัวหน้าทีมผู้ตรวจอนุมัติแผน</span>",
+  "router.post(<span class='s'>\"/:id/plan/approve\"</span>, requireRole(<span class='s'>\"QMR\"</span>, <span class='s'>\"LEAD_AUDITOR\"</span>), c.approvePlan);"
+ ])},
+ {t:"h",x:"แยกหน้าที่สามชั้น บังคับในส่วนตรรกะธุรกิจ"},
+ {t:"code",x:C([
+  "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> verifyEffectiveness(requestId, actor, result) {",
+  "  <span class='k'>const</span> req = <span class='k'>await</span> repo.findById(requestId);",
+  "",
+  "  <span class='c'>// ผู้ตรวจสอบประสิทธิผล ต้องไม่ใช่ผู้รับผิดชอบการแก้ไข</span>",
+  "  <span class='k'>if</span> (req.ownerId === actor.userId)",
+  "    <span class='k'>throw</span> Object.assign(",
+  "      <span class='k'>new</span> Error(<span class='s'>\"ผู้รับผิดชอบการแก้ไขตรวจสอบประสิทธิผลงานของตนเองไม่ได้\"</span>),",
+  "      { status: <span class='n'>403</span> }",
+  "    );",
+  "",
+  "  <span class='k'>return</span> prisma.$transaction([",
+  "    prisma.verification.create({ data: { requestId, verifierId: actor.userId, result } }),",
+  "    prisma.request.update({ where: { id: requestId }, data: { status: <span class='s'>\"PENDING_CLOSURE\"</span> } }),",
+  "    prisma.auditTrail.create({ data: {",
+  "      actorId: actor.userId,",
+  "      actorRole: actor.activeRole,    <span class='c'>// เก็บบทบาทขณะกระทำไว้ในแถวเลย</span>",
+  "      action: <span class='s'>\"VERIFY\"</span>, targetType: <span class='s'>\"Request\"</span>, targetId: requestId,",
+  "    }}),",
+  "  ]);",
+  "}"
+ ])},
+ {t:"h",x:"กรองสิทธิ์ตั้งแต่ชั้นข้อมูล"},
+ {t:"p",x:"NFR-B-01 (ค) ห้ามดึงข้อมูลทั้งหมดมาแล้วให้หน้าเว็บซ่อนส่วนที่ไม่มีสิทธิ์ เพราะคนที่เปิดเครื่องมือนักพัฒนาในเบราว์เซอร์จะเห็นข้อมูลทั้งก้อนที่ส่งมา สิทธิ์ต้องอยู่ในเงื่อนไขค้นหา"},
+ {t:"code",x:C([
+  "<span class='c'>// ผิด — ส่งทุกใบไปแล้วให้หน้าเว็บกรอง</span>",
+  "<span class='k'>const</span> all = <span class='k'>await</span> prisma.request.findMany();",
+  "",
+  "<span class='c'>// ถูก — กรองตั้งแต่คำสั่งค้นหา</span>",
+  "<span class='k'>function</span> scopeFor(actor) {",
+  "  <span class='k'>if</span> ([<span class='s'>\"QMR\"</span>, <span class='s'>\"ISO_QA_ADMIN\"</span>].includes(actor.activeRole)) <span class='k'>return</span> {};",
+  "  <span class='k'>if</span> (actor.activeRole === <span class='s'>\"SECTION_HEAD\"</span>) <span class='k'>return</span> { departmentId: actor.departmentId };",
+  "  <span class='k'>return</span> { ownerId: actor.userId };",
+  "}",
+  "",
+  "<span class='k'>const</span> list = <span class='k'>await</span> prisma.request.findMany({ where: scopeFor(actor) });"
+ ])},
+ {t:"warn",x:"<b>อีกกฎที่ต้องบังคับ</b> — BR-B-18 ห้ามมอบหมายผู้ตรวจเข้าตรวจกลุ่มงานที่ตนสังกัด โดยเทียบ <code>departmentId</code> ระบบต้อง <b>ปฏิเสธ</b> ไม่ใช่แค่เตือน และเปิดทางยกเว้นได้เฉพาะเมื่อผู้มีสิทธิ์บันทึกเหตุผลกำกับ"}
+],
+ex:[
+ {type:"choice", q:"ผู้ใช้คนหนึ่งถือสามบทบาทคือ AUDITOR, CAR_OWNER และ END_USER ขณะนี้เลือกใช้งานเป็น CAR_OWNER แล้วยิงคำขอปิดใบคำร้อง ระบบควรตอบอย่างไร",
+  opts:[
+   {x:"ปฏิเสธ เพราะ CAR_OWNER ไม่มีสิทธิ์ปิดใบ แม้ผู้ใช้จะถือบทบาทอื่นอยู่ด้วย", ok:true, why:"BR-B-10 ระบุชัดว่าสิทธิ์คิดจากบทบาทใช้งานปัจจุบันเท่านั้น ถ้าอยากปิดใบต้องสลับบทบาทก่อน ซึ่งทำให้ร่องรอยบันทึกบทบาทที่ถูกต้อง"},
+   {x:"อนุญาต เพราะผู้ใช้ถือบทบาทที่ปิดใบได้อยู่แล้ว ไม่ต้องให้สลับให้เสียเวลา", why:"นี่คือการคิดสิทธิ์จากผลรวมทุกบทบาท ซึ่ง BR-B-10 ห้ามไว้ตรง ๆ และจะทำให้ร่องรอยบันทึกบทบาทผิดจากที่ผู้ใช้เลือกใช้งานจริง"},
+   {x:"อนุญาตแต่ขึ้นคำเตือนให้ผู้ใช้ยืนยันอีกครั้ง", why:"คำเตือนไม่ใช่การบังคับ ผู้ใช้กดยืนยันผ่านได้เสมอ กฎด้านสิทธิ์ต้องปฏิเสธจริงที่ฝั่งหลังบ้าน"}
+  ]},
+ {type:"bug", q:"โค้ดนี้ตั้งใจตรวจสิทธิ์ตาม BR-B-10 แต่ผิด กดเลือกบรรทัดที่ผิด",
+  lines:["export function requireRole(...allowed) {","  return (req, res, next) => {","    const roles = req.actor.roles;","    if (!roles.some(r => allowed.includes(r)))","      return res.status(403).json({ message: \"ไม่มีสิทธิ์\" });","    next();","  };","}"],
+  bad:2,
+  fb:"บรรทัดที่ 3 อ่าน <code>roles</code> ซึ่งเป็นบทบาททั้งหมดที่ผู้ใช้ถือ ทำให้บรรทัดที่ 4 ตรวจแบบผลรวม ซึ่งละเมิด BR-B-10 · แก้เป็น <code>const role = req.actor.activeRole;</code> แล้วตรวจด้วย <code>allowed.includes(role)</code>"},
+ {type:"fill", q:"เขียนบรรทัดที่กันไม่ให้ผู้รับผิดชอบการแก้ไขปิดใบคำร้องของตัวเอง โดยโยนข้อผิดพลาดสถานะ 403",
+  pre:["export async function closeRequest(id, actor) {","  const req = await repo.findById(id);","  ____________","  return repo.updateStatus(id, \"CLOSED\");","}"],
+  ans:['if (req.ownerId === actor.userId) throw Object.assign(new Error("ปิดใบของตนเองไม่ได้"), { status: 403 });','if (req.ownerId === actor.userId) throw Object.assign(new Error("ปิดใบคำร้องของตนเองไม่ได้"), { status: 403 });'],
+  fb:"ตรวจคำตอบข้อนี้อาศัยการเทียบข้อความ ถ้าเขียนคนละสำนวนแต่ตรรกะถูกก็ถือว่าใช้ได้ · แก่นคือ <b>เทียบ <code>req.ownerId</code> กับ <code>actor.userId</code></b> แล้วปฏิเสธด้วยสถานะ 403 ซึ่งแปลว่ารู้ว่าคุณเป็นใครแต่ไม่ให้ทำ ต่างจาก 401 ที่แปลว่ายังไม่รู้ว่าคุณเป็นใคร"},
+ {type:"choice", q:"หน้าแดชบอร์ดต้องแสดงเฉพาะใบคำร้องที่ผู้ใช้มีสิทธิ์เห็น ควรทำที่ไหน",
+  opts:[
+   {x:"ใส่เงื่อนไขลงใน where ของคำสั่งค้นหาในฝั่งหลังบ้าน", ok:true, why:"NFR-B-01 (ค) บังคับให้กรองตั้งแต่ชั้นข้อมูล ข้อมูลที่ผู้ใช้ไม่มีสิทธิ์เห็นต้องไม่ถูกส่งออกจากเครื่องแม่ข่ายเลย"},
+   {x:"ดึงมาทั้งหมดแล้วใช้ filter ใน React ก่อนแสดงผล", why:"ข้อมูลทั้งก้อนเดินทางมาถึงเบราว์เซอร์แล้ว ใครเปิดแท็บ Network ในเครื่องมือนักพัฒนาก็เห็นครบ การซ่อนด้วยหน้าเว็บไม่ใช่การกรองสิทธิ์"},
+   {x:"ดึงมาทั้งหมดแล้วใช้ CSS ซ่อนแถวที่ไม่มีสิทธิ์", why:"แย่กว่าข้อที่แล้วอีก เพราะข้อมูลอยู่ใน HTML จริง กด view source ก็เห็น"}
+  ]},
+ {type:"write", q:"เขียนฟังก์ชัน <code>assignAuditor(roundId, auditorId, actor, reason)</code> ที่บังคับ BR-B-18 คือห้ามมอบหมายผู้ตรวจเข้าตรวจกลุ่มงานที่ตนสังกัด เว้นแต่มีเหตุผลกำกับ",
+  sol:C([
+   "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> assignAuditor(roundId, auditorId, actor, reason) {",
+   "  <span class='k'>const</span> round   = <span class='k'>await</span> roundRepo.findById(roundId);",
+   "  <span class='k'>const</span> auditor = <span class='k'>await</span> userRepo.findById(auditorId);",
+   "",
+   "  <span class='k'>const</span> conflict = auditor.departmentId === round.targetDepartmentId;",
+   "",
+   "  <span class='k'>if</span> (conflict &amp;&amp; !reason?.trim())",
+   "    <span class='k'>throw</span> Object.assign(",
+   "      <span class='k'>new</span> Error(<span class='s'>\"ผู้ตรวจสังกัดกลุ่มงานที่ถูกตรวจ ต้องบันทึกเหตุผลการยกเว้นก่อน\"</span>),",
+   "      { status: <span class='n'>409</span> }",
+   "    );",
+   "",
+   "  <span class='k'>return</span> prisma.$transaction([",
+   "    prisma.auditAssignment.create({",
+   "      data: { roundId, auditorId, exemptionReason: conflict ? reason : <span class='k'>null</span> },",
+   "    }),",
+   "    prisma.auditTrail.create({ data: {",
+   "      actorId: actor.userId, actorRole: actor.activeRole,",
+   "      action: conflict ? <span class='s'>\"ASSIGN_WITH_EXEMPTION\"</span> : <span class='s'>\"ASSIGN\"</span>,",
+   "      targetType: <span class='s'>\"AuditRound\"</span>, targetId: roundId,",
+   "    }}),",
+   "  ]);",
+   "}"
+  ]),
+  fb:"สามจุดที่ต้องมี — <b>ปฏิเสธจริงไม่ใช่แค่เตือน</b> · <b>เก็บเหตุผลการยกเว้นไว้ในฐานข้อมูล</b> ไม่ใช่แค่ให้กรอกแล้วทิ้ง · และ <b>แยกชนิดการกระทำในร่องรอย</b> ให้เห็นว่ารายการไหนใช้ข้อยกเว้น ผู้ตรวจภายนอกจะถามหาข้อมูลนี้"},
+ {type:"choice", q:"ในตาราง AuditTrail ทำไมต้องเก็บ <code>actorRole</code> เป็นข้อความในแถวนั้น แทนที่จะอ้างไปที่บทบาทของผู้ใช้ในตาราง User",
+  opts:[
+   {x:"เพราะผู้ใช้เปลี่ยนบทบาทได้ ถ้าอ้างไปอ่านทีหลังจะได้บทบาทวันนี้ ไม่ใช่บทบาทวันที่กระทำ", ok:true, why:"ร่องรอยต้องบันทึกความจริง ณ เวลานั้น NFR-B-01 (จ) จึงระบุคำว่าบทบาทขณะกระทำไว้ชัด ถ้าเปลี่ยนตามผู้ใช้ ประวัติทั้งระบบจะเพี้ยนย้อนหลัง"},
+   {x:"เพราะอ่านเร็วกว่า ไม่ต้อง join ตาราง", why:"เร็วกว่าจริง แต่ไม่ใช่เหตุผลหลัก และ Performance ได้แค่ 8/15 เป็นอันดับห้า ไม่ใช่ตัวตัดสินในเรื่องนี้"},
+   {x:"เพราะ Prisma ไม่รองรับการ join ข้ามตาราง", why:"Prisma ทำได้สบายด้วย include และ select เหตุผลจริงเป็นเรื่องความถูกต้องของประวัติ ไม่ใช่ข้อจำกัดของเครื่องมือ"}
+  ]}
+]
+},
+
+{
+id:"m5", num:"05", title:"React ฝั่งหน้าจอ",
+why:"Usability ได้ 15/15 เต็มเท่ากับ Security เพราะผู้ใช้จริงคือเจ้าหน้าที่ ISO ที่ไม่ใช่สายเทคนิค และมีกฎที่ล็อกไว้แล้วว่า <b>หน้าจอต้องแสดงชื่อไทย ห้ามแสดงรหัสอังกฤษต่อผู้ใช้</b> ตาม NFR-B-02 (ก)",
+blocks:[
+ {t:"h",x:"คอมโพเนนต์คือฟังก์ชันที่คืน JSX"},
+ {t:"p",x:"ไม่มีอะไรมากไปกว่านี้ ฟังก์ชันที่ชื่อขึ้นต้นด้วยตัวพิมพ์ใหญ่และคืนสิ่งที่หน้าตาเหมือน HTML ค่าที่ส่งเข้าไปเรียกว่า props ค่าที่คอมโพเนนต์จำเองเรียกว่า state"},
+ {t:"code",x:C([
+  "<span class='c'>// แปลงรหัสเป็นชื่อไทย — ที่เดียวในระบบ</span>",
+  "<span class='k'>const</span> STATUS_TH = {",
+  "  OPEN: <span class='s'>\"เปิดใบ\"</span>,",
+  "  CORRECTION: <span class='s'>\"อยู่ระหว่างแก้ไขเฉพาะหน้า\"</span>,",
+  "  ANALYSIS_PLANNING: <span class='s'>\"อยู่ระหว่างวิเคราะห์สาเหตุและจัดทำแผน\"</span>,",
+  "  PENDING_PLAN_APPROVAL: <span class='s'>\"รออนุมัติแผน\"</span>,",
+  "  IMPLEMENTING: <span class='s'>\"อยู่ระหว่างดำเนินการตามแผน\"</span>,",
+  "  PENDING_VERIFICATION: <span class='s'>\"รอตรวจสอบประสิทธิผล\"</span>,",
+  "  PENDING_CLOSURE: <span class='s'>\"รอปิดใบ\"</span>,",
+  "  CLOSED: <span class='s'>\"ปิดใบแล้ว\"</span>,",
+  "};",
+  "",
+  "<span class='k'>function</span> StatusBadge({ status }) {",
+  "  <span class='k'>return</span> &lt;span className=<span class='s'>\"badge\"</span>&gt;{STATUS_TH[status] ?? status}&lt;/span&gt;;",
+  "}"
+ ])},
+ {t:"warn",x:"<b>ห้ามเขียน <code>{request.status}</code> ลงหน้าจอตรง ๆ</b> เพราะผู้ใช้จะเห็นคำว่า PENDING_PLAN_APPROVAL ซึ่งอ่านไม่รู้เรื่อง · ให้แปลงผ่านตารางจับคู่เสมอ และ <b>เก็บตารางนี้ไว้ที่เดียว</b> ถ้ากระจายหลายที่จะแก้ไม่ครบเวลาชื่อสถานะเปลี่ยน"},
+ {t:"h",x:"state กับฟอร์มที่ระบบควบคุมค่า"},
+ {t:"code",x:C([
+  "<span class='k'>import</span> { useState } <span class='k'>from</span> <span class='s'>\"react\"</span>;",
+  "",
+  "<span class='k'>function</span> RecordForm({ onSaved }) {",
+  "  <span class='k'>const</span> [form, setForm] = useState({ title: <span class='s'>\"\"</span>, recordType: <span class='s'>\"\"</span> });",
+  "  <span class='k'>const</span> [saving, setSaving] = useState(<span class='k'>false</span>);",
+  "  <span class='k'>const</span> [error, setError] = useState(<span class='k'>null</span>);",
+  "",
+  "  <span class='k'>function</span> change(e) {",
+  "    <span class='k'>const</span> { name, value } = e.target;",
+  "    setForm(prev =&gt; ({ ...prev, [name]: value }));   <span class='c'>// สร้างอ็อบเจกต์ใหม่เสมอ</span>",
+  "  }",
+  "",
+  "  <span class='k'>async</span> <span class='k'>function</span> submit(e) {",
+  "    e.preventDefault();                              <span class='c'>// กันหน้าเว็บรีเฟรช</span>",
+  "    setSaving(<span class='k'>true</span>); setError(<span class='k'>null</span>);",
+  "    <span class='k'>try</span> {",
+  "      <span class='k'>const</span> res = <span class='k'>await</span> fetch(<span class='s'>\"/api/records\"</span>, {",
+  "        method: <span class='s'>\"POST\"</span>,",
+  "        headers: { <span class='s'>\"Content-Type\"</span>: <span class='s'>\"application/json\"</span> },",
+  "        body: JSON.stringify(form),",
+  "      });",
+  "      <span class='k'>if</span> (!res.ok) <span class='k'>throw</span> <span class='k'>new</span> Error((<span class='k'>await</span> res.json()).message);",
+  "      onSaved(<span class='k'>await</span> res.json());",
+  "    } <span class='k'>catch</span> (err) {",
+  "      setError(err.message);",
+  "    } <span class='k'>finally</span> {",
+  "      setSaving(<span class='k'>false</span>);",
+  "    }",
+  "  }",
+  "",
+  "  <span class='k'>return</span> (",
+  "    &lt;form onSubmit={submit}&gt;",
+  "      &lt;label htmlFor=<span class='s'>\"title\"</span>&gt;ชื่อเรื่อง&lt;/label&gt;",
+  "      &lt;input id=<span class='s'>\"title\"</span> name=<span class='s'>\"title\"</span> value={form.title} onChange={change} required /&gt;",
+  "      {error &amp;&amp; &lt;p role=<span class='s'>\"alert\"</span>&gt;{error}&lt;/p&gt;}",
+  "      &lt;button disabled={saving}&gt;{saving ? <span class='s'>\"กำลังบันทึก\"</span> : <span class='s'>\"บันทึก\"</span>}&lt;/button&gt;",
+  "    &lt;/form&gt;",
+  "  );",
+  "}"
+ ])},
+ {t:"cap",x:"<code>setForm(prev =&gt; ({...prev, [name]: value}))</code> — วงเล็บรอบปีกกาจำเป็น ไม่งั้นจาวาสคริปต์จะอ่านปีกกาเป็นบล็อกโค้ดแทนอ็อบเจกต์"},
+ {t:"h",x:"useEffect สำหรับโหลดข้อมูลตอนเปิดหน้า"},
+ {t:"code",x:C([
+  "<span class='k'>function</span> RequestList() {",
+  "  <span class='k'>const</span> [rows, setRows] = useState([]);",
+  "  <span class='k'>const</span> [loading, setLoading] = useState(<span class='k'>true</span>);",
+  "",
+  "  useEffect(() =&gt; {",
+  "    <span class='k'>let</span> alive = <span class='k'>true</span>;",
+  "    fetch(<span class='s'>\"/api/requests\"</span>)",
+  "      .then(r =&gt; r.json())",
+  "      .then(d =&gt; { <span class='k'>if</span> (alive) { setRows(d); setLoading(<span class='k'>false</span>); } });",
+  "    <span class='k'>return</span> () =&gt; { alive = <span class='k'>false</span>; };   <span class='c'>// กันการตั้งค่าหลังคอมโพเนนต์ถูกถอด</span>",
+  "  }, []);                              <span class='c'>// อาเรย์ว่าง = ทำครั้งเดียวตอนเปิด</span>",
+  "",
+  "  <span class='k'>if</span> (loading) <span class='k'>return</span> &lt;p&gt;กำลังโหลด&lt;/p&gt;;",
+  "  <span class='k'>return</span> (",
+  "    &lt;ul&gt;{rows.map(r =&gt; (",
+  "      &lt;li key={r.id}&gt;{r.title} &lt;StatusBadge status={r.status} /&gt;&lt;/li&gt;",
+  "    ))}&lt;/ul&gt;",
+  "  );",
+  "}"
+ ])},
+ {t:"p",x:"<b>อาเรย์ตัวที่สองของ useEffect คือรายการที่ต้องเฝ้าดู</b> ถ้าใส่ <code>[]</code> แปลว่าทำครั้งเดียว ถ้าไม่ใส่เลยแปลว่าทำทุกครั้งที่หน้าวาดใหม่ ซึ่งมักกลายเป็นลูปไม่รู้จบเมื่อภายในมีการ setState"}
+],
+ex:[
+ {type:"choice", q:"หน้าจอรายการใบคำร้องแสดงคำว่า <code>PENDING_PLAN_APPROVAL</code> ให้ผู้ใช้เห็น ปัญหาคืออะไร",
+  opts:[
+   {x:"ละเมิด NFR-B-02 (ก) ที่บังคับให้หน้าจอใช้ชื่อสถานะภาษาไทย รหัสอังกฤษใช้ได้เฉพาะในฐานข้อมูลและส่วนเชื่อมต่อ", ok:true, why:"ผู้ใช้จริงคือเจ้าหน้าที่ ISO ที่ไม่ใช่สายเทคนิค และเอกสารคุณภาพต้นฉบับใช้ภาษาไทยทั้งหมด การเห็นรหัสอังกฤษทำให้เทียบกับแบบฟอร์มจริงไม่ได้"},
+   {x:"ไม่มีปัญหา เพราะเป็นค่าที่ตรงกับฐานข้อมูล ตรวจสอบง่ายกว่า", why:"ตรวจง่ายสำหรับผู้พัฒนา แต่ผู้ใช้คือคนละกลุ่ม ข้อกำหนดเขียนไว้ชัดว่าห้ามแสดงรหัสต่อผู้ใช้"},
+   {x:"เป็นปัญหาด้านความเร็วเพราะข้อความยาว", why:"ความยาวข้อความไม่กระทบความเร็วในระดับที่วัดได้ และ Performance ได้ 8/15 ไม่ใช่ตัวตัดสิน"}
+  ]},
+ {type:"bug", q:"ฟอร์มนี้พิมพ์ในช่องแล้วตัวอักษรไม่ขึ้น กดเลือกบรรทัดที่ผิด",
+  lines:["function RecordForm() {","  const [form, setForm] = useState({ title: \"\" });","  function change(e) {","    form.title = e.target.value;","  }","  return <input value={form.title} onChange={change} />;","}"],
+  bad:3,
+  fb:"บรรทัดที่ 4 แก้ค่าในอ็อบเจกต์เดิมโดยตรง React จึงไม่รู้ว่ามีอะไรเปลี่ยนและไม่วาดใหม่ · ต้องเรียก <code>setForm({ ...form, title: e.target.value })</code> เพื่อสร้างอ็อบเจกต์ใหม่ · <b>กฎเหล็กของ React คือห้ามแก้ state เดิม ให้สร้างของใหม่เสมอ</b>"},
+ {type:"fill", q:"เติมอาเรย์ตัวที่สองของ useEffect ให้โหลดข้อมูลเพียงครั้งเดียวตอนเปิดหน้า",
+  pre:["useEffect(() => {","  fetch(\"/api/requests\").then(r => r.json()).then(setRows);","}, ____________);"],
+  ans:["[]"],
+  fb:"ถ้าละไว้ไม่ใส่เลย useEffect จะทำงานทุกครั้งที่หน้าวาดใหม่ พอข้างในเรียก setRows หน้าก็วาดใหม่อีก กลายเป็นลูปยิงคำขอไม่หยุด"},
+ {type:"choice", q:"ทำไมต้องเรียก <code>e.preventDefault()</code> ในฟังก์ชันที่ผูกกับ onSubmit",
+  opts:[
+   {x:"เพราะค่าปกติของฟอร์มคือส่งข้อมูลแล้วโหลดหน้าใหม่ทั้งหน้า ซึ่งจะล้าง state ที่กรอกไว้ทิ้ง", ok:true, why:"พฤติกรรมดั้งเดิมของ HTML คือ submit แล้วเปลี่ยนหน้า เมื่อเขียนแอปหน้าเดียวจึงต้องหยุดพฤติกรรมนี้แล้วจัดการส่งข้อมูลเองด้วย fetch"},
+   {x:"เพราะจะทำให้ fetch ทำงานเร็วขึ้น", why:"ไม่เกี่ยวกับความเร็ว เป็นเรื่องการหยุดพฤติกรรมดั้งเดิมของเบราว์เซอร์"},
+   {x:"เพราะ React บังคับให้ทุก event handler ต้องเรียก", why:"ไม่ได้บังคับ จำเป็นเฉพาะกับ event ที่มีพฤติกรรมดั้งเดิมของเบราว์เซอร์ เช่น submit ของฟอร์ม หรือ click ของลิงก์"}
+  ]},
+ {type:"write", q:"เขียนคอมโพเนนต์ <code>RoleBadge</code> ที่รับ prop ชื่อ <code>roleCode</code> แล้วแสดงชื่อบทบาทภาษาไทยตามทะเบียนบทบาทกลาง",
+  sol:C([
+   "<span class='c'>// constants/roles.js — เก็บที่เดียว ใช้ทั้งระบบ</span>",
+   "<span class='k'>export</span> <span class='k'>const</span> ROLE_TH = {",
+   "  SPONSOR: <span class='s'>\"ผู้บริหาร/สำนักงานคณบดี\"</span>,",
+   "  ISO_QA_ADMIN: <span class='s'>\"เจ้าหน้าที่ควบคุมเอกสาร\"</span>,",
+   "  DOC_OWNER: <span class='s'>\"เจ้าของเอกสาร\"</span>,",
+   "  APPROVER: <span class='s'>\"ผู้อนุมัติเอกสาร\"</span>,",
+   "  QMR: <span class='s'>\"ผู้แทนฝ่ายบริหาร (QMR)\"</span>,",
+   "  DEPUTY_QMR: <span class='s'>\"ผู้ช่วย QMR\"</span>,",
+   "  SECTION_HEAD: <span class='s'>\"หัวหน้างาน\"</span>,",
+   "  END_USER: <span class='s'>\"ผู้ใช้งานเอกสาร\"</span>,",
+   "  AUDITOR: <span class='s'>\"ผู้ตรวจติดตาม\"</span>,",
+   "  LEAD_AUDITOR: <span class='s'>\"หัวหน้าทีมผู้ตรวจติดตาม\"</span>,",
+   "  ASSISTANT_DCC: <span class='s'>\"ผู้ช่วยเลขานุการคณะกรรมการฯ\"</span>,",
+   "  CAR_OWNER: <span class='s'>\"ผู้รับผิดชอบการแก้ไข\"</span>,",
+   "  DEAN: <span class='s'>\"คณบดี\"</span>,",
+   "  REGISTRAR: <span class='s'>\"ผู้คุมทะเบียน\"</span>,",
+   "};",
+   "",
+   "<span class='c'>// components/RoleBadge.jsx</span>",
+   "<span class='k'>import</span> { ROLE_TH } <span class='k'>from</span> <span class='s'>\"../constants/roles.js\"</span>;",
+   "",
+   "<span class='k'>export</span> <span class='k'>function</span> RoleBadge({ roleCode }) {",
+   "  <span class='k'>const</span> label = ROLE_TH[roleCode];",
+   "  <span class='k'>if</span> (!label) <span class='k'>return</span> &lt;span className=<span class='s'>\"badge unknown\"</span>&gt;ไม่ทราบบทบาท&lt;/span&gt;;",
+   "  <span class='k'>return</span> &lt;span className=<span class='s'>\"badge\"</span>&gt;{label}&lt;/span&gt;;",
+   "}"
+  ]),
+  fb:"จุดสำคัญคือ <b>กรณีที่หารหัสไม่เจอต้องไม่แสดงรหัสดิบ</b> หลายคนเขียน <code>ROLE_TH[roleCode] ?? roleCode</code> ซึ่งดูปลอดภัยแต่กลับทำให้รหัสอังกฤษหลุดไปหาผู้ใช้ในกรณีที่ผิดพลาด ซึ่งเป็นกรณีที่ห้ามไว้ · ครบ 14 บทบาทตามทะเบียนกลาง"}
+]
+},
+
+{
+id:"m6", num:"06", title:"Chart.js กับแดชบอร์ด",
+why:"เลือก Chart.js 4 คู่กับ react-chartjs-2 ไว้แล้วตาม TBD-B-23 เหตุผลคือพึ่งไลบรารีอื่นน้อยที่สุด <b>ข้อเสียที่รับไว้แล้วคือกราฟบนแคนวาสโปรแกรมอ่านหน้าจอไม่เห็น</b> จึงต้องเติมคำอธิบายและตารางข้อมูลคู่กันเสมอ",
+blocks:[
+ {t:"h",x:"หกรายการขั้นต่ำที่แดชบอร์ดต้องมี"},
+ {t:"p",x:"ไม่ใช่การเลือกกราฟตามใจ ทั้งหกรายการจับคู่กับปัจจัยนำเข้าการทบทวนโดยฝ่ายบริหารที่คู่มือคุณภาพ §9.3.2 กำหนดไว้"},
+ {t:"tbl",head:["#","รายการ","ชนิดกราฟที่เหมาะ"],rows:[
+  ["1","จำนวนใบคำร้องแยกตามสถานะ ครบทั้งแปดสถานะ","แท่งแนวนอน เพราะชื่อสถานะไทยยาว"],
+  ["2","รายการเกินกำหนดและใกล้ครบกำหนด","ตาราง ไม่ใช่กราฟ เพราะต้องรู้ว่าใบไหนของใคร"],
+  ["3","จำนวนประเด็นที่พบต่อรอบ แยกตามระดับความรุนแรง","แท่งซ้อนกลุ่ม"],
+  ["4","อัตราการปิดใบภายในกำหนดต่อรอบ","เส้น เพราะดูแนวโน้มข้ามรอบ"],
+  ["5","ประเด็นที่เกิดซ้ำ","ตาราง"],
+  ["6","ค่าสรุปจากโมดูลควบคุมเอกสาร","ตัวเลขสรุป"]
+ ]},
+ {t:"cap",x:"สังเกตว่าสามในหกรายการไม่ใช่กราฟ · <b>อย่าทำเป็นกราฟเพราะอยากให้หน้าดูสวย</b> ถ้าผู้ใช้ต้องรู้ว่าใบไหนของใคร ตารางตอบได้ กราฟตอบไม่ได้"},
+ {t:"h",x:"ต้องลงทะเบียนส่วนประกอบก่อนใช้"},
+ {t:"p",x:"Chart.js 4 แยกส่วนประกอบออกเป็นชิ้น ๆ เพื่อให้ไฟล์เล็ก จึงต้องบอกก่อนว่าจะใช้ชิ้นไหน ถ้าลืมจะขึ้นข้อผิดพลาดว่าไม่รู้จักชนิดกราฟ"},
+ {t:"code",x:C([
+  "<span class='k'>import</span> {",
+  "  Chart <span class='k'>as</span> ChartJS, CategoryScale, LinearScale,",
+  "  BarElement, Title, Tooltip, Legend,",
+  "} <span class='k'>from</span> <span class='s'>\"chart.js\"</span>;",
+  "<span class='k'>import</span> { Bar } <span class='k'>from</span> <span class='s'>\"react-chartjs-2\"</span>;",
+  "",
+  "ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);"
+ ])},
+ {t:"h",x:"กราฟพร้อมตารางข้อมูลคู่กัน"},
+ {t:"code",x:C([
+  "<span class='k'>function</span> StatusChart({ counts }) {",
+  "  <span class='k'>const</span> labels = Object.keys(counts).map(code =&gt; STATUS_TH[code]);",
+  "  <span class='k'>const</span> values = Object.values(counts);",
+  "",
+  "  <span class='k'>const</span> data = {",
+  "    labels,",
+  "    datasets: [{ label: <span class='s'>\"จำนวนใบ\"</span>, data: values }],",
+  "  };",
+  "",
+  "  <span class='k'>const</span> options = {",
+  "    indexAxis: <span class='s'>\"y\"</span>,                <span class='c'>// แท่งแนวนอน ชื่อไทยยาวอ่านง่ายกว่า</span>",
+  "    plugins: { legend: { display: <span class='k'>false</span> } },",
+  "    scales: { x: { ticks: { precision: <span class='n'>0</span> } } },   <span class='c'>// จำนวนใบเป็นจำนวนเต็ม</span>",
+  "  };",
+  "",
+  "  <span class='k'>return</span> (",
+  "    &lt;figure&gt;",
+  "      &lt;Bar data={data} options={options}",
+  "           aria-label=<span class='s'>\"จำนวนใบคำร้องแยกตามสถานะ\"</span> /&gt;",
+  "",
+  "      &lt;!-- ตารางเดียวกัน สำหรับโปรแกรมอ่านหน้าจอและการคัดลอกไปใช้ต่อ --&gt;",
+  "      &lt;table&gt;",
+  "        &lt;caption&gt;จำนวนใบคำร้องแยกตามสถานะ&lt;/caption&gt;",
+  "        &lt;thead&gt;&lt;tr&gt;&lt;th&gt;สถานะ&lt;/th&gt;&lt;th&gt;จำนวนใบ&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;",
+  "        &lt;tbody&gt;{labels.map((l, i) =&gt; (",
+  "          &lt;tr key={l}&gt;&lt;td&gt;{l}&lt;/td&gt;&lt;td&gt;{values[i]}&lt;/td&gt;&lt;/tr&gt;",
+  "        ))}&lt;/tbody&gt;",
+  "      &lt;/table&gt;",
+  "    &lt;/figure&gt;",
+  "  );",
+  "}"
+ ])},
+ {t:"warn",x:"<b>ค่าสรุปบนแดชบอร์ดต้องกรองสิทธิ์ก่อนคำนวณ</b> ตาม BR-B-11 ไม่ใช่คำนวณจากทั้งระบบแล้วค่อยซ่อน มิฉะนั้นหัวหน้างานกลุ่มหนึ่งจะเดาจำนวนใบของอีกกลุ่มได้จากตัวเลขรวม"}
+],
+ex:[
+ {type:"fill", q:"เติมบรรทัดที่ทำให้ Chart.js รู้จักกราฟแท่ง โดยลงทะเบียนสามชิ้นคือ CategoryScale, LinearScale และ BarElement",
+  pre:["import { Chart as ChartJS, CategoryScale, LinearScale, BarElement } from \"chart.js\";","____________"],
+  ans:["ChartJS.register(CategoryScale, LinearScale, BarElement);","ChartJS.register(CategoryScale,LinearScale,BarElement)"],
+  fb:"ถ้าลืมบรรทัดนี้จะขึ้นข้อผิดพลาดทำนองว่า <code>&quot;bar&quot; is not a registered controller</code> ซึ่งอ่านแล้วงงมากถ้าไม่รู้ว่า Chart.js 4 แยกส่วนประกอบไว้"},
+ {type:"choice", q:"รายการ &quot;รายการเกินกำหนดและใกล้ครบกำหนด พร้อมผู้รับผิดชอบ&quot; ควรแสดงเป็นอะไร",
+  opts:[
+   {x:"ตาราง เพราะผู้ใช้ต้องรู้ว่าใบไหนของใครและเหลือกี่วัน", ok:true, why:"กราฟบอกได้แค่จำนวนรวม แต่คนที่เปิดดูรายการนี้กำลังจะไปตามงาน จึงต้องการชื่อคนและเลขที่ใบ ไม่ใช่ภาพรวม"},
+   {x:"กราฟวงกลมแสดงสัดส่วนเกินกำหนดต่อไม่เกิน", why:"ได้สัดส่วนแต่ไม่รู้ว่าต้องไปตามใคร และกราฟวงกลมอ่านค่าเทียบกันยากอยู่แล้วเมื่อชิ้นใกล้เคียงกัน"},
+   {x:"ตัวเลขเดียวแสดงจำนวนใบที่เกินกำหนด", why:"เป็นค่าสรุปที่ดีสำหรับหัวข้ออื่น แต่รายการนี้ระบุคำว่าพร้อมผู้รับผิดชอบไว้ชัด จึงต้องลงรายตัว"}
+  ]},
+ {type:"choice", q:"ทำไมต้องมีตารางข้อมูลคู่กับกราฟทุกอัน",
+  opts:[
+   {x:"เพราะกราฟ Chart.js วาดบนแคนวาส ซึ่งโปรแกรมอ่านหน้าจอไม่เห็นเนื้อหาข้างใน", ok:true, why:"เป็นข้อเสียที่ทีมรับไว้ตั้งแต่ตอนเลือกไลบรารีตาม TBD-B-23 จึงต้องชดเชยด้วย aria-label และตารางคู่กันเสมอ ผลพลอยได้คือคัดลอกตัวเลขไปใส่รายงานได้ด้วย"},
+   {x:"เพราะ Chart.js แสดงผลช้าจึงต้องมีตารางสำรอง", why:"Chart.js ไม่ได้ช้าในระดับข้อมูลของโครงงานนี้ซึ่งอยู่หลักพันระเบียน เหตุผลจริงเป็นเรื่องการเข้าถึงของผู้ใช้"},
+   {x:"เพราะข้อกำหนดบังคับว่าทุกหน้าจอต้องมีตาราง", why:"ไม่มีข้อกำหนดที่เขียนกว้างขนาดนั้น เงื่อนไขผูกกับข้อจำกัดของแคนวาสโดยเฉพาะ"}
+  ]},
+ {type:"write", q:"เขียนคอมโพเนนต์ <code>SeverityChart</code> แสดงจำนวนประเด็นที่พบแยกตามระดับความรุนแรงสามระดับ พร้อมตารางคู่",
+  sol:C([
+   "<span class='k'>const</span> SEVERITY_TH = { MAJOR: <span class='s'>\"Major\"</span>, MINOR: <span class='s'>\"Minor\"</span>, OB: <span class='s'>\"ข้อสังเกต\"</span> };",
+   "",
+   "<span class='k'>export</span> <span class='k'>function</span> SeverityChart({ counts, roundName }) {",
+   "  <span class='k'>const</span> codes  = [<span class='s'>\"MAJOR\"</span>, <span class='s'>\"MINOR\"</span>, <span class='s'>\"OB\"</span>];",
+   "  <span class='k'>const</span> labels = codes.map(c =&gt; SEVERITY_TH[c]);",
+   "  <span class='k'>const</span> values = codes.map(c =&gt; counts[c] ?? <span class='n'>0</span>);",
+   "  <span class='k'>const</span> title  = <span class='s'>\"จำนวนประเด็นที่พบแยกตามระดับความรุนแรง รอบ \"</span> + roundName;",
+   "",
+   "  <span class='k'>return</span> (",
+   "    &lt;figure&gt;",
+   "      &lt;Bar",
+   "        data={{ labels, datasets: [{ label: <span class='s'>\"จำนวนประเด็น\"</span>, data: values }] }}",
+   "        options={{ plugins: { legend: { display: <span class='k'>false</span> } },",
+   "                   scales: { y: { ticks: { precision: <span class='n'>0</span> } } } }}",
+   "        aria-label={title} /&gt;",
+   "      &lt;table&gt;",
+   "        &lt;caption&gt;{title}&lt;/caption&gt;",
+   "        &lt;thead&gt;&lt;tr&gt;&lt;th&gt;ระดับ&lt;/th&gt;&lt;th&gt;จำนวน&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;",
+   "        &lt;tbody&gt;{labels.map((l, i) =&gt; (",
+   "          &lt;tr key={l}&gt;&lt;td&gt;{l}&lt;/td&gt;&lt;td&gt;{values[i]}&lt;/td&gt;&lt;/tr&gt;",
+   "        ))}&lt;/tbody&gt;",
+   "      &lt;/table&gt;",
+   "    &lt;/figure&gt;",
+   "  );",
+   "}"
+  ]),
+  fb:"สามจุดที่มักลืม — <b>ไล่จากรายการระดับที่กำหนดไว้</b> ไม่ใช่จากคีย์ที่มีในข้อมูล ไม่งั้นระดับที่นับได้ศูนย์จะหายไปจากกราฟ · <b>ใส่ precision: 0</b> เพราะจำนวนประเด็นเป็นจำนวนเต็ม ไม่มี 2.5 ประเด็น · <b>aria-label กับ caption ใช้ข้อความเดียวกัน</b> ที่ระบุชื่อรอบด้วย"}
+]
+},
+
+{
+id:"m7", num:"07", title:"ข้อสอบรวม — บันทึกข้อมูลและแนบหลักฐาน",
+why:"ต่อทุกชั้นเข้าด้วยกันเป็นฟีเจอร์เดียวตาม <span class='tag'>UC-B-04</span> ทำจบแล้วจะเห็นภาพทั้งระบบ และโค้ดที่ได้ใช้เป็นโครงเริ่มของงานจริงได้ทันที",
+blocks:[
+ {t:"h",x:"โจทย์"},
+ {t:"p",x:"ผู้ใช้ที่เข้าสู่ระบบแล้วต้องบันทึกข้อมูลหนึ่งรายการ พร้อมแนบไฟล์หลักฐานได้หลายไฟล์ ระบบต้องตรวจกฎ บันทึกลงฐานข้อมูล เก็บไฟล์ลงระบบไฟล์ และบันทึกร่องรอย"},
+ {t:"h",x:"กฎที่ต้องบังคับ"},
+ {t:"tbl",head:["กฎ","ที่มา","บังคับที่ชั้นไหน"],rows:[
+  ["ต้องเข้าสู่ระบบก่อน และคำขอต้องพกบทบาทใช้งานปัจจุบัน","<span class='tag'>CON-B-01</span>","middleware"],
+  ["ไฟล์ไม่เกิน 10 เมกะไบต์ต่อไฟล์","<span class='tag'>TBD-B-14</span>","ตรรกะธุรกิจ อ่านค่าจากตารางตั้งค่า"],
+  ["ตรวจชนิดไฟล์จากเนื้อไฟล์ ไม่ใช่จากนามสกุล","<span class='tag'>FR-B-11.1</span>","ตรรกะธุรกิจ"],
+  ["ไฟล์จริงเก็บนอกฐานข้อมูล เก็บเฉพาะเส้นทาง","<span class='tag'>ADR-06</span>","เข้าถึงข้อมูล"],
+  ["บันทึกร่องรอยพร้อมบทบาทขณะกระทำ","<span class='tag'>NFR-B-01</span> (จ)","ตรรกะธุรกิจ ในธุรกรรมเดียวกัน"],
+  ["ค่ากำหนดเวลาและเพดานไฟล์ต้องปรับได้โดยไม่แก้โปรแกรม","<span class='tag'>BR-B-16</span>","ตารางตั้งค่า"]
+ ]},
+ {t:"h",x:"ลำดับที่ควรลงมือ"},
+ {t:"list",x:[
+  "<b>ฐานข้อมูลก่อน</b> — เขียน model Record และ Evidence แล้ว migrate ยังไม่ต้องเขียน API",
+  "<b>ชั้นเข้าถึงข้อมูล</b> — ฟังก์ชัน create และ findById สั้น ๆ ไม่มีกฎ",
+  "<b>ชั้นตรรกะธุรกิจ</b> — ใส่กฎทั้งหมดที่นี่ ทดสอบด้วยการเรียกฟังก์ชันตรง ๆ โดยยังไม่ต้องมี HTTP",
+  "<b>ชั้นรับคำขอกับเส้นทาง</b> — บาง ๆ แล้วลองยิงด้วย Postman",
+  "<b>หน้าจอ React</b> — ทำทีหลังสุด เพราะตอนนี้ฝั่งหลังบ้านพิสูจน์แล้วว่าทำงานถูก"
+ ]},
+ {t:"warn",x:"<b>อย่าเริ่มจากหน้าจอ</b> เป็นความผิดพลาดที่พบบ่อยที่สุด เพราะหน้าจอเห็นผลเร็วกว่าเลยรู้สึกคืบหน้า แต่พอฝั่งหลังบ้านยังไม่นิ่ง จะต้องรื้อหน้าจอตามทุกครั้งที่รูปแบบข้อมูลเปลี่ยน"}
+],
+ex:[
+ {type:"write", q:"ขั้นที่ 1 — เขียน model <code>Record</code> และ <code>Evidence</code> ใน schema.prisma ให้ครบตาม §6.1 และรองรับการแนบหลักฐานสามทาง",
+  sol:C([
+   "<span class='k'>model</span> Record {",
+   "  id         <span class='k'>Int</span>        <span class='n'>@id @default(autoincrement())</span>",
+   "  title      <span class='k'>String</span>",
+   "  recordType <span class='k'>String</span>",
+   "  recordDate <span class='k'>DateTime</span>",
+   "  ownerId    <span class='k'>Int</span>",
+   "  owner      <span class='k'>User</span>       <span class='n'>@relation(fields: [ownerId], references: [id])</span>",
+   "  evidences  <span class='k'>Evidence[]</span>",
+   "  createdAt  <span class='k'>DateTime</span>   <span class='n'>@default(now())</span>",
+   "",
+   "  <span class='n'>@@index([recordType, recordDate])</span>",
+   "}",
+   "",
+   "<span class='k'>model</span> Evidence {",
+   "  id          <span class='k'>Int</span>      <span class='n'>@id @default(autoincrement())</span>",
+   "  fileName    <span class='k'>String</span>",
+   "  mimeType    <span class='k'>String</span>",
+   "  sizeBytes   <span class='k'>Int</span>",
+   "  storagePath <span class='k'>String</span>",
+   "  uploadedBy  <span class='k'>Int</span>",
+   "  uploadedAt  <span class='k'>DateTime</span> <span class='n'>@default(now())</span>",
+   "",
+   "  recordId    <span class='k'>Int?</span>",
+   "  record      <span class='k'>Record?</span>  <span class='n'>@relation(fields: [recordId], references: [id])</span>",
+   "  findingId   <span class='k'>Int?</span>",
+   "  requestId   <span class='k'>Int?</span>",
+   "}"
+  ]),
+  fb:"<code>@@index</code> ใส่ไว้เพราะ FR-B-12 ต้องค้นบันทึกด้วยชนิดและช่วงวันที่ · ยังไม่ต้องใส่ความสัมพันธ์ของ finding และ request จนกว่าจะสร้าง model สองตัวนั้นจริง Prisma จะฟ้องถ้าอ้างถึง model ที่ยังไม่มี"},
+ {type:"write", q:"ขั้นที่ 2 และ 3 — เขียนชั้นเข้าถึงข้อมูลและชั้นตรรกะธุรกิจของการบันทึกข้อมูลพร้อมแนบหลักฐาน",
+  sol:C([
+   "<span class='c'>// repositories/recordRepository.js</span>",
+   "<span class='k'>export</span> <span class='k'>function</span> createWithEvidence(recordData, evidences, trail) {",
+   "  <span class='k'>return</span> prisma.$transaction(<span class='k'>async</span> (tx) =&gt; {",
+   "    <span class='k'>const</span> record = <span class='k'>await</span> tx.record.create({ data: recordData });",
+   "    <span class='k'>if</span> (evidences.length)",
+   "      <span class='k'>await</span> tx.evidence.createMany({",
+   "        data: evidences.map(e =&gt; ({ ...e, recordId: record.id })),",
+   "      });",
+   "    <span class='k'>await</span> tx.auditTrail.create({ data: { ...trail, targetId: record.id } });",
+   "    <span class='k'>return</span> record;",
+   "  });",
+   "}",
+   "",
+   "<span class='c'>// services/recordService.js</span>",
+   "<span class='k'>const</span> ALLOWED_MIME = [<span class='s'>\"application/pdf\"</span>, <span class='s'>\"image/jpeg\"</span>, <span class='s'>\"image/png\"</span>];",
+   "",
+   "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> createRecord(input, files, actor) {",
+   "  <span class='k'>const</span> maxBytes = <span class='k'>await</span> settings.get(<span class='s'>\"evidence.maxBytes\"</span>);  <span class='c'>// BR-B-16</span>",
+   "",
+   "  <span class='k'>for</span> (<span class='k'>const</span> f <span class='k'>of</span> files) {",
+   "    <span class='k'>if</span> (f.size &gt; maxBytes)",
+   "      <span class='k'>throw</span> Object.assign(",
+   "        <span class='k'>new</span> Error(<span class='s'>\"ไฟล์ \"</span> + f.originalname + <span class='s'>\" ใหญ่เกินกำหนด\"</span>), { status: <span class='n'>400</span> });",
+   "",
+   "    <span class='k'>const</span> real = <span class='k'>await</span> detectMime(f.path);   <span class='c'>// FR-B-11.1 ดูเนื้อไฟล์</span>",
+   "    <span class='k'>if</span> (!ALLOWED_MIME.includes(real))",
+   "      <span class='k'>throw</span> Object.assign(",
+   "        <span class='k'>new</span> Error(<span class='s'>\"ชนิดไฟล์นี้แนบไม่ได้\"</span>), { status: <span class='n'>400</span> });",
+   "  }",
+   "",
+   "  <span class='k'>return</span> repo.createWithEvidence(",
+   "    { ...input, ownerId: actor.userId },",
+   "    files.map(f =&gt; ({",
+   "      fileName: f.originalname, mimeType: f.mimetype,",
+   "      sizeBytes: f.size, storagePath: f.path, uploadedBy: actor.userId,",
+   "    })),",
+   "    { actorId: actor.userId, actorRole: actor.activeRole,",
+   "      action: <span class='s'>\"CREATE\"</span>, targetType: <span class='s'>\"Record\"</span> },",
+   "  );",
+   "}"
+  ]),
+  fb:"สังเกตสามอย่าง — <b>ค่าเพดานไฟล์อ่านจากตารางตั้งค่า</b> ไม่ใช่ค่าคงที่ในโค้ด ตาม BR-B-16 · <b>ตรวจไฟล์ให้ครบทุกไฟล์ก่อนเริ่มเขียนฐานข้อมูล</b> ไม่ใช่ตรวจไปเขียนไป ไม่งั้นไฟล์แรกผ่านไฟล์สองไม่ผ่านจะได้ข้อมูลค้างครึ่งทาง · <b>ทั้งสามการเขียนอยู่ในธุรกรรมเดียว</b> ผ่านทั้งหมดหรือไม่ผ่านเลย"},
+ {type:"choice", q:"ถ้าบันทึกข้อมูลสำเร็จแต่บันทึกร่องรอยล้มเหลว ระบบควรทำอย่างไร",
+  opts:[
+   {x:"ย้อนกลับทั้งหมด ถือว่าการบันทึกครั้งนี้ล้มเหลว", ok:true, why:"NFR-B-01 (จ) บังคับว่าทุกเหตุการณ์สำคัญต้องมีร่องรอยครบ ข้อมูลที่ไม่มีร่องรอยว่าใครสร้างคือข้อมูลที่ตรวจสอบย้อนหลังไม่ได้ ซึ่งเป็นสิ่งที่ระบบนี้มีไว้เพื่อป้องกันโดยตรง"},
+   {x:"เก็บข้อมูลไว้แล้วเขียนร่องรอยลงไฟล์บันทึกของระบบแทน", why:"ร่องรอยที่ผู้ตรวจเปิดดูในระบบไม่ได้ ไม่ถือว่ามีร่องรอย และไฟล์บันทึกของระบบมักถูกล้างตามรอบ ไม่ได้เก็บห้าปีตาม BR-B-17"},
+   {x:"เก็บข้อมูลไว้ แล้วเตือนผู้ใช้ให้บันทึกร่องรอยเองภายหลัง", why:"ผลักภาระให้ผู้ใช้ในเรื่องที่ระบบต้องรับประกัน และร่องรอยที่คนกรอกเองย้อนหลังใช้เป็นหลักฐานไม่ได้"}
+  ]},
+ {type:"write", q:"ขั้นที่ 4 และ 5 — เขียนชั้นรับคำขอ เส้นทาง และเค้าโครงหน้าจอ React ที่เรียกใช้",
+  sol:C([
+   "<span class='c'>// controllers/recordController.js</span>",
+   "<span class='k'>export</span> <span class='k'>async</span> <span class='k'>function</span> postRecord(req, res, next) {",
+   "  <span class='k'>try</span> {",
+   "    <span class='k'>const</span> { title, recordType, recordDate } = req.body;",
+   "    <span class='k'>const</span> record = <span class='k'>await</span> service.createRecord(",
+   "      { title, recordType, recordDate: <span class='k'>new</span> Date(recordDate) },",
+   "      req.files ?? [],",
+   "      req.actor,",
+   "    );",
+   "    res.status(<span class='n'>201</span>).json(record);",
+   "  } <span class='k'>catch</span> (err) { next(err); }",
+   "}",
+   "",
+   "<span class='c'>// routes/recordRoutes.js</span>",
+   "router.post(<span class='s'>\"/\"</span>, requireAuth, upload.array(<span class='s'>\"evidence\"</span>), c.postRecord);",
+   "",
+   "<span class='c'>// web/src/RecordForm.jsx</span>",
+   "<span class='k'>async</span> <span class='k'>function</span> submit(e) {",
+   "  e.preventDefault();",
+   "  <span class='k'>const</span> body = <span class='k'>new</span> FormData();",
+   "  body.append(<span class='s'>\"title\"</span>, form.title);",
+   "  body.append(<span class='s'>\"recordType\"</span>, form.recordType);",
+   "  body.append(<span class='s'>\"recordDate\"</span>, form.recordDate);",
+   "  files.forEach(f =&gt; body.append(<span class='s'>\"evidence\"</span>, f));",
+   "",
+   "  <span class='k'>const</span> res = <span class='k'>await</span> fetch(<span class='s'>\"/api/records\"</span>, { method: <span class='s'>\"POST\"</span>, body });",
+   "  <span class='k'>if</span> (!res.ok) { setError((<span class='k'>await</span> res.json()).message); <span class='k'>return</span>; }",
+   "  onSaved(<span class='k'>await</span> res.json());",
+   "}"
+  ]),
+  fb:"<b>ตอนส่งไฟล์ห้ามตั้ง Content-Type เอง</b> ปล่อยให้เบราว์เซอร์ตั้งให้ เพราะ FormData ต้องแนบตัวคั่นที่สุ่มขึ้นมาด้วย ถ้าเขียนทับจะพังแบบหาสาเหตุยาก · ส่วนชั้นรับคำขอทำแค่แกะค่า แปลงชนิด แล้วส่งต่อ <b>ไม่มีกฎแม้แต่บรรทัดเดียว</b> ตาม NFR-B-04 (ก)"},
+ {type:"choice", q:"ทำเสร็จแล้วควรตรวจว่าอะไรผ่านบ้างก่อนถือว่าใช้ได้",
+  opts:[
+   {x:"ลองกรณีที่ต้องล้มเหลวด้วย เช่น ไฟล์เกิน 10 MB นามสกุลปลอม และไม่ได้เข้าสู่ระบบ", ok:true, why:"ข้อกำหนดส่วนใหญ่ในโครงงานนี้เป็นการห้าม ไม่ใช่การอนุญาต การทดสอบเฉพาะทางที่สำเร็จจึงไม่ได้พิสูจน์อะไรเลยว่ากฎถูกบังคับจริง ภาคผนวก ง ของเอกสารข้อกำหนดมีหัวข้อกรณีเชิงลบและกรณีขอบไว้ด้วยเหตุผลนี้"},
+   {x:"ลองบันทึกสำเร็จหนึ่งครั้งก็พอ เพราะพิสูจน์ว่าทุกชั้นต่อกันติดแล้ว", why:"พิสูจน์ได้แค่ว่าทางที่ราบรื่นเดินได้ แต่กฎทั้งหกข้อในตารางข้างบนยังไม่ได้ถูกทดสอบเลยสักข้อ"},
+   {x:"ดูว่าหน้าจอแสดงผลสวยงามและไม่มีข้อความผิดพลาดในคอนโซล", why:"คอนโซลสะอาดไม่ได้แปลว่ากฎถูกบังคับ ระบบที่ยอมให้แนบไฟล์ปลอมนามสกุลได้ก็ไม่มีข้อความผิดพลาดในคอนโซลเหมือนกัน"}
+  ]}
+]
+}
+
+];
+
+/* =========================================================
+   ตัวแสดงผลและตรวจคำตอบ
+   ========================================================= */
+const store = {
+  key:"efiling-tutor-v1",
+  read(){ try { return JSON.parse(localStorage.getItem(this.key)) || {}; } catch(e){ return {}; } },
+  write(v){ try { localStorage.setItem(this.key, JSON.stringify(v)); } catch(e){} }
+};
+let state = store.read();
+let current = 0;
+
+const norm = s => String(s)
+  .replace(/["']/g, '"')
+  .replace(/\s+/g, " ")
+  .replace(/\s*([{}(),;:=>])\s*/g, "$1")
+  .trim().toLowerCase();
+
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+function totalEx(){ return MODULES.reduce((n,m)=>n+m.ex.length,0); }
+function doneCount(){ return Object.values(state).filter(Boolean).length; }
+function modDone(m){ return m.ex.every((_,i)=>state[m.id+"-"+i]); }
+
+function mark(id, val){
+  state[id] = val; store.write(state); paintProgress();
+}
+
+function paintProgress(){
+  const t = totalEx(), d = doneCount();
+  document.getElementById("barfill").style.width = (t ? d/t*100 : 0) + "%";
+  document.getElementById("progtext").textContent =
+    d === 0 ? "ยังไม่ได้เริ่ม" : "ทำแล้ว " + d + " จาก " + t + " ข้อ";
+  MODULES.forEach(m=>{
+    const tick = document.querySelector('[data-tick="'+m.id+'"]');
+    if (tick) tick.classList.toggle("on", modDone(m));
+  });
+}
+
+function blockHTML(b){
+  if (b.t === "h")    return "<h3>" + b.x + "</h3>";
+  if (b.t === "p")    return "<p>" + b.x + "</p>";
+  if (b.t === "code") return "<pre>" + b.x + "</pre>";
+  if (b.t === "cap")  return '<p class="caption">' + b.x + "</p>";
+  if (b.t === "warn") return '<div class="warn">' + b.x + "</div>";
+  if (b.t === "list") return "<ul>" + b.x.map(i=>"<li>"+i+"</li>").join("") + "</ul>";
+  if (b.t === "tbl"){
+    return '<div class="scroll"><table><thead><tr>' +
+      b.head.map(h=>"<th>"+h+"</th>").join("") + "</tr></thead><tbody>" +
+      b.rows.map(r=>"<tr>"+r.map(c=>"<td>"+c+"</td>").join("")+"</tr>").join("") +
+      "</tbody></table></div>";
+  }
+  return "";
+}
+
+const LABEL = { choice:"เลือกตอบ", fill:"เติมโค้ด", bug:"หาจุดผิด", write:"เขียนเอง" };
+
+function exHTML(e, mid, i){
+  const id = mid + "-" + i;
+  let body = "";
+  if (e.type === "choice"){
+    body = '<div class="opts" data-opts>' + e.opts.map((o,k)=>
+      '<label class="opt" data-opt="'+k+'"><input type="radio" name="'+id+'" value="'+k+'">' +
+      '<span>'+o.x+'<span class="why-opt" hidden>'+o.why+'</span></span></label>').join("") + "</div>";
+  } else if (e.type === "fill"){
+    body = "<pre>" + e.pre.map(l => l.indexOf("____") >= 0
+      ? '<span class="c">' + esc(l) + "</span>" : esc(l)).join("\n") + "</pre>" +
+      '<input class="fill" data-fill placeholder="พิมพ์บรรทัดที่หายไป" autocomplete="off" spellcheck="false">';
+  } else if (e.type === "bug"){
+    body = '<div class="lines" data-lines>' + e.lines.map((l,k)=>
+      '<div class="ln" data-line="'+k+'" tabindex="0" role="button">' +
+      '<span class="no">'+(k+1)+'</span><span>'+esc(l)+"</span></div>").join("") + "</div>";
+  }
+  const action = e.type === "write"
+    ? '<button class="btn ghost" data-reveal>ดูเฉลย</button>'
+    : '<button class="btn" data-check>ตรวจคำตอบ</button>';
+  const solBlock = e.sol ? '<pre>' + e.sol + "</pre>" : "";
+  return '<section class="ex" data-ex="'+id+'">' +
+    '<div class="ex-top"><span class="id">ข้อ '+(i+1)+'</span><span>'+LABEL[e.type]+"</span></div>" +
+    '<p class="ex-q">' + e.q + "</p>" + body +
+    '<div class="row">' + action + '<span data-stamp></span></div>' +
+    '<div class="fb" data-fb>' + (e.fb ? "<p>"+e.fb+"</p>" : "") + solBlock + "</div>" +
+    '<div class="done-row"><input type="checkbox" id="done-'+id+'" data-done>' +
+    '<label for="done-'+id+'">ทำได้แล้ว เข้าใจแล้ว</label></div></section>';
+}
+
+function render(idx){
+  current = idx;
+  const m = MODULES[idx];
+  const stage = document.getElementById("stage");
+  stage.innerHTML =
+    '<article class="module on">' +
+      '<div class="mod-head"><span class="mod-num">' + m.num + "</span><h2>" + m.title + "</h2></div>" +
+      '<div class="why"><b>ทำไมต้องรู้</b> — ' + m.why + "</div>" +
+      m.blocks.map(blockHTML).join("") +
+      "<h3>แบบฝึกหัด</h3>" +
+      m.ex.map((e,i)=>exHTML(e, m.id, i)).join("") +
+      '<div class="pager">' +
+        (idx > 0 ? '<button class="btn ghost" data-go="'+(idx-1)+'">&larr; '+MODULES[idx-1].title+"</button>" : "<span></span>") +
+        (idx < MODULES.length-1 ? '<button class="btn" data-go="'+(idx+1)+'">'+MODULES[idx+1].title+" &rarr;</button>" : "<span></span>") +
+      "</div></article>";
+
+  document.querySelectorAll("#nav button").forEach((b,k)=>
+    b.setAttribute("aria-current", k === idx ? "true" : "false"));
+  wire(m);
+  window.scrollTo({ top:0, behavior:"instant" });
+}
+
+function wire(m){
+  m.ex.forEach((e,i)=>{
+    const id = m.id + "-" + i;
+    const root = document.querySelector('[data-ex="'+id+'"]');
+    const fb = root.querySelector("[data-fb]");
+    const stampSlot = root.querySelector("[data-stamp]");
+    const doneBox = root.querySelector("[data-done]");
+
+    doneBox.checked = !!state[id];
+    doneBox.addEventListener("change", ()=> mark(id, doneBox.checked));
+
+    if (e.type === "bug"){
+      root.querySelectorAll("[data-line]").forEach(ln=>{
+        const pick = ()=>{
+          root.querySelectorAll("[data-line]").forEach(o=>o.classList.remove("pick"));
+          ln.classList.add("pick");
+        };
+        ln.addEventListener("click", pick);
+        ln.addEventListener("keydown", ev=>{
+          if (ev.key === "Enter" || ev.key === " "){ ev.preventDefault(); pick(); }
+        });
+      });
+    }
+
+    const reveal = root.querySelector("[data-reveal]");
+    if (reveal) reveal.addEventListener("click", ()=>{
+      fb.classList.add("show");
+      reveal.textContent = "ซ่อนเฉลย";
+      if (fb.dataset.open === "1"){ fb.classList.remove("show"); fb.dataset.open = "0"; reveal.textContent = "ดูเฉลย"; }
+      else fb.dataset.open = "1";
+    });
+
+    const check = root.querySelector("[data-check]");
+    if (check) check.addEventListener("click", ()=>{
+      let ok = false, answered = true;
+
+      if (e.type === "choice"){
+        const sel = root.querySelector('input[name="'+id+'"]:checked');
+        if (!sel){ answered = false; }
+        else {
+          const k = Number(sel.value);
+          ok = !!e.opts[k].ok;
+          root.querySelectorAll("[data-opt]").forEach(el=>{
+            const n = Number(el.dataset.opt);
+            el.classList.remove("right","wrong");
+            if (n === k) el.classList.add(e.opts[n].ok ? "right" : "wrong");
+            else if (e.opts[n].ok) el.classList.add("right");
+            el.querySelector(".why-opt").hidden = false;
+          });
+        }
+      } else if (e.type === "fill"){
+        const v = root.querySelector("[data-fill]").value;
+        if (!v.trim()){ answered = false; }
+        else ok = e.ans.some(a => norm(a) === norm(v));
+      } else if (e.type === "bug"){
+        const picked = root.querySelector(".ln.pick");
+        if (!picked){ answered = false; }
+        else {
+          ok = Number(picked.dataset.line) === e.bad;
+          root.querySelectorAll("[data-line]").forEach(el=>{
+            el.classList.remove("right","wrong");
+            const n = Number(el.dataset.line);
+            if (n === e.bad) el.classList.add("right");
+            else if (el.classList.contains("pick")) el.classList.add("wrong");
+          });
+        }
+      }
+
+      if (!answered){
+        stampSlot.innerHTML = '<span class="stamp no">ยังไม่ได้ตอบ</span>';
+        return;
+      }
+      stampSlot.innerHTML = ok
+        ? '<span class="stamp ok">ถูกต้อง</span>'
+        : '<span class="stamp no">ต้องแก้</span>';
+      fb.classList.add("show");
+      if (ok && !doneBox.checked){ doneBox.checked = true; mark(id, true); }
+    });
+  });
+
+  document.querySelectorAll("[data-go]").forEach(b=>
+    b.addEventListener("click", ()=> render(Number(b.dataset.go))));
+}
+
+document.getElementById("nav").innerHTML = MODULES.map((m,i)=>
+  '<button type="button" data-i="'+i+'"><span class="n">'+m.num+"</span>" +
+  "<span>"+m.title+'</span><span class="tick" data-tick="'+m.id+'">&#10003;</span></button>').join("");
+document.querySelectorAll("#nav button").forEach(b=>
+  b.addEventListener("click", ()=> render(Number(b.dataset.i))));
+
+document.getElementById("reset").addEventListener("click", ()=>{
+  state = {}; store.write(state);
+  render(current); paintProgress();
+});
+
+render(0);
+paintProgress();
+</script>
