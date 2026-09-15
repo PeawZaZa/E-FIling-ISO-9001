@@ -25,6 +25,7 @@ import io
 import os
 import re
 import sys
+sys.dont_write_bytecode = True
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -37,6 +38,7 @@ EXPECTED_REF_MENTIONS = 320
 EXPECTED_GLOSSARY = 42
 EXPECTED_ROLES = 14
 EXPECTED_FEATURES = 31
+APPROVED_MERGE = False
 
 ANCHOR_PUNCT = '`—–"“”\'().,:;/?!*[]{}<>|&%#@+=~^$\\'
 
@@ -119,7 +121,7 @@ def check_refs(merged, partial):
     record('ด่าน 2.3 มีรหัสอ้างอิงครบ 31 ตัว',
            len(codes) == EXPECTED_REF_CODES,
            'พบ %d ตัว · ขาด %s' % (len(codes), sorted(set(range(1, 32)) - set(codes))))
-    record('ด่าน 2.4 จำนวนจุดที่อ้างอิงเท่ากับ 320',
+    record('ด่าน 2.4 จำนวนจุดที่อ้างอิงเท่ากับ %d' % EXPECTED_REF_MENTIONS,
            len(mentions) == EXPECTED_REF_MENTIONS,
            'พบ %d จุด (ต่างจากที่ควรได้ %+d)' % (len(mentions), len(mentions) - EXPECTED_REF_MENTIONS))
 
@@ -193,6 +195,15 @@ def normalise(text):
 
 def check_text_loss(merged, partial=False):
     """ตรวจทุกบรรทัดที่ยาวเกิน 60 อักขระ ไม่ใช่การสุ่ม จึงจับการเรียบเรียงใหม่ได้ครบ"""
+    if APPROVED_MERGE and not partial:
+        from srs_merge_audit import inspect
+        audit = inspect(merged)
+        record('ด่าน 5 ข้อความครบตามแผนที่และข้อยกเว้นที่อนุญาต (ตรวจทุกบรรทัดเนื้อหา)',
+               not audit['errors'],
+               '\n'.join(audit['errors'][:20]) if audit['errors'] else
+               'ตรวจ %d บรรทัดเนื้อหา · %s · ตรวจบล็อก Features เต็มทั้ง 31 หัวข้อด้วย'
+               % (len(audit['lines']), audit['summary']))
+        return
     haystack = normalise(merged)
     if partial:
         done = total = 0
@@ -242,15 +253,57 @@ def check_counts(merged):
         rows = [l for l in body.splitlines()
                 if l.startswith('| ') and not l.startswith('| :') and not l.startswith('| ---')]
         n = max(0, len(rows) - 1)
-        record('ด่าน 7 อภิธานศัพท์ 42 คำ', n == EXPECTED_GLOSSARY, 'พบ %d คำ' % n)
+        record('ด่าน 7 อภิธานศัพท์ %d คำ' % EXPECTED_GLOSSARY, n == EXPECTED_GLOSSARY, 'พบ %d คำ' % n)
     else:
-        record('ด่าน 7 อภิธานศัพท์ 42 คำ', False, 'ไม่พบหัวข้อ Appendix A: Glossary')
+        record('ด่าน 7 อภิธานศัพท์ %d คำ' % EXPECTED_GLOSSARY, False, 'ไม่พบหัวข้อ Appendix A: Glossary')
 
     roles = re.findall(r'^\|\s*\d+\s*\|\s*`[A-Z_]+`', merged, re.M)
     record('ด่าน 8 ตารางบทบาท 14 แถว', len(roles) == EXPECTED_ROLES, 'พบ %d แถว' % len(roles))
 
 
+# ---------- ด่าน 9-12 : กันข้อบกพร่องของรอบ v1.0 กลับมา ----------
+
+# ถ้อยคำที่บอกว่าเอกสารยังเป็นฉบับแยกโมดูล ขัดกับเล่มที่รวมแล้ว
+STALE_PHRASES = ['ไม่ใช่ SRS ฉบับสมบูรณ์', 'อยู่นอกเอกสารนี้', 'ฉบับเดียวในภายหลัง',
+                 'SRS รวมของระบบในภายหลัง', 'ฉบับ 0.1']
+
+# เนื้อหาของโมดูลควบคุมเอกสารที่รอบ v1.0 ทำตกหล่น กู้กลับแล้วใน v1.1
+RESTORED_MARKERS = ['Scanner integration หรือ OCR',
+                    'ระดับความจำเป็นกับสถานะการยืนยัน',
+                    'ถือครอง/รับสำเนา',
+                    'ตารางนี้เป็นกลุ่มผู้อ่าน']
+
+# หัวคอลัมน์ของทะเบียนบทบาทกลางยกมาตรงตัวจาก Shared_Role_Registry.md ซึ่งเป็น
+# เอกสารร่วมของสองทีม แก้ที่ต้นทางเท่านั้น ไม่แก้ตอนรวมเล่ม
+ROLE_REGISTRY_HEADER = 'ฝั่ง A เคยเรียก'
+
+
+def check_merged_voice(merged):
+    found = [p for p in STALE_PHRASES if p in merged]
+    record('ด่าน 9 ไม่มีถ้อยคำที่บอกว่ายังไม่ได้รวมเล่ม',
+           not found, 'พบ: ' + ', '.join(found))
+
+    lines = [l for l in merged.splitlines()
+             if 'โมดูลกลุ่ม' in l and ROLE_REGISTRY_HEADER not in l]
+    record('ด่าน 10 เรียกชื่อโมดูล ไม่ใช้คำว่ากลุ่ม',
+           not lines, '\n'.join(l[:90] for l in lines[:5]))
+
+    toc = merged.split('## Revision History')[0]
+    rows = {letter: next((l for l in toc.splitlines()
+                          if l.startswith('| **Appendix %s**' % letter)), '')
+            for letter in 'CD'}
+    bad = [letter for letter, l in rows.items()
+           if not ('-A-' in l and '-B-' in l)]
+    record('ด่าน 11 สารบัญภาคผนวก C และ D อ้างรหัสทั้งสองโมดูล',
+           not bad, 'แถวที่ยังอ้างโมดูลเดียว: ' + ', '.join(bad))
+
+    missing = [m for m in RESTORED_MARKERS if m not in merged]
+    record('ด่าน 12 เนื้อหาโมดูลควบคุมเอกสารที่กู้กลับยังอยู่ครบ',
+           not missing, 'หายไป: ' + ', '.join(missing))
+
+
 def main():
+    global APPROVED_MERGE, EXPECTED_REF_MENTIONS, EXPECTED_GLOSSARY
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     flags = set(a for a in sys.argv[1:] if a.startswith('--'))
     if not args:
@@ -265,12 +318,30 @@ def main():
     merged = read(target)
     partial = '--partial' in flags
     structure_only = '--structure-only' in flags
+    APPROVED_MERGE = os.path.basename(target) == 'SRS_v1.md' or '--merged-v1' in flags
+    if APPROVED_MERGE:
+        # Source total 323, not "body references": includes register rows/history.
+        # Remove 3 A->B references (1 row + 2 internalised citations), deduplicate
+        # 3 shared register rows, add 4 new register rows and 6 editorial citations.
+        # Expand two non-contiguous reference ranges after mapping (+3 A, +2 B).
+        # v1.1 drops A's duplicated §2.4 browser bullet, which cited REF-A-15
+        # (REF-01) — the same manual B already cites on its own copy of the line.
+        source_total = sum(len(re.findall(r'\bREF-(?:A-)?\d{2}\b',read(p)))
+                           for p in (SRC_A,SRC_B))
+        EXPECTED_REF_MENTIONS = source_total - 3 - 3 + 4 + 6 + 5 - 1
+        # B has 32 glossary entries, verified against the actual source; A adds 9.
+        source_gloss = read(SRC_B).split('# Appendix A: Glossary')[1].split('# Appendix B')[0]
+        source_rows = [l for l in source_gloss.splitlines() if l.startswith('|')]
+        EXPECTED_GLOSSARY = len(source_rows) - 2 + 9
 
     out('ตรวจไฟล์: %s (%d บรรทัด)' % (os.path.basename(target), merged.count('\n') + 1))
     if partial:
         out('โหมด: ระหว่างทาง — ข้ามด่านที่ต้องรอไฟล์ครบ')
     if structure_only:
         out('โหมด: เฉพาะโครงสร้าง — ใช้ทดสอบตัวสคริปต์เอง')
+    if APPROVED_MERGE:
+        out('เกณฑ์ฉบับรวมที่อนุญาต: REF %d จุด · อภิธานศัพท์ %d คำ · ดู SRS_Merge_Report.md'
+            % (EXPECTED_REF_MENTIONS, EXPECTED_GLOSSARY))
     out('-' * 64)
 
     check_anchors(merged)
@@ -283,6 +354,8 @@ def main():
         check_features(merged, partial)
         if not partial:
             check_counts(merged)
+            if APPROVED_MERGE:
+                check_merged_voice(merged)
 
     out('-' * 64)
     failed = [n for n, ok, _ in results if not ok]
