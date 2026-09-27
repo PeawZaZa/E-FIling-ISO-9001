@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ISO E-Filing — คณะวิศวกรรมศาสตร์ มทร.ล้านนา</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sidebar: #1e3055;
+    --accent:  #2463d9;
+    --fs-base: 13px;
+  }
+
+  html { font-size: var(--fs-base); }
+
+  body {
+    font-family: 'IBM Plex Sans Thai', 'Noto Sans Thai', sans-serif;
+    font-size: var(--fs-base);
+    background: #f0f4f8;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+  /* Typography baseline */
+  h1, h2, h3, h4 { line-height: 1.3; }
+  p { line-height: 1.6; }
+  button, input, select, textarea { font-family: inherit; }
+
+  /* Monospace elements */
+  code, .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  /* Transitions */
+  * { transition-property: color, background-color, border-color, box-shadow, opacity;
+      transition-duration: 0.12s; transition-timing-function: ease; }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    body { overflow: auto; }
+    .hide-mobile { display: none !important; }
+  }
+
+  /* Loading state */
+  #loading {
+    position: fixed; inset: 0; background: #0f2544;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px; z-index: 9999;
+    transition: opacity 0.4s;
+  }
+  #loading .logo {
+    width: 64px; height: 64px; border-radius: 16px; background: #2463d9;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 800; color: #fff;
+  }
+  #loading p { color: #7da4e0; font-size: 14px; }
+  .spinner {
+    width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.15);
+    border-top-color: #2463d9; border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<!-- React + Babel -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+  integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+  crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+  integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+  crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+  integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+  crossorigin="anonymous"></script>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#1e3055"/>
+    <rect x="8" y="8" width="24" height="84" rx="4" fill="#27406e"/>
+    <rect x="38" y="8" width="54" height="18" rx="3" fill="#2463d9" opacity="0.8"/>
+    <rect x="38" y="32" width="54" height="10" rx="3" fill="#334155"/>
+    <rect x="38" y="47" width="54" height="10" rx="3" fill="#334155"/>
+    <rect x="38" y="62" width="54" height="10" rx="3" fill="#334155"/>
+    <rect x="38" y="77" width="30" height="10" rx="3" fill="#334155"/>
+    <text x="20" y="28" font-size="9" text-anchor="middle" fill="#fff" font-weight="700">ISO</text>
+    <text x="20" y="42" font-size="6" text-anchor="middle" fill="#64748b">📄</text>
+    <text x="20" y="56" font-size="6" text-anchor="middle" fill="#64748b">📋</text>
+    <text x="20" y="70" font-size="6" text-anchor="middle" fill="#64748b">🔧</text>
+  </svg>
+</template>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loading">
+  <div class="logo">ISO</div>
+  <div class="spinner"></div>
+  <p>กำลังโหลดระบบ E-Filing...</p>
+</div>
+
+<!-- App root -->
+<div id="root"></div>
+
+<!-- 1. Mock data (plain JS) -->
+<script src="js/data.js"></script>
+
+<!-- 2. UI components -->
+<script type="text/babel" src="js/ui.jsx"></script>
+
+<!-- 3. Layout (Sidebar + Header) -->
+<script type="text/babel" src="js/layout.jsx"></script>
+
+<!-- 4. Tweaks panel -->
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<!-- 5. Screens Group A -->
+<script type="text/babel" src="js/screens-a.jsx"></script>
+
+<!-- 6. Screens Group B -->
+<script type="text/babel" src="js/screens-b.jsx"></script>
+
+<!-- 7. Main App -->
+<script type="text/babel" src="js/app.jsx"></script>
+
+<script>
+  // Hide loading screen once React mounts
+  const observer = new MutationObserver(() => {
+    if (document.getElementById('root').children.length > 0) {
+      const el = document.getElementById('loading');
+      if (el) { el.style.opacity = '0'; setTimeout(() => el.remove(), 400); }
+      observer.disconnect();
+    }
+  });
+  observer.observe(document.getElementById('root'), { childList: true });
+
+  // Fallback: hide after 5s
+  setTimeout(() => {
+    const el = document.getElementById('loading');
+    if (el) { el.style.opacity = '0'; setTimeout(() => el.remove(), 400); }
+  }, 5000);
+</script>
+
+</body>
+</html>

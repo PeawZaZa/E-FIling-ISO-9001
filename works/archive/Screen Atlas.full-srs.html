@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Screen Atlas — ISO E-Filing Phase 1</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:#f0f4f8;color:#1e293b;font-size:13px}
+header{background:#1e3055;color:#fff;padding:18px 32px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100}
+header h1{font-size:18px;font-weight:700}
+header p{font-size:11px;color:#7da4e0;margin-top:3px}
+.hbadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.08);color:#cbd5e1;cursor:pointer}
+.hbadge span{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* Swimlane separators */
+.lane-sep{display:flex;align-items:center;gap:14px;padding:28px 32px 14px;position:relative}
+.lane-line{flex:1;height:2px}
+.lane-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;padding:5px 14px;border-radius:20px}
+.lane-shared .lane-line{background:#94a3b830}.lane-shared .lane-label{background:#f1f5f9;color:#475569}
+.lane-groupa .lane-line{background:#2463d930}.lane-groupa .lane-label{background:#dbeafe;color:#1e40af}
+.lane-groupb .lane-line{background:#7c3aed30}.lane-groupb .lane-label{background:#ede9fe;color:#4c1d95}
+
+/* Flow connector between cards */
+.flow-arrow{display:flex;align-items:center;gap:10px;padding:4px 32px;color:#64748b;font-size:11px}
+.flow-arrow hr{flex:1;border:none;border-top:1px dashed #d1d5db}
+
+/* Screen card */
+.scard{display:flex;margin:0 32px 2px;background:#fff;border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden;min-height:340px}
+.scard-accent{width:5px;flex-shrink:0}
+.shared .scard-accent{background:#94a3b8}
+.groupa .scard-accent{background:#2463d9}
+.groupb .scard-accent{background:#7c3aed}
+.integ .scard-accent{background:#64748b;background:repeating-linear-gradient(45deg,#64748b,#64748b 4px,transparent 4px,transparent 8px)}
+
+/* Mockup panel */
+.mock-panel{width:460px;flex-shrink:0;background:#f8fafc;border-right:1px solid #e2e8f0;padding:16px;display:flex;flex-direction:column}
+.browser{background:#fff;border-radius:8px;border:1px solid #d1d5db;overflow:hidden;flex:1}
+.bchrome{background:#f1f5f9;padding:7px 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid #e2e8f0}
+.bdot{width:8px;height:8px;border-radius:50%}
+.burl{flex:1;background:#fff;border-radius:4px;padding:2px 8px;font-size:9px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;border:1px solid #e2e8f0}
+.bcontent{padding:12px;overflow:hidden}
+
+/* Info panel */
+.info-panel{flex:1;padding:22px;display:flex;flex-direction:column;gap:13px;min-width:0}
+.info-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sid{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700}
+.sname{font-size:17px;font-weight:700;color:#0f172a;margin-top:2px;line-height:1.2}
+.ssub{font-size:12px;color:#94a3b8;margin-top:2px}
+.grp-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.gb-shared{background:#f1f5f9;color:#475569}
+.gb-groupa{background:#dbeafe;color:#1e40af}
+.gb-groupb{background:#ede9fe;color:#4c1d95}
+.gb-integ{background:#f1f5f9;color:#475569}
+
+.irow{display:flex;flex-direction:column;gap:4px}
+.ilabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8}
+.ival{font-size:12px;color:#374151;line-height:1.6}
+.uc-val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700}
+
+.pills{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:500;line-height:1.4}
+.p-actor{background:#eff6ff;color:#1e40af}
+.p-fr{background:#f0fdf4;color:#166534}
+.p-nfr{background:#fef3c7;color:#92400e}
+.p-sc{background:#f5f3ff;color:#4c1d95}
+.p-tc{background:#fdf2f8;color:#9d174d;font-weight:700}
+.p-flow{background:#f1f5f9;color:#475569;font-family:'IBM Plex Mono',monospace;font-size:10px}
+.api-line{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#1e40af;background:#eff6ff;padding:3px 8px;border-radius:4px;margin-bottom:3px;display:block;word-break:break-all}
+.etag{display:inline-block;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:2px 6px;font-size:10px;color:#475569;margin:2px}
+
+/* Mini mockup base styles */
+.mm{font-size:11px;line-height:1.4}
+.mm .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.mm .mt{font-size:13px;font-weight:700;color:#0f172a}
+.mm .mb{padding:3px 10px;border-radius:4px;background:#2463d9;color:#fff;font-size:9px;border:none;cursor:pointer}
+.mm input,.mm textarea,.mm select{width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:10px;margin-bottom:5px;font-family:inherit;background:#fff;color:#374151;resize:none}
+.mm .mlbl{font-size:9px;font-weight:600;color:#374151;margin-bottom:2px;display:block}
+.mm .msep{border:none;border-top:1px solid #f1f5f9;margin:6px 0}
+.mm .mtabs{display:flex;gap:0;border-bottom:1px solid #e2e8f0;margin-bottom:8px}
+.mm .mtab{padding:4px 10px;font-size:10px;border-bottom:2px solid transparent;color:#64748b}
+.mm .mtab.on{color:#2463d9;border-bottom-color:#2463d9;font-weight:600}
+.badge{display:inline-block;padding:1px 6px;border-radius:10px;font-size:9px;font-weight:600}
+.bg{background:#d1fae5;color:#065f46}.ba{background:#fef3c7;color:#92400e}
+.bb{background:#dbeafe;color:#1e40af}.br{background:#fee2e2;color:#991b1b}
+.bp{background:#ede9fe;color:#4c1d95}.bs{background:#f1f5f9;color:#475569}
+.mm table{width:100%;border-collapse:collapse;font-size:10px}
+.mm th{background:#f8fafc;padding:4px 6px;text-align:left;font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;border-bottom:1px solid #e2e8f0}
+.mm td{padding:5px 6px;border-bottom:1px solid #f8fafc}
+.mm .card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:6px}
+.mm .card.lnc{border-left:3px solid #ef4444}
+.mm .card.lofi{border-left:3px solid #f59e0b}
+.mm .card.lcar{border-left:3px solid #7c3aed}
+.mm .card.lover{border-left:3px solid #ef4444;background:#fff5f5}
+.mm .kpig{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+.mm .kpi{background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px;text-align:center}
+.mm .kv{font-size:15px;font-weight:800;color:#2463d9}.mm .kl{font-size:8px;color:#64748b}
+.mm .sidebar{width:100px;flex-shrink:0;background:#f8fafc;border-right:1px solid #e2e8f0;padding:7px}
+.mm .si{padding:4px 6px;border-radius:4px;margin-bottom:2px;font-size:9px}
+.mm .si.on{background:#dbeafe;color:#1e40af;font-weight:600}
+.mm .pb{height:5px;background:#f1f5f9;border-radius:3px;overflow:hidden;margin-top:2px}
+.mm .pf{height:100%;border-radius:3px}
+.mm .row{display:flex;justify-content:space-between;font-size:9px;margin-bottom:1px}
+
+@media print{header{position:static}.lane-sep{break-before:auto}.scard{break-inside:avoid;margin-bottom:16px}body{background:#fff}}
+
+body{font-size:15px;line-height:1.6}header{position:static}header p{font-size:14px;color:#cbd5e1}.intro{margin:24px 32px;padding:20px;background:white;border:1px solid #d1d5db;border-radius:10px}.intro h2{font-size:20px}.nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.nav a,.p-flow{padding:10px 12px;color:#1e40af;background:#eff6ff;border-radius:6px;text-decoration:none;display:inline-block;font-size:13px}.nav a:focus-visible,a:focus-visible{outline:3px solid #d97706;outline-offset:3px}.scard{scroll-margin-top:16px;margin-bottom:20px}.mock-panel{width:48%;max-width:650px;min-width:0}.bcontent{overflow:visible}.mm{font-size:14px;line-height:1.6}.mm h3{font-size:18px;margin-bottom:14px}.mm h4{font-size:15px;margin:14px 0 8px}.mm .mlbl,.mm input{font-size:14px}.mm input{padding:9px;margin:5px 0 12px;background:#f8fafc}.mm th,.mm td{font-size:13px;padding:9px;overflow-wrap:anywhere}.tablewrap{overflow-x:auto}.actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.actions button{font:inherit;font-size:13px;padding:9px;border:1px solid #94a3b8;border-radius:5px;color:#334155;background:#f1f5f9;opacity:1;cursor:default}.notice{padding:12px;background:#fff7ed;border-left:3px solid #b45309;color:#78350f;font-size:13px;margin:12px 0}.info-panel{font-size:14px;gap:14px}.info-panel h2{font-size:21px;line-height:1.4}.ilabel{font-size:12px;color:#475569}.pill{font-size:12px;padding:4px 8px}.burl{font:inherit;font-size:12px;color:#475569}.lane-label{white-space:normal;font-size:13px}.source-line{font-size:13px;margin:7px 0}.source-line a{color:#1e40af}.rule{border-left:3px solid #64748b;padding-left:12px}.group-tag{font-size:12px;color:#475569}.scard[hidden]{display:none}.nav button{font:inherit;padding:9px 12px;border:1px solid #94a3b8;border-radius:6px;background:white;cursor:pointer}.nav button[aria-pressed=true]{background:#1e3055;color:white}.prototype{font-size:12px;color:#475569;margin-bottom:10px}details summary{cursor:pointer;color:#1e40af;padding:8px 0}footer{padding:32px;text-align:center} @media(max-width:850px){.scard{flex-direction:column;margin:0 12px 20px}.mock-panel{width:100%;max-width:none;border-right:0}.scard-accent{height:4px;width:100%}.intro{margin:16px 12px}.lane-sep{padding:20px 12px}.info-panel{padding:16px}header{padding:20px}.mm th,.mm td{padding:6px}.uc-val{overflow-wrap:anywhere}} @media print{.nav{display:none}.scard{display:flex!important;break-inside:avoid}.scard[hidden]{display:flex!important}.info-panel{font-size:11px}.intro{break-after:page}}
+.mm textarea{font-size:14px;line-height:1.6;padding:9px;background:#f8fafc;resize:vertical;min-height:90px}</style>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="#1e3055"/>
+  <rect x="5" y="5" width="90" height="15" rx="2" fill="#2463d9" opacity=".8"/>
+  <rect x="5" y="26" width="42" height="20" rx="2" fill="#2463d9" opacity=".7"/>
+  <rect x="53" y="26" width="42" height="20" rx="2" fill="#2463d9" opacity=".7"/>
+  <rect x="5" y="52" width="28" height="20" rx="2" fill="#7c3aed" opacity=".8"/>
+  <rect x="38" y="52" width="28" height="20" rx="2" fill="#7c3aed" opacity=".8"/>
+  <rect x="71" y="52" width="24" height="20" rx="2" fill="#7c3aed" opacity=".8"/>
+  <text x="50" y="90" font-size="7" text-anchor="middle" fill="#7da4e0">Screen Atlas</text>
+</svg>
+</template>
+</head>
+<body><header><div><h1>Screen Atlas — E-Filing</h1><p>ปรับเทียบ SRS_v1.md · 21 หน้าจอ/มุมมอง + 1 การ์ดส่วนเชื่อมต่อ · ฉบับร่างสำหรับทบทวน</p></div></header><section class="intro"><h2>เริ่มจากหน้าจอ แล้วตรวจเงื่อนไขก่อนพัฒนา</h2><p class="notice"><strong>ทิศทางล่าสุดสำหรับงาน 2 สัปดาห์</strong><br>ใช้ mockup เป็นฐานและยึด Use Case ของโครงการ รวม 21 มุมมองด้านล่างเป็นข้อเสนอ 10 หน้าหลัก + 3 ป๊อปอัป เก็บการตรวจครบและปิด DAR (UC-A-12) ในหน้ารายละเอียด DAR เดิม รวมงานแจกจ่าย/เรียกคืนที่จำเป็นตามประเภท เป้าหมาย 23 Use Case พักงานรองโดยไม่ยุบหลักแยกหน้าที่ เลือกบทบาทในเดโมหมายถึงสลับเป็นคนตัวอย่าง พร้อมอีเมล/รหัสผ่าน<br><a href="MVP_2_Weeks_and_Role_Matrix.md">อ่านขอบเขตที่เสนอ ตารางบทบาท และที่มารหัสเอกสารจาก QP-2301-0107 Rev.02</a><br>Atlas ด้านล่างยังเป็นรายการอ้างอิงฉบับเต็ม ไม่ใช่รายการที่ต้องทำครบในรอบนี้</p><p>คงรหัสหน้าจอเดิมและเพิ่มมุมมองที่ขาด ครอบคลุม Use Case 28 ตัวของสองโมดูลในระบบเดียวกัน ภาพเป็นข้อมูลสมมติและปุ่มธุรกรรมเป็นตัวอย่างที่กดบันทึกไม่ได้ ไม่ได้จำลองระบบสิทธิ์จริง</p><p>อ่านชื่อหน้าจอ → ภาพตัวอย่าง → เงื่อนไข → Use Case และผู้ทำการจาก SRS สีส้มคือข้อความที่ยังต้องยืนยัน การจับคู่ครบไม่ได้หมายความว่าข้อกำหนดผ่าน Baseline แล้ว</p><nav class="nav" aria-label="กรองกลุ่มหน้าจอ"><button data-group="all" aria-pressed="true">ทั้งหมด</button><button data-group="shared" aria-pressed="false">ส่วนกลาง</button><button data-group="groupa" aria-pressed="false">โมดูล A</button><button data-group="groupb" aria-pressed="false">โมดูล B</button><button data-group="integ" aria-pressed="false">ส่วนเชื่อมต่อ</button></nav><nav class="nav" aria-label="ข้ามไปหน้าจอ"><a href="#UI-S01">เลือกบทบาท</a><a href="#UI-A04">คำขอ DAR</a><a href="#UI-B03">วงจรใบคำร้อง</a><a href="#UI-B07">อนุมัติแผน</a><a href="#UI-B09">ตรวจและปิดใบ</a><a href="#UI-B10">รายงาน</a></nav></section><main id="app"></main><script>
+const SCREENS = [
+  {
+    "id": "UI-S01",
+    "name": "เข้าสู่ระบบและเลือกบทบาท",
+    "group": "shared",
+    "uc": "UC-B-01",
+    "sources": [
+      {
+        "id": "UC-B-01",
+        "section": "4.1",
+        "name": "เข้าสู่ระบบและเลือกบทบาทใช้งาน",
+        "actors": "ทุกบทบาทที่ใช้งานระบบ",
+        "fr": [
+          "FR-B-01",
+          "FR-B-02",
+          "FR-B-03",
+          "FR-B-04"
+        ],
+        "ac": [
+          "AC-B-01",
+          "AC-B-02",
+          "AC-B-03",
+          "AC-B-05"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-01",
+      "FR-B-02",
+      "FR-B-03",
+      "FR-B-04"
+    ],
+    "ac": [
+      "AC-B-01",
+      "AC-B-02",
+      "AC-B-03",
+      "AC-B-05"
+    ],
+    "mockup": "<div class=\"mm\"><h3>เข้าสู่ระบบและเลือกบทบาท</h3><label class=\"mlbl\">ชื่อผู้ใช้<input readonly value=\"ผู้ใช้ตัวอย่าง\"></label><label class=\"mlbl\">รหัสผ่าน<input readonly value=\"••••••••\"></label><div class=\"actions\"><button type=\"button\" disabled>เข้าสู่ระบบ</button></div><h4>หลังยืนยันตัวตนสำเร็จ</h4><label class=\"mlbl\">เลือกบทบาทใช้งานหนึ่งบทบาท<input readonly value=\"ผู้รับผิดชอบการแก้ไข\"></label><div class=\"actions\"><button type=\"button\" disabled>เริ่มใช้งานด้วยบทบาทนี้</button><button type=\"button\" disabled>สลับบทบาทระหว่างใช้งาน</button></div></div>",
+    "rule": "มีบทบาทเดียวเลือกให้อัตโนมัติ; หลายบทบาทต้องเลือกก่อนเข้าถึงเมนู สิทธิ์คิดเฉพาะบทบาทปัจจุบันและบันทึกการสลับบทบาท",
+    "to": [
+      "UI-A01",
+      "UI-B05",
+      "UI-B03",
+      "UI-S02",
+      "UI-S03"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-S02",
+    "name": "จัดการผู้ใช้และบทบาท",
+    "group": "shared",
+    "uc": "UC-B-02",
+    "sources": [
+      {
+        "id": "UC-B-02",
+        "section": "4.2",
+        "name": "จัดการผู้ใช้และบทบาท",
+        "actors": "ISO/QA Admin (DCC)",
+        "fr": [
+          "FR-B-04",
+          "FR-B-05",
+          "FR-B-06",
+          "FR-B-09"
+        ],
+        "ac": [
+          "AC-B-02",
+          "AC-B-04"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-04",
+      "FR-B-05",
+      "FR-B-06",
+      "FR-B-09"
+    ],
+    "ac": [
+      "AC-B-02",
+      "AC-B-04"
+    ],
+    "mockup": "<div class=\"mm\"><h3>จัดการผู้ใช้และบทบาท</h3><label class=\"mlbl\">ค้นหาบัญชีผู้ใช้<input readonly value=\"ชื่อ / หน่วยงาน\"></label><div class=\"tablewrap\"><table><thead><tr><th>ผู้ใช้ตัวอย่าง</th><th>บทบาทที่ได้รับ</th><th>บัญชี</th></tr></thead><tbody><tr><td>ผู้ใช้ ก</td><td>ผู้รับผิดชอบการแก้ไข, ผู้ตรวจติดตาม</td><td>ใช้งาน</td></tr><tr><td>ผู้ใช้ ข</td><td>ผู้ช่วยเลขานุการฯ</td><td>ใช้งาน</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>เพิ่มบัญชี</button><button type=\"button\" disabled>แก้บทบาท</button><button type=\"button\" disabled>ระงับบัญชี</button></div></div>",
+    "rule": "ใช้ทะเบียนผู้ใช้ บทบาท และหน่วยงานกลาง; บันทึกผู้แก้ไขและการเปลี่ยนสิทธิ์ การถือหลายบทบาทไม่รวมสิทธิ์พร้อมกัน",
+    "to": [
+      "UI-S03"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-S03",
+    "name": "ร่องรอยการตรวจสอบ",
+    "group": "shared",
+    "uc": "UC-B-03",
+    "sources": [
+      {
+        "id": "UC-B-03",
+        "section": "4.3",
+        "name": "ดูร่องรอยการตรวจสอบ",
+        "actors": "ISO/QA Admin (DCC), Auditor, Lead Auditor",
+        "fr": [
+          "FR-B-07",
+          "FR-B-08"
+        ],
+        "ac": [
+          "AC-B-05",
+          "AC-B-06"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-07",
+      "FR-B-08"
+    ],
+    "ac": [
+      "AC-B-05",
+      "AC-B-06"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ร่องรอยการตรวจสอบ</h3><label class=\"mlbl\">ค้นหาการกระทำ / ผู้ใช้ / ช่วงเวลา<input readonly value=\"รายการตัวอย่าง\"></label><div class=\"tablewrap\"><table><thead><tr><th>ผู้กระทำ / บทบาทขณะทำ</th><th>เหตุการณ์</th></tr></thead><tbody><tr><td>ผู้ใช้ ก / ผู้รับผิดชอบการแก้ไข</td><td>ส่งตรวจสอบประสิทธิผล</td></tr><tr><td>ผู้ใช้ ข / ผู้ช่วยเลขานุการฯ</td><td>ตรวจสอบประสิทธิผลผ่าน</td></tr><tr><td>ผู้ใช้ ค / ผู้แทนฝ่ายบริหาร</td><td>พิจารณาปิดใบ (ตัวอย่างรอข้อยุติอำนาจ)</td></tr></tbody></table></div></div>",
+    "rule": "ดูตามสิทธิ์และขอบเขตข้อมูลเท่านั้น; เก็บผู้กระทำ บทบาท เวลา และรายการที่เกี่ยวข้อง ไม่มีคำสั่งแก้ไขหรือลบร่องรอย",
+    "to": [],
+    "pending": ""
+  },
+  {
+    "id": "UI-A01",
+    "name": "ทะเบียนและค้นหาเอกสาร",
+    "group": "groupa",
+    "uc": "UC-A-08",
+    "sources": [
+      {
+        "id": "UC-A-08",
+        "section": "4.11",
+        "name": "ค้นหาและเข้าถึงเอกสาร",
+        "actors": "ผู้ใช้งานเอกสาร (End User) หรือผู้มีสิทธิ์อ่านตามบทบาทที่กำลังใช้งานและขอบเขตข้อมูล",
+        "fr": [
+          "FR-A-03",
+          "FR-A-12",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-10",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-03",
+      "FR-A-12",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-10",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ทะเบียนและค้นหาเอกสาร</h3><label class=\"mlbl\">ค้นหารหัส / ชื่อ / ประเภท / สถานะ<input readonly value=\"QP-ตัวอย่าง\"></label><div class=\"tablewrap\"><table><thead><tr><th>เอกสาร</th><th>ฉบับ</th><th>สถานะ</th></tr></thead><tbody><tr><td>ระเบียบปฏิบัติตัวอย่าง</td><td>02</td><td>ประกาศใช้</td></tr><tr><td>แบบฟอร์มตัวอย่าง</td><td>01</td><td>ยกเลิกใช้งาน</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>เปิดรายละเอียด</button><button type=\"button\" disabled>สร้างร่างเอกสาร</button></div></div>",
+    "rule": "แสดงเฉพาะเอกสารและฉบับที่มีสิทธิ์ พร้อมสถานะชัดเจน; การแสดงรายการยกเลิกขึ้นกับสิทธิ์และตัวกรอง",
+    "to": [
+      "UI-A02",
+      "UI-A03"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-A02",
+    "name": "จัดทำและแก้ไขร่างเอกสาร",
+    "group": "groupa",
+    "uc": "UC-A-01",
+    "sources": [
+      {
+        "id": "UC-A-01",
+        "section": "4.4",
+        "name": "จัดทำและแก้ไขร่างเอกสาร",
+        "actors": "เจ้าของเอกสาร (Document Owner)",
+        "fr": [
+          "FR-A-01",
+          "FR-A-02",
+          "FR-A-03",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-01",
+          "AC-A-02",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-01",
+      "FR-A-02",
+      "FR-A-03",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-01",
+      "AC-A-02",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>จัดทำและแก้ไขร่างเอกสาร</h3><label class=\"mlbl\">รหัสเอกสาร<input readonly value=\"QP-ตัวอย่าง\"></label><label class=\"mlbl\">ชื่อ / ประเภท / หน่วยงาน<input readonly value=\"ระเบียบปฏิบัติ / QP / สำนักงานคณบดี\"></label><label class=\"mlbl\">ไฟล์ประกอบ<input readonly value=\"ตัวอย่าง.pdf\"></label><div class=\"actions\"><button type=\"button\" disabled>บันทึกร่าง</button><button type=\"button\" disabled>กลับรายละเอียด</button></div></div>",
+    "rule": "เก็บร่างและฉบับที่เสนอแยกจากฉบับใช้งาน; ตรวจข้อมูลและไฟล์ก่อนยืนยันผลสำเร็จ",
+    "to": [
+      "UI-A03",
+      "UI-A04"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-A03",
+    "name": "รายละเอียดและฉบับเอกสาร",
+    "group": "groupa",
+    "uc": "UC-A-06, UC-A-07, UC-A-08",
+    "sources": [
+      {
+        "id": "UC-A-06",
+        "section": "4.9",
+        "name": "ขึ้นทะเบียนและประกาศใช้เอกสาร",
+        "actors": "ผู้คุมทะเบียนเอกสาร (DCC) ที่มีสิทธิ์ประกาศใช้",
+        "fr": [
+          "FR-A-02",
+          "FR-A-09",
+          "FR-A-10",
+          "FR-A-17",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-02",
+          "AC-A-08",
+          "AC-A-16"
+        ]
+      },
+      {
+        "id": "UC-A-07",
+        "section": "4.10",
+        "name": "ยกเลิกการใช้งานเอกสารตามคำขอที่อนุมัติ",
+        "actors": "ผู้คุมทะเบียนเอกสาร (DCC) ที่มีสิทธิ์ยกเลิกใช้งาน",
+        "fr": [
+          "FR-A-11",
+          "FR-A-17",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-09",
+          "AC-A-16"
+        ]
+      },
+      {
+        "id": "UC-A-08",
+        "section": "4.11",
+        "name": "ค้นหาและเข้าถึงเอกสาร",
+        "actors": "ผู้ใช้งานเอกสาร (End User) หรือผู้มีสิทธิ์อ่านตามบทบาทที่กำลังใช้งานและขอบเขตข้อมูล",
+        "fr": [
+          "FR-A-03",
+          "FR-A-12",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-10",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-02",
+      "FR-A-03",
+      "FR-A-09",
+      "FR-A-10",
+      "FR-A-11",
+      "FR-A-12",
+      "FR-A-17",
+      "FR-A-18",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-02",
+      "AC-A-08",
+      "AC-A-09",
+      "AC-A-10",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>รายละเอียดและฉบับเอกสาร</h3><label class=\"mlbl\">เอกสาร / ฉบับที่กำลังดู<input readonly value=\"QP-ตัวอย่าง / ฉบับ 02\"></label><label class=\"mlbl\">สถานะ<input readonly value=\"ประกาศใช้\"></label><div class=\"tablewrap\"><table><thead><tr><th>ส่วนข้อมูล</th><th>รายละเอียด</th></tr></thead><tbody><tr><td>ฉบับใช้งาน</td><td>แสดงไฟล์ วันที่มีผล และประวัติ</td></tr><tr><td>คำขอที่เกี่ยวข้อง</td><td>ผลอนุมัติและขอบเขตคำขอ</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>เปิดไฟล์</button><button type=\"button\" disabled>จัดทำ DAR</button><button type=\"button\" disabled>ประกาศใช้ตามคำขออนุมัติ</button><button type=\"button\" disabled>ยกเลิกใช้งานตามคำขออนุมัติ</button></div></div>",
+    "rule": "ปุ่มประกาศใช้และยกเลิกแสดงเฉพาะผู้มีอำนาจและเงื่อนไขที่ตรงกัน ไม่เปิดใช้ทุกปุ่มพร้อมกัน; ยกเลิกการถือครองไม่เท่ากับยกเลิกการใช้งานเอกสาร",
+    "to": [
+      "UI-A04",
+      "UI-A06",
+      "UI-A08"
+    ],
+    "pending": "แนวทางไฟล์อิเล็กทรอนิกส์และอำนาจที่ยังรอยืนยันให้ยึด Appendix C.1 ไม่ถือภาพเป็นมติ"
+  },
+  {
+    "id": "UI-A04",
+    "name": "จัดทำและส่งคำขอ DAR",
+    "group": "groupa",
+    "uc": "UC-A-02",
+    "sources": [
+      {
+        "id": "UC-A-02",
+        "section": "4.5",
+        "name": "จัดทำและส่งคำขอ DAR",
+        "actors": "ผู้ขอที่ได้รับสิทธิ์ โดยเริ่มจาก Document Owner",
+        "fr": [
+          "FR-A-04",
+          "FR-A-04.1",
+          "FR-A-04.2",
+          "FR-A-04.3",
+          "FR-A-05",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-03",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-04",
+      "FR-A-04.1",
+      "FR-A-04.2",
+      "FR-A-04.3",
+      "FR-A-05",
+      "FR-A-18",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-03",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>จัดทำและส่งคำขอ DAR</h3><label class=\"mlbl\">เอกสาร / ฉบับอ้างอิง<input readonly value=\"QP-ตัวอย่าง / ฉบับ 02\"></label><div class=\"tablewrap\"><table><thead><tr><th>ประเภทคำขอที่เลือกได้</th></tr></thead><tbody><tr><td>ขอจัดทำเอกสารใหม่</td></tr><tr><td>ขอถือครองเอกสาร</td></tr><tr><td>ขอแก้ไขเอกสาร</td></tr><tr><td>ขอยกเลิกการถือครองเอกสาร</td></tr><tr><td>ขอยกเลิกการใช้งานเอกสาร</td></tr><tr><td>อื่น ๆ — ต้องระบุคำอธิบาย</td></tr></tbody></table></div><label class=\"mlbl\">เหตุผลและไฟล์ประกอบ<input readonly value=\"รายละเอียดคำขอ\"></label><div class=\"actions\"><button type=\"button\" disabled>บันทึก</button><button type=\"button\" disabled>ส่งคำขอให้ตรวจรับ</button></div></div>",
+    "rule": "เลือกประเภทและตรวจข้อมูลบังคับตามประเภท; คำขอส่งเข้าตรวจรับก่อนทบทวนและอนุมัติ",
+    "to": [
+      "UI-A07",
+      "UI-A08"
+    ],
+    "pending": "ข้อมูลบังคับของประเภทถือครองและช่องสำหรับขอสำเนาไม่ควบคุมยังรอยืนยัน"
+  },
+  {
+    "id": "UI-A07",
+    "name": "ตรวจรับและทบทวน DAR",
+    "group": "groupa",
+    "uc": "UC-A-03, UC-A-04",
+    "sources": [
+      {
+        "id": "UC-A-03",
+        "section": "4.6",
+        "name": "ตรวจรับคำขอ DAR",
+        "actors": "DCC/ผู้คุมทะเบียนตามการมอบหมาย",
+        "fr": [
+          "FR-A-06",
+          "FR-A-15",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-04",
+          "AC-A-16"
+        ]
+      },
+      {
+        "id": "UC-A-04",
+        "section": "4.7",
+        "name": "ทบทวนเอกสารและคำขอ",
+        "actors": "ผู้ทบทวนที่มีอำนาจตามประเภทเอกสารและการมอบหมาย ไม่ล็อกเป็น role ใหม่ใน UC นี้",
+        "fr": [
+          "FR-A-07",
+          "FR-A-15",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-05",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-06",
+      "FR-A-07",
+      "FR-A-15",
+      "FR-A-18",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-04",
+      "AC-A-05",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ตรวจรับและทบทวน DAR</h3><h4>ขั้นที่ 1 ตรวจรับ</h4><label class=\"mlbl\">ผลตรวจคำขอและเอกสารแนบ<input readonly value=\"ครบถ้วน / ระบุสิ่งที่ขาด\"></label><div class=\"actions\"><button type=\"button\" disabled>ส่งให้ผู้ทบทวน</button><button type=\"button\" disabled>ส่งกลับให้แก้ไข</button></div><h4>ขั้นที่ 2 ทบทวน</h4><label class=\"mlbl\">ความเห็นต่อฉบับที่เสนอ<input readonly value=\"ผลทบทวนและเหตุผล\"></label><div class=\"actions\"><button type=\"button\" disabled>ส่งให้ผู้อนุมัติ</button><button type=\"button\" disabled>ส่งกลับพร้อมเหตุผล</button></div></div>",
+    "rule": "สองส่วนเป็นคนละงาน แสดงตามบทบาทและสถานะ; ผู้ทบทวนกับผู้อนุมัติต้องเป็นคนละคน อำนาจขึ้นกับระดับเอกสาร",
+    "to": [
+      "UI-A04",
+      "UI-A05"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-A05",
+    "name": "พิจารณาอนุมัติ DAR",
+    "group": "groupa",
+    "uc": "UC-A-05",
+    "sources": [
+      {
+        "id": "UC-A-05",
+        "section": "4.8",
+        "name": "พิจารณาอนุมัติคำขอ",
+        "actors": "ผู้อนุมัติที่มีอำนาจตามประเภทเอกสารและการมอบหมายที่ยืนยันแล้ว",
+        "fr": [
+          "FR-A-08",
+          "FR-A-15",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-06",
+          "AC-A-07",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-08",
+      "FR-A-15",
+      "FR-A-18",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-06",
+      "AC-A-07",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>พิจารณาอนุมัติ DAR</h3><label class=\"mlbl\">คำขอ / ฉบับที่เสนอ<input readonly value=\"DAR-ตัวอย่าง / ฉบับ 03\"></label><label class=\"mlbl\">ผลทบทวน<input readonly value=\"ตรวจสอบได้จากประวัติ\"></label><label class=\"mlbl\">ความเห็นประกอบการตัดสิน<input readonly value=\"ระบุเหตุผล\"></label><div class=\"actions\"><button type=\"button\" disabled>อนุมัติ</button><button type=\"button\" disabled>ไม่อนุมัติ</button></div></div>",
+    "rule": "ตรวจตารางอำนาจตามประเภทเอกสารและแยกผู้ทบทวน/ผู้อนุมัติ; อนุมัติไม่เท่ากับประกาศใช้หรือปิด DAR",
+    "to": [
+      "UI-A03",
+      "UI-A08"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-A06",
+    "name": "มอบหมายและยืนยันรับทราบ",
+    "group": "groupa",
+    "uc": "UC-A-09, UC-A-10",
+    "sources": [
+      {
+        "id": "UC-A-09",
+        "section": "4.12",
+        "name": "กำหนดผู้รับทราบและติดตามผล",
+        "actors": "DCC ที่มีสิทธิ์มอบหมายตามขอบเขต; สิทธิ์ของเจ้าของเอกสารยังรอยืนยัน",
+        "fr": [
+          "FR-A-13",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-11",
+          "AC-A-16"
+        ]
+      },
+      {
+        "id": "UC-A-10",
+        "section": "4.13",
+        "name": "ยืนยันรับทราบเอกสาร",
+        "actors": "ผู้ได้รับมอบหมายให้รับทราบและมีสิทธิ์เข้าถึงฉบับนั้นจากบทบาทที่กำลังใช้งาน",
+        "fr": [
+          "FR-A-14",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-12",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-13",
+      "FR-A-14",
+      "FR-A-18",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-11",
+      "AC-A-12",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>มอบหมายและยืนยันรับทราบ</h3><h4>สำหรับผู้มีอำนาจมอบหมาย</h4><label class=\"mlbl\">ฉบับและผู้รับทราบ<input readonly value=\"ฉบับ 02 / รายชื่อผู้ได้รับมอบหมาย\"></label><div class=\"actions\"><button type=\"button\" disabled>มอบหมายผู้รับทราบ</button><button type=\"button\" disabled>ดูผลรับทราบ</button></div><h4>สำหรับผู้ได้รับมอบหมาย</h4><div class=\"tablewrap\"><table><thead><tr><th>เอกสาร / ฉบับ</th><th>ผลรับทราบ</th></tr></thead><tbody><tr><td>QP-ตัวอย่าง / 02</td><td>รอรับทราบ</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>เปิดอ่านฉบับที่ได้รับมอบหมาย</button><button type=\"button\" disabled>ยืนยันรับทราบฉบับนี้</button></div></div>",
+    "rule": "แยกสิทธิ์มอบหมายออกจากสิทธิ์ยืนยัน; บันทึกบุคคล เวลา และฉบับ การเปิดอ่านหรือรับสำเนาไม่ใช่การยืนยันรับทราบ",
+    "to": [
+      "UI-A03"
+    ],
+    "pending": "อำนาจมอบหมายผู้รับทราบยังมีรายการรอยืนยัน ห้ามให้เจ้าของเอกสารได้สิทธิ์นี้โดยอัตโนมัติ"
+  },
+  {
+    "id": "UI-A08",
+    "name": "ติดตามและตรวจครบก่อนปิด DAR",
+    "group": "groupa",
+    "uc": "UC-A-11, UC-A-12",
+    "sources": [
+      {
+        "id": "UC-A-11",
+        "section": "4.14",
+        "name": "ติดตามคำขอและตรวจประวัติ",
+        "actors": "ผู้ขอหรือผู้เกี่ยวข้องที่มีสิทธิ์อ่านคำขอและประวัติภายในขอบเขตข้อมูล",
+        "fr": [
+          "FR-A-05",
+          "FR-A-15",
+          "FR-A-17",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-13",
+          "AC-A-16"
+        ]
+      },
+      {
+        "id": "UC-A-12",
+        "section": "4.15",
+        "name": "ตรวจความครบถ้วนและปิด DAR",
+        "actors": "DCC/ผู้คุมทะเบียนที่ได้รับมอบหมายอำนาจปิด DAR",
+        "fr": [
+          "FR-A-15",
+          "FR-A-16",
+          "FR-A-18",
+          "FR-A-19"
+        ],
+        "ac": [
+          "AC-A-14",
+          "AC-A-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-A-05",
+      "FR-A-15",
+      "FR-A-16",
+      "FR-A-17",
+      "FR-A-18",
+      "FR-A-19"
+    ],
+    "ac": [
+      "AC-A-13",
+      "AC-A-14",
+      "AC-A-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ติดตามและตรวจครบก่อนปิด DAR</h3><div class=\"tablewrap\"><table><thead><tr><th>รายการตรวจตามประเภท</th><th>ผลตัวอย่าง</th></tr></thead><tbody><tr><td>ผลตรวจรับ / ทบทวน / อนุมัติ</td><td>มีประวัติ</td></tr><tr><td>ประกาศใช้หรือยกเลิกตามคำขอ</td><td>ตรวจหลักฐาน</td></tr><tr><td>แจกจ่ายและเรียกคืนที่เกี่ยวข้อง</td><td>ยังไม่ครบ</td></tr><tr><td>ผู้ปิด / วันที่ปิด</td><td>บันทึกเมื่อผ่านเงื่อนไข</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>ดูประวัติ</button><button type=\"button\" disabled>บันทึกผลตรวจ</button><button type=\"button\" disabled>ปิด DAR เมื่อครบ</button></div></div>",
+    "rule": "ต้องตรวจงานตามประเภทคำขอครบก่อนปิด; งานยังไม่ครบเปิดตรวจได้แต่ปิดไม่ได้ ไม่สร้างหลักฐานสมมติสำหรับข้อที่ไม่ใช้กับประเภทนั้น",
+    "to": [
+      "UI-A03",
+      "UI-A06"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-B05",
+    "name": "แดชบอร์ดปฏิบัติการ",
+    "group": "groupb",
+    "uc": "UC-B-15",
+    "sources": [
+      {
+        "id": "UC-B-15",
+        "section": "4.28",
+        "name": "ดูแดชบอร์ดปฏิบัติการ",
+        "actors": "ISO/QA Admin (DCC), Auditor, Lead Auditor, QMR, Sponsor",
+        "fr": [
+          "FR-B-37",
+          "FR-B-38",
+          "FR-B-39",
+          "FR-B-39.1",
+          "FR-B-39.2",
+          "FR-B-39.3",
+          "FR-B-39.4",
+          "FR-B-39.5",
+          "FR-B-40",
+          "FR-B-42"
+        ],
+        "ac": [
+          "AC-B-24",
+          "AC-B-25",
+          "AC-B-26"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-37",
+      "FR-B-38",
+      "FR-B-39",
+      "FR-B-39.1",
+      "FR-B-39.2",
+      "FR-B-39.3",
+      "FR-B-39.4",
+      "FR-B-39.5",
+      "FR-B-40",
+      "FR-B-42"
+    ],
+    "ac": [
+      "AC-B-24",
+      "AC-B-25",
+      "AC-B-26"
+    ],
+    "mockup": "<div class=\"mm\"><h3>แดชบอร์ดปฏิบัติการ</h3><label class=\"mlbl\">ช่วงเวลา / รอบตรวจ / หน่วยงาน<input readonly value=\"ตามขอบเขตที่มีสิทธิ์\"></label><div class=\"tablewrap\"><table><thead><tr><th>ค่าสรุปตัวอย่าง</th><th>จำนวน</th></tr></thead><tbody><tr><td>ใบทั้งหมด</td><td>12</td></tr><tr><td>ปิดใบแล้ว</td><td>5</td></tr><tr><td>ใบยังไม่ปิด</td><td>7</td></tr><tr><td>เกินกำหนด (ในกลุ่มยังไม่ปิด)</td><td>2</td></tr></tbody></table></div><p class=\"notice\">เกินกำหนดเป็นป้ายประกอบ ไม่ใช่สถานะที่นำไปบวกกับจำนวนแยกตามสถานะ</p><div class=\"tablewrap\"><table><thead><tr><th>ข้อมูลจากเอกสาร</th><th>การแสดงผล</th></tr></thead><tbody><tr><td>เอกสาร / ผลรับทราบ</td><td>ตามข้อมูลและขอบเขตสิทธิ์</td></tr><tr><td>ข้อมูลยังไม่พร้อม</td><td>แสดงว่ายังไม่พร้อม ไม่แทนด้วยศูนย์</td></tr></tbody></table></div></div>",
+    "rule": "กรองสิทธิ์ก่อนคำนวณทุกค่า ผู้บริหารเห็นเฉพาะค่าสรุปและไม่เจาะรายบุคคล; การเจาะรายการต้องตรวจสิทธิ์ซ้ำ",
+    "to": [
+      "UI-B01",
+      "UI-B02",
+      "UI-B03",
+      "UI-B04",
+      "UI-B10"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-B01",
+    "name": "ทะเบียนบันทึกข้อมูลและหลักฐาน",
+    "group": "groupb",
+    "uc": "UC-B-04, UC-B-05",
+    "sources": [
+      {
+        "id": "UC-B-04",
+        "section": "4.17",
+        "name": "บันทึกข้อมูลและหลักฐาน",
+        "actors": "ISO/QA Admin (DCC), Auditor, Lead Auditor, Assistant DCC, CAR Owner",
+        "fr": [
+          "FR-B-10",
+          "FR-B-11",
+          "FR-B-11.1",
+          "FR-B-42"
+        ],
+        "ac": [
+          "AC-B-07",
+          "AC-B-08"
+        ]
+      },
+      {
+        "id": "UC-B-05",
+        "section": "4.18",
+        "name": "ค้นหาและเรียกดูบันทึกข้อมูลและหลักฐาน",
+        "actors": "ISO/QA Admin (DCC), Auditor, Lead Auditor, Assistant DCC, CAR Owner, QMR",
+        "fr": [
+          "FR-B-12",
+          "FR-B-13"
+        ],
+        "ac": [
+          "AC-B-09",
+          "AC-B-10"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-10",
+      "FR-B-11",
+      "FR-B-11.1",
+      "FR-B-12",
+      "FR-B-13",
+      "FR-B-42"
+    ],
+    "ac": [
+      "AC-B-07",
+      "AC-B-08",
+      "AC-B-09",
+      "AC-B-10"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ทะเบียนบันทึกข้อมูลและหลักฐาน</h3><label class=\"mlbl\">ค้นหา / ประเภท / ช่วงเวลา<input readonly value=\"บันทึกการอบรม\"></label><label class=\"mlbl\">ชื่อบันทึกและรายละเอียด<input readonly value=\"บันทึกตัวอย่าง\"></label><label class=\"mlbl\">เอกสารอ้างอิง (ถ้ามี)<input readonly value=\"เลือกเอกสารจากทะเบียนกลาง\"></label><label class=\"mlbl\">หลักฐานและรายการที่เกี่ยวข้อง<textarea readonly rows=\"3\">เลือกบันทึกข้อมูล / ประเด็นที่พบ / ใบคำร้องตามกรณี</textarea></label><div class=\"actions\"><button type=\"button\" disabled>บันทึกข้อมูล</button><button type=\"button\" disabled>แนบหลักฐาน</button><button type=\"button\" disabled>ค้นหา</button><button type=\"button\" disabled>เปิดรายละเอียด</button></div></div>",
+    "rule": "Evidence แนบกับ Record, Finding หรือใบคำร้องได้โดยตรง; คีย์อ้างอิงทั้งสามเป็น nullable ไม่บังคับให้สร้าง Record ก่อนแนบกับ Finding/ใบคำร้อง",
+    "to": [
+      "UI-B02",
+      "UI-B03"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-B02",
+    "name": "รอบการตรวจและประเด็นที่พบ",
+    "group": "groupb",
+    "uc": "UC-B-06, UC-B-07",
+    "sources": [
+      {
+        "id": "UC-B-06",
+        "section": "4.19",
+        "name": "สร้างรอบการตรวจติดตาม",
+        "actors": "ISO/QA Admin (DCC), Lead Auditor",
+        "fr": [
+          "FR-B-14",
+          "FR-B-14.1",
+          "FR-B-14.2",
+          "FR-B-19"
+        ],
+        "ac": [
+          "AC-B-11",
+          "AC-B-12"
+        ]
+      },
+      {
+        "id": "UC-B-07",
+        "section": "4.20",
+        "name": "บ่งชี้และบันทึกประเด็นที่พบ",
+        "actors": "Auditor, Lead Auditor, ISO/QA Admin (DCC)",
+        "fr": [
+          "FR-B-15",
+          "FR-B-16",
+          "FR-B-17",
+          "FR-B-18",
+          "FR-B-18.1"
+        ],
+        "ac": [
+          "AC-B-13",
+          "AC-B-14"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-14",
+      "FR-B-14.1",
+      "FR-B-14.2",
+      "FR-B-15",
+      "FR-B-16",
+      "FR-B-17",
+      "FR-B-18",
+      "FR-B-18.1",
+      "FR-B-19"
+    ],
+    "ac": [
+      "AC-B-11",
+      "AC-B-12",
+      "AC-B-13",
+      "AC-B-14"
+    ],
+    "mockup": "<div class=\"mm\"><h3>รอบการตรวจและประเด็นที่พบ</h3><label class=\"mlbl\">รอบตรวจ / ขอบเขต / วันตรวจ / ทีมตรวจ<input readonly value=\"รอบตัวอย่าง\"></label><label class=\"mlbl\">แหล่งที่มาของประเด็น<input readonly value=\"การตรวจติดตามภายใน\"></label><div class=\"tablewrap\"><table><thead><tr><th>ชนิดประเด็นที่เลือกได้</th></tr></thead><tbody><tr><td>ความไม่สอดคล้อง</td></tr><tr><td>ข้อสังเกต</td></tr><tr><td>ข้อเสนอแนะเพื่อการปรับปรุง</td></tr></tbody></table></div><label class=\"mlbl\">รายละเอียด / ข้อกำหนด / หลักฐาน<input readonly value=\"อธิบายข้อเท็จจริงและแนบหลักฐาน\"></label><div class=\"actions\"><button type=\"button\" disabled>สร้างรอบตรวจ</button><button type=\"button\" disabled>บันทึกประเด็น</button><button type=\"button\" disabled>ดูสรุปผลตรวจ</button><button type=\"button\" disabled>เปิดใบคำร้อง</button></div></div>",
+    "rule": "แยกชนิดประเด็นจากระดับความรุนแรง; ไม่กำหนดความรุนแรงให้อัตโนมัติ ข้อสังเกต/ข้อเสนอแนะไม่บังคับเปิดใบ ต้องให้ผู้ใช้ยืนยัน",
+    "to": [
+      "UI-B01",
+      "UI-B03",
+      "UI-B10"
+    ],
+    "pending": "เกณฑ์ความรุนแรงยังรอยืนยันตาม TBD-B-15"
+  },
+  {
+    "id": "UI-B03",
+    "name": "รายการและเปิดใบคำร้อง CAR/NCR",
+    "group": "groupb",
+    "uc": "UC-B-08",
+    "sources": [
+      {
+        "id": "UC-B-08",
+        "section": "4.21",
+        "name": "เปิดใบคำร้องจากประเด็นที่พบ",
+        "actors": "Auditor, Lead Auditor, ISO/QA Admin (DCC)",
+        "fr": [
+          "FR-B-20",
+          "FR-B-20.1",
+          "FR-B-21"
+        ],
+        "ac": [
+          "AC-B-15",
+          "AC-B-16"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-20",
+      "FR-B-20.1",
+      "FR-B-21"
+    ],
+    "ac": [
+      "AC-B-15",
+      "AC-B-16"
+    ],
+    "mockup": "<div class=\"mm\"><h3>รายการและเปิดใบคำร้อง CAR/NCR</h3><label class=\"mlbl\">ประเด็นที่พบ<input readonly value=\"ประเด็นตัวอย่าง\"></label><label class=\"mlbl\">แหล่งที่มา / ประเภทใบ<input readonly value=\"การตรวจติดตามภายใน / CAR\"></label><label class=\"mlbl\">ผู้รับผิดชอบ / กำหนดรวมของใบ<input readonly value=\"ผู้ใช้ ก / วันที่กำหนด\"></label><div class=\"actions\"><button type=\"button\" disabled>เปิดใบคำร้อง</button></div><h4>สถานะหลัก 8 สถานะ</h4><div class=\"tablewrap\"><table><thead><tr><th>ลำดับ</th><th>สถานะ</th></tr></thead><tbody><tr><td>1</td><td>เปิดใบ</td></tr><tr><td>2</td><td>อยู่ระหว่างแก้ไขเฉพาะหน้า</td></tr><tr><td>3</td><td>อยู่ระหว่างวิเคราะห์สาเหตุและจัดทำแผน</td></tr><tr><td>4</td><td>รออนุมัติแผน</td></tr><tr><td>5</td><td>อยู่ระหว่างดำเนินการตามแผน</td></tr><tr><td>6</td><td>รอตรวจสอบประสิทธิผล</td></tr><tr><td>7</td><td>รอปิดใบ</td></tr><tr><td>8</td><td>ปิดใบแล้ว</td></tr></tbody></table></div><p class=\"notice\">การประชุมทบทวนโดยฝ่ายบริหารใช้ NCR; ประเด็นที่มีใบเปิดค้างอยู่แล้วให้ไปใบเดิม หากใบเดิมปิดแล้วและเกิดซ้ำให้เปิดใบใหม่พร้อมประวัติ</p></div>",
+    "rule": "รายการใบคำร้องเป็นทางเข้าตามสิทธิ์ แต่ละปุ่มและขั้นตอนขึ้นกับสถานะจริง; ห้ามข้ามขั้นและไม่ใช้คำสั่งเปิดซ้ำสำหรับใบที่ปิดแล้ว",
+    "to": [
+      "UI-B06",
+      "UI-B07",
+      "UI-B08",
+      "UI-B09",
+      "UI-B04"
+    ],
+    "pending": "UC-B-08 A3 ยอมให้ระบุหน่วยงานไว้ก่อน แต่ E2 ปฏิเสธเมื่อไม่มีผู้รับผิดชอบ ต้องยืนยันกรณีนี้; ตัวอย่างใช้ผู้รับผิดชอบครบ"
+  },
+  {
+    "id": "UI-B06",
+    "name": "แก้ไขเฉพาะหน้าและจัดทำแผน",
+    "group": "groupb",
+    "uc": "UC-B-09",
+    "sources": [
+      {
+        "id": "UC-B-09",
+        "section": "4.22",
+        "name": "บันทึกการแก้ไขและจัดทำแผนการปฏิบัติการแก้ไข",
+        "actors": "CAR Owner (ผู้รับผิดชอบการแก้ไข / ผู้รับการตรวจติดตาม)",
+        "fr": [
+          "FR-B-22",
+          "FR-B-23",
+          "FR-B-24"
+        ],
+        "ac": [
+          "AC-B-17",
+          "AC-B-18"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-22",
+      "FR-B-23",
+      "FR-B-24"
+    ],
+    "ac": [
+      "AC-B-17",
+      "AC-B-18"
+    ],
+    "mockup": "<div class=\"mm\"><h3>แก้ไขเฉพาะหน้าและจัดทำแผน</h3><label class=\"mlbl\">สถานะตัวอย่าง<input readonly value=\"อยู่ระหว่างวิเคราะห์สาเหตุและจัดทำแผน\"></label><label class=\"mlbl\">การแก้ไขเฉพาะหน้า<input readonly value=\"จำกัดผลกระทบของปัญหาที่เกิดขึ้น\"></label><label class=\"mlbl\">สาเหตุรากเหง้า / เทคนิควิเคราะห์<input readonly value=\"สาเหตุและวิธีที่ใช้\"></label><div class=\"tablewrap\"><table><thead><tr><th>กิจกรรม</th><th>ผู้รับผิดชอบ</th><th>กำหนดเสร็จ</th></tr></thead><tbody><tr><td>ปรับขั้นตอนปฏิบัติงาน</td><td>ผู้ใช้ ก</td><td>วันที่กำหนด</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>บันทึกความคืบหน้า</button><button type=\"button\" disabled>ส่งแผนขออนุมัติ</button></div></div>",
+    "rule": "ส่งแผนได้เมื่อมีสาเหตุและอย่างน้อยหนึ่งกิจกรรม พร้อมผู้รับผิดชอบและกำหนดเวลาครบ; เก็บการแก้เฉพาะหน้าแยกจากการแก้ที่สาเหตุ",
+    "to": [
+      "UI-B03",
+      "UI-B07"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-B07",
+    "name": "พิจารณาแผนการแก้ไข/ป้องกัน",
+    "group": "groupb",
+    "uc": "UC-B-10",
+    "sources": [
+      {
+        "id": "UC-B-10",
+        "section": "4.23",
+        "name": "อนุมัติแผนการปฏิบัติการแก้ไข/ป้องกัน",
+        "actors": "ใบ CAR: QMR หรือ Lead Auditor (หัวหน้าผู้ตรวจ IQA) · ใบ NCR: QMR — ตามที่แบบฟอร์ม `FM-QP-2301-0109-01` ส่วนที่ 4 จ่าหัวว่า \"สำหรับ QMR/หัวหน้าผู้ตรวจ IQA\" และ `-02` จ่าหัวว่า \"สำหรับ QMR\" (`TBD-B-10`)",
+        "fr": [
+          "FR-B-25",
+          "FR-B-26"
+        ],
+        "ac": [
+          "AC-B-19",
+          "AC-B-20"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-25",
+      "FR-B-26"
+    ],
+    "ac": [
+      "AC-B-19",
+      "AC-B-20"
+    ],
+    "mockup": "<div class=\"mm\"><h3>พิจารณาแผนการแก้ไข/ป้องกัน</h3><label class=\"mlbl\">สถานะ<input readonly value=\"รออนุมัติแผน\"></label><label class=\"mlbl\">ประเด็น / สาเหตุ / แผนฉบับที่พิจารณา<input readonly value=\"ดูรายละเอียดและหลักฐาน\"></label><label class=\"mlbl\">กรอบเวลาของแผนทั้งชุด<textarea readonly rows=\"3\">ทันทีหรือภายใน 10 วัน / ภายใน 30 วันพร้อมรายงาน / ติดตามครั้งถัดไป</textarea></label><label class=\"mlbl\">ความเห็นหรือเหตุผลไม่อนุมัติ<input readonly value=\"ระบุเหตุผล\"></label><div class=\"actions\"><button type=\"button\" disabled>อนุมัติแผน</button><button type=\"button\" disabled>ไม่อนุมัติและส่งกลับ</button><button type=\"button\" disabled>ขอข้อมูลเพิ่ม</button></div></div>",
+    "rule": "ผู้อนุมัติต้องไม่ใช่ผู้จัดทำแผน; ก่อนอนุมัติห้ามบันทึกดำเนินการตามแผน ไม่อนุมัติกลับวิเคราะห์สาเหตุและจัดทำแผน; ขอข้อมูลเพิ่มคงสถานะและเวลายังเดิน",
+    "to": [
+      "UI-B06",
+      "UI-B08"
+    ],
+    "pending": "§4.23 Primary Actor/§4.31 ให้ CAR ใช้ QMR หรือ Lead Auditor และ NCR ใช้ QMR แต่ Preconditions/BR-B-12/AC-B-19 ยังเขียน QMR ต้องยืนยันก่อนผูกสิทธิ์จริง; ผู้ช่วย QMR ใช้แทนเฉพาะเมื่อได้รับมอบหมาย"
+  },
+  {
+    "id": "UI-B08",
+    "name": "ดำเนินการตามแผนและหลักฐาน",
+    "group": "groupb",
+    "uc": "UC-B-11",
+    "sources": [
+      {
+        "id": "UC-B-11",
+        "section": "4.24",
+        "name": "บันทึกการดำเนินการตามแผนและหลักฐาน",
+        "actors": "CAR Owner",
+        "fr": [
+          "FR-B-11",
+          "FR-B-27"
+        ],
+        "ac": [
+          "AC-B-07",
+          "AC-B-18"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-11",
+      "FR-B-27"
+    ],
+    "ac": [
+      "AC-B-07",
+      "AC-B-18"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ดำเนินการตามแผนและหลักฐาน</h3><label class=\"mlbl\">สถานะ<input readonly value=\"อยู่ระหว่างดำเนินการตามแผน\"></label><div class=\"tablewrap\"><table><thead><tr><th>กิจกรรม</th><th>ผลดำเนินการ</th><th>หลักฐาน</th></tr></thead><tbody><tr><td>ปรับขั้นตอนปฏิบัติงาน</td><td>รายละเอียดผลที่ทำจริง</td><td>ไฟล์หลักฐาน</td></tr></tbody></table></div><label class=\"mlbl\">วันที่ดำเนินการ / ผู้บันทึก<input readonly value=\"ข้อมูลตัวอย่าง\"></label><div class=\"actions\"><button type=\"button\" disabled>บันทึกผล</button><button type=\"button\" disabled>แนบหลักฐาน</button><button type=\"button\" disabled>ส่งตรวจสอบประสิทธิผล</button></div></div>",
+    "rule": "ใช้แผนที่อนุมัติแล้ว ทุกกิจกรรมต้องมีผลและหลักฐานอย่างน้อยหนึ่งรายการก่อนส่งตรวจ ไม่เปลี่ยนสถานะเมื่อบันทึกไม่สำเร็จ",
+    "to": [
+      "UI-B03",
+      "UI-B09"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "UI-B09",
+    "name": "ตรวจประสิทธิผลและพิจารณาปิดใบ",
+    "group": "groupb",
+    "uc": "UC-B-12, UC-B-13",
+    "sources": [
+      {
+        "id": "UC-B-12",
+        "section": "4.25",
+        "name": "ตรวจสอบประสิทธิผลการแก้ไข",
+        "actors": "Assistant DCC หรือ Auditor ผู้แจ้งความไม่สอดคล้องนั้น",
+        "fr": [
+          "FR-B-28",
+          "FR-B-29"
+        ],
+        "ac": [
+          "AC-B-21",
+          "AC-B-22",
+          "AC-B-23"
+        ]
+      },
+      {
+        "id": "UC-B-13",
+        "section": "4.26",
+        "name": "ปิดใบคำร้อง",
+        "actors": "QMR, Lead Auditor (ผู้ตรวจติดตาม)",
+        "fr": [
+          "FR-B-30",
+          "FR-B-31",
+          "FR-B-32"
+        ],
+        "ac": [
+          "AC-B-22",
+          "AC-B-23"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-28",
+      "FR-B-29",
+      "FR-B-30",
+      "FR-B-31",
+      "FR-B-32"
+    ],
+    "ac": [
+      "AC-B-21",
+      "AC-B-22",
+      "AC-B-23"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ตรวจประสิทธิผลและพิจารณาปิดใบ</h3><h4>ส่วนที่ 1 ผู้ตรวจสอบประสิทธิผล</h4><label class=\"mlbl\">สถานะ<input readonly value=\"รอตรวจสอบประสิทธิผล\"></label><label class=\"mlbl\">ผลตรวจ / ความเห็น / หลักฐาน<input readonly value=\"ต้องมีความเห็นประกอบ\"></label><div class=\"actions\"><button type=\"button\" disabled>ผ่าน — ส่งรอปิดใบ</button><button type=\"button\" disabled>ไม่มีประสิทธิผล — ส่งกลับวิเคราะห์สาเหตุ</button></div><h4>ส่วนที่ 2 ผู้มีอำนาจปิดใบ</h4><label class=\"mlbl\">สถานะ<input readonly value=\"รอปิดใบ\"></label><label class=\"mlbl\">ผลตรวจและข้อมูลบังคับ<input readonly value=\"ตรวจว่าผ่านและครบถ้วน\"></label><div class=\"actions\"><button type=\"button\" disabled>ยืนยันปิดใบ</button><button type=\"button\" disabled>ไม่มีประสิทธิผล — ส่งกลับวิเคราะห์สาเหตุ</button></div></div>",
+    "rule": "สองส่วนแสดงตามสถานะและบทบาท คนแก้ไข คนตรวจประสิทธิผล และคนปิดต้องต่างบุคคล; ผู้ตรวจคือ Assistant DCC หรือ Auditor ผู้แจ้งนั้น ทุกการส่งกลับต้องมีเหตุผล",
+    "to": [
+      "UI-B06",
+      "UI-B03",
+      "UI-B10"
+    ],
+    "pending": "จำนวนผู้ลงนามปิดใบยังไม่ตรงกัน (Two-Step กับ UC-B-13); §4.25 Success Postconditions/AC-B-23 กล่าวถึงกลับดำเนินการ แต่ Alternate A1/§4.31 กำหนดกรณีไม่มีประสิทธิผลกลับวิเคราะห์สาเหตุ จึงไม่เพิ่มปุ่มผลไม่ครบถ้วนจนกว่าจะยืนยัน"
+  },
+  {
+    "id": "UI-B04",
+    "name": "ติดตามงานใกล้ครบและเกินกำหนด",
+    "group": "groupb",
+    "uc": "UC-B-14",
+    "sources": [
+      {
+        "id": "UC-B-14",
+        "section": "4.27",
+        "name": "ติดตามงานเกินกำหนด",
+        "actors": "ISO/QA Admin (DCC), CAR Owner, Auditor, Lead Auditor, QMR",
+        "fr": [
+          "FR-B-34",
+          "FR-B-35",
+          "FR-B-36"
+        ],
+        "ac": [
+          "AC-B-24",
+          "AC-B-28"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-34",
+      "FR-B-35",
+      "FR-B-36"
+    ],
+    "ac": [
+      "AC-B-24",
+      "AC-B-28"
+    ],
+    "mockup": "<div class=\"mm\"><h3>ติดตามงานใกล้ครบและเกินกำหนด</h3><label class=\"mlbl\">กรองผู้รับผิดชอบ / ขั้น / ช่วงวันที่<input readonly value=\"ตามสิทธิ์\"></label><div class=\"tablewrap\"><table><thead><tr><th>ใบ</th><th>สถานะจริง</th><th>กำหนดขั้น / ป้าย</th></tr></thead><tbody><tr><td>CAR-ตัวอย่าง</td><td>รออนุมัติแผน</td><td>เกินกำหนด — รอผู้พิจารณา</td></tr><tr><td>NCR-ตัวอย่าง</td><td>อยู่ระหว่างดำเนินการตามแผน</td><td>ใกล้ครบกำหนด — กิจกรรม 2</td></tr><tr><td>CAR-ตัวอย่าง 2</td><td>เปิดใบ</td><td>ยังไม่มีกำหนดเวลา</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>เปิดใบคำร้องที่เกี่ยวข้อง</button></div></div>",
+    "rule": "§4.30 คำนวณจากขั้น/งานย่อยที่ค้างและวันทำการ; ไม่มีวันกำหนดต้องแยกกลุ่ม ห้ามนับเกินกำหนด ใบปิดหยุดคำนวณ ค่ามาตรฐานปรับได้",
+    "to": [
+      "UI-B03"
+    ],
+    "pending": "ค่าตั้งต้นรายขั้นและเกณฑ์เตือนล่วงหน้าอยู่ระหว่างยืนยัน ไม่ใช้ภาพเป็นค่าคงที่ในโปรแกรม"
+  },
+  {
+    "id": "UI-B10",
+    "name": "สรุปผลและส่งออกรายงาน",
+    "group": "groupb",
+    "uc": "UC-B-16",
+    "sources": [
+      {
+        "id": "UC-B-16",
+        "section": "4.29",
+        "name": "สรุปผลการแก้ไขและการป้องกัน และส่งออกรายงาน",
+        "actors": "ISO/QA Admin (DCC), QMR, CAR Owner",
+        "fr": [
+          "FR-B-32",
+          "FR-B-41"
+        ],
+        "ac": [
+          "AC-B-22",
+          "AC-B-25",
+          "AC-B-27"
+        ]
+      }
+    ],
+    "fr": [
+      "FR-B-32",
+      "FR-B-41"
+    ],
+    "ac": [
+      "AC-B-22",
+      "AC-B-25",
+      "AC-B-27"
+    ],
+    "mockup": "<div class=\"mm\"><h3>สรุปผลและส่งออกรายงาน</h3><label class=\"mlbl\">ช่วงวันที่ / สถานะ / รอบตรวจ<input readonly value=\"ตัวกรองรายงาน\"></label><div class=\"tablewrap\"><table><thead><tr><th>ข้อมูลสรุป</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td>จำนวนแยกสถานะ / ปิดแล้ว / เกินกำหนด</td><td>คำนวณจากข้อมูลที่มีสิทธิ์</td></tr><tr><td>ประเด็นเกิดซ้ำ</td><td>แสดงตามเกณฑ์</td></tr><tr><td>ผู้สร้าง / วันที่สร้าง</td><td>บันทึกพร้อมไฟล์</td></tr></tbody></table></div><div class=\"actions\"><button type=\"button\" disabled>แสดงสรุป</button><button type=\"button\" disabled>ส่งออกรายงาน</button></div></div>",
+    "rule": "CAR Owner ส่งออกเฉพาะข้อมูลในขอบเขตตน; ไม่มีข้อมูลส่งออกหัวตารางพร้อมข้อความ ไม่ใช่ข้อผิดพลาด; ส่งออกล้มเหลวไม่ทิ้งไฟล์ไม่สมบูรณ์ และบันทึกเหตุการณ์",
+    "to": [
+      "UI-B05",
+      "UI-B02"
+    ],
+    "pending": ""
+  },
+  {
+    "id": "INT-A08",
+    "name": "ส่วนเชื่อมต่อภายในโมดูล",
+    "group": "integ",
+    "uc": "พฤติกรรมร่วม §4.16 / §3.3",
+    "sources": [],
+    "fr": [
+      "FR-A-20",
+      "FR-B-42"
+    ],
+    "ac": [],
+    "mockup": "<div class=\"mm\"><h3>ข้อมูลประกอบการออกแบบ</h3><p class=\"notice\">ไม่ใช่หน้าจอที่ผู้ใช้ต้องเปิดผ่าน</p><div class=\"tablewrap\"><table><thead><tr><th>ข้อมูล</th><th>ความรับผิดชอบ</th></tr></thead><tbody><tr><td>เอกสาร / ฉบับ / สถานะ / รับทราบ</td><td>โมดูลควบคุมเอกสารเป็นเจ้าของ</td></tr><tr><td>ประเด็น / ใบคำร้อง / ผลปิด</td><td>โมดูลตรวจติดตามเป็นเจ้าของ</td></tr><tr><td>ตัวตน / บทบาท / หน่วยงาน</td><td>ส่วนกลางร่วมกัน</td></tr></tbody></table></div><p class=\"notice\">สร้างร่าง DAR อัตโนมัติตามมติส่วนเชื่อมต่อ แต่ไม่ยื่นคำขอแทนคน</p></div>",
+    "rule": "Internal Module Interface ในระบบเดียวกัน; ไม่ให้ผู้ใช้เดินผ่านหน้า API และไม่สร้างข้อมูลเอกสารซ้ำ การเรียกภายในไม่บังคับเป็น HTTP endpoint",
+    "to": [],
+    "pending": "รายละเอียด FR/AC ของการสร้างร่าง DAR อัตโนมัติยังต้องสอบกลับให้ครบ ไม่ถือการ์ดนี้เป็น Use Case ใหม่"
+  }
+];
+
+const GL={shared:'ส่วนกลาง',groupa:'โมดูล A',groupb:'โมดูล B',integ:'ส่วนเชื่อมต่อภายใน'};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const app=document.querySelector('#app');
+for(const s of SCREENS){
+ const card=document.createElement('article'); card.className='scard '+s.group; card.id=s.id; card.dataset.group=s.group;
+ const sources=s.sources.map(u=>`<div class="source-line"><strong>${esc(u.id)} · §${esc(u.section)} — ${esc(u.name)}</strong><br>ผู้ทำการหลักตาม SRS: ${esc(u.actors)}</div>`).join('');
+ const refs=[...s.fr,...s.ac].map(x=>`<span class="pill p-fr">${esc(x)}</span>`).join('');
+ const links=s.to.map(id=>`<a class="p-flow" href="#${id}">${esc(SCREENS.find(x=>x.id===id).name)}</a>`).join('');
+ card.innerHTML=`<div class="scard-accent"></div><div class="mock-panel"><p class="prototype">ภาพตัวอย่างสำหรับทบทวน · ปุ่มธุรกรรมยังไม่ทำงาน</p><div class="browser"><div class="bchrome"><span class="burl">${esc(s.name)}</span></div><div class="bcontent">${s.mockup}</div></div></div><div class="info-panel"><div class="group-tag">${GL[s.group]} · ${s.id}</div><h2>${esc(s.name)}</h2><div class="rule"><strong>เงื่อนไขการใช้งาน</strong><p>${esc(s.rule)}</p></div>${s.pending?`<p class="notice"><strong>รอยืนยันจาก SRS</strong><br>${esc(s.pending)}</p>`:''}<details open><summary>สอบกลับข้อกำหนดและผู้ทำการ</summary>${sources}<div class="pills">${refs}</div><a href="../SRS_v1.md">เปิด SRS_v1.md</a></details>${links?`<div><strong>ทางไปหน้าจอที่เกี่ยวข้อง (ตามสิทธิ์)</strong><div class="nav">${links}</div></div>`:''}<details><summary>สถานะการออกแบบและการทดสอบ</summary><p>API และโครงสร้างข้อมูลยังไม่กำหนดใน Atlas ฉบับนี้ ใช้ FR/AC ข้างต้นออกแบบต่อ รหัส TC/SC เก่าถูกถอดออกเพราะยังไม่ได้จับคู่กับชุดทดสอบปัจจุบัน</p><p>หน้าจอจริงต้องมีสถานะกำลังบันทึก บันทึกสำเร็จ ข้อมูลไม่ครบ ไม่พบข้อมูล ไม่มีสิทธิ์ และระบบขัดข้อง โดยไม่แสดงผลสำเร็จเมื่อบันทึกไม่สำเร็จ</p></details></div>`;
+ app.appendChild(card);
+}
+function filter(group){document.querySelectorAll('.scard').forEach(c=>c.hidden=group!=='all'&&c.dataset.group!==group);document.querySelectorAll('[data-group][aria-pressed]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===group)));}
+document.querySelectorAll('[data-group][aria-pressed]').forEach(b=>b.addEventListener('click',()=>filter(b.dataset.group)));
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(a){const target=document.querySelector(a.getAttribute('href'));if(target&&target.hidden)filter('all');}});
+</script><footer>อ้างอิง SRS_v1.md ฉบับที่อ่านวันที่ 16 กันยายน 2569 · ไม่ใช่ระบบใช้งานจริง · Screen Flow.html ยังเป็นฉบับเดิม</footer></body></html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Use Case Diagram — กลุ่ม B</title><link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet"><style>body{margin:0;background:#f4f5f7;color:#1f2430;font-family:Sarabun,Tahoma,sans-serif}main{max-width:1440px;margin:auto;padding:32px}h1{font-size:32px}p,li,td,th{font-size:18px;line-height:1.65}section{background:white;margin:28px 0;border:1px solid #d5dfdc;border-radius:8px;overflow:hidden}svg{width:100%;height:auto;display:block}nav a{display:inline-block;padding:8px 14px;margin:4px;border:1px solid #0f766e;color:#0f766e;border-radius:4px;text-decoration:none}table{border-collapse:collapse;width:100%}th,td{border:1px solid #d5dfdc;padding:10px;text-align:left}aside{border-left:4px solid #b45309;background:#fff7e8;padding:16px}a{color:#0f766e}@media print{nav{display:none}main{padding:0}section{break-inside:avoid;break-before:page}}</style></head><body><main><h1>Use Case Diagram — กลุ่ม B</h1><p>ทะเบียนหลักฐาน · ตรวจติดตาม · ใบคำร้อง · แดชบอร์ด | ครบ UC-B-01–16 จาก SRS_v1.md<br>แยกห้าภาพตามกลุ่มงาน ตัวผู้ทำการที่ปรากฏซ้ำหมายถึงบทบาทเดียวกัน ไม่ได้แยกเป็นหลายระบบ</p><aside>ภาพนี้อธิบายข้อกำหนดปัจจุบัน ไม่แก้ข้อขัดแย้งแทนผู้มีอำนาจ โดยเฉพาะผู้อนุมัติแผนและจำนวนผู้ลงนามปิดใบ<br>ไม่ใช้ include/extend เพื่อบอกลำดับงาน และไม่วาดระบบเองหรือโมดูล A เป็นผู้ทำการภายนอกของระบบ E-Filing</aside><nav><a href="#b4_01_use_case">1. ส่วนกลางและทะเบียนหลักฐาน</a><a href="#b4_02_use_case">2. การตรวจติดตามและเปิดใบคำร้อง</a><a href="#b4_03_use_case">3. การแก้ไขและดำเนินการตามแผน</a><a href="#b4_04_use_case">4. การอนุมัติ ตรวจประสิทธิผล และปิดใบ</a><a href="#b4_05_use_case">5. การติดตาม แดชบอร์ด และรายงาน</a></nav><section id="b4_01_use_case"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1316" role="img" aria-labelledby="b4_01_use_case-title b4_01_use_case-desc">
+<title id="b4_01_use_case-title">กลุ่ม B: ส่วนกลางและทะเบียนหลักฐาน</title>
+<desc id="b4_01_use_case-desc">แผนภาพกรณีการใช้งานแสดงผู้เกี่ยวข้องกับ UC-B-01, UC-B-02, UC-B-03, UC-B-04, UC-B-05 ภายในระบบ E-Filing โดยเส้นทึบแสดงการมีส่วนร่วมและต้องใช้ร่วมกับเงื่อนไขสิทธิ์ที่ระบุ</desc>
+<style>text{font-family:Sarabun,"TH Sarabun New",Tahoma,sans-serif;fill:#1f2430}.small{font-size:18px;fill:#5b6472}.label{font-size:23px}.id{font-size:18px;fill:#0f766e;font-weight:600}</style>
+<rect width="1440" height="1316" fill="white"/>
+<text x="44" y="48" class="small">E-FILING / GROUP B / 01 OF 05</text>
+<text x="44" y="90" font-size="32" font-weight="600">ส่วนกลางและทะเบียนหลักฐาน</text>
+<rect x="456" y="140" width="528" height="1026" rx="8" fill="#f3f8f7" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="173" text-anchor="middle" class="small">ระบบ E-Filing — มุมมองกรณีการใช้งานกลุ่ม B</text>
+<path d="M 195 339.0 H 332 Q 340 339.0 340 331.0 V 283.0 Q 340 275.0 348 275.0 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="user" data-uc="UC-B-01" d="M 195 339.0 H 332 Q 340 339.0 340 331.0 V 283.0 Q 340 275.0 348 275.0 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 649.0 H 345 Q 353 649.0 353 641.0 V 481.0 Q 353 473.0 361 473.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-02" d="M 195 649.0 H 345 Q 353 649.0 353 641.0 V 481.0 Q 353 473.0 361 473.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 661.0 H 357.0 Q 358 661.0 358 660.0 V 660.0 Q 358 659.0 359.0 659.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-03" d="M 195 661.0 H 357.0 Q 358 661.0 358 660.0 V 660.0 Q 358 659.0 359.0 659.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 673.0 H 355 Q 363 673.0 363 681.0 V 837.0 Q 363 845.0 371 845.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-04" d="M 195 673.0 H 355 Q 363 673.0 363 681.0 V 837.0 Q 363 845.0 371 845.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 685.0 H 360 Q 368 685.0 368 693.0 V 1023.0 Q 368 1031.0 376 1031.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-05" d="M 195 685.0 H 360 Q 368 685.0 368 693.0 V 1023.0 Q 368 1031.0 376 1031.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 959.0 H 358 Q 366 959.0 366 951.0 V 865.0 Q 366 857.0 374 857.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="owner" data-uc="UC-B-04" d="M 195 959.0 H 358 Q 366 959.0 366 951.0 V 865.0 Q 366 857.0 374 857.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 971.0 H 363 Q 371 971.0 371 979.0 V 1035.0 Q 371 1043.0 379 1043.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="owner" data-uc="UC-B-05" d="M 195 971.0 H 363 Q 371 971.0 371 979.0 V 1035.0 Q 371 1043.0 379 1043.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 300.25 H 1069 Q 1061 300.25 1061 308.25 V 675.0 Q 1061 683.0 1053 683.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-03" d="M 1245 300.25 H 1069 Q 1061 300.25 1061 308.25 V 675.0 Q 1061 683.0 1053 683.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 312.25 H 1064 Q 1056 312.25 1056 320.25 V 861.0 Q 1056 869.0 1048 869.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-04" d="M 1245 312.25 H 1064 Q 1056 312.25 1056 320.25 V 861.0 Q 1056 869.0 1048 869.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 324.25 H 1059 Q 1051 324.25 1051 332.25 V 1047.0 Q 1051 1055.0 1043 1055.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-05" d="M 1245 324.25 H 1059 Q 1051 324.25 1051 332.25 V 1047.0 Q 1051 1055.0 1043 1055.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 532.75 H 1056 Q 1048 532.75 1048 540.75 V 639.0 Q 1048 647.0 1040 647.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-03" d="M 1245 532.75 H 1056 Q 1048 532.75 1048 540.75 V 639.0 Q 1048 647.0 1040 647.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 544.75 H 1051 Q 1043 544.75 1043 552.75 V 825.0 Q 1043 833.0 1035 833.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-04" d="M 1245 544.75 H 1051 Q 1043 544.75 1043 552.75 V 825.0 Q 1043 833.0 1035 833.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 556.75 H 1046 Q 1038 556.75 1038 564.75 V 1011.0 Q 1038 1019.0 1030 1019.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-05" d="M 1245 556.75 H 1046 Q 1038 556.75 1038 564.75 V 1011.0 Q 1038 1019.0 1030 1019.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 765.25 H 1043 Q 1035 765.25 1035 773.25 V 837.0 Q 1035 845.0 1027 845.0 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="assist" data-uc="UC-B-04" d="M 1245 765.25 H 1043 Q 1035 765.25 1035 773.25 V 837.0 Q 1035 845.0 1027 845.0 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 777.25 H 1038 Q 1030 777.25 1030 785.25 V 1023.0 Q 1030 1031.0 1022 1031.0 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="assist" data-uc="UC-B-05" d="M 1245 777.25 H 1038 Q 1030 777.25 1030 785.25 V 1023.0 Q 1030 1031.0 1022 1031.0 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 997.75 H 1030 Q 1022 997.75 1022 1005.75 V 1035.0 Q 1022 1043.0 1014 1043.0 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="qmr" data-uc="UC-B-05" d="M 1245 997.75 H 1030 Q 1022 997.75 1022 1005.75 V 1035.0 Q 1022 1043.0 1014 1043.0 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<ellipse data-use-case="UC-B-01" cx="720" cy="293.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="271.0" text-anchor="middle" class="id">UC-B-01 · §4.1</text>
+<text x="720" y="298.0" text-anchor="middle" class="label">เข้าสู่ระบบและเลือกบทบาท</text>
+<ellipse data-use-case="UC-B-02" cx="720" cy="479.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="457.0" text-anchor="middle" class="id">UC-B-02 · §4.2</text>
+<text x="720" y="484.0" text-anchor="middle" class="label">จัดการผู้ใช้และบทบาท</text>
+<ellipse data-use-case="UC-B-03" cx="720" cy="665.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="643.0" text-anchor="middle" class="id">UC-B-03 · §4.3</text>
+<text x="720" y="670.0" text-anchor="middle" class="label">ดูร่องรอยการตรวจสอบ</text>
+<ellipse data-use-case="UC-B-04" cx="720" cy="851.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="829.0" text-anchor="middle" class="id">UC-B-04 · §4.17</text>
+<text x="720" y="856.0" text-anchor="middle" class="label">บันทึกข้อมูลและหลักฐาน</text>
+<ellipse data-use-case="UC-B-05" cx="720" cy="1037.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="1015.0" text-anchor="middle" class="id">UC-B-05 · §4.18</text>
+<text x="720" y="1042.0" text-anchor="middle" class="label">ค้นหาและเรียกดู</text>
+<text x="720" y="1067.0" text-anchor="middle" class="label">บันทึกข้อมูลและหลักฐาน</text>
+<g data-actor-node="user" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="307.0" r="12"/><path d="M170,319.0 v40 M145,340.0 h50 M170,359.0 l-23,27 M170,359.0 l23,27"/></g>
+<text x="170" y="411.0" text-anchor="middle" class="label">ผู้ใช้งานระบบ</text>
+<text x="170" y="435.0" text-anchor="middle" class="small">ทุกบทบาทที่ได้รับสิทธิ์</text>
+<g data-actor-node="dcc" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="617.0" r="12"/><path d="M170,629.0 v40 M145,650.0 h50 M170,669.0 l-23,27 M170,669.0 l23,27"/></g>
+<text x="170" y="721.0" text-anchor="middle" class="label">เจ้าหน้าที่ควบคุมเอกสาร</text>
+<text x="170" y="745.0" text-anchor="middle" class="small">ISO/QA Admin (DCC)</text>
+<g data-actor-node="owner" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="927.0" r="12"/><path d="M170,939.0 v40 M145,960.0 h50 M170,979.0 l-23,27 M170,979.0 l23,27"/></g>
+<text x="170" y="1031.0" text-anchor="middle" class="label">ผู้รับผิดชอบการแก้ไข</text>
+<text x="170" y="1055.0" text-anchor="middle" class="small">CAR Owner</text>
+<g data-actor-node="aud" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="268.25" r="12"/><path d="M1270,280.25 v40 M1245,301.25 h50 M1270,320.25 l-23,27 M1270,320.25 l23,27"/></g>
+<text x="1270" y="372.25" text-anchor="middle" class="label">ผู้ตรวจติดตาม</text>
+<text x="1270" y="396.25" text-anchor="middle" class="small">Auditor</text>
+<g data-actor-node="lead" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="500.75" r="12"/><path d="M1270,512.75 v40 M1245,533.75 h50 M1270,552.75 l-23,27 M1270,552.75 l23,27"/></g>
+<text x="1270" y="604.75" text-anchor="middle" class="label">หัวหน้าทีมผู้ตรวจติดตาม</text>
+<text x="1270" y="628.75" text-anchor="middle" class="small">Lead Auditor</text>
+<g data-actor-node="assist" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="733.25" r="12"/><path d="M1270,745.25 v40 M1245,766.25 h50 M1270,785.25 l-23,27 M1270,785.25 l23,27"/></g>
+<text x="1270" y="837.25" text-anchor="middle" class="label">ผู้ช่วยเลขานุการฯ</text>
+<text x="1270" y="861.25" text-anchor="middle" class="small">Assistant DCC</text>
+<g data-actor-node="qmr" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="965.75" r="12"/><path d="M1270,977.75 v40 M1245,998.75 h50 M1270,1017.75 l-23,27 M1270,1017.75 l23,27"/></g>
+<text x="1270" y="1069.75" text-anchor="middle" class="label">ผู้แทนฝ่ายบริหาร</text>
+<text x="1270" y="1093.75" text-anchor="middle" class="small">QMR</text>
+<path d="M44 1180 H1396" stroke="#cbd5d4"/>
+<text x="44" y="1206" class="small">เส้นทึบ = Association / การมีส่วนร่วม · ไม่ใช่ลำดับงาน และไม่ใช่การให้สิทธิ์แบบไม่มีเงื่อนไข</text>
+<text x="44" y="1238" class="small">UC-B-01–03 เป็นส่วนกลางร่วมของระบบ แม้รหัสยังเป็นชุด B</text>
+<text x="44" y="1266" class="small">สิทธิ์อ่านและบันทึกจำกัดตามบทบาทใช้งานและขอบเขตข้อมูล ไม่ใช่สิทธิ์ทุกระเบียน</text>
+</svg></section><section id="b4_02_use_case"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 916" role="img" aria-labelledby="b4_02_use_case-title b4_02_use_case-desc">
+<title id="b4_02_use_case-title">กลุ่ม B: การตรวจติดตามและเปิดใบคำร้อง</title>
+<desc id="b4_02_use_case-desc">แผนภาพกรณีการใช้งานแสดงผู้เกี่ยวข้องกับ UC-B-06, UC-B-07, UC-B-08 ภายในระบบ E-Filing โดยเส้นทึบแสดงการมีส่วนร่วมและต้องใช้ร่วมกับเงื่อนไขสิทธิ์ที่ระบุ</desc>
+<style>text{font-family:Sarabun,"TH Sarabun New",Tahoma,sans-serif;fill:#1f2430}.small{font-size:18px;fill:#5b6472}.label{font-size:23px}.id{font-size:18px;fill:#0f766e;font-weight:600}</style>
+<rect width="1440" height="916" fill="white"/>
+<text x="44" y="48" class="small">E-FILING / GROUP B / 02 OF 05</text>
+<text x="44" y="90" font-size="32" font-weight="600">การตรวจติดตามและเปิดใบคำร้อง</text>
+<rect x="456" y="140" width="528" height="626" rx="8" fill="#f3f8f7" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="173" text-anchor="middle" class="small">ระบบ E-Filing — มุมมองกรณีการใช้งานกลุ่ม B</text>
+<path d="M 195 316.5 H 332 Q 340 316.5 340 308.5 V 278.3333333333333 Q 340 270.3333333333333 348 270.3333333333333 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-06" d="M 195 316.5 H 332 Q 340 316.5 340 308.5 V 278.3333333333333 Q 340 270.3333333333333 348 270.3333333333333 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 328.5 H 337 Q 345 328.5 345 336.5 V 439.0 Q 345 447.0 353 447.0 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-07" d="M 195 328.5 H 337 Q 345 328.5 345 336.5 V 439.0 Q 345 447.0 353 447.0 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 340.5 H 342 Q 350 340.5 350 348.5 V 615.6666666666667 Q 350 623.6666666666667 358 623.6666666666667 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-08" d="M 195 340.5 H 342 Q 350 340.5 350 348.5 V 615.6666666666667 Q 350 623.6666666666667 358 623.6666666666667 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 581.5 H 345 Q 353 581.5 353 573.5 V 467.0 Q 353 459.0 361 459.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-07" d="M 195 581.5 H 345 Q 353 581.5 353 573.5 V 467.0 Q 353 459.0 361 459.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 593.5 H 350 Q 358 593.5 358 601.5 V 627.6666666666667 Q 358 635.6666666666667 366 635.6666666666667 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-08" d="M 195 593.5 H 350 Q 358 593.5 358 601.5 V 627.6666666666667 Q 358 635.6666666666667 366 635.6666666666667 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 316.5 H 1082 Q 1074 316.5 1074 308.5 V 302.3333333333333 Q 1074 294.3333333333333 1066 294.3333333333333 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-06" d="M 1245 316.5 H 1082 Q 1074 316.5 1074 308.5 V 302.3333333333333 Q 1074 294.3333333333333 1066 294.3333333333333 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 328.5 H 1077 Q 1069 328.5 1069 336.5 V 463.0 Q 1069 471.0 1061 471.0 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-07" d="M 1245 328.5 H 1077 Q 1069 328.5 1069 336.5 V 463.0 Q 1069 471.0 1061 471.0 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 340.5 H 1072 Q 1064 340.5 1064 348.5 V 639.6666666666667 Q 1064 647.6666666666667 1056 647.6666666666667 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-08" d="M 1245 340.5 H 1072 Q 1064 340.5 1064 348.5 V 639.6666666666667 Q 1064 647.6666666666667 1056 647.6666666666667 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 581.5 H 1069 Q 1061 581.5 1061 573.5 V 491.0 Q 1061 483.0 1053 483.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="qmr" data-uc="UC-B-07" d="M 1245 581.5 H 1069 Q 1061 581.5 1061 573.5 V 491.0 Q 1061 483.0 1053 483.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<ellipse data-use-case="UC-B-06" cx="720" cy="288.3333333333333" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="266.3333333333333" text-anchor="middle" class="id">UC-B-06 · §4.19</text>
+<text x="720" y="293.3333333333333" text-anchor="middle" class="label">สร้างรอบการตรวจติดตาม</text>
+<ellipse data-use-case="UC-B-07" cx="720" cy="465.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="443.0" text-anchor="middle" class="id">UC-B-07 · §4.20</text>
+<text x="720" y="470.0" text-anchor="middle" class="label">บ่งชี้และบันทึกประเด็นที่พบ</text>
+<ellipse data-use-case="UC-B-08" cx="720" cy="641.6666666666667" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="619.6666666666667" text-anchor="middle" class="id">UC-B-08 · §4.21</text>
+<text x="720" y="646.6666666666667" text-anchor="middle" class="label">เปิดใบคำร้องจากประเด็นที่พบ</text>
+<g data-actor-node="dcc" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="284.5" r="12"/><path d="M170,296.5 v40 M145,317.5 h50 M170,336.5 l-23,27 M170,336.5 l23,27"/></g>
+<text x="170" y="388.5" text-anchor="middle" class="label">เจ้าหน้าที่ควบคุมเอกสาร</text>
+<text x="170" y="412.5" text-anchor="middle" class="small">ISO/QA Admin (DCC)</text>
+<g data-actor-node="aud" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="549.5" r="12"/><path d="M170,561.5 v40 M145,582.5 h50 M170,601.5 l-23,27 M170,601.5 l23,27"/></g>
+<text x="170" y="653.5" text-anchor="middle" class="label">ผู้ตรวจติดตาม</text>
+<text x="170" y="677.5" text-anchor="middle" class="small">Auditor</text>
+<g data-actor-node="lead" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="284.5" r="12"/><path d="M1270,296.5 v40 M1245,317.5 h50 M1270,336.5 l-23,27 M1270,336.5 l23,27"/></g>
+<text x="1270" y="388.5" text-anchor="middle" class="label">หัวหน้าทีมผู้ตรวจติดตาม</text>
+<text x="1270" y="412.5" text-anchor="middle" class="small">Lead Auditor</text>
+<g data-actor-node="qmr" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="549.5" r="12"/><path d="M1270,561.5 v40 M1245,582.5 h50 M1270,601.5 l-23,27 M1270,601.5 l23,27"/></g>
+<text x="1270" y="653.5" text-anchor="middle" class="label">ผู้แทนฝ่ายบริหาร</text>
+<text x="1270" y="677.5" text-anchor="middle" class="small">QMR</text>
+<path d="M44 780 H1396" stroke="#cbd5d4"/>
+<text x="44" y="806" class="small">เส้นทึบ = Association / การมีส่วนร่วม · ไม่ใช่ลำดับงาน และไม่ใช่การให้สิทธิ์แบบไม่มีเงื่อนไข</text>
+<text x="44" y="838" class="small">QMR มีส่วนร่วมบ่งชี้ประเด็นจากการประชุมทบทวนโดยฝ่ายบริหาร (Supporting Actor)</text>
+<text x="44" y="866" class="small">ผู้รับผิดชอบการแก้ไขร่วมยืนยันข้อเท็จจริงใน UC-B-07 และเป็นผู้รับมอบหมายใน UC-B-08</text>
+</svg></section><section id="b4_03_use_case"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 896" role="img" aria-labelledby="b4_03_use_case-title b4_03_use_case-desc">
+<title id="b4_03_use_case-title">กลุ่ม B: การแก้ไขและดำเนินการตามแผน</title>
+<desc id="b4_03_use_case-desc">แผนภาพกรณีการใช้งานแสดงผู้เกี่ยวข้องกับ UC-B-09, UC-B-11 ภายในระบบ E-Filing โดยเส้นทึบแสดงการมีส่วนร่วมและต้องใช้ร่วมกับเงื่อนไขสิทธิ์ที่ระบุ</desc>
+<style>text{font-family:Sarabun,"TH Sarabun New",Tahoma,sans-serif;fill:#1f2430}.small{font-size:18px;fill:#5b6472}.label{font-size:23px}.id{font-size:18px;fill:#0f766e;font-weight:600}</style>
+<rect width="1440" height="896" fill="white"/>
+<text x="44" y="48" class="small">E-FILING / GROUP B / 03 OF 05</text>
+<text x="44" y="90" font-size="32" font-weight="600">การแก้ไขและดำเนินการตามแผน</text>
+<rect x="456" y="140" width="528" height="606" rx="8" fill="#f3f8f7" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="173" text-anchor="middle" class="small">ระบบ E-Filing — มุมมองกรณีการใช้งานกลุ่ม B</text>
+<path d="M 195 311.5 H 339.0 Q 340 311.5 340 310.5 V 310.5 Q 340 309.5 341.0 309.5 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="owner" data-uc="UC-B-09" d="M 195 311.5 H 339.0 Q 340 311.5 340 310.5 V 310.5 Q 340 309.5 341.0 309.5 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 323.5 H 337 Q 345 323.5 345 331.5 V 556.5 Q 345 564.5 353 564.5 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="owner" data-uc="UC-B-11" d="M 195 323.5 H 337 Q 345 323.5 345 331.5 V 556.5 Q 345 564.5 353 564.5 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 566.5 H 345 Q 353 566.5 353 558.5 V 329.5 Q 353 321.5 361 321.5 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="head" data-uc="UC-B-09" d="M 195 566.5 H 345 Q 353 566.5 353 558.5 V 329.5 Q 353 321.5 361 321.5 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 311.5 H 1082 Q 1074 311.5 1074 319.5 V 325.5 Q 1074 333.5 1066 333.5 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dean" data-uc="UC-B-09" d="M 1245 311.5 H 1082 Q 1074 311.5 1074 319.5 V 325.5 Q 1074 333.5 1066 333.5 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 566.5 H 1069 Q 1061 566.5 1061 574.5 V 592.5 Q 1061 600.5 1053 600.5 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="activity" data-uc="UC-B-11" d="M 1245 566.5 H 1069 Q 1061 566.5 1061 574.5 V 592.5 Q 1061 600.5 1053 600.5 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<ellipse data-use-case="UC-B-09" cx="720" cy="327.5" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="305.5" text-anchor="middle" class="id">UC-B-09 · §4.22</text>
+<text x="720" y="332.5" text-anchor="middle" class="label">บันทึกการแก้ไข วิเคราะห์สาเหตุ</text>
+<text x="720" y="357.5" text-anchor="middle" class="label">และจัดทำแผน</text>
+<ellipse data-use-case="UC-B-11" cx="720" cy="582.5" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="560.5" text-anchor="middle" class="id">UC-B-11 · §4.24</text>
+<text x="720" y="587.5" text-anchor="middle" class="label">บันทึกการดำเนินการ</text>
+<text x="720" y="612.5" text-anchor="middle" class="label">ตามแผนและหลักฐาน</text>
+<g data-actor-node="owner" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="279.5" r="12"/><path d="M170,291.5 v40 M145,312.5 h50 M170,331.5 l-23,27 M170,331.5 l23,27"/></g>
+<text x="170" y="383.5" text-anchor="middle" class="label">ผู้รับผิดชอบการแก้ไข</text>
+<text x="170" y="407.5" text-anchor="middle" class="small">CAR Owner</text>
+<g data-actor-node="head" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="534.5" r="12"/><path d="M170,546.5 v40 M145,567.5 h50 M170,586.5 l-23,27 M170,586.5 l23,27"/></g>
+<text x="170" y="638.5" text-anchor="middle" class="label">หัวหน้างาน</text>
+<text x="170" y="662.5" text-anchor="middle" class="small">เฉพาะกลุ่มงานของตน</text>
+<g data-actor-node="dean" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="279.5" r="12"/><path d="M1270,291.5 v40 M1245,312.5 h50 M1270,331.5 l-23,27 M1270,331.5 l23,27"/></g>
+<text x="1270" y="383.5" text-anchor="middle" class="label">รองคณบดีฝ่ายที่เกี่ยวข้อง</text>
+<text x="1270" y="407.5" text-anchor="middle" class="small">ผู้ร่วมพิจารณาตาม UC-B-09</text>
+<g data-actor-node="activity" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="534.5" r="12"/><path d="M1270,546.5 v40 M1245,567.5 h50 M1270,586.5 l-23,27 M1270,586.5 l23,27"/></g>
+<text x="1270" y="638.5" text-anchor="middle" class="label">ผู้รับผิดชอบรายกิจกรรม</text>
+<text x="1270" y="662.5" text-anchor="middle" class="small">ตามที่ระบุไว้ในแผน</text>
+<path d="M44 760 H1396" stroke="#cbd5d4"/>
+<text x="44" y="786" class="small">เส้นทึบ = Association / การมีส่วนร่วม · ไม่ใช่ลำดับงาน และไม่ใช่การให้สิทธิ์แบบไม่มีเงื่อนไข</text>
+<text x="44" y="818" class="small">หัวหน้างานเชื่อม UC-B-09 ตาม Authority Matrix §B.2.5; ตาราง Supporting Actors ยังระบุรองคณบดี</text>
+<text x="44" y="846" class="small">เก็บทั้งสองผู้เกี่ยวข้องโดยไม่ถือว่าเป็นบทบาทเดียวกัน และไม่ให้สิทธิ์อนุมัติแผนจากเส้นนี้</text>
+</svg></section><section id="b4_04_use_case"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 972" role="img" aria-labelledby="b4_04_use_case-title b4_04_use_case-desc">
+<title id="b4_04_use_case-title">กลุ่ม B: การอนุมัติ ตรวจประสิทธิผล และปิดใบ</title>
+<desc id="b4_04_use_case-desc">แผนภาพกรณีการใช้งานแสดงผู้เกี่ยวข้องกับ UC-B-10, UC-B-12, UC-B-13 ภายในระบบ E-Filing โดยเส้นทึบแสดงการมีส่วนร่วมและต้องใช้ร่วมกับเงื่อนไขสิทธิ์ที่ระบุ</desc>
+<style>text{font-family:Sarabun,"TH Sarabun New",Tahoma,sans-serif;fill:#1f2430}.small{font-size:18px;fill:#5b6472}.label{font-size:23px}.id{font-size:18px;fill:#0f766e;font-weight:600}</style>
+<rect width="1440" height="972" fill="white"/>
+<text x="44" y="48" class="small">E-FILING / GROUP B / 04 OF 05</text>
+<text x="44" y="90" font-size="32" font-weight="600">การอนุมัติ ตรวจประสิทธิผล และปิดใบ</text>
+<rect x="456" y="140" width="528" height="626" rx="8" fill="#f3f8f7" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="173" text-anchor="middle" class="small">ระบบ E-Filing — มุมมองกรณีการใช้งานกลุ่ม B</text>
+<path d="M 195 316.5 H 332 Q 340 316.5 340 308.5 V 278.3333333333333 Q 340 270.3333333333333 348 270.3333333333333 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="qmr" data-uc="UC-B-10" d="M 195 316.5 H 332 Q 340 316.5 340 308.5 V 278.3333333333333 Q 340 270.3333333333333 348 270.3333333333333 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 328.5 H 337 Q 345 328.5 345 336.5 V 615.6666666666667 Q 345 623.6666666666667 353 623.6666666666667 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="qmr" data-uc="UC-B-13" d="M 195 328.5 H 337 Q 345 328.5 345 336.5 V 615.6666666666667 Q 345 623.6666666666667 353 623.6666666666667 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 581.5 H 345 Q 353 581.5 353 573.5 V 290.3333333333333 Q 353 282.3333333333333 361 282.3333333333333 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="deputy" data-uc="UC-B-10" d="M 195 581.5 H 345 Q 353 581.5 353 573.5 V 290.3333333333333 Q 353 282.3333333333333 361 282.3333333333333 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 593.5 H 350 Q 358 593.5 358 601.5 V 627.6666666666667 Q 358 635.6666666666667 366 635.6666666666667 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="deputy" data-uc="UC-B-13" d="M 195 593.5 H 350 Q 358 593.5 358 601.5 V 627.6666666666667 Q 358 635.6666666666667 366 635.6666666666667 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 272.3333333333333 H 1082 Q 1074 272.3333333333333 1074 280.3333333333333 V 286.3333333333333 Q 1074 294.3333333333333 1066 294.3333333333333 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-10" d="M 1245 272.3333333333333 H 1082 Q 1074 272.3333333333333 1074 280.3333333333333 V 286.3333333333333 Q 1074 294.3333333333333 1066 294.3333333333333 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 284.3333333333333 H 1077 Q 1069 284.3333333333333 1069 292.3333333333333 V 639.6666666666667 Q 1069 647.6666666666667 1061 647.6666666666667 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-13" d="M 1245 284.3333333333333 H 1077 Q 1069 284.3333333333333 1069 292.3333333333333 V 639.6666666666667 Q 1069 647.6666666666667 1061 647.6666666666667 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 449.0 H 1069 Q 1061 449.0 1061 457.0 V 475.0 Q 1061 483.0 1053 483.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-12" d="M 1245 449.0 H 1069 Q 1061 449.0 1061 457.0 V 475.0 Q 1061 483.0 1053 483.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 625.6666666666667 H 1056 Q 1048 625.6666666666667 1048 617.6666666666667 V 455.0 Q 1048 447.0 1040 447.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="assist" data-uc="UC-B-12" d="M 1245 625.6666666666667 H 1056 Q 1048 625.6666666666667 1048 617.6666666666667 V 455.0 Q 1048 447.0 1040 447.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<ellipse data-use-case="UC-B-10" cx="720" cy="288.3333333333333" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="266.3333333333333" text-anchor="middle" class="id">UC-B-10 · §4.23</text>
+<text x="720" y="293.3333333333333" text-anchor="middle" class="label">อนุมัติแผนการปฏิบัติการ</text>
+<text x="720" y="318.3333333333333" text-anchor="middle" class="label">แก้ไข / ป้องกัน</text>
+<ellipse data-use-case="UC-B-12" cx="720" cy="465.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="443.0" text-anchor="middle" class="id">UC-B-12 · §4.25</text>
+<text x="720" y="470.0" text-anchor="middle" class="label">ตรวจสอบประสิทธิผลการแก้ไข</text>
+<ellipse data-use-case="UC-B-13" cx="720" cy="641.6666666666667" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="619.6666666666667" text-anchor="middle" class="id">UC-B-13 · §4.26</text>
+<text x="720" y="646.6666666666667" text-anchor="middle" class="label">ปิดใบคำร้อง</text>
+<g data-actor-node="qmr" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="284.5" r="12"/><path d="M170,296.5 v40 M145,317.5 h50 M170,336.5 l-23,27 M170,336.5 l23,27"/></g>
+<text x="170" y="388.5" text-anchor="middle" class="label">ผู้แทนฝ่ายบริหาร</text>
+<text x="170" y="412.5" text-anchor="middle" class="small">QMR</text>
+<g data-actor-node="deputy" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="549.5" r="12"/><path d="M170,561.5 v40 M145,582.5 h50 M170,601.5 l-23,27 M170,601.5 l23,27"/></g>
+<text x="170" y="653.5" text-anchor="middle" class="label">ผู้ช่วย QMR</text>
+<text x="170" y="677.5" text-anchor="middle" class="small">เฉพาะเมื่อได้รับมอบหมาย</text>
+<g data-actor-node="lead" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="240.33333333333331" r="12"/><path d="M1270,252.33333333333331 v40 M1245,273.3333333333333 h50 M1270,292.3333333333333 l-23,27 M1270,292.3333333333333 l23,27"/></g>
+<text x="1270" y="344.3333333333333" text-anchor="middle" class="label">หัวหน้าทีมผู้ตรวจติดตาม</text>
+<text x="1270" y="368.3333333333333" text-anchor="middle" class="small">Lead Auditor</text>
+<g data-actor-node="aud" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="417.0" r="12"/><path d="M1270,429.0 v40 M1245,450.0 h50 M1270,469.0 l-23,27 M1270,469.0 l23,27"/></g>
+<text x="1270" y="521.0" text-anchor="middle" class="label">ผู้ตรวจติดตาม</text>
+<text x="1270" y="545.0" text-anchor="middle" class="small">Auditor</text>
+<g data-actor-node="assist" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="593.6666666666667" r="12"/><path d="M1270,605.6666666666667 v40 M1245,626.6666666666667 h50 M1270,645.6666666666667 l-23,27 M1270,645.6666666666667 l23,27"/></g>
+<text x="1270" y="697.6666666666667" text-anchor="middle" class="label">ผู้ช่วยเลขานุการฯ</text>
+<text x="1270" y="721.6666666666667" text-anchor="middle" class="small">Assistant DCC</text>
+<path d="M44 780 H1396" stroke="#cbd5d4"/>
+<text x="44" y="806" class="small">เส้นทึบ = Association / การมีส่วนร่วม · ไม่ใช่ลำดับงาน และไม่ใช่การให้สิทธิ์แบบไม่มีเงื่อนไข</text>
+<text x="44" y="838" class="small">Lead Auditor อนุมัติแผนเฉพาะ CAR; ผู้ตรวจติดตามตรวจประสิทธิผลเฉพาะใบที่ตนเป็นผู้แจ้ง</text>
+<text x="44" y="866" class="small">ผู้ช่วย QMR ใช้สิทธิ์แทนได้เมื่อได้รับมอบหมาย และบันทึกการกระทำในนามตนเอง</text>
+<text x="44" y="894" class="small">รอยืนยัน: BR-B-12 / AC-B-19 และจำนวนผู้ลงนามปิดใบยังไม่ตรงกัน; เส้นไม่ตัดสินว่าใช้หนึ่งหรือสองคน</text>
+<text x="44" y="922" class="small">ผู้รับผิดชอบการแก้ไข ≠ ผู้ตรวจสอบประสิทธิผล ≠ ผู้ปิดใบ ต้องเป็นคนละบุคคล</text>
+</svg></section><section id="b4_05_use_case"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 916" role="img" aria-labelledby="b4_05_use_case-title b4_05_use_case-desc">
+<title id="b4_05_use_case-title">กลุ่ม B: การติดตาม แดชบอร์ด และรายงาน</title>
+<desc id="b4_05_use_case-desc">แผนภาพกรณีการใช้งานแสดงผู้เกี่ยวข้องกับ UC-B-14, UC-B-15, UC-B-16 ภายในระบบ E-Filing โดยเส้นทึบแสดงการมีส่วนร่วมและต้องใช้ร่วมกับเงื่อนไขสิทธิ์ที่ระบุ</desc>
+<style>text{font-family:Sarabun,"TH Sarabun New",Tahoma,sans-serif;fill:#1f2430}.small{font-size:18px;fill:#5b6472}.label{font-size:23px}.id{font-size:18px;fill:#0f766e;font-weight:600}</style>
+<rect width="1440" height="916" fill="white"/>
+<text x="44" y="48" class="small">E-FILING / GROUP B / 05 OF 05</text>
+<text x="44" y="90" font-size="32" font-weight="600">การติดตาม แดชบอร์ด และรายงาน</text>
+<rect x="456" y="140" width="528" height="626" rx="8" fill="#f3f8f7" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="173" text-anchor="middle" class="small">ระบบ E-Filing — มุมมองกรณีการใช้งานกลุ่ม B</text>
+<path d="M 195 272.3333333333333 H 339.0 Q 340 272.3333333333333 340 271.3333333333333 V 271.3333333333333 Q 340 270.3333333333333 341.0 270.3333333333333 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-14" d="M 195 272.3333333333333 H 339.0 Q 340 272.3333333333333 340 271.3333333333333 V 271.3333333333333 Q 340 270.3333333333333 341.0 270.3333333333333 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 284.3333333333333 H 337 Q 345 284.3333333333333 345 292.3333333333333 V 439.0 Q 345 447.0 353 447.0 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-15" d="M 195 284.3333333333333 H 337 Q 345 284.3333333333333 345 292.3333333333333 V 439.0 Q 345 447.0 353 447.0 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 296.3333333333333 H 342 Q 350 296.3333333333333 350 304.3333333333333 V 615.6666666666667 Q 350 623.6666666666667 358 623.6666666666667 H 530.8869385790606" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="dcc" data-uc="UC-B-16" d="M 195 296.3333333333333 H 342 Q 350 296.3333333333333 350 304.3333333333333 V 615.6666666666667 Q 350 623.6666666666667 358 623.6666666666667 H 530.8869385790606" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 449.0 H 345 Q 353 449.0 353 441.0 V 290.3333333333333 Q 353 282.3333333333333 361 282.3333333333333 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="owner" data-uc="UC-B-14" d="M 195 449.0 H 345 Q 353 449.0 353 441.0 V 290.3333333333333 Q 353 282.3333333333333 361 282.3333333333333 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 461.0 H 350 Q 358 461.0 358 469.0 V 627.6666666666667 Q 358 635.6666666666667 366 635.6666666666667 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="owner" data-uc="UC-B-16" d="M 195 461.0 H 350 Q 358 461.0 358 469.0 V 627.6666666666667 Q 358 635.6666666666667 366 635.6666666666667 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 625.6666666666667 H 358 Q 366 625.6666666666667 366 617.6666666666667 V 302.3333333333333 Q 366 294.3333333333333 374 294.3333333333333 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="qmr" data-uc="UC-B-14" d="M 195 625.6666666666667 H 358 Q 366 625.6666666666667 366 617.6666666666667 V 302.3333333333333 Q 366 294.3333333333333 374 294.3333333333333 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 637.6666666666667 H 363 Q 371 637.6666666666667 371 629.6666666666667 V 479.0 Q 371 471.0 379 471.0 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="qmr" data-uc="UC-B-15" d="M 195 637.6666666666667 H 363 Q 371 637.6666666666667 371 629.6666666666667 V 479.0 Q 371 471.0 379 471.0 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 195 649.6666666666667 H 375.0 Q 376 649.6666666666667 376 648.6666666666667 V 648.6666666666667 Q 376 647.6666666666667 377.0 647.6666666666667 H 517.6000247035588" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="qmr" data-uc="UC-B-16" d="M 195 649.6666666666667 H 375.0 Q 376 649.6666666666667 376 648.6666666666667 V 648.6666666666667 Q 376 647.6666666666667 377.0 647.6666666666667 H 517.6000247035588" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 272.3333333333333 H 1069 Q 1061 272.3333333333333 1061 280.3333333333333 V 298.3333333333333 Q 1061 306.3333333333333 1053 306.3333333333333 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-14" d="M 1245 272.3333333333333 H 1069 Q 1061 272.3333333333333 1061 280.3333333333333 V 298.3333333333333 Q 1061 306.3333333333333 1053 306.3333333333333 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 284.3333333333333 H 1064 Q 1056 284.3333333333333 1056 292.3333333333333 V 475.0 Q 1056 483.0 1048 483.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="aud" data-uc="UC-B-15" d="M 1245 284.3333333333333 H 1064 Q 1056 284.3333333333333 1056 292.3333333333333 V 475.0 Q 1056 483.0 1048 483.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 449.0 H 1056 Q 1048 449.0 1048 441.0 V 278.3333333333333 Q 1048 270.3333333333333 1040 270.3333333333333 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-14" d="M 1245 449.0 H 1056 Q 1048 449.0 1048 441.0 V 278.3333333333333 Q 1048 270.3333333333333 1040 270.3333333333333 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 461.0 H 1050.0 Q 1043 461.0 1043 454.0 V 454.0 Q 1043 447.0 1036.0 447.0 H 909.1130614209394" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="lead" data-uc="UC-B-15" d="M 1245 461.0 H 1050.0 Q 1043 461.0 1043 454.0 V 454.0 Q 1043 447.0 1036.0 447.0 H 909.1130614209394" fill="none" stroke="#647579" stroke-width="1.7"/>
+<path d="M 1245 625.6666666666667 H 1043 Q 1035 625.6666666666667 1035 617.6666666666667 V 467.0 Q 1035 459.0 1027 459.0 H 922.3999752964412" fill="none" stroke="white" stroke-width="6"/>
+<path data-actor="sponsor" data-uc="UC-B-15" d="M 1245 625.6666666666667 H 1043 Q 1035 625.6666666666667 1035 617.6666666666667 V 467.0 Q 1035 459.0 1027 459.0 H 922.3999752964412" fill="none" stroke="#647579" stroke-width="1.7"/>
+<ellipse data-use-case="UC-B-14" cx="720" cy="288.3333333333333" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="266.3333333333333" text-anchor="middle" class="id">UC-B-14 · §4.27</text>
+<text x="720" y="293.3333333333333" text-anchor="middle" class="label">ติดตามงานเกินกำหนด</text>
+<ellipse data-use-case="UC-B-15" cx="720" cy="465.0" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="443.0" text-anchor="middle" class="id">UC-B-15 · §4.28</text>
+<text x="720" y="470.0" text-anchor="middle" class="label">ดูแดชบอร์ดปฏิบัติการ</text>
+<ellipse data-use-case="UC-B-16" cx="720" cy="641.6666666666667" rx="204" ry="48" fill="white" stroke="#0f766e" stroke-width="2"/>
+<text x="720" y="619.6666666666667" text-anchor="middle" class="id">UC-B-16 · §4.29</text>
+<text x="720" y="646.6666666666667" text-anchor="middle" class="label">สรุปผลการแก้ไขและป้องกัน</text>
+<text x="720" y="671.6666666666667" text-anchor="middle" class="label">และส่งออกรายงาน</text>
+<g data-actor-node="dcc" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="240.33333333333331" r="12"/><path d="M170,252.33333333333331 v40 M145,273.3333333333333 h50 M170,292.3333333333333 l-23,27 M170,292.3333333333333 l23,27"/></g>
+<text x="170" y="344.3333333333333" text-anchor="middle" class="label">เจ้าหน้าที่ควบคุมเอกสาร</text>
+<text x="170" y="368.3333333333333" text-anchor="middle" class="small">ISO/QA Admin (DCC)</text>
+<g data-actor-node="owner" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="417.0" r="12"/><path d="M170,429.0 v40 M145,450.0 h50 M170,469.0 l-23,27 M170,469.0 l23,27"/></g>
+<text x="170" y="521.0" text-anchor="middle" class="label">ผู้รับผิดชอบการแก้ไข</text>
+<text x="170" y="545.0" text-anchor="middle" class="small">CAR Owner</text>
+<g data-actor-node="qmr" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="170" cy="593.6666666666667" r="12"/><path d="M170,605.6666666666667 v40 M145,626.6666666666667 h50 M170,645.6666666666667 l-23,27 M170,645.6666666666667 l23,27"/></g>
+<text x="170" y="697.6666666666667" text-anchor="middle" class="label">ผู้แทนฝ่ายบริหาร</text>
+<text x="170" y="721.6666666666667" text-anchor="middle" class="small">QMR</text>
+<g data-actor-node="aud" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="240.33333333333331" r="12"/><path d="M1270,252.33333333333331 v40 M1245,273.3333333333333 h50 M1270,292.3333333333333 l-23,27 M1270,292.3333333333333 l23,27"/></g>
+<text x="1270" y="344.3333333333333" text-anchor="middle" class="label">ผู้ตรวจติดตาม</text>
+<text x="1270" y="368.3333333333333" text-anchor="middle" class="small">Auditor</text>
+<g data-actor-node="lead" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="417.0" r="12"/><path d="M1270,429.0 v40 M1245,450.0 h50 M1270,469.0 l-23,27 M1270,469.0 l23,27"/></g>
+<text x="1270" y="521.0" text-anchor="middle" class="label">หัวหน้าทีมผู้ตรวจติดตาม</text>
+<text x="1270" y="545.0" text-anchor="middle" class="small">Lead Auditor</text>
+<g data-actor-node="sponsor" stroke="#344850" stroke-width="2.2" fill="none"><circle cx="1270" cy="593.6666666666667" r="12"/><path d="M1270,605.6666666666667 v40 M1245,626.6666666666667 h50 M1270,645.6666666666667 l-23,27 M1270,645.6666666666667 l23,27"/></g>
+<text x="1270" y="697.6666666666667" text-anchor="middle" class="label">ผู้บริหาร / สำนักงานคณบดี</text>
+<text x="1270" y="721.6666666666667" text-anchor="middle" class="small">Sponsor</text>
+<path d="M44 780 H1396" stroke="#cbd5d4"/>
+<text x="44" y="806" class="small">เส้นทึบ = Association / การมีส่วนร่วม · ไม่ใช่ลำดับงาน และไม่ใช่การให้สิทธิ์แบบไม่มีเงื่อนไข</text>
+<text x="44" y="838" class="small">ผู้บริหารดูเฉพาะค่าสรุปภาพรวม ไม่เจาะลึกรายบุคคล; ผู้รับผิดชอบดูข้อมูลในขอบเขตของตน</text>
+<text x="44" y="866" class="small">ผู้ช่วย QMR ใช้สิทธิ์ในภาพนี้แทน QMR ได้เฉพาะเมื่อได้รับมอบหมาย ตาม §B.2.5</text>
+</svg></section><h2>ตารางสอบกลับผู้ทำการตาม SRS</h2><p>ตารางนี้คงข้อความ Primary/Supporting Actors ตามต้นทาง ใช้ตรวจรายละเอียดที่ไม่วาดเป็นเส้น เช่น ผู้รับผล ผู้เตรียมบัญชีก่อนเริ่มงาน และส่วนเชื่อมต่อข้อมูลภายใน</p><table><tr><th>Use Case</th><th>ผู้ทำการหลักตาม SRS</th><th>ผู้สนับสนุนตาม SRS</th></tr><tr><td>UC-B-01 · §4.1<br>เข้าสู่ระบบและเลือกบทบาทใช้งาน</td><td>ทุกบทบาทที่ใช้งานระบบ</td><td>ISO/QA Admin (DCC) ในฐานะผู้สร้างบัญชีและกำหนดบทบาทไว้ล่วงหน้า</td></tr><tr><td>UC-B-02 · §4.2<br>จัดการผู้ใช้และบทบาท</td><td>ISO/QA Admin (DCC)</td><td>—</td></tr><tr><td>UC-B-03 · §4.3<br>ดูร่องรอยการตรวจสอบ</td><td>ISO/QA Admin (DCC), Auditor, Lead Auditor</td><td>—</td></tr><tr><td>UC-B-04 · §4.17<br>บันทึกข้อมูลและหลักฐาน</td><td>ISO/QA Admin (DCC), Auditor, Lead Auditor, Assistant DCC, CAR Owner</td><td>โมดูลควบคุมเอกสาร ในฐานะผู้ให้รายการเอกสารฉบับใช้งานปัจจุบัน</td></tr><tr><td>UC-B-05 · §4.18<br>ค้นหาและเรียกดูบันทึกข้อมูลและหลักฐาน</td><td>ISO/QA Admin (DCC), Auditor, Lead Auditor, Assistant DCC, CAR Owner, QMR</td><td>โมดูลควบคุมเอกสาร ในฐานะผู้ให้รายละเอียดเอกสารอ้างอิง</td></tr><tr><td>UC-B-06 · §4.19<br>สร้างรอบการตรวจติดตาม</td><td>ISO/QA Admin (DCC), Lead Auditor</td><td>—</td></tr><tr><td>UC-B-07 · §4.20<br>บ่งชี้และบันทึกประเด็นที่พบ</td><td>Auditor, Lead Auditor, ISO/QA Admin (DCC)</td><td>QMR ในฐานะผู้บ่งชี้ประเด็นจากการประชุมทบทวนโดยฝ่ายบริหาร · CAR Owner ในฐานะผู้รับการตรวจที่ร่วมยืนยันข้อเท็จจริง</td></tr><tr><td>UC-B-08 · §4.21<br>เปิดใบคำร้องจากประเด็นที่พบ</td><td>Auditor, Lead Auditor, ISO/QA Admin (DCC)</td><td>CAR Owner ในฐานะผู้ที่จะถูกมอบหมายให้แก้ไข</td></tr><tr><td>UC-B-09 · §4.22<br>บันทึกการแก้ไขและจัดทำแผนการปฏิบัติการแก้ไข</td><td>CAR Owner (ผู้รับผิดชอบการแก้ไข / ผู้รับการตรวจติดตาม)</td><td>รองคณบดีฝ่ายที่เกี่ยวข้อง ในฐานะผู้ร่วมพิจารณาแนวทางแก้ไข</td></tr><tr><td>UC-B-10 · §4.23<br>อนุมัติแผนการปฏิบัติการแก้ไข/ป้องกัน</td><td>ใบ CAR: QMR หรือ Lead Auditor (หัวหน้าผู้ตรวจ IQA) · ใบ NCR: QMR — ตามที่แบบฟอร์ม `FM-QP-2301-0109-01` ส่วนที่ 4 จ่าหัวว่า &quot;สำหรับ QMR/หัวหน้าผู้ตรวจ IQA&quot; และ `-02` จ่าหัวว่า &quot;สำหรับ QMR&quot; (`TBD-B-10`)</td><td>CAR Owner ในฐานะผู้จัดทำแผนที่จะได้รับผลการพิจารณา</td></tr><tr><td>UC-B-11 · §4.24<br>บันทึกการดำเนินการตามแผนและหลักฐาน</td><td>CAR Owner</td><td>ผู้รับผิดชอบรายกิจกรรมที่ระบุไว้ในแผน</td></tr><tr><td>UC-B-12 · §4.25<br>ตรวจสอบประสิทธิผลการแก้ไข</td><td>Assistant DCC หรือ Auditor ผู้แจ้งความไม่สอดคล้องนั้น</td><td>CAR Owner ในฐานะผู้ที่จะได้รับผลการตรวจสอบ</td></tr><tr><td>UC-B-13 · §4.26<br>ปิดใบคำร้อง</td><td>QMR, Lead Auditor (ผู้ตรวจติดตาม)</td><td>ISO/QA Admin (DCC) ในฐานะผู้จัดเก็บและสรุปผล</td></tr><tr><td>UC-B-14 · §4.27<br>ติดตามงานเกินกำหนด</td><td>ISO/QA Admin (DCC), CAR Owner, Auditor, Lead Auditor, QMR</td><td>—</td></tr><tr><td>UC-B-15 · §4.28<br>ดูแดชบอร์ดปฏิบัติการ</td><td>ISO/QA Admin (DCC), Auditor, Lead Auditor, QMR, Sponsor</td><td>โมดูลควบคุมเอกสาร ในฐานะผู้ให้ค่าสรุปสถานะเอกสารและอัตราการรับทราบ</td></tr><tr><td>UC-B-16 · §4.29<br>สรุปผลการแก้ไขและการป้องกัน และส่งออกรายงาน</td><td>ISO/QA Admin (DCC), QMR, CAR Owner</td><td>—</td></tr></table><p>ต้นฉบับแก้ไข: b4_use_case.html · ไฟล์ SVG/PNG เป็นผลส่งออกของภาพแต่ละส่วน<br>หมายเหตุ: เส้นและชื่อกรณีการใช้งานเป็นภาพสรุป ไม่แทนเงื่อนไขธุรกิจและเกณฑ์การยอมรับใน SRS</p></main></body></html>

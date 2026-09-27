@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Screen Atlas — ISO E-Filing Phase 1</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:#f0f4f8;color:#1e293b;font-size:13px}
+header{background:#1e3055;color:#fff;padding:18px 32px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100}
+header h1{font-size:18px;font-weight:700}
+header p{font-size:11px;color:#7da4e0;margin-top:3px}
+.hbadge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,.08);color:#cbd5e1;cursor:pointer}
+.hbadge span{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* Swimlane separators */
+.lane-sep{display:flex;align-items:center;gap:14px;padding:28px 32px 14px;position:relative}
+.lane-line{flex:1;height:2px}
+.lane-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;padding:5px 14px;border-radius:20px}
+.lane-shared .lane-line{background:#94a3b830}.lane-shared .lane-label{background:#f1f5f9;color:#475569}
+.lane-groupa .lane-line{background:#2463d930}.lane-groupa .lane-label{background:#dbeafe;color:#1e40af}
+.lane-groupb .lane-line{background:#7c3aed30}.lane-groupb .lane-label{background:#ede9fe;color:#4c1d95}
+
+/* Flow connector between cards */
+.flow-arrow{display:flex;align-items:center;gap:10px;padding:4px 32px;color:#64748b;font-size:11px}
+.flow-arrow hr{flex:1;border:none;border-top:1px dashed #d1d5db}
+
+/* Screen card */
+.scard{display:flex;margin:0 32px 2px;background:#fff;border-radius:12px;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden;min-height:340px}
+.scard-accent{width:5px;flex-shrink:0}
+.shared .scard-accent{background:#94a3b8}
+.groupa .scard-accent{background:#2463d9}
+.groupb .scard-accent{background:#7c3aed}
+.integ .scard-accent{background:#64748b;background:repeating-linear-gradient(45deg,#64748b,#64748b 4px,transparent 4px,transparent 8px)}
+
+/* Mockup panel */
+.mock-panel{width:460px;flex-shrink:0;background:#f8fafc;border-right:1px solid #e2e8f0;padding:16px;display:flex;flex-direction:column}
+.browser{background:#fff;border-radius:8px;border:1px solid #d1d5db;overflow:hidden;flex:1}
+.bchrome{background:#f1f5f9;padding:7px 10px;display:flex;align-items:center;gap:7px;border-bottom:1px solid #e2e8f0}
+.bdot{width:8px;height:8px;border-radius:50%}
+.burl{flex:1;background:#fff;border-radius:4px;padding:2px 8px;font-size:9px;color:#94a3b8;font-family:'IBM Plex Mono',monospace;border:1px solid #e2e8f0}
+.bcontent{padding:12px;overflow:hidden}
+
+/* Info panel */
+.info-panel{flex:1;padding:22px;display:flex;flex-direction:column;gap:13px;min-width:0}
+.info-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sid{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700}
+.sname{font-size:17px;font-weight:700;color:#0f172a;margin-top:2px;line-height:1.2}
+.ssub{font-size:12px;color:#94a3b8;margin-top:2px}
+.grp-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;flex-shrink:0}
+.gb-shared{background:#f1f5f9;color:#475569}
+.gb-groupa{background:#dbeafe;color:#1e40af}
+.gb-groupb{background:#ede9fe;color:#4c1d95}
+.gb-integ{background:#f1f5f9;color:#475569}
+
+.irow{display:flex;flex-direction:column;gap:4px}
+.ilabel{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#94a3b8}
+.ival{font-size:12px;color:#374151;line-height:1.6}
+.uc-val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700}
+
+.pills{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
+.pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:500;line-height:1.4}
+.p-actor{background:#eff6ff;color:#1e40af}
+.p-fr{background:#f0fdf4;color:#166534}
+.p-nfr{background:#fef3c7;color:#92400e}
+.p-sc{background:#f5f3ff;color:#4c1d95}
+.p-tc{background:#fdf2f8;color:#9d174d;font-weight:700}
+.p-flow{background:#f1f5f9;color:#475569;font-family:'IBM Plex Mono',monospace;font-size:10px}
+.api-line{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#1e40af;background:#eff6ff;padding:3px 8px;border-radius:4px;margin-bottom:3px;display:block;word-break:break-all}
+.etag{display:inline-block;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:2px 6px;font-size:10px;color:#475569;margin:2px}
+
+/* Mini mockup base styles */
+.mm{font-size:11px;line-height:1.4}
+.mm .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.mm .mt{font-size:13px;font-weight:700;color:#0f172a}
+.mm .mb{padding:3px 10px;border-radius:4px;background:#2463d9;color:#fff;font-size:9px;border:none;cursor:pointer}
+.mm input,.mm textarea,.mm select{width:100%;padding:5px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:10px;margin-bottom:5px;font-family:inherit;background:#fff;color:#374151;resize:none}
+.mm .mlbl{font-size:9px;font-weight:600;color:#374151;margin-bottom:2px;display:block}
+.mm .msep{border:none;border-top:1px solid #f1f5f9;margin:6px 0}
+.mm .mtabs{display:flex;gap:0;border-bottom:1px solid #e2e8f0;margin-bottom:8px}
+.mm .mtab{padding:4px 10px;font-size:10px;border-bottom:2px solid transparent;color:#64748b}
+.mm .mtab.on{color:#2463d9;border-bottom-color:#2463d9;font-weight:600}
+.badge{display:inline-block;padding:1px 6px;border-radius:10px;font-size:9px;font-weight:600}
+.bg{background:#d1fae5;color:#065f46}.ba{background:#fef3c7;color:#92400e}
+.bb{background:#dbeafe;color:#1e40af}.br{background:#fee2e2;color:#991b1b}
+.bp{background:#ede9fe;color:#4c1d95}.bs{background:#f1f5f9;color:#475569}
+.mm table{width:100%;border-collapse:collapse;font-size:10px}
+.mm th{background:#f8fafc;padding:4px 6px;text-align:left;font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;border-bottom:1px solid #e2e8f0}
+.mm td{padding:5px 6px;border-bottom:1px solid #f8fafc}
+.mm .card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:6px}
+.mm .card.lnc{border-left:3px solid #ef4444}
+.mm .card.lofi{border-left:3px solid #f59e0b}
+.mm .card.lcar{border-left:3px solid #7c3aed}
+.mm .card.lover{border-left:3px solid #ef4444;background:#fff5f5}
+.mm .kpig{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+.mm .kpi{background:#f8fafc;border:1px solid #e2e8f0;border-radius:5px;padding:6px;text-align:center}
+.mm .kv{font-size:15px;font-weight:800;color:#2463d9}.mm .kl{font-size:8px;color:#64748b}
+.mm .sidebar{width:100px;flex-shrink:0;background:#f8fafc;border-right:1px solid #e2e8f0;padding:7px}
+.mm .si{padding:4px 6px;border-radius:4px;margin-bottom:2px;font-size:9px}
+.mm .si.on{background:#dbeafe;color:#1e40af;font-weight:600}
+.mm .pb{height:5px;background:#f1f5f9;border-radius:3px;overflow:hidden;margin-top:2px}
+.mm .pf{height:100%;border-radius:3px}
+.mm .row{display:flex;justify-content:space-between;font-size:9px;margin-bottom:1px}
+
+@media print{header{position:static}.lane-sep{break-before:auto}.scard{break-inside:avoid;margin-bottom:16px}body{background:#fff}}
+</style>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="#1e3055"/>
+  <rect x="5" y="5" width="90" height="15" rx="2" fill="#2463d9" opacity=".8"/>
+  <rect x="5" y="26" width="42" height="20" rx="2" fill="#2463d9" opacity=".7"/>
+  <rect x="53" y="26" width="42" height="20" rx="2" fill="#2463d9" opacity=".7"/>
+  <rect x="5" y="52" width="28" height="20" rx="2" fill="#7c3aed" opacity=".8"/>
+  <rect x="38" y="52" width="28" height="20" rx="2" fill="#7c3aed" opacity=".8"/>
+  <rect x="71" y="52" width="24" height="20" rx="2" fill="#7c3aed" opacity=".8"/>
+  <text x="50" y="90" font-size="7" text-anchor="middle" fill="#7da4e0">Screen Atlas</text>
+</svg>
+</template>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Screen Atlas — ISO E-Filing Phase 1 MVP</h1>
+    <p>คณะวิศวกรรมศาสตร์ มทร.ล้านนา · SRS v3.0 · 14 Screens · Group A / Group B / Shared</p>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <div class="hbadge"><span style="background:#94a3b8"></span>Shared (3)</div>
+    <div class="hbadge"><span style="background:#2463d9"></span>Group A (6)</div>
+    <div class="hbadge"><span style="background:#7c3aed"></span>Group B (5)</div>
+    <div class="hbadge" onclick="window.print()" style="background:rgba(255,255,255,.12)">🖨 Print / PDF</div>
+  </div>
+</header>
+
+<div id="app"></div>
+
+<script>
+const AN = {'ACT-01':'End User','ACT-02':'Document Owner','ACT-03':'Approver','ACT-04':'ISO/QA Admin','ACT-05':'Auditor','ACT-06':'CAR Owner','ACT-07':'IT/Admin','ACT-08':'Group A System','ACT-09':'Group B System'};
+const GC = {shared:'#94a3b8',groupa:'#2463d9',groupb:'#7c3aed',integ:'#64748b'};
+const GL = {shared:'SHARED',groupa:'GROUP A',groupb:'GROUP B',integ:'INTEGRATION'};
+
+const SCREENS = [
+// ── SHARED ──────────────────────────────────────────────────────────────────
+{id:'UI-S01',name:'Login',sub:'Auth & Session',group:'shared',uc:'UC-S01',
+ fr:['FR-SH01','FR-SH02'],nfr:['NFR-01'],
+ actors:['ACT-01','ACT-02','ACT-03','ACT-04','ACT-05','ACT-06','ACT-07'],
+ api:['POST /auth/login','GET /me'],
+ entities:['User','Role'],
+ tc:'TC-S01',sc:['SC-S01-01','SC-S01-02','SC-S01-03'],
+ to:['UI-A01','UI-S02'],
+ mockup:`<div style="min-height:270px;display:flex;align-items:center;justify-content:center;background:#1e3055;margin:-12px;padding:16px">
+<div style="width:220px;background:#fff;border-radius:10px;padding:16px">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+    <div style="width:28px;height:28px;background:#2463d9;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff">ISO</div>
+    <div><div style="font-size:12px;font-weight:700">E-Filing System</div><div style="font-size:8px;color:#94a3b8">คณะวิศวกรรมศาสตร์ มทร.ล้านนา</div></div>
+  </div>
+  <div class="mm"><span class="mlbl">อีเมล</span><input value="somsak@eng.rmutl.ac.th" readonly/>
+  <span class="mlbl">รหัสผ่าน</span><input type="password" value="1234" readonly/>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;margin-bottom:10px">
+    <span class="badge bb" style="text-align:center;padding:3px 0">ISO Admin</span>
+    <span class="badge bs" style="text-align:center;padding:3px 0">Doc Owner</span>
+    <span class="badge bs" style="text-align:center;padding:3px 0">Approver</span>
+  </div>
+  <button class="mb" style="width:100%;padding:6px;font-size:11px">เข้าสู่ระบบ</button></div>
+</div></div>`},
+
+// ── GROUP A ──────────────────────────────────────────────────────────────────
+{id:'UI-A01',name:'Document List',sub:'ทะเบียนเอกสาร / ค้นหา / Filter',group:'groupa',uc:'UC-A06',
+ fr:['FR-A09'],nfr:['NFR-03','NFR-04'],
+ actors:['ACT-01','ACT-02','ACT-04','ACT-05'],
+ api:['GET /documents?filters'],
+ entities:['Document','DocumentVersion','FileReference'],
+ tc:'TC-A06',sc:['SC-A06-01','SC-A06-02'],
+ to:['UI-A02','UI-A03'],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">Documents</div><button class="mb">+ สร้างเอกสาร</button></div>
+<div style="display:flex;gap:4px;margin-bottom:7px">
+  <input placeholder="🔍 ค้นหา รหัส / ชื่อเอกสาร..." style="flex:1;margin:0" readonly/>
+  <select style="padding:4px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:10px"><option>ทุกประเภท</option></select>
+  <select style="padding:4px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:10px"><option>ทุกสถานะ</option></select>
+</div>
+<table><tr><th>Code</th><th>ชื่อเอกสาร</th><th>Type</th><th>Ver.</th><th>สถานะ</th></tr>
+  <tr><td style="font-family:monospace;color:#2463d9;font-size:9px">QM-2301-01</td><td>คู่มือคุณภาพ</td><td><span class="badge bb">QM</span></td><td style="text-align:center">1.3</td><td><span class="badge bg">Published</span></td></tr>
+  <tr><td style="font-family:monospace;color:#2463d9;font-size:9px">QP-2301-0107</td><td>ระเบียบปฏิบัติการควบคุมเอกสาร</td><td><span class="badge bp">QP</span></td><td style="text-align:center">1.2</td><td><span class="badge bg">Published</span></td></tr>
+  <tr><td style="font-family:monospace;color:#2463d9;font-size:9px">QP-2301-0108</td><td>ระเบียบการจัดการความเสี่ยง</td><td><span class="badge bp">QP</span></td><td style="text-align:center">0.1</td><td><span class="badge bs">Draft</span></td></tr>
+  <tr><td style="font-family:monospace;color:#2463d9;font-size:9px">SD-2301-002</td><td>นโยบายคุณภาพ</td><td><span class="badge bg">SD</span></td><td style="text-align:center">1.1</td><td><span class="badge ba">Review</span></td></tr>
+</table><div style="font-size:9px;color:#94a3b8;margin-top:5px;text-align:right">แสดง 10 รายการ</div></div>`},
+
+{id:'UI-A02',name:'Document Form',sub:'Create / Edit — สร้างหรือแก้ไข Draft',group:'groupa',uc:'UC-A01',
+ fr:['FR-A01','FR-A02','FR-A03'],nfr:['NFR-02'],
+ actors:['ACT-02','ACT-04'],
+ api:['POST /documents','POST /documents/{id}/files'],
+ entities:['Document','DocumentVersion','FileReference','AuditTrail'],
+ tc:'TC-A01',sc:['SC-A01-01','SC-A01-02','SC-A01-03'],
+ to:['UI-A03'],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">สร้างเอกสารใหม่</div></div>
+<span class="mlbl">Document Code *</span><input value="QP-2301-0110" readonly/>
+<span class="mlbl">ชื่อเอกสาร (ภาษาไทย) *</span><input value="ระเบียบปฏิบัติงานการประเมินผู้ขาย..." readonly/>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:5px">
+  <div><span class="mlbl">ประเภทเอกสาร</span>
+    <div style="border:1px solid #d1d5db;border-radius:4px;padding:5px 8px;font-size:10px;background:#fff;display:flex;align-items:center;gap:4px"><span class="badge bp">QP</span> ▾</div></div>
+  <div><span class="mlbl">ผู้อนุมัติ</span>
+    <input value="ผศ.นิรมล สุขสม ▾" readonly/></div>
+</div>
+<span class="mlbl">หน่วยงาน</span><input value="สำนักงานคณบดี" readonly/>
+<div style="border:1px dashed #cbd5e1;border-radius:6px;padding:14px;text-align:center;color:#94a3b8;font-size:10px;margin-bottom:8px">📎 ลาก-วางไฟล์ PDF ที่นี่ หรือคลิกเพื่อเลือก</div>
+<div style="display:flex;gap:6px;justify-content:flex-end">
+  <button style="padding:4px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:10px;background:#fff;cursor:pointer">ยกเลิก</button>
+  <button class="mb">บันทึก Draft</button>
+</div></div>`},
+
+{id:'UI-A03',name:'Document Detail',sub:'Info · Versions · DAR · Acknowledgement — Publish / Obsolete',group:'groupa',uc:'UC-A04, UC-A05, UC-A06',
+ fr:['FR-A03','FR-A04','FR-A07','FR-A08','FR-A09'],nfr:['NFR-07'],
+ actors:['ACT-01','ACT-02','ACT-03','ACT-04'],
+ api:['GET /documents/{id}','POST /documents/{id}/publish','POST /documents/{id}/obsolete'],
+ entities:['Document','DocumentVersion','FileReference'],
+ tc:'TC-A04, TC-A05, TC-A06',sc:['SC-A04-01','SC-A04-02','SC-A04-03','SC-A05-01','SC-A06-01'],
+ to:['UI-A04','UI-A06'],
+ mockup:`<div class="mm">
+<div style="margin-bottom:8px">
+  <div style="font-size:9px;color:#94a3b8;margin-bottom:2px">← Documents</div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div><div class="mt">ระเบียบปฏิบัติการควบคุมเอกสาร</div>
+    <div style="font-family:monospace;font-size:9px;color:#64748b">QP-2301-0107 · Rev.1.2 · Approved</div></div>
+    <div style="display:flex;gap:4px">
+      <button style="padding:3px 7px;border:1px solid #d1d5db;border-radius:4px;font-size:9px;background:#fff">📋 DAR</button>
+      <button class="mb" style="background:#059669;padding:3px 7px">🚀 Publish</button>
+    </div>
+  </div>
+</div>
+<div class="mtabs"><div class="mtab on">ข้อมูลเอกสาร</div><div class="mtab">Revision History</div><div class="mtab">DAR (2)</div><div class="mtab">Acknowledgement</div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div>${[['รหัสเอกสาร','QP-2301-0107'],['ประเภท','QP'],['สถานะ','Published'],['เวอร์ชัน','Rev. 1.2'],['หน่วยงาน','สำนักงานคณบดี'],['บังคับใช้','2567-02-01']].map(([k,v])=>`<div style="display:flex;gap:6px;padding:4px 0;border-bottom:1px solid #f8fafc"><div style="width:68px;font-size:9px;color:#94a3b8;flex-shrink:0">${k}</div><div style="font-size:9px;color:#374151">${v}</div></div>`).join('')}</div>
+  <div>
+    <div style="font-size:10px;font-weight:700;margin-bottom:6px">ไฟล์เอกสาร</div>
+    <span style="display:inline-flex;align-items:center;gap:4px;padding:4px 8px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;font-size:9px">📄 QP-2301-0107_v1.2.pdf</span>
+    <div style="margin-top:8px;background:#fef3c7;border-radius:5px;padding:7px;font-size:9px;color:#92400e">⚠ ยังไม่ได้รับทราบ<br/><button class="mb" style="background:#059669;margin-top:4px;padding:2px 8px;font-size:9px">✓ รับทราบเอกสาร</button></div>
+  </div>
+</div></div>`},
+
+{id:'UI-A04',name:'DAR Form',sub:'Create & Submit — Document Action Request',group:'groupa',uc:'UC-A02',
+ fr:['FR-A04','FR-A05'],nfr:['NFR-02'],
+ actors:['ACT-02','ACT-04'],
+ api:['POST /dars','POST /dars/{id}/submit'],
+ entities:['DAR','Document','AuditTrail'],
+ tc:'TC-A02',sc:['SC-A02-01','SC-A02-02','SC-A02-03'],
+ to:['UI-A05'],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">สร้าง DAR — QP-2301-0107</div></div>
+<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:7px;font-size:10px;color:#1e40af;margin-bottom:10px">📄 ระเบียบปฏิบัติการควบคุมเอกสาร</div>
+<span class="mlbl">ประเภทคำขอ *</span>
+<div style="border:1px solid #d1d5db;border-radius:4px;padding:5px 8px;font-size:10px;background:#fff;margin-bottom:5px;display:flex;align-items:center;gap:6px"><span class="badge bp">ปรับปรุง (Revise)</span> ▾</div>
+<span class="mlbl">เหตุผล / รายละเอียดการเปลี่ยนแปลง *</span>
+<textarea rows="3" readonly>ปรับปรุงขั้นตอนการอนุมัติให้ชัดเจน และเพิ่ม flowchart ใหม่เพื่อให้ง่ายต่อการปฏิบัติ</textarea>
+<span class="mlbl">ผู้ทบทวน / ผู้อนุมัติ *</span>
+<input value="ผศ.นิรมล สุขสม (Approver) ▾" readonly/>
+<div style="display:flex;gap:6px;justify-content:flex-end;margin-top:6px">
+  <button style="padding:4px 10px;border:1px solid #d1d5db;border-radius:4px;font-size:10px;background:#fff;cursor:pointer">ยกเลิก</button>
+  <button class="mb">Submit DAR</button>
+</div></div>`},
+
+{id:'UI-A05',name:'Approval Queue',sub:'Review · Approve · Reject — พร้อม Comment',group:'groupa',uc:'UC-A03',
+ fr:['FR-A04','FR-A06','FR-A08'],nfr:['NFR-02'],
+ actors:['ACT-03','ACT-04'],
+ api:['GET /approval-tasks','POST /dars/{id}/approve','POST /dars/{id}/reject'],
+ entities:['DAR','ApprovalLog','DocumentVersion','AuditTrail'],
+ tc:'TC-A03',sc:['SC-A03-01','SC-A03-02','SC-A03-03'],
+ to:['UI-A03'],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">DAR & Approval Queue</div></div>
+<div class="mtabs"><div class="mtab">ทั้งหมด (4)</div><div class="mtab on">Approval Queue <span class="badge br" style="margin-left:4px;font-size:8px">1</span></div><div class="mtab">ของฉัน</div></div>
+<div class="card lnc" style="border-left-color:#f59e0b;padding:10px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+    <div style="flex:1">
+      <div style="display:flex;gap:5px;margin-bottom:6px;align-items:center;flex-wrap:wrap">
+        <span style="font-family:monospace;font-size:10px;font-weight:700;color:#7c3aed">DAR-2567-002</span>
+        <span class="badge bp">ปรับปรุง</span><span class="badge ba">Submitted</span>
+      </div>
+      <div style="display:flex;gap:4px;margin-bottom:5px"><span class="badge bg">SD</span><span style="font-size:10px">SD-2301-002 — นโยบายคุณภาพ</span></div>
+      <div style="font-size:10px;color:#374151">ปรับนโยบายคุณภาพให้สอดคล้องกับแผนยุทธศาสตร์ 2567–2570</div>
+      <div style="font-size:9px;color:#94a3b8;margin-top:4px">ขอโดย: ผศ.นิรมล · 10 วันที่แล้ว</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+      <button class="mb" style="background:#059669;padding:3px 10px">✓ Approve</button>
+      <button class="mb" style="background:#dc2626;padding:3px 10px">✕ Reject</button>
+    </div>
+  </div>
+</div>
+<div style="text-align:center;padding:12px;color:#94a3b8;font-size:10px">✅ ไม่มี DAR รออนุมัติอื่น</div></div>`},
+
+{id:'UI-A06',name:'Acknowledgement Panel',sub:'รับทราบเอกสาร / สรุปสถานะทุก User',group:'groupa',uc:'UC-A07',
+ fr:['FR-A10','FR-A11'],nfr:['NFR-02'],
+ actors:['ACT-01','ACT-02','ACT-03','ACT-06'],
+ api:['POST /documents/{id}/ack','GET /documents/{id}/ack-summary'],
+ entities:['Acknowledgement','DocumentVersion','User'],
+ tc:'TC-A07',sc:['SC-A07-01','SC-A07-02'],
+ to:['INT-A08'],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">Acknowledgement</div></div>
+<div style="background:#fef3c7;border:1px solid #fde68a;border-radius:6px;padding:7px;font-size:10px;color:#92400e;margin-bottom:9px">⚠ คุณมี <strong>2</strong> เอกสารที่รอการรับทราบ</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+  <div>
+    <div style="font-size:10px;font-weight:700;margin-bottom:6px">รออนุมัติ (2)</div>
+    ${[['QM-2301-01','คู่มือคุณภาพ','1.3','QM','bb'],['QP-2301-0109','ระเบียบ CAR/NCR','1.0','QP','bp']].map(([c,t,v,tp,bc])=>`
+    <div class="card" style="border-left:3px solid #f59e0b;margin-bottom:5px;padding:7px">
+      <div style="display:flex;gap:4px;margin-bottom:3px"><span class="badge ${bc}">${tp}</span><span style="font-family:monospace;font-size:9px;color:#2463d9">${c}</span></div>
+      <div style="font-size:10px;font-weight:600">${t}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px"><span style="font-size:9px;color:#94a3b8">Rev. ${v}</span><button class="mb" style="background:#059669;padding:2px 7px;font-size:9px">✓ รับทราบ</button></div>
+    </div>`).join('')}
+  </div>
+  <div>
+    <div style="font-size:10px;font-weight:700;margin-bottom:6px">รับทราบแล้ว (2)</div>
+    ${[['QP-2301-0107','28 เม.ย. 2567'],['QP-2301-0102','10 เม.ย. 2567']].map(([c,d])=>`
+    <div class="card" style="margin-bottom:5px;padding:7px;opacity:.85">
+      <span style="font-family:monospace;font-size:9px;color:#2463d9">${c}</span>
+      <div style="font-size:9px;color:#059669;margin-top:3px">✓ รับทราบแล้ว ${d}</div>
+    </div>`).join('')}
+  </div>
+</div></div>`},
+
+// ── Integration (A→B) ────────────────────────────────────────────────────────
+{id:'INT-A08',name:'Integration API',sub:'Group A → Group B — Document & ACK Summary',group:'integ',uc:'UC-A08',
+ fr:['FR-A12','FR-B11','FR-B12'],nfr:['NFR-06'],
+ actors:['ACT-08','ACT-09'],
+ api:['GET /integration/document-summary','GET /integration/ack-summary'],
+ entities:['Document','Acknowledgement'],
+ tc:'TC-A08',sc:['SC-A08-01','SC-A08-02'],
+ to:['UI-B05'],
+ mockup:`<div style="display:flex;align-items:center;justify-content:center;min-height:270px;background:#f8fafc;margin:-12px">
+<div style="text-align:center">
+  <div style="font-size:36px;margin-bottom:8px">⇅</div>
+  <div style="font-size:14px;font-weight:700;color:#475569">Integration API Contract</div>
+  <div style="font-size:11px;color:#94a3b8;margin-bottom:14px">Group A ส่งข้อมูลให้ Group B Dashboard</div>
+  <div style="display:flex;flex-direction:column;gap:5px;text-align:left">
+    <div style="font-family:monospace;font-size:10px;color:#1e40af;background:#eff6ff;padding:5px 10px;border-radius:5px">GET /integration/document-summary</div>
+    <div style="font-family:monospace;font-size:10px;color:#1e40af;background:#eff6ff;padding:5px 10px;border-radius:5px">GET /integration/ack-summary</div>
+  </div>
+  <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:10px;text-align:left">
+    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:5px;padding:6px"><div style="font-weight:700;color:#166534;margin-bottom:3px">Payload ที่ส่ง</div><div style="color:#374151">total, published<br/>pending, obsolete<br/>ack_rate</div></div>
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:6px"><div style="font-weight:700;color:#1e40af;margin-bottom:3px">ใช้โดย</div><div style="color:#374151">Dashboard (B)<br/>UC-B08<br/>FR-B11, FR-B12</div></div>
+  </div>
+</div></div>`},
+
+// ── GROUP B ──────────────────────────────────────────────────────────────────
+{id:'UI-B05',name:'Operational Dashboard',sub:'ภาพรวม ISO Quality — KPI · Charts · ACK · CARs',group:'groupb',uc:'UC-B08',
+ fr:['FR-B11','FR-B12','FR-B13'],nfr:['NFR-06','NFR-04'],
+ actors:['ACT-04','ACT-05'],
+ api:['GET /dashboard/summary','GET /integration/document-summary','GET /integration/ack-summary'],
+ entities:['DocumentSummary','AckSummary','Finding','CAR'],
+ tc:'TC-B08',sc:['SC-B08-01','SC-B08-02','SC-B08-03'],
+ to:['UI-B01','UI-B02','UI-B03'],
+ mockup:`<div class="mm">
+<div style="margin-bottom:8px"><div class="mt">สวัสดี, ผศ.สมศักดิ์ 👋</div><div style="font-size:9px;color:#64748b">ภาพรวมระบบ ISO E-Filing · คณะวิศวกรรมศาสตร์ มทร.ล้านนา</div></div>
+<div class="kpig">
+  <div class="kpi"><div class="kv">10</div><div class="kl">Total Docs</div></div>
+  <div class="kpi"><div class="kv" style="color:#ef4444">2</div><div class="kl">Open CARs</div></div>
+  <div class="kpi"><div class="kv" style="color:#059669">68%</div><div class="kl">ACK Rate</div></div>
+  <div class="kpi"><div class="kv" style="color:#f59e0b">1</div><div class="kl">Pending DARs</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:7px">
+  <div class="card" style="padding:8px">
+    <div style="font-size:9px;font-weight:700;margin-bottom:5px">Document Status</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" fill="none" stroke="#d1fae5" stroke-width="7"/><circle cx="25" cy="25" r="18" fill="none" stroke="#059669" stroke-width="7" stroke-dasharray="70 43" stroke-dashoffset="-23" transform="rotate(-90 25 25)"/></svg>
+      <div style="font-size:9px;line-height:1.8"><div>● Published <strong>6</strong></div><div style="color:#f59e0b">● Review <strong>1</strong></div><div style="color:#94a3b8">● Draft <strong>2</strong></div></div>
+    </div>
+  </div>
+  <div class="card" style="padding:8px">
+    <div style="font-size:9px;font-weight:700;margin-bottom:5px">CAR Status</div>
+    <div style="display:flex;align-items:flex-end;gap:4px;height:44px">
+      ${[['Open','1','#f97316','18px'],['Prog.','1','#8b5cf6','18px'],['Over.','1','#ef4444','28px'],['Closed','1','#059669','18px']].map(([l,v,c,h])=>`
+      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1">
+        <div style="font-size:8px;color:${c};font-weight:700">${v}</div>
+        <div style="width:100%;background:${c};border-radius:2px;height:${h}"></div>
+        <div style="font-size:8px;color:#94a3b8">${l}</div>
+      </div>`).join('')}
+    </div>
+  </div>
+</div>
+<div class="card" style="padding:8px">
+  <div style="font-size:9px;font-weight:700;margin-bottom:5px">ACK Progress</div>
+  ${[['QM-2301-01','50','#f59e0b'],['QP-2301-0107','100','#059669'],['QP-2301-0109','25','#ef4444']].map(([c,p,col])=>`
+  <div style="margin-bottom:4px"><div class="row"><span style="font-family:monospace;color:#2463d9">${c}</span><span style="color:${col};font-weight:700">${p}%</span></div><div class="pb"><div class="pf" style="width:${p}%;background:${col}"></div></div></div>`).join('')}
+</div></div>`},
+
+{id:'UI-B01',name:'Record List / Form',sub:'Records & Evidence — สร้าง / ผูก Document / แนบไฟล์',group:'groupb',uc:'UC-B01',
+ fr:['FR-B01','FR-B02'],nfr:['NFR-02'],
+ actors:['ACT-04','ACT-05','ACT-06'],
+ api:['POST /records','POST /records/{id}/files'],
+ entities:['Record','FileReference','DocumentRef','AuditTrail'],
+ tc:'TC-B01',sc:['SC-B01-01','SC-B01-02'],
+ to:['UI-B02'],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">Records & Evidence</div><button class="mb">+ เพิ่ม Record</button></div>
+${[['🎓','Training Record','#7c3aed','บันทึกการอบรมการควบคุมเอกสาร ISO (มีนาคม 2567)','QP-2301-0107','F001','CAR001'],
+   ['🔍','Audit Evidence','#059669','รายงานผลการตรวจ Internal Audit รอบที่ 1/2567','QP-2301-0102','F001',null],
+   ['📝','Meeting Minutes','#2463d9','บันทึกการประชุม Management Review ครั้งที่ 1/2567','QM-2301-01',null,null]].map(([ic,type,col,title,doc,fid,cid])=>`
+<div style="border:1px solid #e2e8f0;border-radius:6px;padding:8px;margin-bottom:5px;display:flex;gap:8px">
+  <div style="width:32px;height:32px;border-radius:7px;background:${col}15;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0">${ic}</div>
+  <div style="flex:1">
+    <div style="display:flex;gap:3px;margin-bottom:3px;flex-wrap:wrap"><span class="badge" style="background:${col}18;color:${col}">${type}</span>${fid?`<span class="badge ba" style="font-size:8px">Finding:${fid}</span>`:''} ${cid?`<span class="badge bp" style="font-size:8px">CAR:${cid}</span>`:''}</div>
+    <div style="font-size:10px;font-weight:600;margin-bottom:2px">${title}</div>
+    <div style="font-size:9px;color:#94a3b8">📄 ${doc}</div>
+  </div>
+</div>`).join('')}</div>`},
+
+{id:'UI-B02',name:'Audit / Finding Form',sub:'Internal Audit Session · Finding · Evidence · เปิด CAR',group:'groupb',uc:'UC-B02, UC-B03',
+ fr:['FR-B03','FR-B04','FR-B05'],nfr:['NFR-02'],
+ actors:['ACT-05','ACT-04'],
+ api:['POST /audits','POST /findings'],
+ entities:['Audit','Finding','Record','DocumentRef','AuditTrail'],
+ tc:'TC-B02, TC-B03',sc:['SC-B02-01','SC-B03-01','SC-B03-02'],
+ to:['UI-B03'],
+ mockup:`<div class="mm" style="display:flex;gap:7px">
+<div class="sidebar">
+  <div style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Sessions</div>
+  <div class="si on">Internal Audit 1/2567<div style="font-size:8px;color:#2463d9">✓ Completed</div></div>
+  <div class="si">Internal Audit 2/2567<div style="font-size:8px;color:#94a3b8">Planned</div></div>
+  <div style="margin-top:8px"><button style="width:100%;padding:3px;border:1px solid #d1d5db;border-radius:4px;font-size:9px;background:#fff;cursor:pointer">+ Audit ใหม่</button></div>
+</div>
+<div style="flex:1;min-width:0">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+    <div><div style="font-size:11px;font-weight:700">Internal Audit 1/2567</div><div style="font-size:9px;color:#94a3b8">20 มี.ค. 2567 · ผู้ตรวจ: นางสาวพรทิพย์</div></div>
+    <button class="mb" style="padding:3px 7px;font-size:9px">+ Finding</button>
+  </div>
+  <div class="card lnc" style="padding:8px;margin-bottom:5px">
+    <div style="display:flex;gap:3px;margin-bottom:4px;flex-wrap:wrap"><span class="badge br">NC</span><span class="badge br">Major</span><span class="badge bs">7.5.3</span><span class="badge bp">CAR Opened</span></div>
+    <div style="font-size:10px;color:#374151">พบการใช้เอกสาร QP-2301-0107 ฉบับเก่า (Rev.1.0) ในภาคเครื่องกล...</div>
+    <div style="font-size:9px;color:#94a3b8;margin-top:3px">📄 QP-2301-0107 · 📎 รูปถ่ายเอกสาร</div>
+  </div>
+  <div class="card lofi" style="padding:8px">
+    <div style="display:flex;gap:3px;margin-bottom:4px"><span class="badge ba">OFI</span><span class="badge bs">7.5.2</span><span class="badge ba">Open</span></div>
+    <div style="font-size:10px;color:#374151">กระบวนการรับทราบเอกสารยังไม่มีระบบติดตามที่ชัดเจน</div>
+    <div style="display:flex;justify-content:flex-end;margin-top:4px"><button class="mb" style="background:#f59e0b;padding:2px 7px;font-size:9px">🔧 เปิด CAR</button></div>
+  </div>
+</div></div>`},
+
+{id:'UI-B03',name:'CAR List / Detail',sub:'Create from Finding · RCA · Evidence · Verify · Close / Reopen',group:'groupb',uc:'UC-B04, UC-B05, UC-B06',
+ fr:['FR-B06','FR-B07','FR-B08','FR-B10'],nfr:['NFR-02'],
+ actors:['ACT-04','ACT-05','ACT-06'],
+ api:['POST /cars','PATCH /cars/{id}','POST /cars/{id}/evidence','POST /cars/{id}/close','POST /cars/{id}/reopen'],
+ entities:['CAR','Finding','VerificationLog','AuditTrail'],
+ tc:'TC-B04, TC-B05, TC-B06',sc:['SC-B04-01','SC-B04-02','SC-B05-01','SC-B05-02','SC-B06-01','SC-B06-02'],
+ to:['UI-B04'],
+ mockup:`<div class="mm">
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px">
+  ${[['Open','1','#f97316'],['In Prog.','1','#8b5cf6'],['Overdue','1','#ef4444'],['Closed','1','#059669']].map(([l,v,c])=>`<div style="background:${c}10;border:1px solid ${c}30;border-radius:5px;padding:5px;text-align:center"><div style="font-size:15px;font-weight:800;color:${c}">${v}</div><div style="font-size:8px;color:#64748b">${l}</div></div>`).join('')}
+</div>
+${[['CAR-2567-001','QP-2301-0107','Closed','#059669','อ.ธนิต','Closed'],
+   ['CAR-2567-002','SD-2301-001','Overdue','#ef4444','ผศ.นิรมล','⚠ เลย 20 วัน'],
+   ['CAR-2567-003','QP-2301-0102','In Progress','#8b5cf6','อ.วิชัย','เหลือ 30 วัน']].map(([no,doc,st,col,own,days])=>`
+<div class="card lcar" style="border-left-color:${col};padding:8px;margin-bottom:5px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+    <div style="display:flex;gap:5px;align-items:center">
+      <span style="font-family:monospace;font-size:10px;font-weight:700;color:#7c3aed">${no}</span>
+      <span style="font-family:monospace;font-size:9px;color:#2463d9;background:#eff6ff;padding:1px 5px;border-radius:3px">${doc}</span>
+    </div>
+    <span class="badge" style="background:${col}18;color:${col}">${st}</span>
+  </div>
+  <div style="display:flex;gap:12px;font-size:9px;color:#94a3b8"><span>👤 ${own}</span><span style="color:${col.includes('ef')? '#ef4444':'inherit'}">${days}</span></div>
+</div>`).join('')}</div>`},
+
+{id:'UI-B04',name:'Overdue Monitor',sub:'CAR เกินกำหนด — due_date < today และ status ≠ Closed',group:'groupb',uc:'UC-B07',
+ fr:['FR-B09','FR-B13'],nfr:['NFR-04'],
+ actors:['ACT-04','ACT-06'],
+ api:['GET /cars?status=overdue'],
+ entities:['CAR'],
+ tc:'TC-B07',sc:['SC-B07-01'],
+ to:[],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">CAR Management</div></div>
+<div class="mtabs"><div class="mtab">ทั้งหมด (3)</div><div class="mtab">ของฉัน (1)</div><div class="mtab on">Overdue <span class="badge br" style="margin-left:4px;font-size:8px">1</span></div></div>
+<div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:6px;padding:7px;margin-bottom:8px;font-size:10px;color:#dc2626">⚠ พบ <strong>1</strong> รายการที่เลยกำหนด — กรุณาดำเนินการโดยด่วน</div>
+<div class="card lover" style="padding:9px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+    <div style="flex:1">
+      <div style="display:flex;gap:5px;align-items:center;margin-bottom:4px">
+        <span style="font-family:monospace;font-size:10px;font-weight:700;color:#7c3aed">CAR-2567-002</span>
+        <span style="font-family:monospace;font-size:9px;color:#2463d9;background:#eff6ff;padding:1px 5px;border-radius:3px">SD-2301-001</span>
+        <span class="badge br">Overdue</span>
+      </div>
+      <div style="font-size:10px;color:#374151;margin-bottom:3px">Finding F003: ไม่พบบันทึกผลการ Review เอกสาร SD-2301-001 ก่อน Publish</div>
+      <div style="display:flex;gap:10px;font-size:9px;color:#94a3b8"><span>👤 ผศ.นิรมล</span><span style="color:#ef4444;font-weight:700">📅 เลยมา 20 วัน</span></div>
+    </div>
+    <div style="font-size:11px;font-weight:800;color:#ef4444;flex-shrink:0">OVERDUE</div>
+  </div>
+  <div style="margin-top:6px;background:#fff;border:1px solid #fca5a5;border-radius:4px;padding:6px;font-size:9px;color:#94a3b8">Root Cause: ยังไม่ได้ดำเนินการ — ต้องกรอก root cause และ corrective action</div>
+  <div style="display:flex;justify-content:flex-end;margin-top:5px"><button class="mb" style="background:#ef4444;padding:3px 10px;font-size:9px">ดำเนินการด่วน</button></div>
+</div>
+<div style="text-align:center;padding:10px;color:#94a3b8;font-size:10px">✅ ไม่มี CAR อื่นที่เลยกำหนด</div></div>`},
+
+// ── SHARED (ต่อ) ──────────────────────────────────────────────────────────────
+{id:'UI-S02',name:'User Management',sub:'User · Role · Department — RBAC',group:'shared',uc:'UC-S02',
+ fr:['FR-SH02','FR-SH03','FR-SH05'],nfr:['NFR-01'],
+ actors:['ACT-07','ACT-04'],
+ api:['GET /users','POST /users','PATCH /users/{id}/roles'],
+ entities:['User','Role','Department'],
+ tc:'TC-S02',sc:['SC-S02-01'],
+ to:['UI-S03'],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">User Management</div><button class="mb">+ เพิ่มผู้ใช้</button></div>
+<table>
+  <tr><th>ผู้ใช้</th><th>อีเมล</th><th>Role</th><th>หน่วยงาน</th><th></th></tr>
+  ${[['ส','ผศ.ดร.สมศักดิ์','somsak@...','ISO/QA Admin','#2463d9'],
+     ['ว','อ.วิชัย','wichai@...','Document Owner','#7c3aed'],
+     ['น','ผศ.นิรมล','niramon@...','Approver','#059669'],
+     ['พ','นางสาวพรทิพย์','pornthip@...','Auditor','#f59e0b'],
+     ['ธ','อ.ธนิต','thanit@...','CAR Owner','#ef4444']].map(([av,name,email,role,col])=>`
+  <tr>
+    <td><div style="display:flex;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:50%;background:${col};color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${av}</div><span style="font-size:10px;font-weight:600">${name}</span></div></td>
+    <td style="font-size:9px;color:#94a3b8">${email}</td>
+    <td><span class="badge" style="background:${col}18;color:${col}">${role}</span></td>
+    <td style="font-size:9px">สำนักงานคณบดี</td>
+    <td><button style="padding:2px 6px;border:1px solid #e2e8f0;border-radius:3px;font-size:9px;background:#fff;cursor:pointer">แก้ไข</button></td>
+  </tr>`).join('')}
+</table></div>`},
+
+{id:'UI-S03',name:'Audit Trail Viewer',sub:'Who · What · When — ประวัติทุก Event ในระบบ',group:'shared',uc:'UC-S03',
+ fr:['FR-SH04'],nfr:['NFR-02'],
+ actors:['ACT-04','ACT-05','ACT-07'],
+ api:['GET /audit-trails'],
+ entities:['AuditTrail'],
+ tc:'TC-S03',sc:['SC-S03-01'],
+ to:[],
+ mockup:`<div class="mm">
+<div class="mh"><div class="mt">Audit Trail</div></div>
+<input placeholder="🔍 ค้นหา action, actor, รายละเอียด..." readonly/>
+<div style="position:relative">
+  <div style="position:absolute;left:10px;top:0;bottom:0;width:2px;background:#e2e8f0;z-index:0"></div>
+  ${[['🚀','PUBLISH','#059669','ผศ.ดร.สมศักดิ์','Publish QP-2301-0107 v1.2 เป็น current version','58 วันที่แล้ว'],
+     ['✅','APPROVE DAR','#059669','ผศ.นิรมล','Approve DAR-2567-001 สำหรับ QP-2301-0107','55 วันที่แล้ว'],
+     ['✓','CLOSE CAR','#059669','นางสาวพรทิพย์','Verify และ Close CAR-2567-001 — หลักฐานครบถ้วน','42 วันที่แล้ว'],
+     ['🔍','CREATE FINDING','#ef4444','นางสาวพรทิพย์','บันทึก NC Major — Internal Audit 1/2567','70 วันที่แล้ว'],
+     ['🔧','OPEN CAR','#f97316','ผศ.ดร.สมศักดิ์','Open CAR-2567-001 จาก Finding F001','68 วันที่แล้ว']].map(([ic,act,col,actor,detail,time])=>`
+  <div style="display:flex;gap:8px;margin-bottom:7px;position:relative;z-index:1">
+    <div style="width:20px;height:20px;border-radius:50%;background:#fff;border:2px solid ${col};display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0">${ic}</div>
+    <div style="flex:1;background:#f8fafc;border-radius:5px;padding:5px 8px;border:1px solid #e2e8f0">
+      <div style="display:flex;gap:5px;align-items:center;margin-bottom:2px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;background:${col}18;color:${col};padding:1px 6px;border-radius:4px">${act}</span>
+        <span style="font-size:9px;font-weight:600;color:#374151">${actor}</span>
+        <span style="font-size:9px;color:#94a3b8;margin-left:auto">${time}</span>
+      </div>
+      <div style="font-size:9px;color:#475569">${detail}</div>
+    </div>
+  </div>`).join('')}
+</div></div>`},
+];
+
+// ── Render ────────────────────────────────────────────────────────────────────
+const app = document.getElementById('app');
+let lastGroup = null;
+const FLOWS = [
+  {from:'UI-S01',to:'UI-A01',label:'Login สำเร็จ → เข้าสู่ Dashboard → Documents'},
+  {from:'UI-A01',to:'UI-A02',label:'+ สร้างเอกสารใหม่'},
+  {from:'UI-A01',to:'UI-A03',label:'คลิกแถวเอกสาร → Document Detail (Info / Versions / DAR / ACK)'},
+  {from:'UI-A02',to:'UI-A03',label:'Save Draft → Document Detail'},
+  {from:'UI-A03',to:'UI-A04',label:'กด + DAR → สร้าง Document Action Request'},
+  {from:'UI-A04',to:'UI-A05',label:'Submit DAR → เข้า Approval Queue'},
+  {from:'UI-A05',to:'UI-A03',label:'Approve / Reject → Document status เปลี่ยน → กลับ Detail'},
+  {from:'UI-A03',to:'UI-A06',label:'Publish แล้ว → ผู้เกี่ยวข้อง Acknowledge'},
+  {from:'UI-A06',to:'INT-A08',label:'ACK Summary พร้อม → ส่งผ่าน Integration API'},
+  {from:'INT-A08',to:'UI-B05',label:'Document Summary + ACK Rate → Group B Dashboard'},
+  {from:'UI-B05',to:'UI-B01',label:'Drill-down → Records & Evidence'},
+  {from:'UI-B01',to:'UI-B02',label:'Evidence ผูกกับ Finding / Audit Session'},
+  {from:'UI-B02',to:'UI-B03',label:'NC Finding → เปิด CAR'},
+  {from:'UI-B03',to:'UI-B04',label:'Monitor Overdue CARs'},
+  {from:'UI-S01',to:'UI-S02',label:'IT/Admin Login → User Management'},
+  {from:'UI-S02',to:'UI-S03',label:'Admin / ISO Admin → Audit Trail Viewer'},
+];
+
+function getFlow(fromId, toId) {
+  return FLOWS.find(f => f.from===fromId && f.to===toId);
+}
+
+SCREENS.forEach((s, i) => {
+  const g = s.group;
+
+  // Lane separator
+  if (g !== lastGroup) {
+    const labels = {shared:'⬡ SHARED — Login / User Management / Audit Trail',groupa:'▦ GROUP A — Document Control / DAR / Publication / Acknowledgement',groupb:'▦ GROUP B — Records / Audit / Finding / CAR / Dashboard',integ:'↕ INTEGRATION — Group A → Group B API Contract'};
+    const sep = document.createElement('div');
+    sep.className = `lane-sep lane-${g}`;
+    sep.innerHTML = `<div class="lane-line"></div><div class="lane-label">${labels[g]||g}</div><div class="lane-line"></div>`;
+    app.appendChild(sep);
+    lastGroup = g;
+  }
+
+  // Flow connector from previous screen
+  if (i > 0) {
+    const prev = SCREENS[i-1];
+    const flow = getFlow(prev.id, s.id);
+    if (flow) {
+      const fc = document.createElement('div');
+      fc.className = 'flow-arrow';
+      fc.innerHTML = `<hr/><span style="white-space:nowrap">↓ ${flow.label} ↓</span><hr/>`;
+      app.appendChild(fc);
+    } else {
+      const fc = document.createElement('div');
+      fc.style.cssText = 'height:10px';
+      app.appendChild(fc);
+    }
+  }
+
+  // Build card
+  const color = GC[g]||'#94a3b8';
+  const card = document.createElement('div');
+  card.className = `scard ${g}`;
+  card.id = s.id;
+
+  const actors = (s.actors||[]).map(a=>`<span class="pill p-actor">${AN[a]||a}</span>`).join('');
+  const frs = (s.fr||[]).map(f=>`<span class="pill p-fr">${f}</span>`).join('');
+  const nfrs = (s.nfr||[]).map(f=>`<span class="pill p-nfr">${f}</span>`).join('');
+  const apis = (s.api||[]).map(a=>`<span class="api-line">${a}</span>`).join('');
+  const ents = (s.entities||[]).map(e=>`<span class="etag">${e}</span>`).join('');
+  const scs = (s.sc||[]).map(x=>`<span class="pill p-sc">${x}</span>`).join('');
+  const tos = (s.to||[]).map(t=>`<span class="pill p-flow">→ ${t}</span>`).join('');
+
+  const gbClass = {shared:'gb-shared',groupa:'gb-groupa',groupb:'gb-groupb',integ:'gb-integ'}[g]||'gb-shared';
+
+  card.innerHTML = `
+  <div class="scard-accent"></div>
+  <div class="mock-panel">
+    <div class="browser">
+      <div class="bchrome">
+        <div style="display:flex;gap:4px"><div class="bdot" style="background:#ef4444"></div><div class="bdot" style="background:#f59e0b"></div><div class="bdot" style="background:#22c55e"></div></div>
+        <div class="burl">localhost:3000/${s.id.toLowerCase()}</div>
+      </div>
+      <div class="bcontent">${s.mockup||''}</div>
+    </div>
+  </div>
+  <div class="info-panel">
+    <div class="info-top">
+      <div>
+        <div class="sid" style="color:${color}">${s.id}</div>
+        <div class="sname">${s.name}</div>
+        <div class="ssub">${s.sub}</div>
+      </div>
+      <span class="grp-badge ${gbClass}">${GL[g]||g}</span>
+    </div>
+    <div class="irow"><div class="ilabel">Use Case</div><div class="uc-val" style="color:${color}">${s.uc}</div></div>
+    <div class="irow"><div class="ilabel">Actors</div><div class="pills">${actors}</div></div>
+    <div class="irow"><div class="ilabel">Functional Requirements</div><div class="pills">${frs}${nfrs}</div></div>
+    <div class="irow"><div class="ilabel">API Endpoints</div><div>${apis}</div></div>
+    <div class="irow"><div class="ilabel">Main Entities</div><div>${ents}</div></div>
+    ${s.tc?`<div class="irow"><div class="ilabel">Test Case & Scenarios</div><div class="pills"><span class="pill p-tc">🧪 ${s.tc}</span>${scs}</div></div>`:''}
+    ${tos?`<div class="irow"><div class="ilabel">Flow ไปยัง</div><div class="pills">${tos}</div></div>`:''}
+  </div>`;
+
+  app.appendChild(card);
+});
+
+// Footer
+const footer = document.createElement('div');
+footer.style.cssText = 'text-align:center;padding:40px 32px;color:#94a3b8;font-size:12px;border-top:1px solid #e2e8f0;margin-top:28px';
+footer.innerHTML = 'ISO E-Filing Phase 1 MVP · SRS v3.0 · Traceability Matrix v1.0 · 14 Screens + Integration Node · คณะวิศวกรรมศาสตร์ มทร.ล้านนา';
+app.appendChild(footer);
+</script>
+</body>
+</html>

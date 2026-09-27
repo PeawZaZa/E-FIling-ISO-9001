@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>ภาพรวมการปรับความสอดคล้อง SRS | E-Filing ISO 9001</title>
+  <style>
+    :root {
+      --navy: #17324d;
+      --blue: #315f89;
+      --ink: #213246;
+      --muted: #596c7e;
+      --line: #d5e0e9;
+      --surface: #ffffff;
+      --ground: #f4f7fa;
+      --pale: #eaf1f7;
+      --amber: #825d1c;
+      --amber-pale: #fff7e7;
+      --green: #28634c;
+      --green-pale: #e8f3ed;
+      --red: #874b44;
+      --red-pale: #f8eeed;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ground);
+      color: var(--ink);
+      font-family: "Sarabun", "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    a { color: var(--blue); }
+    a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+    .wrap { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+    .topbar { background: var(--navy); color: #fff; border-bottom: 4px solid #8eafc7; }
+    .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding-block: 14px; }
+    .project-mark { font-size: .85rem; font-weight: 700; letter-spacing: .02em; }
+    .topbar nav { display: flex; gap: 17px; flex-wrap: wrap; }
+    .topbar a { color: #e5eef6; text-decoration: none; font-size: .82rem; }
+    .topbar a:hover { text-decoration: underline; }
+    main { padding-block: 30px 56px; }
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-top: 5px solid var(--navy);
+      padding: 33px 38px 29px;
+      box-shadow: 0 3px 14px rgba(26, 53, 78, .05);
+    }
+    .hero-top { display: flex; gap: 18px; justify-content: space-between; align-items: flex-start; }
+    .edition { margin: 0 0 8px; color: var(--blue); font-size: .86rem; font-weight: 700; }
+    h1 { margin: 0; max-width: 840px; color: var(--navy); font-size: clamp(1.75rem, 3.2vw, 2.65rem); line-height: 1.32; }
+    .subtitle { margin: 10px 0 0; font-size: 1.12rem; font-weight: 700; color: var(--blue); }
+    .hero p.lead { max-width: 920px; margin: 20px 0 0; font-size: 1.02rem; }
+    .status-box { flex: 0 0 226px; padding: 13px 16px; border: 1px solid #bfd3e1; background: var(--pale); font-size: .86rem; line-height: 1.5; }
+    .status-box strong { display: block; color: var(--navy); margin-bottom: 3px; }
+    .status-box span { display: block; }
+    .hero-note { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; }
+    section { margin-top: 38px; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 15px; border-bottom: 2px solid var(--line); }
+    h2 { margin: 0 0 10px; color: var(--navy); font-size: clamp(1.3rem, 2.3vw, 1.65rem); line-height: 1.35; }
+    h3 { color: var(--navy); font-size: 1.06rem; line-height: 1.45; margin: 0 0 9px; }
+    p { margin: 0 0 10px; }
+    .section-note { margin: 0 0 17px; color: var(--muted); max-width: 900px; }
+    .flow { display: grid; grid-template-columns: 1fr 34px 1fr 34px 1fr; align-items: stretch; gap: 8px; }
+    .flow article { background: #fff; border: 1px solid var(--line); padding: 19px 20px 16px; min-height: 185px; }
+    .flow article.current { border-color: #9bb8cc; border-top: 4px solid var(--blue); }
+    .flow .arrow { align-self: center; text-align: center; color: var(--blue); font-size: 1.6rem; font-weight: 700; }
+    .flow .stage { color: var(--blue); font-weight: 700; font-size: .8rem; margin: 0 0 6px; }
+    .flow ul, .card ul, .attention ul, .next-detail ul { margin: 0; padding-left: 20px; }
+    li + li { margin-top: 4px; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card { background: var(--surface); border: 1px solid var(--line); padding: 20px 21px; }
+    .card h3 { padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+    .card p { margin: 0 0 10px; }
+    .metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .metric { background: var(--surface); border: 1px solid var(--line); padding: 14px 19px; }
+    .metric strong { display: block; color: var(--navy); font-size: 1.7rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
+    .metric span { display: block; font-size: .88rem; color: var(--muted); }
+    .acceptance { margin-top: 14px; background: var(--surface); border: 1px solid var(--line); padding: 18px 20px; }
+    .acceptance-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .acceptance-head h3 { margin-bottom: 8px; }
+    .acceptance-head small { color: var(--muted); }
+    .result-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 4px 0 13px; }
+    .result { padding: 9px 12px; border: 1px solid var(--line); background: var(--ground); }
+    .result b { display: block; color: var(--navy); font-size: 1.35rem; line-height: 1.25; font-variant-numeric: tabular-nums; }
+    .result span { color: var(--muted); font-size: .76rem; font-weight: 700; }
+    .result.pass { border-color: #b7d7c3; background: var(--green-pale); }
+    .result.blocked { border-color: #ebd9b1; background: var(--amber-pale); }
+    .result-note { font-size: .9rem; margin: 0; }
+    .split { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; }
+    .attention, .draft-reason { padding: 20px 22px; border: 1px solid var(--line); background: var(--surface); }
+    .attention { border-left: 4px solid var(--amber); background: var(--amber-pale); }
+    .attention h3 { color: #604515; }
+    .draft-reason { border-left: 4px solid var(--blue); }
+    .small { font-size: .9rem; }
+    .trace { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px; margin: 18px 0 17px; }
+    .trace-item { position: relative; display: flex; align-items: center; justify-content: center; min-height: 72px; padding: 9px; border: 1px solid #aebfd0; background: #fff; color: var(--navy); text-align: center; line-height: 1.35; font-size: .85rem; font-weight: 700; }
+    .trace-item:not(:last-child)::after { content: "›"; position: absolute; left: calc(100% + 1px); width: 9px; color: var(--blue); font-size: 1.25rem; font-weight: 700; z-index: 1; }
+    .next-detail { background: var(--pale); border: 1px solid #c5d8e5; padding: 18px 21px; }
+    .next-detail p:last-child { margin-bottom: 0; }
+    .status-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 12px 0 10px; }
+    .status-list span, .badge { display: inline-block; padding: 4px 9px; border: 1px solid; font-size: .74rem; line-height: 1.25; font-weight: 700; letter-spacing: .015em; }
+    .confirmed { color: var(--blue); background: var(--pale); border-color: #aec9dc !important; }
+    .verified { color: var(--green); background: var(--green-pale); border-color: #a7ceb4 !important; }
+    .deferred { color: var(--muted); background: #eef1f4; border-color: #cbd5dd !important; }
+    .tbd, .blocked { color: var(--amber); background: var(--amber-pale); border-color: #e6d3a8 !important; }
+    .script { background: #fff; border: 1px solid var(--line); padding: 24px 28px; max-width: 970px; }
+    .script p { margin: 0; }
+    .script p + p { margin-top: 14px; }
+    footer { border-top: 1px solid var(--line); padding: 20px 0 35px; color: var(--muted); font-size: .78rem; }
+    footer p { margin-bottom: 5px; }
+    footer a { color: inherit; }
+
+    @media (max-width: 850px) {
+      .hero-top { display: block; }
+      .status-box { max-width: 390px; margin-top: 18px; }
+      .flow { grid-template-columns: 1fr; }
+      .flow article { min-height: 0; }
+      .flow .arrow { transform: rotate(90deg); height: 26px; line-height: 20px; }
+      .cards, .split { grid-template-columns: 1fr; }
+      .trace { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .trace-item:nth-child(4)::after { content: none; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, 1160px); }
+      .topbar-inner { display: block; }
+      .topbar nav { margin-top: 6px; gap: 7px 13px; }
+      .hero { padding: 23px 20px; }
+      main { padding-top: 16px; }
+      section { margin-top: 30px; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .metric:last-child { grid-column: 1 / -1; }
+      .result-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .trace { grid-template-columns: 1fr; gap: 18px; }
+      .trace-item { min-height: 52px; }
+      .trace-item:not(:last-child)::after { content: "⌄"; left: 0; top: calc(100% + 1px); width: 100%; line-height: 16px; }
+      .script { padding: 20px; }
+    }
+    @media print {
+      :root { --ground: #fff; }
+      html { scroll-behavior: auto; }
+      body { font-size: 10pt; }
+      .wrap { width: 100%; }
+      .topbar { border-bottom: 2px solid var(--navy); background: #fff; color: var(--navy); }
+      .topbar nav { display: none; }
+      main { padding: 14px 0; }
+      section { margin-top: 19px; break-inside: avoid; }
+      .hero, .card, .metric, .acceptance, .attention, .draft-reason, .script { box-shadow: none; }
+      .hero { padding: 16px 20px; }
+      .flow article { min-height: 0; }
+      .card, .flow article, .metric, .attention, .draft-reason, .script, .next-detail { break-inside: avoid; }
+      h1 { font-size: 20pt; }
+      h2 { font-size: 14pt; }
+      .trace-item { min-height: 55px; }
+      footer { padding-bottom: 0; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="project-mark">E-Filing ISO 9001 · ภาพรวม SRS เพื่อหารือกับอาจารย์ที่ปรึกษา</div>
+      <nav aria-label="ข้ามไปยังหัวข้อ">
+        <a href="#journey">ที่มา</a><a href="#changes">สิ่งที่ปรับ</a><a href="#evidence">สถานะปัจจุบัน</a><a href="#open">ประเด็นค้าง</a><a href="#next">งานถัดไป</a><a href="#script">สคริปต์</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <div class="hero-top">
+        <div>
+          <p class="edition">เอกสาร SRS · Version 1.2</p>
+          <h1>สรุปการปรับความสอดคล้องข้อกำหนดกับระบบ E-Filing ISO 9001</h1>
+          <p class="subtitle">Working Draft — Implementation Reconciled</p>
+        </div>
+        <div class="status-box" aria-label="สถานะเอกสาร">
+          <strong>สถานะปัจจุบัน: ฉบับร่าง</strong>
+          <span>ยังไม่เป็น Baseline Candidate</span>
+          <span>ยังไม่เป็น Approved Baseline</span>
+          <span>ยังไม่ใช่ผลยอมรับโดยผู้ใช้จริงขั้นสุดท้าย</span>
+        </div>
+      </div>
+      <p class="lead">ตรวจเทียบ SRS กับเอกสารต้นทาง มติที่ยืนยันแล้ว ขอบเขต MVP และหลักฐานจากระบบ/การทดสอบ โดยคงข้อกำหนดที่ยืนยันแล้วไว้ หากระบบยังไม่ตรง ให้บันทึกเป็น <strong>implementation discrepancy</strong> ไม่แก้ข้อกำหนดตามโค้ด</p>
+      <p class="hero-note">ยังต้องให้อาจารย์ที่ปรึกษา เจ้าของโครงงาน และผู้ใช้ทบทวนประเด็นนโยบาย ขอบเขต และผลประเมินจริงก่อนกำหนด baseline</p>
+    </div>
+
+    <section id="journey" aria-labelledby="journey-title">
+      <div class="section-head"><h2 id="journey-title">จากร่างเดิมสู่ฉบับที่ตรวจสอบย้อนกลับได้</h2></div>
+      <div class="flow" aria-label="ก่อนปรับ เทียบความสอดคล้อง และสถานะปัจจุบัน">
+        <article>
+          <p class="stage">BEFORE · ก่อนปรับ</p>
+          <h3>ข้อความและขอบเขตยังปะปน</h3>
+          <ul><li>มีถ้อยคำเดิมหรือข้อสมมติชั่วคราวบางจุด</li><li>เป้าหมายโครงงานเต็มกับขอบเขต MVP ต้องแยกให้ชัด</li><li>การสร้าง SRS ฉบับรวมเคยมีความเสี่ยงที่รายละเอียด UC ถูกตัดทอน</li></ul>
+        </article>
+        <div class="arrow" aria-hidden="true">→</div>
+        <article>
+          <p class="stage">RECONCILIATION · ตรวจเทียบ</p>
+          <h3>ยึดอำนาจของแหล่งข้อมูล</h3>
+          <ul><li>เทียบเอกสารต้นทาง มติ MVP และเป้าหมายบทที่ 1</li><li>ใช้ระบบและผลทดสอบเป็นหลักฐานของพฤติกรรม</li><li>คง TBD และแยกสิ่งที่ระบบยังไม่ตรงเป็น discrepancy</li></ul>
+        </article>
+        <div class="arrow" aria-hidden="true">→</div>
+        <article class="current">
+          <p class="stage">CURRENT · ปัจจุบัน</p>
+          <h3>Version 1.2 · Working Draft</h3>
+          <ul><li>มี §1–§6, Appendix A–F และ UC ครบ 28/28</li><li>รักษารหัสและสายโยงข้อกำหนด/เกณฑ์ยอมรับ</li><li>ตัวสร้างตรวจความครบถ้วนก่อนเขียนไฟล์ และสร้างซ้ำได้ผลตรงกัน</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="changes" aria-labelledby="changes-title">
+      <div class="section-head"><h2 id="changes-title">แก้อะไรไปบ้าง</h2></div>
+      <div class="cards">
+        <article class="card">
+          <h3>ความครบถ้วนเชิงโครงสร้าง</h3>
+          <p>คืนรายละเอียด UC ให้มีผู้แสดง เป้าหมาย เงื่อนไขก่อน/หลัง ขั้นตอนหลัก ทางเลือกและข้อยกเว้น พร้อมสายโยง Requirement และ AC</p>
+          <ul><li>ครบ §1–§6 และ Appendix A–F</li><li>28/28 Use Cases มีโครงสร้างครบ</li><li>ตัวตรวจการสร้างไฟล์ปฏิเสธ SRS ที่ขาด/ถูกตัดทอน</li></ul>
+        </article>
+        <article class="card">
+          <h3>ความสอดคล้องกับมติ MVP</h3>
+          <p><span class="badge confirmed">CONFIRMED</span> QMR อนุมัติแผน CAR/NCR ในระบบทดลอง โดยผู้จัดทำไม่อนุมัติแผนตนเอง; ขั้นปัจจุบันจบที่ <strong>PENDING_CLOSURE</strong></p>
+          <p>เอกสาร PDF ใช้การดาวน์โหลดตามสิทธิ์; การรับทราบต้องยืนยันแยกจากการดาวน์โหลด; Dashboard กรองตามบทบาท และ Sponsor เห็นภาพรวมเท่านั้น</p>
+          <p class="small"><span class="badge tbd">TBD</span> อำนาจปิด CAR/NCR และผู้ตรวจแทนกรณี DCC เป็นผู้แจ้ง Finding ยังไม่ยุติ</p>
+        </article>
+        <article class="card">
+          <h3>แยกขอบเขตและสถานะให้ชัด</h3>
+          <p>คงเป้าหมายโครงงานระยะเต็มไว้ แต่ระบุส่วนที่เป็น MVP ส่วนที่พักไว้ และเรื่องที่ยังรอมติแยกกัน</p>
+          <ul><li><span class="badge deferred">DEFERRED</span> เช่น export และตัวชี้วัด Dashboard ขั้นสูง ไม่ถือว่าผ่าน MVP</li><li>เรื่องอำนาจที่ยังไม่ตัดสินเป็น TBD</li><li>ข้อกำหนดที่ยืนยันแล้วแต่ระบบยังไม่ตรง ถูกบันทึกเป็น discrepancy</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="evidence" aria-labelledby="evidence-title">
+      <div class="section-head"><h2 id="evidence-title">สถานะเอกสารและหลักฐานการทดสอบ UI</h2></div>
+      <div class="metrics" aria-label="ความครบถ้วนของ SRS">
+        <div class="metric"><strong>28 / 28</strong><span>Use Cases มีโครงสร้างครบ</span></div>
+        <div class="metric"><strong>§1–§6</strong><span>ส่วนหลักครบ</span></div>
+        <div class="metric"><strong>A–F</strong><span>ภาคผนวกครบ</span></div>
+      </div>
+      <div class="acceptance">
+        <div class="acceptance-head"><h3>Manual UI Acceptance <span class="badge verified">VERIFIED</span></h3><small>40 สถานการณ์ · ACCEPT WITH OBSERVATIONS</small></div>
+        <div class="result-grid" aria-label="ผลการทดสอบ UI">
+          <div class="result pass"><b>136</b><span>PASS</span></div>
+          <div class="result"><b>0</b><span>FAIL</span></div>
+          <div class="result blocked"><b>3</b><span>BLOCKED</span></div>
+          <div class="result"><b>0</b><span>NOT RUN</span></div>
+          <div class="result"><b>139</b><span>TOTAL</span></div>
+        </div>
+        <p class="result-note"><span class="badge blocked">BLOCKED</span> TC-093–095 ขาดคู่ข้อมูลทดสอบที่ผู้ตรวจสังกัดกลุ่มเป้าหมายเดียวกัน จึงยังตรวจกรณี conflict/waiver ไม่ได้; ไม่ใช่ผล FAIL ของแอปพลิเคชัน <strong>Manual UI Acceptance ไม่เท่ากับการยอมรับขั้นสุดท้ายโดยผู้ใช้จริง</strong></p>
+      </div>
+    </section>
+
+    <section id="open" aria-labelledby="open-title">
+      <div class="section-head"><h2 id="open-title">เรื่องที่ยังต้องหารือก่อนกำหนด baseline</h2></div>
+      <div class="split">
+        <div class="attention">
+          <h3>ประเด็นอำนาจและขอบเขตที่ยังเปิดอยู่ <span class="badge tbd">TBD</span></h3>
+          <ul>
+            <li>ผู้มีอำนาจปิด CAR/NCR ขั้นสุดท้าย จำนวนผู้ลงนาม และทางส่งกลับจากขั้นปิดยังต้องยืนยัน</li>
+            <li>ผู้ตรวจประสิทธิผลแทนเมื่อ DCC เป็นผู้แจ้ง Finding ยังต้องยืนยัน; กรณีนี้พักที่ PENDING_VERIFICATION</li>
+            <li>ถ้อยคำเป้าหมาย/บทบาทในบทที่ 1 ที่กว้างกว่า MVP ต้องทบทวนกับอาจารย์และเจ้าของโครงงาน</li>
+          </ul>
+        </div>
+        <div class="draft-reason">
+          <h3>เหตุใดจึงยังเป็น Working Draft</h3>
+          <p>ความครบถ้วนของโครงสร้างเอกสารไม่ใช่การอนุมัติข้อกำหนด ยังมีมตินโยบายและอำนาจที่เปิดอยู่ และต้องทบทวนกับอาจารย์ เจ้าของโครงงาน และผู้ใช้</p>
+          <p class="small">ผลทดสอบ UI มี 3 กรณี BLOCKED; ยังมี implementation discrepancies ที่ต้องแก้หรือรับมติเปลี่ยนข้อกำหนดอย่างเป็นทางการ และยังไม่มีการประเมินโดยผู้ใช้จริงขั้นสุดท้าย</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="next" aria-labelledby="next-title">
+      <div class="section-head"><h2 id="next-title">งานถัดไปตามคำแนะนำอาจารย์: สอบกลับทั้ง 28 Use Cases</h2></div>
+      <p class="section-note">ตรวจทีละ UC ว่าข้อกำหนดโยงถึงขั้นตอนที่ผู้ใช้ทำ หน้าจอ ข้อมูล เกณฑ์ยอมรับ และหลักฐานระบบจริงได้ครบเพียงใด</p>
+      <div class="trace" aria-label="สายการสอบกลับ">
+        <div class="trace-item">Requirement<br> / Business Rule</div>
+        <div class="trace-item">Use Case</div>
+        <div class="trace-item">Use Case<br>Steps</div>
+        <div class="trace-item">UI / Page</div>
+        <div class="trace-item">Data / ERD</div>
+        <div class="trace-item">Acceptance<br>Criteria</div>
+        <div class="trace-item">Implementation<br> / Test Result</div>
+      </div>
+      <div class="next-detail">
+        <p>ผลตรวจแต่ละ UC จะระบุหน้าจอและขั้นตอนที่รองรับ entity/table/relationship ที่เกี่ยวข้อง เกณฑ์ยอมรับ และผลการทดสอบ โดยจัดสถานะเป็น:</p>
+        <div class="status-list" aria-label="สถานะที่จะใช้จำแนก Use Case">
+          <span class="verified">Implemented + Verified</span>
+          <span class="confirmed">Implemented but Partially Verified</span>
+          <span class="confirmed">Partially Implemented</span>
+          <span class="deferred">Deferred / Out of MVP</span>
+          <span class="tbd">Blocked by TBD</span>
+        </div>
+        <p>ตารางสอบกลับนี้จะเป็นหลักฐานหลักสำหรับเขียนบทที่ 4–5; สถานะข้างต้นเป็นเกณฑ์ที่จะใช้ตรวจ ไม่ใช่ผลสรุปล่วงหน้าของทั้ง 28 UC</p>
+      </div>
+    </section>
+
+    <section id="script" aria-labelledby="script-title">
+      <div class="section-head"><h2 id="script-title">สคริปต์สรุปสำหรับอธิบายอาจารย์</h2></div>
+      <div class="script">
+        <p>“อาจารย์ครับ/ค่ะ พวกเรากลับมาตรวจ SRS อีกครั้ง เพราะเมื่อระบบต้นแบบและการทดสอบ UI คืบหน้าแล้ว พบว่าข้อความบางส่วนใน SRS เดิมยังเป็นข้อสมมติ หรือใช้ขอบเขตของโครงงานเต็มกับ MVP ปะปนกัน อีกทั้งเอกสารฉบับรวมเคยมีความเสี่ยงที่รายละเอียด Use Case ถูกตัดทอน จึงต้องตรวจทั้งเนื้อหาและกระบวนการสร้างเอกสารให้เชื่อถือได้ครับ/ค่ะ</p>
+        <p>การปรับครั้งนี้ไม่ได้เปลี่ยนข้อกำหนดเพียงเพื่อให้ตรงกับโค้ด เราเทียบเอกสารต้นทาง มติที่ยืนยันแล้ว และขอบเขต MVP กับหลักฐานจากระบบและผลทดสอบ แล้วแยกสิ่งที่ยังไม่ตรงเป็น implementation discrepancy ส่วนเรื่องที่ยังไม่มีผู้มีอำนาจตัดสินก็ยังระบุเป็น TBD ฉบับ 1.2 จึงมีโครงสร้างครบส่วนที่ 1 ถึง 6 ภาคผนวก A ถึง F และ Use Case ทั้ง 28 ข้อ พร้อมการตรวจไม่ให้ตัวสร้างตัดเนื้อหาอีก ตัวอย่างมติ MVP ที่ชัดขึ้นคือ QMR อนุมัติแผน CAR/NCR ระบบปัจจุบันไปถึง PENDING_CLOSURE, PDF ใช้ดาวน์โหลดตามสิทธิ์ และการรับทราบต้องยืนยันแยกจากการดาวน์โหลดครับ/ค่ะ</p>
+        <p>ผล Manual UI Acceptance ปัจจุบันคือผ่าน 136 กรณี ไม่มี FAIL และ BLOCKED 3 จาก 139 กรณี โดยสามกรณีที่ค้างขาดข้อมูลทดสอบคู่ความขัดแย้งด้านความเป็นอิสระของผู้ตรวจ ไม่ใช่ผลว่าระบบล้มเหลว อย่างไรก็ตาม ผล UI นี้ยังไม่ใช่การยอมรับขั้นสุดท้ายโดยผู้ใช้จริง และ SRS ยังเป็น Working Draft เพราะอำนาจปิด CAR/NCR กับผู้ตรวจแทนกรณี DCC เป็นผู้แจ้ง Finding ยังต้องมีมติ รวมทั้งต้องทบทวนความสัมพันธ์ระหว่างเป้าหมายบทที่ 1 กับ MVP ต่อไปครับ/ค่ะ</p>
+        <p>ขั้นถัดไปตามคำแนะนำอาจารย์ เราจะสอบกลับ Use Case ทั้ง 28 ข้อจาก Requirement และ Business Rule ผ่านขั้นตอน หน้าจอ ข้อมูลหรือ ERD เกณฑ์ยอมรับ ไปถึงผล implementation และ test แล้วจัดสถานะอย่างตรงไปตรงมา ตารางนี้จะเป็นหลักฐานสำหรับบทที่ 4 และ 5 ซึ่งยังไม่ควรถือว่าสรุปสมบูรณ์จนกว่าอาจารย์และผู้ใช้จะทบทวน พร้อมมีการประเมินโดยผู้ใช้จริงครับ/ค่ะ”</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>แหล่งข้อมูลปัจจุบัน: <a href="../SRS_v1.md">SRS_v1.md v1.2</a> · <a href="SRS_RECONCILIATION_2026-09-26.md">SRS Reconciliation Report</a> · <a href="../PROJECT_STATE.md">PROJECT_STATE.md</a> · <a href="MANUAL_UI_ACCEPTANCE.md">Manual UI Acceptance</a></p>
+      <p>สรุปเพื่อการหารือภายในโครงงาน · ยังไม่ใช่เอกสารอนุมัติ baseline หรือผลยอมรับขั้นสุดท้าย</p>
+    </div>
+  </footer>
+</body>
+</html>

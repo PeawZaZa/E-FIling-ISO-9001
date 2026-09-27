@@ -1,0 +1,1052 @@
+// ระบบ E-Filing Phase 1 — โครงสร้างฐานข้อมูลของทั้งระบบ (สองโมดูล)
+//
+// ที่มา: SRS_v1.md v1.1 — §6.1 Data and Audit Requirements · ภาคผนวก ข.1.2/ข.2.2
+// แบบจำลองเชิงแนวคิด · §4.30 การคำนวณเกินกำหนด · §4.31 วงจรสถานะใบคำร้อง
+// เหตุผลของการออกแบบและการสอบกลับรายตาราง อยู่ใน Database_Design.md
+//
+// กติกาที่ schema นี้บังคับตาม §6.1.2.2
+//   ข้อ 4  ห้ามเก็บสถานะเกินกำหนดเป็นข้อมูล  -> ไม่มีคอลัมน์ is_overdue ที่ใดเลย
+//   ข้อ 5  ค่ามาตรฐานกำหนดเวลาเป็นข้อมูลตั้งค่า -> StageDeadlineSetting
+//   ข้อ 6  ร่องรอยการตรวจสอบเพิ่มอย่างเดียว    -> AuditEvent ไม่มี updated_at
+//   ข้อ 7  แผนที่อนุมัติแล้วห้ามเขียนทับ       -> ActionPlan.revision
+//   ข้อ 9  ปิดผู้ใช้ด้วยเครื่องหมาย ไม่ใช่ลบ    -> User.isActive
+//   ข้อ 11 การแก้ข้อมูลผิดต้องคงค่าเดิม        -> AuditEvent.beforeValue/afterValue
+
+generator client {
+  provider = "node ../efiling/node_modules/@prisma/client/generator-build/index.js"
+  output   = "../efiling/node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// ค่าคงที่เชิงความหมาย
+//
+// หลักการเลือก: ระเบียบปฏิบัติหรือแบบฟอร์มล็อกชุดค่าไว้ -> enum
+//              SRS ระบุว่าต้องเพิ่ม/แก้ได้โดยไม่แก้โปรแกรม -> ตารางตั้งค่า
+// ---------------------------------------------------------------------------
+
+/// ทะเบียนบทบาทกลาง 14 บทบาท · SRS §2.3 · มติ Q6 ของ REF-18
+enum RoleCode {
+  SPONSOR
+  ISO_QA_ADMIN
+  DOC_OWNER
+  APPROVER
+  QMR
+  DEPUTY_QMR
+  SECTION_HEAD
+  END_USER
+  AUDITOR
+  LEAD_AUDITOR
+  ASSISTANT_DCC
+  CAR_OWNER
+  DEAN
+  REGISTRAR
+}
+
+/// สถานะฉบับเอกสาร · SRS ภาคผนวก ข.1.4 · Provisional รอ TBD-A-13
+enum DocumentVersionStatus {
+  DOC_DRAFT
+  DOC_PUBLISHED
+  DOC_OBSOLETE
+}
+
+/// การตรวจข้อมูลนำเข้า แยกจากสถานะวงจรเอกสาร
+enum ImportReviewStatus {
+  PENDING
+  VERIFIED
+}
+
+/// สถานะใบขอดำเนินการเอกสาร · SRS ภาคผนวก ข.1.4 · Provisional รอ TBD-A-13
+/// เส้นทางกลับเข้ากระบวนการหลัง DAR_CHANGES_REQUESTED ยังไม่ยืนยัน
+enum DarStatus {
+  DAR_DRAFT
+  DAR_AWAITING_INTAKE
+  DAR_AWAITING_REVIEW
+  DAR_AWAITING_APPROVAL
+  DAR_CHANGES_REQUESTED
+  DAR_APPROVED
+  DAR_REJECTED
+  DAR_DISTRIBUTING
+  DAR_RECALLING
+  DAR_CLOSED
+}
+
+/// ประเภทคำขอหกค่าตามช่องที่มีจริงบนแบบฟอร์ม FM-QP-2301-0107-01 · TBD-A-01 ปิดแล้ว
+enum DarRequestType {
+  NEW_DOCUMENT
+  HOLD_COPY
+  REVISE
+  CANCEL_HOLD
+  OBSOLETE_DOCUMENT
+  OTHER
+}
+
+/// ขั้นที่ออกผลตัดสินบนใบ DAR · แยกผลแต่ละหน้าที่ตาม SRS §6.1.1
+enum DarDecisionStep {
+  INTAKE
+  REVIEW
+  APPROVAL
+}
+
+enum DarDecisionResult {
+  ACCEPTED
+  CHANGES_REQUESTED
+  APPROVED
+  REJECTED
+}
+
+/// ชนิดประเด็นที่พบ สามชนิดจากการประชุมปิดการตรวจติดตาม · SRS §4.20
+enum FindingType {
+  NONCONFORMITY
+  OBSERVATION
+  IMPROVEMENT_SUGGESTION
+}
+
+/// ระดับข้อบกพร่องตามแบบฟอร์ม FM-QP-2301-0109-01/-02 ส่วนที่ 1
+/// นิยามของแต่ละระดับเป็นข้อเสนอที่รอยืนยัน (TBD-B-15) ห้ามให้ระบบกำหนดเอง
+enum FindingSeverity {
+  MAJOR
+  MINOR
+  OB
+}
+
+/// แหล่งที่มาห้าแหล่งตามระเบียบปฏิบัติ · FR-B-16
+/// EXTERNAL_AUDIT มีอยู่จริงในระบบคุณภาพแต่ยังไม่มีแบบฟอร์มรองรับ (TBD-B-06)
+enum FindingSource {
+  INTERNAL_AUDIT
+  EXTERNAL_AUDIT
+  MANAGEMENT_REVIEW
+  COMPLAINT
+  IMPROVEMENT_PROPOSAL
+}
+
+enum FindingStatus {
+  FINDING_OPEN
+  FINDING_CLOSED
+}
+
+/// ประเภทใบคำร้อง · INTERNAL_AUDIT -> CAR, MANAGEMENT_REVIEW -> NCR (SRS §4.21)
+enum RequestType {
+  CAR
+  NCR
+}
+
+/// สถานะใบคำร้องแปดสถานะ · SRS §4.31 เป็นแหล่งความจริงเดียว
+/// ครอบเก้าขั้นของ QP-2301-0109 โดยขั้น 3 กับ 4 อยู่ในสถานะเดียวกัน
+enum RequestStatus {
+  OPEN
+  CORRECTION
+  ANALYSIS_PLANNING
+  PENDING_PLAN_APPROVAL
+  IMPLEMENTING
+  PENDING_VERIFICATION
+  PENDING_CLOSURE
+  CLOSED
+}
+
+/// ประเภทสาเหตุตามช่องบนแบบฟอร์ม CAR/NCR
+enum CauseCategory {
+  PERSON
+  PROCESS
+  SUPPORT
+  OTHER
+}
+
+/// กรอบเวลาของแผนที่ QMR กำหนด ส่วนที่ 4 ของแบบฟอร์ม
+/// เป็นการจัดระดับความเร่งด่วนของทั้งใบ คนละเรื่องกับกำหนดเวลารายขั้นใน §4.30
+enum PlanTimeframe {
+  IMMEDIATE_OR_10_DAYS
+  WITHIN_30_DAYS_WITH_REPORT
+  FOLLOW_UP_NEXT_AUDIT
+}
+
+/// กิจกรรมในแผนแยกเป็นการแก้ไข (ช่อง 2.2) กับการป้องกันไม่ให้เกิดซ้ำ (ช่อง 2.3)
+/// SRS สั่งห้ามรวมสองอย่างนี้เป็นช่องเดียว (TBD-B-07)
+enum ActionKind {
+  CORRECTIVE
+  PREVENTIVE
+}
+
+enum PlanApprovalResult {
+  PLAN_APPROVED
+  PLAN_REJECTED
+}
+
+enum VerificationResult {
+  EFFECTIVE
+  NOT_EFFECTIVE
+}
+
+/// การกระทำที่ต้องลงร่องรอยการตรวจสอบ · FR-A-18, FR-B-07
+enum AuditAction {
+  CREATE
+  UPDATE
+  STATUS_CHANGE
+  ATTACH_EVIDENCE
+  ACKNOWLEDGE
+  LOGIN
+  ROLE_SWITCH
+  PERMISSION_DENIED
+  EXPORT
+  INDEPENDENCE_WAIVER
+}
+
+/// ชุดเลขที่เอกสารรูปแบบ nnn/พ.ศ. ที่เริ่มนับใหม่ทุกปี
+enum NumberSeries {
+  DAR
+  CAR
+  NCR
+}
+
+// ---------------------------------------------------------------------------
+// กลุ่มที่ 1 — ข้อมูลส่วนกลางที่สองโมดูลใช้ร่วมกัน (มติ Q5 ของ REF-18)
+// ---------------------------------------------------------------------------
+
+/// กลุ่มงาน · ค่าที่ใช้จริงมีสองค่าตาม QM-2301-01 §1.2
+/// โมดูลตรวจติดตามใช้ค่านี้บังคับความเป็นอิสระของผู้ตรวจ (BR-B-18)
+model Department {
+  id     String  @id @default(uuid()) @db.Uuid
+  code   String  @unique @db.VarChar(32)
+  nameTh String  @map("name_th") @db.VarChar(200)
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  users        User[]
+  documents    Document[]
+  auditRounds  AuditRound[]
+  findings     Finding[]
+  requests     CorrectiveRequest[]
+  records      QualityRecord[]
+
+  @@map("department")
+}
+
+/// ผู้ใช้ · ปิดการใช้งานด้วย isActive เท่านั้น ห้ามลบ (§6.1.2.2 ข้อ 9)
+/// ไม่เชื่อม SSO/LDAP ในเวอร์ชันนี้ (CON-B-01)
+model User {
+  id           String  @id @default(uuid()) @db.Uuid
+  username     String  @unique @db.VarChar(100)
+  fullName     String  @map("full_name") @db.VarChar(200)
+  position     String? @db.VarChar(200)
+  email        String? @unique @db.VarChar(200)
+  passwordHash String  @map("password_hash") @db.VarChar(255)
+  departmentId String? @map("department_id") @db.Uuid
+  isActive     Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  department Department? @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+
+  roles          UserRole[] @relation("RoleHolder")
+  rolesAssigned  UserRole[] @relation("RoleAssigner")
+  auditEvents    AuditEvent[]
+
+  documentsOwned     Document[]           @relation("DocumentOwner")
+  versionsPublished  DocumentVersion[]    @relation("VersionPublisher")
+  documentFiles      DocumentFile[]
+  darsRequested      Dar[]                @relation("DarRequester")
+  darsClosed         Dar[]                @relation("DarCloser")
+  darDecisions       DarDecision[]
+  darStatusChanges   DarStatusHistory[]
+  copiesHeld         DistributionEntry[]
+  ackAssignments     AcknowledgementAssignment[] @relation("AckAssignee")
+  ackAssignedBy      AcknowledgementAssignment[] @relation("AckAssigner")
+  ackConfirmations   AcknowledgementConfirmation[]
+
+  recordsOwned       QualityRecord[]      @relation("RecordOwner")
+  recordsCreated     QualityRecord[]      @relation("RecordCreator")
+  evidenceUploaded   Evidence[]
+  auditRoundsCreated AuditRound[]         @relation("RoundCreator")
+  auditMemberships   AuditRoundMember[]   @relation("RoundAuditor")
+  independenceWaivers AuditRoundMember[]  @relation("WaiverGranter")
+  findingsIdentified Finding[]            @relation("FindingIdentifier")
+  requestsOwned      CorrectiveRequest[]  @relation("RequestOwner")
+  requestsOpened     CorrectiveRequest[]  @relation("RequestOpener")
+  requestStatusChanges RequestStatusHistory[]
+  correctionsRecorded Correction[]
+  rootCausesRecorded RootCauseAnalysis[]
+  plansSubmitted     ActionPlan[]
+  activitiesAssigned ActionPlanActivity[]
+  planDecisions      PlanApproval[]
+  verifications      Verification[]
+  closures           Closure[]
+  settingsUpdated    SystemSetting[]
+
+  @@index([departmentId])
+  @@map("app_user")
+}
+
+/// ผู้ใช้หนึ่งคนถือได้หลายบทบาท แต่ใช้งานได้ครั้งละหนึ่ง
+/// สิทธิ์คิดจากบทบาทใช้งานปัจจุบันเท่านั้น ซึ่งเป็นเรื่องของ session ไม่ใช่ตารางนี้
+model UserRole {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
+  role       RoleCode
+  isActive   Boolean  @default(true) @map("is_active")
+  assignedById String? @map("assigned_by") @db.Uuid
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz(6)
+
+  user       User  @relation("RoleHolder", fields: [userId], references: [id], onDelete: Restrict)
+  assignedBy User? @relation("RoleAssigner", fields: [assignedById], references: [id], onDelete: Restrict)
+
+  @@unique([userId, role])
+  @@index([role])
+  @@map("user_role")
+}
+
+/// ร่องรอยการตรวจสอบ · เพิ่มอย่างเดียว แก้และลบไม่ได้ (§6.1.2.2 ข้อ 6)
+/// เก็บบทบาทขณะกระทำด้วย เพราะผู้ใช้หนึ่งคนถือได้หลายบทบาท (SRS §6.1.2.1)
+/// beforeValue/afterValue รองรับกฎ "แก้ข้อมูลผิดต้องคงค่าเดิม" (ข้อ 11)
+model AuditEvent {
+  id           String      @id @default(uuid()) @db.Uuid
+  actorUserId  String?     @map("actor_user_id") @db.Uuid
+  actorRole    RoleCode?   @map("actor_role")
+  action       AuditAction
+  entityType   String      @map("entity_type") @db.VarChar(64)
+  entityId     String?     @map("entity_id") @db.Uuid
+  statusBefore String?     @map("status_before") @db.VarChar(64)
+  statusAfter  String?     @map("status_after") @db.VarChar(64)
+  beforeValue  Json?       @map("before_value")
+  afterValue   Json?       @map("after_value")
+  reason       String?     @db.Text
+  occurredAt   DateTime    @default(now()) @map("occurred_at") @db.Timestamptz(6)
+
+  actor User? @relation(fields: [actorUserId], references: [id], onDelete: Restrict)
+
+  @@index([entityType, entityId])
+  @@index([occurredAt])
+  @@index([actorUserId])
+  @@map("audit_event")
+}
+
+/// ปฏิทินวันทำการ · จำเป็นเพราะกำหนดเวลาทุกค่าใน §4.30 นับเป็น "วันทำการ"
+/// ⚠️ เป็นสิ่งที่การออกแบบค้นพบ ไม่ใช่ข้อกำหนดที่ SRS เขียนไว้ — ดู Database_Design.md §7
+model WorkingCalendar {
+  calendarDate  DateTime @id @map("calendar_date") @db.Date
+  isWorkingDay  Boolean  @map("is_working_day")
+  note          String?  @db.VarChar(200)
+
+  @@index([isWorkingDay])
+  @@map("working_calendar")
+}
+
+// ---------------------------------------------------------------------------
+// กลุ่มที่ 2 — ข้อมูลตั้งค่า (สิ่งที่ SRS สั่งว่าต้องปรับได้โดยไม่แก้โปรแกรม)
+// ---------------------------------------------------------------------------
+
+/// ชนิดของบันทึกข้อมูล · SRS §6.1.2.1 สั่งตรงว่า "ต้องเป็นข้อมูลตั้งค่าที่เพิ่มได้
+/// ไม่ใช่ค่าคงที่ในโปรแกรม" จึงเป็นตาราง ไม่ใช่ enum
+model RecordType {
+  id       String  @id @default(uuid()) @db.Uuid
+  code     String  @unique @db.VarChar(32)
+  nameTh   String  @map("name_th") @db.VarChar(200)
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  records QualityRecord[]
+
+  @@map("record_type")
+}
+
+/// ค่ามาตรฐานกำหนดเวลารายขั้น · BR-B-16, FR-B-33 · ค่าตั้งต้นตาราง §4.30
+/// ⛔ ค่าที่ลงไว้เป็นข้อเสนอของทีม ห้ามใช้ตัดสินผลทวนสอบจนกว่าจะยืนยัน (TBD-B-09)
+model StageDeadlineSetting {
+  id             String        @id @default(uuid()) @db.Uuid
+  status         RequestStatus
+  standardDays   Int           @map("standard_working_days")
+  countsFrom     String        @map("counts_from") @db.VarChar(120)
+  effectiveFrom  DateTime      @map("effective_from") @db.Date
+  isActive       Boolean       @default(true) @map("is_active")
+  note           String?       @db.Text
+
+  @@unique([status, effectiveFrom])
+  @@map("stage_deadline_setting")
+}
+
+/// ค่าตั้งค่าอื่นที่เป็นค่าเดี่ยว เช่น เกณฑ์ "ใกล้ครบกำหนด" สองวันทำการ (TBD-B-16)
+model SystemSetting {
+  key         String   @id @db.VarChar(100)
+  value       Json
+  description String?  @db.Text
+  updatedById String?  @map("updated_by") @db.Uuid
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  updatedBy User? @relation(fields: [updatedById], references: [id], onDelete: Restrict)
+
+  @@map("system_setting")
+}
+
+/// ตัวนับเลขที่รูปแบบ nnn/พ.ศ. ที่เริ่มนับใหม่ทุกปีปฏิทิน
+/// ใช้ทั้งเลขที่ DAR (FR-A-04.2) และเลขที่ใบคำร้อง (SRS §6.1.2.1)
+model NumberSequence {
+  series        NumberSeries
+  buddhistYear  Int          @map("buddhist_year")
+  lastNumber    Int          @default(0) @map("last_number")
+
+  @@id([series, buddhistYear])
+  @@map("number_sequence")
+}
+
+// ---------------------------------------------------------------------------
+// กลุ่มที่ 3 — โมดูลควบคุมเอกสาร
+// แหล่งความจริงเดียวของข้อมูลเอกสาร · โมดูลตรวจติดตามอ่านผ่านรหัสเท่านั้น (BR-B-04)
+// ---------------------------------------------------------------------------
+
+/// ข้อมูลหลักเอกสาร · ข้อมูลหลักหนึ่งรายการเชื่อมได้หลายฉบับ (BR-A-01)
+model Document {
+  id           String  @id @default(uuid()) @db.Uuid
+  documentCode String? @unique @map("document_code") @db.VarChar(64)
+  title        String  @db.VarChar(300)
+  docType      String? @map("doc_type") @db.VarChar(64)
+  departmentId String? @map("department_id") @db.Uuid
+  ownerUserId  String? @map("owner_user_id") @db.Uuid
+  isActive     Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  department Department? @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+  owner      User?       @relation("DocumentOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+
+  versions       DocumentVersion[]
+  darTargets     DarTargetItem[]
+  findings       Finding[]
+  qualityRecords QualityRecord[]
+
+  @@index([departmentId])
+  @@map("document")
+}
+
+/// ฉบับเอกสาร · Issue กับ Revision เป็นคนละเขตข้อมูลตามคอลัมน์จริงในทะเบียน (REF-06)
+/// ฉบับปัจจุบันมีได้ไม่เกินหนึ่งฉบับต่อเอกสาร (BR-A-06) — บังคับด้วย partial unique
+/// index ในไฟล์ migration เสริม เพราะ Prisma เขียนเงื่อนไข WHERE ไม่ได้
+/// การยกเลิกใช้งานไม่ลบระเบียน และเอกสารที่ยกเลิกแล้วยังอ้างอิงได้ (มติ Q4)
+model DocumentVersion {
+  id                String                @id @default(uuid()) @db.Uuid
+  documentId        String                @map("document_id") @db.Uuid
+  issueNo           Int?                  @map("issue_no")
+  revisionNo        Int?                  @map("revision_no")
+  status            DocumentVersionStatus?
+  reviewStatus      ImportReviewStatus    @default(PENDING) @map("review_status")
+  reviewNotes       String?               @map("review_notes") @db.Text
+  /// รับรองชุดต้นทางโดยผู้รับผิดชอบ โดยไม่เดาข้อมูลทะเบียนที่ยังไม่ระบุ
+  sourceConfirmedAt DateTime?             @map("source_confirmed_at") @db.Timestamptz(6)
+  sourceConfirmationNote String?          @map("source_confirmation_note") @db.Text
+  effectiveDate     DateTime?             @map("effective_date") @db.Date
+  publishedAt       DateTime?             @map("published_at") @db.Timestamptz(6)
+  publishedById     String?               @map("published_by") @db.Uuid
+  /// เลข DAR ที่ทำให้เกิดฉบับนี้ ตามที่ปกควบคุมเอกสารกำหนด (REF-02 §6.4.1.1)
+  originatingDarId  String?               @map("originating_dar_id") @db.Uuid
+  supersededById    String?               @unique @map("superseded_by_version_id") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  document       Document         @relation(fields: [documentId], references: [id], onDelete: Restrict)
+  publishedBy    User?            @relation("VersionPublisher", fields: [publishedById], references: [id], onDelete: Restrict)
+  originatingDar Dar?             @relation("DarProducedVersion", fields: [originatingDarId], references: [id], onDelete: Restrict)
+  supersededBy   DocumentVersion? @relation("VersionSupersession", fields: [supersededById], references: [id], onDelete: Restrict)
+  supersedes     DocumentVersion? @relation("VersionSupersession")
+
+  files              DocumentFile[]
+  darTargets         DarTargetItem[]
+  distributionEntries DistributionEntry[]
+  ackAssignments     AcknowledgementAssignment[]
+
+  // เอกสารรอตรวจสอบอาจมีข้อมูลฉบับขัดแย้งกันได้; unique ฉบับที่ยืนยันแล้วอยู่ใน SQL
+  @@index([documentId, issueNo, revisionNo])
+  @@index([documentId, status])
+  @@map("document_version")
+}
+
+/// ไฟล์ของฉบับเอกสาร · เก็บในระบบไฟล์ อ้างด้วยเส้นทาง ไม่เก็บไบนารีในฐานข้อมูล
+model DocumentFile {
+  id          String   @id @default(uuid()) @db.Uuid
+  versionId   String   @map("version_id") @db.Uuid
+  fileName    String   @map("file_name") @db.VarChar(255)
+  mimeType    String   @map("mime_type") @db.VarChar(120)
+  sizeBytes   BigInt   @map("size_bytes")
+  storagePath String   @unique @map("storage_path") @db.VarChar(500)
+  sha256      String   @unique @db.VarChar(64)
+  uploadedById String  @map("uploaded_by") @db.Uuid
+  uploadedAt  DateTime @default(now()) @map("uploaded_at") @db.Timestamptz(6)
+
+  version    DocumentVersion @relation(fields: [versionId], references: [id], onDelete: Restrict)
+  uploadedBy User            @relation(fields: [uploadedById], references: [id], onDelete: Restrict)
+  importSources DocumentImportSource[]
+
+  @@index([versionId])
+  @@map("document_file")
+}
+
+/// ใช้สอบกลับการนำเข้าตั้งต้นและป้องกันรันสคริปต์ซ้ำ; ไม่เปิด path ให้ browser
+model DocumentImportSource {
+  id String @id @default(uuid()) @db.Uuid
+  sourcePath String @unique @map("source_path") @db.Text
+  sourceHash String @map("source_hash") @db.VarChar(64)
+  fileId String @map("file_id") @db.Uuid
+  importedAt DateTime @default(now()) @map("imported_at") @db.Timestamptz(6)
+  file DocumentFile @relation(fields: [fileId], references: [id], onDelete: Restrict)
+
+  @@map("document_import_source")
+}
+
+/// ใบขอดำเนินการเอกสาร (DAR) · เลขที่รูปแบบ nnn/พ.ศ. เริ่มนับใหม่ทุกปี
+/// เช็กลิสต์ผู้คุมทะเบียนห้าขั้น: ตรวจรับ · ทบทวน/อนุมัติ · แจกจ่าย · เรียกคืน · ปิด
+/// ปิดได้ต่อเมื่อขั้นแจกจ่ายและเรียกคืนเสร็จแล้ว ไม่ใช่ปิดทันทีที่อนุมัติ
+model Dar {
+  id               String         @id @default(uuid()) @db.Uuid
+  darNo            String?        @unique @map("dar_no") @db.VarChar(20)
+  buddhistYear     Int?           @map("buddhist_year")
+  sequenceNo       Int?           @map("sequence_no")
+  requestType      DarRequestType @map("request_type")
+  /// บังคับกรอกเมื่อ requestType = OTHER (ตรวจด้วย CHECK ในไฟล์ migration เสริม)
+  otherDescription String?        @map("other_description") @db.Text
+  requesterId      String         @map("requester_user_id") @db.Uuid
+  reason           String         @db.Text
+  hasAttachment    Boolean        @default(false) @map("has_attachment")
+  effectiveDate    DateTime?      @map("effective_date") @db.Date
+  status           DarStatus      @default(DAR_DRAFT)
+
+  submittedAt   DateTime? @map("submitted_at") @db.Timestamptz(6)
+  intakeAt      DateTime? @map("intake_at") @db.Timestamptz(6)
+  distributedAt DateTime? @map("distributed_at") @db.Timestamptz(6)
+  recalledAt    DateTime? @map("recalled_at") @db.Timestamptz(6)
+  closedAt      DateTime? @map("closed_at") @db.Timestamptz(6)
+  closedById    String?   @map("closed_by") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  requester User  @relation("DarRequester", fields: [requesterId], references: [id], onDelete: Restrict)
+  closedBy  User? @relation("DarCloser", fields: [closedById], references: [id], onDelete: Restrict)
+
+  draft Json @default("{}")
+  roundNo Int @default(1) @map("round_no")
+  rounds DarRound[]
+  files DarFile[]
+  assignments Json @default("{}")
+  logistics Json @default("{}")
+  targets          DarTargetItem[]
+  decisions        DarDecision[]
+  statusHistory    DarStatusHistory[]
+  producedVersions DocumentVersion[] @relation("DarProducedVersion")
+
+  @@unique([buddhistYear, sequenceNo])
+  @@index([status])
+  @@index([requesterId])
+  @@map("dar")
+}
+
+/// รายการหรือฉบับเป้าหมายของคำขอ · เป็นตารางลูกเพราะจำนวนต่อคำขอยังไม่ล็อก (TBD-A-09)
+model DarTargetItem {
+  id         String  @id @default(uuid()) @db.Uuid
+  darId      String  @map("dar_id") @db.Uuid
+  documentId String? @map("document_id") @db.Uuid
+  versionId  String? @map("version_id") @db.Uuid
+  note       String? @db.Text
+
+  dar      Dar              @relation(fields: [darId], references: [id], onDelete: Cascade)
+  document Document?        @relation(fields: [documentId], references: [id], onDelete: Restrict)
+  version  DocumentVersion? @relation(fields: [versionId], references: [id], onDelete: Restrict)
+
+  @@index([darId])
+  @@map("dar_target_item")
+}
+
+/// ผลตรวจรับ ทบทวน และอนุมัติ · เก็บแยกผลของแต่ละหน้าที่และทุกรอบ
+/// ห้ามย้ายผลเดิมไปรับรองฉบับใหม่ (SRS §6.1.1) จึงเป็นตารางเพิ่มอย่างเดียว
+/// ผู้ทบทวนกับผู้อนุมัติต้องเป็นคนละคน (BR-A-03/04) — บังคับที่ชั้นบริการ
+model DarDecision {
+  roundNo Int @default(1) @map("round_no")
+  id         String            @id @default(uuid()) @db.Uuid
+  darId      String            @map("dar_id") @db.Uuid
+  step       DarDecisionStep
+  result     DarDecisionResult
+  decidedById String           @map("decided_by") @db.Uuid
+  actorRole  RoleCode          @map("actor_role")
+  comment    String?           @db.Text
+  decidedAt  DateTime          @default(now()) @map("decided_at") @db.Timestamptz(6)
+
+  dar       Dar  @relation(fields: [darId], references: [id], onDelete: Restrict)
+  decidedBy User @relation(fields: [decidedById], references: [id], onDelete: Restrict)
+
+  @@index([darId, step])
+  @@map("dar_decision")
+}
+
+/// ประวัติการเปลี่ยนสถานะของ DAR · เพิ่มอย่างเดียว
+model DarStatusHistory {
+  id          String     @id @default(uuid()) @db.Uuid
+  darId       String     @map("dar_id") @db.Uuid
+  fromStatus  DarStatus? @map("from_status")
+  toStatus    DarStatus  @map("to_status")
+  actorUserId String     @map("actor_user_id") @db.Uuid
+  actorRole   RoleCode   @map("actor_role")
+  reason      String?    @db.Text
+  occurredAt  DateTime   @default(now()) @map("occurred_at") @db.Timestamptz(6)
+
+  dar   Dar  @relation(fields: [darId], references: [id], onDelete: Restrict)
+  actor User @relation(fields: [actorUserId], references: [id], onDelete: Restrict)
+
+  @@index([darId, occurredAt])
+  @@map("dar_status_history")
+}
+
+/// บัญชีแจกจ่ายเอกสาร · ช่องตามแบบฟอร์ม FM-QP-2301-0107-03 (REF-07)
+/// ผู้ถือครองในตารางนี้คือตัวหารของอัตราการรับทราบ ตามมติ Q3 ของ REF-18
+model DistributionEntry {
+  id             String    @id @default(uuid()) @db.Uuid
+  versionId      String    @map("version_id") @db.Uuid
+  copyNo         String    @map("copy_no") @db.VarChar(32)
+  holderUserId   String?   @map("holder_user_id") @db.Uuid
+  holderPosition String    @map("holder_position") @db.VarChar(200)
+  holderName     String    @map("holder_name") @db.VarChar(200)
+  receivedDate   DateTime? @map("received_date") @db.Date
+  signedReceipt  Boolean   @default(false) @map("signed_receipt")
+  returnedDate   DateTime? @map("returned_date") @db.Date
+
+  version DocumentVersion @relation(fields: [versionId], references: [id], onDelete: Restrict)
+  holder  User?           @relation(fields: [holderUserId], references: [id], onDelete: Restrict)
+
+  @@unique([versionId, copyNo])
+  @@index([versionId])
+  @@map("distribution_entry")
+}
+
+/// การมอบหมายให้รับทราบเอกสาร · แยกจากการถือครองสำเนา
+model AcknowledgementAssignment {
+  id           String    @id @default(uuid()) @db.Uuid
+  versionId    String    @map("version_id") @db.Uuid
+  assigneeId   String    @map("assignee_user_id") @db.Uuid
+  assignedById String    @map("assigned_by") @db.Uuid
+  assignedAt   DateTime  @default(now()) @map("assigned_at") @db.Timestamptz(6)
+  dueDate      DateTime? @map("due_date") @db.Date
+
+  version    DocumentVersion @relation(fields: [versionId], references: [id], onDelete: Restrict)
+  assignee   User            @relation("AckAssignee", fields: [assigneeId], references: [id], onDelete: Restrict)
+  assignedBy User            @relation("AckAssigner", fields: [assignedById], references: [id], onDelete: Restrict)
+
+  confirmation AcknowledgementConfirmation?
+
+  @@unique([versionId, assigneeId])
+  @@map("acknowledgement_assignment")
+}
+
+/// ผลยืนยันรับทราบ · การมีหรือรับสำเนาไม่ยืนยันโดยอัตโนมัติว่ารับทราบเนื้อหา (BR-A-07)
+/// จึงเป็นตารางแยก ไม่ใช่คอลัมน์ธงบน DistributionEntry
+model AcknowledgementConfirmation {
+  id           String   @id @default(uuid()) @db.Uuid
+  assignmentId String   @unique @map("assignment_id") @db.Uuid
+  confirmedById String  @map("confirmed_by") @db.Uuid
+  confirmedAt  DateTime @default(now()) @map("confirmed_at") @db.Timestamptz(6)
+
+  assignment  AcknowledgementAssignment @relation(fields: [assignmentId], references: [id], onDelete: Restrict)
+  confirmedBy User                      @relation(fields: [confirmedById], references: [id], onDelete: Restrict)
+
+  @@map("acknowledgement_confirmation")
+}
+
+// ---------------------------------------------------------------------------
+// กลุ่มที่ 4 — โมดูลทะเบียนหลักฐาน การตรวจติดตาม ใบคำร้อง และแดชบอร์ด
+// ---------------------------------------------------------------------------
+
+/// บันทึกข้อมูล · อ้างอิงเอกสารผ่าน documentId เท่านั้น ห้ามทำทะเบียนเอกสารซ้ำ (BR-B-04)
+model QualityRecord {
+  id           String   @id @default(uuid()) @db.Uuid
+  recordTypeId String   @map("record_type_id") @db.Uuid
+  title        String   @db.VarChar(300)
+  recordDate   DateTime @map("record_date") @db.Date
+  ownerUserId  String   @map("owner_user_id") @db.Uuid
+  departmentId String?  @map("department_id") @db.Uuid
+  documentId   String?  @map("document_id") @db.Uuid
+  createdById  String   @map("created_by") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  recordType RecordType  @relation(fields: [recordTypeId], references: [id], onDelete: Restrict)
+  owner      User        @relation("RecordOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  department Department? @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+  document   Document?   @relation(fields: [documentId], references: [id], onDelete: Restrict)
+  createdBy  User        @relation("RecordCreator", fields: [createdById], references: [id], onDelete: Restrict)
+
+  evidence Evidence[]
+  findings Finding[]
+  activityLinks ActivityRecordLink[]
+
+  @@index([recordTypeId])
+  @@index([recordDate])
+  @@map("quality_record")
+}
+
+/// หลักฐาน · คีย์นอกสามตัวแบบไม่บังคับ แนบเข้ากับบันทึกข้อมูล ประเด็นที่พบ หรือใบคำร้อง
+/// ได้โดยตรงไม่ต้องผ่านลำดับชั้น (มติ 3 ก.ย. 2569 · M-B-03)
+/// ต้องมีอย่างน้อยหนึ่งตัวไม่ว่าง — บังคับด้วย CHECK ในไฟล์ migration เสริม
+model Evidence {
+  id          String   @id @default(uuid()) @db.Uuid
+  fileName    String   @map("file_name") @db.VarChar(255)
+  mimeType    String   @map("mime_type") @db.VarChar(120)
+  sizeBytes   BigInt   @map("size_bytes")
+  storagePath String   @unique @map("storage_path") @db.VarChar(500)
+  uploadedById String  @map("uploaded_by") @db.Uuid
+  uploadedAt  DateTime @default(now()) @map("uploaded_at") @db.Timestamptz(6)
+
+  recordId  String? @map("record_id") @db.Uuid
+  findingId String? @map("finding_id") @db.Uuid
+  requestId String? @map("request_id") @db.Uuid
+  activityId String? @map("activity_id") @db.Uuid
+
+  uploadedBy User               @relation(fields: [uploadedById], references: [id], onDelete: Restrict)
+  record     QualityRecord?     @relation(fields: [recordId], references: [id], onDelete: Restrict)
+  finding    Finding?           @relation(fields: [findingId], references: [id], onDelete: Restrict)
+  request    CorrectiveRequest? @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  activity   ActionPlanActivity? @relation(fields: [activityId], references: [id], onDelete: Restrict)
+
+  @@index([recordId])
+  @@index([findingId])
+  @@index([requestId])
+  @@map("evidence")
+}
+
+/// รอบการตรวจติดตาม · targetDepartmentId ใช้ตรวจความเป็นอิสระของผู้ตรวจ (BR-B-18)
+model AuditRound {
+  id                 String   @id @default(uuid()) @db.Uuid
+  name               String   @db.VarChar(200)
+  objective          String   @db.Text
+  scope              String   @db.Text
+  /// เกณฑ์การตรวจติดตาม · บังคับกรอก (UC-B-06 E1)
+  criteria           String   @db.Text
+  startDate          DateTime @map("start_date") @db.Date
+  endDate            DateTime @map("end_date") @db.Date
+  targetDepartmentId String   @map("target_department_id") @db.Uuid
+  createdById        String   @map("created_by") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  targetDepartment Department @relation(fields: [targetDepartmentId], references: [id], onDelete: Restrict)
+  createdBy        User       @relation("RoundCreator", fields: [createdById], references: [id], onDelete: Restrict)
+
+  members  AuditRoundMember[]
+  findings Finding[]
+
+  @@index([startDate])
+  @@map("audit_round")
+}
+
+/// ทีมผู้ตรวจของรอบ · ผู้ตรวจต้องไม่สังกัดกลุ่มงานเป้าหมาย
+/// ISO/QA Admin ยกเว้นได้เป็นรายกรณีโดยต้องบันทึกเหตุผล (BR-B-18, TBD-B-11)
+model AuditRoundMember {
+  id                String   @id @default(uuid()) @db.Uuid
+  auditRoundId      String   @map("audit_round_id") @db.Uuid
+  auditorUserId     String   @map("auditor_user_id") @db.Uuid
+  isLead            Boolean  @default(false) @map("is_lead")
+  independenceWaived Boolean @default(false) @map("independence_waived")
+  waiverReason      String?  @map("waiver_reason") @db.Text
+  waivedById        String?  @map("waived_by") @db.Uuid
+  assignedAt        DateTime @default(now()) @map("assigned_at") @db.Timestamptz(6)
+
+  auditRound AuditRound @relation(fields: [auditRoundId], references: [id], onDelete: Cascade)
+  auditor    User       @relation("RoundAuditor", fields: [auditorUserId], references: [id], onDelete: Restrict)
+  waivedBy   User?      @relation("WaiverGranter", fields: [waivedById], references: [id], onDelete: Restrict)
+
+  @@unique([auditRoundId, auditorUserId])
+  @@map("audit_round_member")
+}
+
+/// ประเด็นที่พบ · อ้างรอบการตรวจแบบไม่บังคับ เพราะแหล่งที่มามีห้าแหล่ง (FR-B-16)
+/// severity เป็นดุลยพินิจของผู้ตรวจ ระบบต้องไม่กำหนดให้อัตโนมัติ (FR-B-18.1)
+model Finding {
+  id                  String          @id @default(uuid()) @db.Uuid
+  auditRoundId        String?         @map("audit_round_id") @db.Uuid
+  source              FindingSource
+  findingType         FindingType     @map("finding_type")
+  severity            FindingSeverity
+  description         String          @db.Text
+  /// ข้อกำหนดที่ถูกฝ่าฝืน · บังคับกรอกคู่กับหลักฐานเชิงวัตถุ (FR-B-17)
+  violatedRequirement String          @map("violated_requirement") @db.Text
+  status              FindingStatus   @default(FINDING_OPEN)
+  departmentId        String?         @map("department_id") @db.Uuid
+  documentId          String?         @map("document_id") @db.Uuid
+  recordId            String?         @map("record_id") @db.Uuid
+  /// ประเด็นเดิมที่เคยปิดใบแล้วและกลับมาเกิดซ้ำ · ใช้กับเกณฑ์ Major ข้อ (ง) และแดชบอร์ด
+  recurrenceOfId      String?         @map("recurrence_of_finding_id") @db.Uuid
+  identifiedDate      DateTime        @map("identified_date") @db.Date
+  identifiedById      String          @map("identified_by") @db.Uuid
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  auditRound   AuditRound?    @relation(fields: [auditRoundId], references: [id], onDelete: Restrict)
+  department   Department?    @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+  document     Document?      @relation(fields: [documentId], references: [id], onDelete: Restrict)
+  record       QualityRecord? @relation(fields: [recordId], references: [id], onDelete: Restrict)
+  recurrenceOf Finding?       @relation("FindingRecurrence", fields: [recurrenceOfId], references: [id], onDelete: Restrict)
+  recurrences  Finding[]      @relation("FindingRecurrence")
+  identifiedBy User           @relation("FindingIdentifier", fields: [identifiedById], references: [id], onDelete: Restrict)
+
+  evidence Evidence[]
+  requests CorrectiveRequest[]
+
+  @@index([auditRoundId])
+  @@index([severity, status])
+  @@index([identifiedDate])
+  @@map("finding")
+}
+
+/// ใบคำร้องขอให้ดำเนินการแก้ไข · หนึ่งประเด็นมีใบที่ยังไม่ปิดได้ไม่เกินหนึ่งใบ (BR-B-07)
+/// บังคับด้วย partial unique index ในไฟล์ migration เสริม
+/// ⛔ ไม่มีคอลัมน์สถานะเกินกำหนด เพราะเป็นค่าที่คำนวณได้ (BR-B-06, §6.1.2.2 ข้อ 4)
+model CorrectiveRequest {
+  id             String         @id @default(uuid()) @db.Uuid
+  requestNo      String         @unique @map("request_no") @db.VarChar(20)
+  buddhistYear   Int            @map("buddhist_year")
+  sequenceNo     Int            @map("sequence_no")
+  requestType    RequestType    @map("request_type")
+  findingId      String         @map("finding_id") @db.Uuid
+  departmentId   String         @map("department_id") @db.Uuid
+  severity       FindingSeverity
+  roundLabel     String?        @map("round_label") @db.VarChar(64)
+  causeCategory  CauseCategory? @map("cause_category")
+  /// การอ้างถึง QP/WI/FM ที่เกี่ยวข้องตามช่องบนแบบฟอร์ม
+  relatedDocRefs String?        @map("related_doc_refs") @db.Text
+  /// กรอบเวลาของแผนที่ QMR กำหนด · คนละเรื่องกับกำหนดเวลารายขั้น ห้ามยุบรวม
+  planTimeframe  PlanTimeframe? @map("plan_timeframe")
+  ownerUserId    String?        @map("owner_user_id") @db.Uuid
+  currentStatus  RequestStatus  @default(OPEN) @map("current_status")
+  overallDueDate DateTime?      @map("overall_due_date") @db.Date
+  planDraft      Json?          @map("plan_draft")
+  openedById     String         @map("opened_by") @db.Uuid
+  openedAt       DateTime       @default(now()) @map("opened_at") @db.Timestamptz(6)
+  closedAt       DateTime?      @map("closed_at") @db.Timestamptz(6)
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  finding    Finding    @relation(fields: [findingId], references: [id], onDelete: Restrict)
+  department Department @relation(fields: [departmentId], references: [id], onDelete: Restrict)
+  owner      User?      @relation("RequestOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  openedBy   User       @relation("RequestOpener", fields: [openedById], references: [id], onDelete: Restrict)
+
+  statusHistory RequestStatusHistory[]
+  corrections   Correction[]
+  rootCauses    RootCauseAnalysis[]
+  actionPlans   ActionPlan[]
+  verifications Verification[]
+  closure       Closure?
+  evidence      Evidence[]
+
+  @@unique([buddhistYear, sequenceNo])
+  @@index([currentStatus])
+  @@index([ownerUserId])
+  @@index([findingId])
+  @@map("corrective_request")
+}
+
+/// ประวัติการเปลี่ยนสถานะใบคำร้อง · เพิ่มอย่างเดียว
+/// ทุกเส้นทางย้อนกลับต้องบันทึกเหตุผล (SRS §4.31) จึงมีคอลัมน์ reason ที่นี่
+/// stageDueDate คือกำหนดเวลาของขั้นที่ใบเข้าสู่ ณ เวลานั้น ใช้คำนวณเกินกำหนด (§4.30)
+model RequestStatusHistory {
+  id          String         @id @default(uuid()) @db.Uuid
+  requestId   String         @map("request_id") @db.Uuid
+  fromStatus  RequestStatus? @map("from_status")
+  toStatus    RequestStatus  @map("to_status")
+  action      String         @db.VarChar(120)
+  actorUserId String         @map("actor_user_id") @db.Uuid
+  actorRole   RoleCode       @map("actor_role")
+  reason      String?        @db.Text
+  stageDueDate DateTime?     @map("stage_due_date") @db.Date
+  occurredAt  DateTime       @default(now()) @map("occurred_at") @db.Timestamptz(6)
+
+  request CorrectiveRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  actor   User              @relation(fields: [actorUserId], references: [id], onDelete: Restrict)
+
+  @@index([requestId, occurredAt])
+  @@map("request_status_history")
+}
+
+/// การแก้ไขเฉพาะหน้า · เก็บแยกจากการปฏิบัติการแก้ไขที่สาเหตุ (BR-B-14)
+model Correction {
+  id          String   @id @default(uuid()) @db.Uuid
+  requestId   String   @map("request_id") @db.Uuid
+  detail      String   @db.Text
+  recordedById String  @map("recorded_by") @db.Uuid
+  recordedAt  DateTime @default(now()) @map("recorded_at") @db.Timestamptz(6)
+
+  request    CorrectiveRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  recordedBy User              @relation(fields: [recordedById], references: [id], onDelete: Restrict)
+
+  @@index([requestId])
+  @@map("correction")
+}
+
+/// การวิเคราะห์สาเหตุรากเหง้า
+model RootCauseAnalysis {
+  id          String   @id @default(uuid()) @db.Uuid
+  requestId   String   @map("request_id") @db.Uuid
+  rootCause   String   @map("root_cause") @db.Text
+  technique   String   @db.VarChar(200)
+  recordedById String  @map("recorded_by") @db.Uuid
+  recordedAt  DateTime @default(now()) @map("recorded_at") @db.Timestamptz(6)
+
+  request    CorrectiveRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  recordedBy User              @relation(fields: [recordedById], references: [id], onDelete: Restrict)
+
+  @@index([requestId])
+  @@map("root_cause_analysis")
+}
+
+/// แผนการปฏิบัติการแก้ไข · แผนที่อนุมัติแล้วห้ามเขียนทับ (§6.1.2.2 ข้อ 7)
+/// การแก้แผนหลังอนุมัติต้องสร้าง revision ใหม่ ไม่ใช่ UPDATE แถวเดิม
+/// การแก้ไข (ช่อง 2.2) กับการป้องกันไม่ให้เกิดซ้ำ (ช่อง 2.3) เป็นคนละช่อง ห้ามรวม
+model ActionPlan {
+  id                String   @id @default(uuid()) @db.Uuid
+  requestId         String   @map("request_id") @db.Uuid
+  revision          Int      @default(1)
+  correctiveSummary String   @map("corrective_summary") @db.Text
+  preventiveSummary String   @map("preventive_summary") @db.Text
+  isCurrent         Boolean  @default(true) @map("is_current")
+  submittedById     String   @map("submitted_by") @db.Uuid
+  submittedAt       DateTime @default(now()) @map("submitted_at") @db.Timestamptz(6)
+
+  request     CorrectiveRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  submittedBy User              @relation(fields: [submittedById], references: [id], onDelete: Restrict)
+
+  activities ActionPlanActivity[]
+  approvals  PlanApproval[]
+
+  @@unique([requestId, revision])
+  @@index([requestId])
+  @@map("action_plan")
+}
+
+/// กิจกรรมในแผน · แต่ละกิจกรรมมีผู้รับผิดชอบและกำหนดเวลาของตนเอง (BR-B-13)
+/// แผนต้องมีอย่างน้อยหนึ่งกิจกรรมก่อนส่งขออนุมัติ — บังคับที่ชั้นบริการ
+model ActionPlanActivity {
+  id               String     @id @default(uuid()) @db.Uuid
+  planId           String     @map("plan_id") @db.Uuid
+  kind             ActionKind
+  description      String     @db.Text
+  responsibleUserId String    @map("responsible_user_id") @db.Uuid
+  dueDate          DateTime   @map("due_date") @db.Date
+  completedAt      DateTime?  @map("completed_at") @db.Timestamptz(6)
+  resultNote       String?    @map("result_note") @db.Text
+
+  plan        ActionPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  responsible User       @relation(fields: [responsibleUserId], references: [id], onDelete: Restrict)
+
+  evidence Evidence[]
+  recordLinks ActivityRecordLink[]
+
+  @@index([planId])
+  @@index([dueDate])
+  @@map("action_plan_activity")
+}
+
+model ActivityRecordLink {
+  activityId String @map("activity_id") @db.Uuid
+  recordId String @map("record_id") @db.Uuid
+  activity ActionPlanActivity @relation(fields: [activityId], references: [id], onDelete: Restrict)
+  record QualityRecord @relation(fields: [recordId], references: [id], onDelete: Restrict)
+  @@id([activityId, recordId])
+  @@map("activity_record_link")
+}
+
+/// ผลการอนุมัติแผน · ผูกกับแผนฉบับที่พิจารณา ไม่ใช่ผูกกับใบคำร้องลอย ๆ
+/// ผู้อนุมัติต้องไม่ใช่ผู้จัดทำแผน (BR-B-12) — บังคับที่ชั้นบริการ
+/// ใบ CAR: QMR หรือ Lead Auditor · ใบ NCR: QMR เท่านั้น (TBD-B-10 ยังเปิด)
+model PlanApproval {
+  id          String             @id @default(uuid()) @db.Uuid
+  planId      String             @map("plan_id") @db.Uuid
+  result      PlanApprovalResult
+  decidedById String             @map("decided_by") @db.Uuid
+  actorRole   RoleCode           @map("actor_role")
+  reason      String?            @db.Text
+  decidedAt   DateTime           @default(now()) @map("decided_at") @db.Timestamptz(6)
+
+  plan      ActionPlan @relation(fields: [planId], references: [id], onDelete: Restrict)
+  decidedBy User       @relation(fields: [decidedById], references: [id], onDelete: Restrict)
+
+  @@index([planId])
+  @@map("plan_approval")
+}
+
+/// ผลการตรวจสอบประสิทธิผล · ผู้ตรวจสอบต้องไม่ใช่ผู้รับผิดชอบของใบ (หลักแยกหน้าที่)
+model Verification {
+  id           String             @id @default(uuid()) @db.Uuid
+  requestId    String             @map("request_id") @db.Uuid
+  result       VerificationResult
+  comment      String             @db.Text
+  verifiedById String             @map("verified_by") @db.Uuid
+  actorRole    RoleCode           @map("actor_role")
+  verifiedAt   DateTime           @default(now()) @map("verified_at") @db.Timestamptz(6)
+
+  request    CorrectiveRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  verifiedBy User              @relation(fields: [verifiedById], references: [id], onDelete: Restrict)
+
+  closure Closure?
+
+  @@index([requestId])
+  @@map("verification")
+}
+
+/// การปิดใบ · ผู้ปิดต้องไม่ใช่ผู้ตรวจสอบประสิทธิผลและไม่ใช่ผู้รับผิดชอบ
+/// หลักแยกหน้าที่สามชั้น: ผู้แก้ไข ≠ ผู้ตรวจสอบประสิทธิผล ≠ ผู้ปิดใบ
+model Closure {
+  id             String   @id @default(uuid()) @db.Uuid
+  requestId      String   @unique @map("request_id") @db.Uuid
+  verificationId String   @unique @map("verification_id") @db.Uuid
+  closedById     String   @map("closed_by") @db.Uuid
+  actorRole      RoleCode @map("actor_role")
+  note           String?  @db.Text
+  closedAt       DateTime @default(now()) @map("closed_at") @db.Timestamptz(6)
+
+  request      CorrectiveRequest @relation(fields: [requestId], references: [id], onDelete: Restrict)
+  verification Verification      @relation(fields: [verificationId], references: [id], onDelete: Restrict)
+  closedBy     User              @relation(fields: [closedById], references: [id], onDelete: Restrict)
+
+  @@map("closure")
+}
+
+
+/// ร่างที่ส่งตรวจแต่ละรอบเป็นข้อมูลถาวร ผลตัดสินผูกกับหมายเลขรอบ
+model DarRound {
+ id String @id @default(uuid()) @db.Uuid
+ darId String @map("dar_id") @db.Uuid
+ roundNo Int @map("round_no")
+ snapshot Json
+ submittedAt DateTime @default(now()) @map("submitted_at") @db.Timestamptz(6)
+ dar Dar @relation(fields:[darId], references:[id], onDelete:Restrict)
+ @@unique([darId,roundNo])
+ @@map("dar_round")
+}
+model DarFile {
+ kind String @default("DRAFT") @db.VarChar(20)
+ id String @id @default(uuid()) @db.Uuid
+ darId String @map("dar_id") @db.Uuid
+ roundNo Int @map("round_no")
+ fileName String @map("file_name") @db.VarChar(255)
+ storagePath String @unique @map("storage_path") @db.VarChar(500)
+ sha256 String @db.VarChar(64)
+ sizeBytes BigInt @map("size_bytes")
+ uploadedById String @map("uploaded_by") @db.Uuid
+ uploadedAt DateTime @default(now()) @map("uploaded_at") @db.Timestamptz(6)
+ dar Dar @relation(fields:[darId], references:[id], onDelete:Restrict)
+ @@index([darId,roundNo])
+ @@map("dar_file")
+}
+model DocumentCodeSequence {
+ key String @id @db.VarChar(100)
+ lastNumber Int @default(0) @map("last_number")
+ @@map("document_code_sequence")
+}

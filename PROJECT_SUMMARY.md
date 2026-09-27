@@ -1,8 +1,10 @@
 # สรุปภาพรวมโครงงาน — SE02 Group B
 
-เอกสารนี้สรุปว่าตอนนี้โครงงานมีไฟล์อะไรอยู่ที่ไหน อะไรเสร็จแล้ว อะไรยังค้าง และไฟล์ไหนต้องระวังไม่ให้เชื่อตรง ๆ ปรับปรุงล่าสุด: 2026-09-12
+> สถานะตัวระบบปัจจุบันให้ดู `PROJECT_STATE.md` ก่อน: มีโค้ดระบบจริงใน `efiling/` แล้ว รวมโมดูล DAR และการรับทราบเอกสาร (`efiling/api/src/services/acknowledgementService.ts`, `efiling/frontend/src/pages/AcknowledgementsPage.tsx`) และ CAR/NCR (`efiling/api/src/services/carService.ts`, `carWorkflow.ts`, `carAccess.ts`, `carEvidence.ts`; `efiling/frontend/src/pages/CarPage.tsx`, `CarActions.tsx`; targeted test `efiling/api/tests/car.integration.ts`) รายละเอียดความคืบหน้าด้านล่างบางส่วนเป็นบันทึกเก่า
 
-> **งานรวม SRS ล่าสุด (แก้รอบตรวจซ้ำ 16 ก.ย. 2569):** รวม `GroupA_SRS_v2.md` และ `GroupB_SRS_v2.md` เป็น **`SRS_v1.md`** ครบ §1–6 และ Appendix A–F แล้ว เป็น **Working Draft v1.1 ยังไม่ใช่ Baseline** · **`SRS_v1.md` เป็นไฟล์ที่สร้างจาก `python scripts/merge_srs.py` ห้ามแก้ด้วยมือ** เพราะจะถูกเขียนทับ ให้แก้ที่ `scripts/srs_merge_rules.py` หรือ `scripts/merge_srs.py` แล้วสร้างใหม่ · คงรหัสข้อกำหนดทั้งสองโมดูลรวม 304 รหัส · ทะเบียนอ้างอิง 31 รายการ · บทบาทกลาง 14 บทบาท · รายงานผลและประเด็นค้างอยู่ใน `SRS_Merge_Report.md` และบัญชีตรวจย้อนกลับอยู่ใน `SRS_Merge_Audit.json` · ต้นฉบับ A/B ไม่ถูกแก้ไข เก็บไว้สอบกลับ · ตรวจฉบับรวมด้วย `python scripts/check_merged_srs.py SRS_v1.md` (ผ่านครบ 15 ด่าน) และสร้างบัญชีตรวจซ้ำด้วย `python scripts/srs_merge_audit.py`
+เอกสารนี้สรุปว่าตอนนี้โครงงานมีไฟล์อะไรอยู่ที่ไหน อะไรเสร็จแล้ว อะไรยังค้าง และไฟล์ไหนต้องระวังไม่ให้เชื่อตรง ๆ ปรับปรุงล่าสุด: 2026-09-27
+
+> **SRS ปัจจุบัน (27 ก.ย. 2569):** `SRS_v1.md` เป็น **Version 1.2 Working Draft — Implementation Reconciled** ครบ §1–§6, Appendix A–F และ UC 28 ข้อ; ยังไม่ใช่ Baseline · สร้างด้วย `python scripts/merge_srs.py` จาก `GroupA_SRS_v2.md`, `GroupB_SRS_v2.md`, `scripts/srs_merge_rules.py`, `scripts/srs_reconcile_current.py` และ `scripts/srs_reconcile_shared.py`; ห้ามแก้ไฟล์ generated ด้วยมือ · ตัวสร้างเรียก `scripts/validate_srs_generation.py` ก่อนเขียนไฟล์ และตรวจซ้ำได้ด้วย `python scripts/validate_srs_generation.py SRS_v1.md` · รายงานปัจจุบันอยู่ `docs/SRS_RECONCILIATION_2026-09-26.md`; `SRS_Merge_Report.md` กับ `scripts/check_merged_srs.py` แบบเต็มเก็บเกณฑ์ v1.1 ตามประวัติ (โหมด `--structure-only` ยังใช้ตรวจตาราง/anchor ของ v1.2 ได้) · ต้นฉบับ A/B คงเดิมสำหรับสอบกลับ
 >
 > ข้อมูลสถานะเก่าด้านล่างบางส่วนยังสะท้อนฉบับก่อนรวม โดยเฉพาะจำนวนบทบาท กราฟ และข้อความว่ายังไม่รวม SRS ให้ดูฉบับรวมและทะเบียนมติล่าสุดประกอบ ไม่ใช้บันทึกเก่าแทนการยืนยันของผู้มีอำนาจ
 

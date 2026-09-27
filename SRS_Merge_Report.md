@@ -1,5 +1,7 @@
 # รายงานการรวม SRS v2 ของโมดูล A และ B
 
+> รายงานนี้เก็บผล merge ฉบับ **v1.1 ณ 16 ก.ย. 2569** รวมตัวเลขบรรทัดและ full text-preservation gate เดิม ไม่ใช่ผล QA ล่าสุดของ v1.2. การสร้างปัจจุบันใช้ `python scripts/merge_srs.py` ซึ่งเรียก `scripts/srs_merge_rules.py`, `scripts/srs_reconcile_current.py`, `scripts/srs_reconcile_shared.py` และตรวจ fail-fast ด้วย `scripts/validate_srs_generation.py` ก่อนเขียน `SRS_v1.md`. ผล structural/generation closure ล่าสุดอยู่ที่ `docs/SRS_RECONCILIATION_2026-09-26.md`; `scripts/check_merged_srs.py --structure-only` ยังตรวจ anchor/table ได้ ส่วน full v1.1 text-preservation gate ไม่ใช้ตัดสิน v1.2.
+
 วันที่ 12 กันยายน 2569 · แก้รอบตรวจซ้ำ 16 กันยายน 2569 · ผลส่งมอบ: **รวมครบแล้ว เป็น Working Draft v1.1 ยังไม่ใช่ Baseline**
 
 ## 1. ผลส่งมอบและขอบเขตการอนุญาต

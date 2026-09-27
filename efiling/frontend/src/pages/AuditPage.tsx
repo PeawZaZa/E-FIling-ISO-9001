@@ -1,0 +1,66 @@
+import { useEffect, useState, type FormEvent } from 'react';
+import { api, ApiError } from '../services/apiClient';
+
+type Option = { id: string; nameTh?: string; fullName?: string; title?: string; documentCode?: string | null; departmentId?: string | null; evidenceCount?: number };
+type Evidence = { id: string; fileName: string };
+type Finding = { id: string; source: string; findingType: string; severity: string; description: string; violatedRequirement: string; document: { documentCode: string | null; title: string } | null; record: { id: string; title: string } | null; evidence: Evidence[] };
+type Round = { id: string; name: string; objective: string; scope: string; criteria: string; startDate: string; endDate: string; targetDepartment: { nameTh: string }; members: { auditor: { fullName: string }; independenceWaived: boolean; waiverReason: string | null }[]; findings?: Finding[] };
+type Options = { departments: Option[]; auditors: Option[]; documents: Option[]; records: Option[]; canCreateRound: boolean; canCreateFinding: boolean; maxFileBytes: number; allowedMimeTypes: string[] };
+type Summary = { byType: Record<string, number>; bySeverity: Record<string, number> };
+const sources: Record<string, string> = { INTERNAL_AUDIT: 'ตรวจติดตามภายใน', EXTERNAL_AUDIT: 'ตรวจประเมินภายนอก', MANAGEMENT_REVIEW: 'ประชุมทบทวนฝ่ายบริหาร', COMPLAINT: 'ข้อร้องเรียน', IMPROVEMENT_PROPOSAL: 'ข้อเสนอปรับปรุง' };
+const kinds: Record<string, string> = { NONCONFORMITY: 'ความไม่สอดคล้อง', OBSERVATION: 'ข้อสังเกต', IMPROVEMENT_SUGGESTION: 'ข้อเสนอแนะเพื่อปรับปรุง' };
+const guidance: Record<string, string> = { MAJOR: 'Major: ขาดกระบวนการ กระบวนการล้มเหลว กระทบผู้รับบริการ หรือเกิดซ้ำ', MINOR: 'Minor: ไม่ครบถ้วนเป็นรายกรณี แต่กระบวนการรวมยังทำงาน', OB: 'OB: ยังสอดคล้อง แต่พบความเสี่ยงหรือโอกาสปรับปรุง' };
+const errorText = (e: unknown) => e instanceof ApiError ? e.message : 'เชื่อมต่อระบบไม่ได้ กรุณาลองใหม่';
+
+export function AuditPage() {
+  const [options, setOptions] = useState<Options | null>(null);
+  const [rounds, setRounds] = useState<Round[]>([]), [findings, setFindings] = useState<Finding[]>([]);
+  const [selected, setSelected] = useState<{ round: Round; summary: Summary } | null>(null);
+  const [form, setForm] = useState<'round' | 'finding' | null>(null);
+  const [auditors, setAuditors] = useState<string[]>([]), [departmentId, setDepartmentId] = useState('');
+  const [source, setSource] = useState('INTERNAL_AUDIT'), [severity, setSeverity] = useState('');
+  const [roundDateError, setRoundDateError] = useState('');
+  const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState(''), [revision, setRevision] = useState(0);
+  useEffect(() => { let active = true; api<Options>('/audit/options').then(v => { if (active) setOptions(v); }).catch(e => { if (active) setError(errorText(e)); }); return () => { active = false; }; }, []);
+  useEffect(() => { let active = true; Promise.all([api<{ rounds: Round[] }>('/audit/rounds'), api<{ findings: Finding[] }>('/audit/findings')]).then(([a,b]) => { if (active) { setRounds(a.rounds); setFindings(b.findings); } }).catch(e => { if (active) setError(errorText(e)); }); return () => { active = false; }; }, [revision]);
+  useEffect(() => {
+    if (!form || !options) return;
+    let page: HTMLElement | null = null;
+    const frame = requestAnimationFrame(() => {
+      const target = document.getElementById(form === 'round' ? 'audit-round-create-form' : 'finding-create-form');
+      if (!target) return;
+      page = target.closest('main');
+      const mobile = window.matchMedia('(max-width: 600px)').matches;
+      const headerHeight = document.querySelector('.workspace-header')?.getBoundingClientRect().height ?? 0;
+      const visibleHeight = mobile ? window.innerHeight - headerHeight : (page?.clientHeight ?? window.innerHeight);
+      page?.style.setProperty('padding-bottom', `${Math.max(48, visibleHeight - target.offsetHeight + 16)}px`);
+      if (mobile) target.style.scrollMarginTop = `${headerHeight + 16}px`;
+      target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    });
+    return () => { cancelAnimationFrame(frame); page?.style.removeProperty('padding-bottom'); };
+  }, [form, options]);
+  async function openRound(id: string) { try { setSelected(await api<{ round: Round; summary: Summary }>(`/audit/rounds/${id}`)); } catch (e) { setError(errorText(e)); } }
+  async function saveRound(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    if (String(data.get('endDate')) < String(data.get('startDate'))) {
+      setRoundDateError('วันที่สิ้นสุดต้องไม่ก่อนวันที่เริ่มต้น');
+      return;
+    }
+    setRoundDateError(''); setBusy(true); setError('');
+    try { const row = await api<Round>('/audit/rounds', { ...Object.fromEntries(data), auditorUserIds: auditors }, 'POST'); setForm(null); setRevision(n => n + 1); setNotice('บันทึกรอบตรวจแล้ว'); await openRound(row.id); }
+    catch (error) { setError(errorText(error)); }
+    finally { setBusy(false); }
+  }
+  async function saveFinding(e: FormEvent<HTMLFormElement>) { e.preventDefault(); setBusy(true); setError(''); try { await api('/audit/findings', new FormData(e.currentTarget)); setForm(null); setRevision(n => n + 1); setNotice('บันทึกประเด็นแล้ว'); if (selected) await openRound(selected.round.id); } catch (error) { setError(errorText(error)); } finally { setBusy(false); } }
+  const conflict = options?.auditors.filter(a => auditors.includes(a.id) && a.departmentId && a.departmentId === departmentId) || [];
+  return <main className="module-page registry-page audit-page"><div className="registry-heading"><div><h1>รอบตรวจและประเด็น</h1><p>รอบตรวจ Finding และหลักฐานเชิงวัตถุ</p></div><div className="audit-actions">{options?.canCreateRound && <button onClick={() => { setRoundDateError(''); setForm('round'); }}>＋ สร้างรอบตรวจ</button>}{options?.canCreateFinding && <button onClick={() => setForm('finding')}>＋ เพิ่มประเด็น</button>}</div></div>
+    {error && <p className="registry-error" role="alert">{error}</p>}{notice && <p className="registry-notice" role="status">{notice}</p>}
+    {selected && <section className="registry-panel"><div className="registry-heading"><h2>{selected.round.name}</h2><button className="secondary" onClick={() => setSelected(null)}>ปิดรายละเอียด</button></div><p>วันที่: {selected.round.startDate.slice(0,10)} ถึง {selected.round.endDate.slice(0,10)} · กลุ่มงาน: {selected.round.targetDepartment.nameTh}</p><p>วัตถุประสงค์: {selected.round.objective}</p><p>ขอบเขต: {selected.round.scope}</p><p>เกณฑ์การตรวจ: {selected.round.criteria}</p><p>ทีมผู้ตรวจ: {selected.round.members.map(m => `${m.auditor.fullName}${m.independenceWaived ? ' (ยกเว้นความเป็นอิสระ)' : ''}`).join(', ')}</p><p>ความไม่สอดคล้อง {selected.summary.byType.NONCONFORMITY} · ข้อสังเกต {selected.summary.byType.OBSERVATION} · ข้อเสนอแนะ {selected.summary.byType.IMPROVEMENT_SUGGESTION} · Major {selected.summary.bySeverity.MAJOR} · Minor {selected.summary.bySeverity.MINOR} · OB {selected.summary.bySeverity.OB}</p>{selected.round.findings?.map(f => <FindingCard key={f.id} item={f}/>)}</section>}
+    <section className="registry-panel registry-flush"><h2 className="audit-section-title">รอบตรวจ ({rounds.length})</h2><div className="registry-table-wrap"><table className="registry-table"><thead><tr><th>รอบตรวจ</th><th>วันเริ่ม</th><th>กลุ่มงาน</th><th>ทีมผู้ตรวจ</th></tr></thead><tbody>{rounds.map(r => <tr key={r.id}><td><button className="registry-link" onClick={() => void openRound(r.id)}>{r.name}</button></td><td>{r.startDate.slice(0,10)}</td><td>{r.targetDepartment.nameTh}</td><td>{r.members.map(m => m.auditor.fullName).join(', ')}</td></tr>)}</tbody></table></div>{!rounds.length && <p className="registry-empty">ยังไม่มีรอบตรวจที่มีสิทธิ์ดู</p>}</section>
+    <section className="registry-panel"><h2>ประเด็นที่พบ ({findings.length})</h2>{findings.map(f => <FindingCard key={f.id} item={f}/>)}{!findings.length && <p className="registry-empty">ยังไม่มีประเด็นที่พบ</p>}</section>
+    {form === 'round' && options && <section id="audit-round-create-form" className="registry-panel audit-create-form"><h2>สร้างรอบตรวจ</h2><form onSubmit={e => void saveRound(e)}><div className="registry-form-grid"><label>ชื่อรอบ <input name="name" required maxLength={200}/></label><label>กลุ่มงานเป้าหมาย <select name="targetDepartmentId" required value={departmentId} onChange={e => setDepartmentId(e.target.value)}><option value="">เลือกกลุ่มงาน</option>{options.departments.map(d => <option key={d.id} value={d.id}>{d.nameTh}</option>)}</select></label><label className="registry-wide">วัตถุประสงค์ <textarea name="objective" required rows={2}/></label><label className="registry-wide">ขอบเขต <textarea name="scope" required rows={2}/></label><label className="registry-wide">เกณฑ์การตรวจ <textarea name="criteria" required rows={2}/></label><label>วันเริ่ม <input name="startDate" type="date" required onInput={() => setRoundDateError('')}/></label><label>วันสิ้นสุด <input name="endDate" type="date" required onInput={() => setRoundDateError('')}/></label></div><fieldset className="audit-members"><legend>ทีมผู้ตรวจ</legend>{options.auditors.map(a => <label key={a.id}><input type="checkbox" checked={auditors.includes(a.id)} onChange={e => setAuditors(ids => e.target.checked ? [...ids,a.id] : ids.filter(id => id !== a.id))}/>{a.fullName}</label>)}</fieldset>{conflict.length > 0 && <><p className="registry-warning">ผู้ตรวจสังกัดกลุ่มงานเป้าหมาย: {conflict.map(a => a.fullName).join(', ')} DCC ต้องให้เหตุผลยกเว้น</p><label>เหตุผลยกเว้น <textarea name="waiverReason" required/></label></>}{roundDateError && <p className="registry-error" role="alert">{roundDateError}</p>}<div className="registry-actions"><button disabled={busy || !auditors.length}>บันทึก</button><button type="button" className="secondary" onClick={() => setForm(null)}>ยกเลิก</button></div></form></section>}
+    {form === 'finding' && options && <section id="finding-create-form" className="registry-panel audit-create-form"><h2>เพิ่มประเด็นที่พบ</h2><form onSubmit={e => void saveFinding(e)}><div className="registry-form-grid"><label>แหล่งที่มา <select name="source" value={source} onChange={e => setSource(e.target.value)}>{Object.entries(sources).map(([key,label]) => <option key={key} value={key}>{label}</option>)}</select></label>{source === 'INTERNAL_AUDIT' && <label>รอบตรวจ <select name="auditRoundId" required defaultValue={selected?.round.id || ''}><option value="">เลือกรอบตรวจ</option>{rounds.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select></label>}<label>ชนิดประเด็น <select name="findingType" required defaultValue=""><option value="">เลือกชนิด</option>{Object.entries(kinds).map(([key,label]) => <option key={key} value={key}>{label}</option>)}</select></label><label>ระดับ <select name="severity" required value={severity} onChange={e => setSeverity(e.target.value)}><option value="">ให้ผู้ตรวจเลือกระดับ</option>{Object.keys(guidance).map(key => <option key={key} value={key}>{key}</option>)}</select></label><p className="registry-wide audit-help">{severity ? `${guidance[severity]} (นิยามเสนอ รอยืนยัน)` : 'ระดับเป็นดุลยพินิจของผู้ตรวจ ระบบไม่กำหนดอัตโนมัติ'}</p><label className="registry-wide">สิ่งที่ตรวจพบ <textarea name="description" required minLength={10} rows={3}/></label><label className="registry-wide">ข้อกำหนดที่เกี่ยวข้อง <textarea name="violatedRequirement" required rows={2}/></label><label>วันที่พบ <input name="identifiedDate" type="date" required defaultValue={new Date().toISOString().slice(0,10)}/></label><label>เอกสาร <select name="documentId" defaultValue=""><option value="">ไม่ผูกเอกสาร</option>{options.documents.map(d => <option key={d.id} value={d.id}>{d.documentCode || d.title}</option>)}</select></label><label>บันทึกและหลักฐานเดิม <select name="recordId" defaultValue=""><option value="">ไม่ผูกบันทึก</option>{options.records.map(r => <option key={r.id} value={r.id}>{r.title} ({r.evidenceCount} ไฟล์)</option>)}</select></label><label>หลักฐานใหม่ (สูงสุด 5 ไฟล์ ไฟล์ละ {options.maxFileBytes / 1024 / 1024} MB) <input name="files" type="file" multiple accept={options.allowedMimeTypes.join(',')}/></label></div><p className="registry-warning">ความไม่สอดคล้องต้องมีไฟล์ใหม่หรือบันทึกเดิมที่มีไฟล์หลักฐาน</p><div className="registry-actions"><button disabled={busy}>บันทึกประเด็น</button><button type="button" className="secondary" onClick={() => setForm(null)}>ยกเลิก</button></div></form></section>}
+  </main>;
+}
+function FindingCard({ item }: { item: Finding }) { return <article className="audit-finding-card"><strong>{kinds[item.findingType]} · {item.severity}</strong><small>{sources[item.source]}</small><p>{item.description}</p><p>ข้อกำหนด: {item.violatedRequirement}</p>{item.document && <p>เอกสาร: {item.document.documentCode || item.document.title}</p>}{item.record && <p>บันทึกหลักฐานเดิม: <a href={`#records?recordId=${encodeURIComponent(item.record.id)}`}>{item.record.title} — เปิดบันทึกและหลักฐาน</a></p>}{item.evidence.map(file => <a key={file.id} href={`/api/audit/evidence/${file.id}`}>ดาวน์โหลด {file.fileName}</a>)}</article>; }

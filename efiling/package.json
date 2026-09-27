@@ -1,0 +1,45 @@
+{
+  "name": "efiling",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "api",
+    "frontend"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"npm run dev -w @efiling/api\" \"npm run dev -w @efiling/web\"",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test -w @efiling/api",
+    "db:validate": "node scripts/prisma.mjs validate",
+    "db:generate": "node scripts/prisma.mjs generate",
+    "db:migrate": "node scripts/prisma.mjs migrate deploy",
+    "db:seed": "tsx scripts/seed-demo.ts",
+    "backup:migration": "node scripts/backup-migration.mjs",
+    "restore:migration": "node scripts/restore-migration.mjs",
+    "verify:migration": "node scripts/verify-migration.mjs",
+    "iso:inventory": "python scripts/inventory_iso.py",
+    "iso:import": "tsx scripts/import-iso.ts",
+    "iso:report": "python scripts/build-import-report.py",
+    "iso:verify": "tsx scripts/verify-iso.ts",
+    "iso:confirm-central": "tsx scripts/confirm-central-source.ts",
+    "test:documents": "tsx --test api/tests/documents.integration.ts",
+    "test:dar": "tsx --test api/tests/dar.integration.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.2",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "prisma": "6.19.2",
+    "typescript": "~5.9.3",
+    "concurrently": "^9.2.1"
+  },
+  "overrides": {
+    "effect": "^3.22.2",
+    "deepmerge-ts": "^8.0.2"
+  }
+}

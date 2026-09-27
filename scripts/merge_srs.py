@@ -223,5 +223,10 @@ output=output.replace('| Infix `-X-` (Case X) | Infix `-B-` |',
  '| Infix `-X-` (Case X) | Infix `-A-` และ `-B-` |')
 output=output.replace('หัวข้อ 4 มี 14 Use Case + 2 หัวข้อแบบ Stimulus/Response',
  'หัวข้อ 4 มี 28 Use Case + 3 หัวข้อพฤติกรรมร่วม')
+from srs_reconcile_current import apply_current
+from srs_reconcile_shared import apply_shared
+output=apply_shared(apply_current(output))
+from validate_srs_generation import validate_text
+validate_text(output, A, B)  # fail before writing if mandatory structure or IDs disappear
 (root/'SRS_v1.md').write_text(output,encoding='utf-8')
 print('Created full SRS:',len(output.splitlines()),'lines')

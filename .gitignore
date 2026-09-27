@@ -19,3 +19,19 @@ ISO files/
 
 # ทางลัดของ Windows เฉพาะเครื่องนี้ (ชี้ไปยังไดรฟ์ในเครื่อง ไม่ใช่เนื้อหาโครงงาน)
 *.lnk
+
+# Python and report-rendering artifacts (rebuildable local QA output)
+__pycache__/
+*.pyc
+docs/report-drafts/.ch2_figures_render/
+docs/report-drafts/.chapter2-figures-word-render/
+docs/report-drafts/.chapter3-word-qa/
+docs/report-drafts/.chapter2-qa/*.png
+docs/report-drafts/.chapter2-qa/*.pdf
+docs/report-drafts/*_qa.png
+docs/report-drafts/*_qa.pdf
+docs/report-drafts/*_render.pdf
+
+# Empty editor placeholders
+docs/New Text Document.txt
+docs/report-drafts/New Microsoft Word Document.docx

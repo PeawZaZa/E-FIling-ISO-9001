@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ERD Diagram — ISO E-Filing Phase 1</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:#f0f4f8;color:#1e293b;font-size:13px;overflow:hidden;height:100vh}
+header{background:#1e3055;color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;z-index:100;position:relative}
+header h1{font-size:15px;font-weight:700}
+header p{font-size:11px;color:#7da4e0;margin-top:1px}
+.hbtn{padding:5px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;color:#fff;cursor:pointer;font-size:11px;font-family:inherit;transition:background .15s}
+.hbtn:hover{background:rgba(255,255,255,.2)}
+.hbtn.active{background:#2463d9;border-color:#2463d9}
+/* Canvas */
+#canvas-wrap{position:relative;width:100%;height:calc(100vh - 104px);overflow:auto;background:#f8fafc;cursor:grab}
+#canvas-wrap:active{cursor:grabbing}
+#canvas{position:relative;width:3000px;height:2000px}
+/* Entity boxes */
+.entity{position:absolute;background:#fff;border-radius:10px;border:1.5px solid #e2e8f0;box-shadow:0 2px 10px rgba(0,0,0,.08);min-width:210px;user-select:none;cursor:move}
+.entity-head{padding:10px 14px;border-radius:8px 8px 0 0;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px}
+.entity-body{padding:0}
+.field{display:flex;gap:6px;align-items:center;padding:5px 12px;border-bottom:1px solid #f8fafc;font-size:11px}
+.field:last-child{border-bottom:none;border-radius:0 0 8px 8px}
+.field:hover{background:#f8fafc}
+.ftype{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#94a3b8;flex-shrink:0;width:60px;text-align:right}
+.fname{flex:1;color:#374151;font-weight:500}
+.pk-badge{background:#fef3c7;color:#92400e;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;flex-shrink:0}
+.fk-badge{background:#dbeafe;color:#1e40af;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;flex-shrink:0}
+.nn-badge{background:#fee2e2;color:#991b1b;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;flex-shrink:0}
+/* Shared */
+.esh{border-color:#94a3b8}.esh .entity-head{background:#f1f5f9;color:#475569}
+/* Group A */
+.ega{border-color:#93c5fd}.ega .entity-head{background:#dbeafe;color:#1e40af}
+/* Group B */
+.egb{border-color:#c4b5fd}.egb .entity-head{background:#ede9fe;color:#4c1d95}
+/* SVG layer */
+#svg-layer{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+/* Panels */
+.legend{position:fixed;bottom:24px;left:24px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;font-size:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50}
+.leg-item{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.leg-item:last-child{margin-bottom:0}
+.leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+/* Export panel */
+#export-panel{position:fixed;top:80px;right:24px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px;box-shadow:0 8px 28px rgba(0,0,0,.12);z-index:200;width:380px;display:none}
+#export-panel h3{font-size:14px;font-weight:700;margin-bottom:12px;color:#0f172a}
+.export-tab{display:flex;gap:0;border-bottom:1px solid #e2e8f0;margin-bottom:12px}
+.etab{padding:6px 14px;font-size:12px;cursor:pointer;border-bottom:2px solid transparent;color:#64748b;font-family:inherit;background:none;border-top:none;border-left:none;border-right:none;transition:color .15s}
+.etab.active{color:#2463d9;border-bottom-color:#2463d9;font-weight:600}
+.code-area{background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#374151;white-space:pre;overflow:auto;max-height:320px;line-height:1.6}
+.copy-btn{width:100%;padding:7px;background:#2463d9;color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;margin-top:8px;font-weight:600}
+.copy-btn:hover{background:#1d55c4}
+.hint{font-size:11px;color:#64748b;margin-top:8px;line-height:1.5}
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>ERD — ISO E-Filing Phase 1 · Entity Relationship Diagram</h1>
+    <p>คณะวิศวกรรมศาสตร์ มทร.ล้านนา · 13 Entities · Shared + Group A + Group B · คลิกลากเพื่อเลื่อน</p>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+    <button class="hbtn" onclick="fitAll()">⊞ Fit All</button>
+    <button class="hbtn" onclick="toggleLines()" id="line-btn">— Hide Relations</button>
+    <button class="hbtn active" onclick="toggleExport()" id="exp-btn">⬇ Export</button>
+    <button class="hbtn" onclick="window.print()">🖨 Print</button>
+  </div>
+</header>
+
+<div id="canvas-wrap">
+  <div id="canvas">
+    <svg id="svg-layer"></svg>
+    <!-- ═══ SHARED ENTITIES ════════════════════════════════ -->
+    <div class="entity esh" id="e-user" style="left:40px;top:40px">
+      <div class="entity-head">👤 User <span style="font-size:10px;opacity:.6;margin-left:auto">Shared</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">user_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">full_name</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">email</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">role_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">department_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fname">password_hash</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fname">active</span><span class="ftype">boolean</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity esh" id="e-role" style="left:300px;top:40px">
+      <div class="entity-head">🎭 Role <span style="font-size:10px;opacity:.6;margin-left:auto">Shared</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">role_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">role_name</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fname">description</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">permissions</span><span class="ftype">jsonb</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity esh" id="e-dept" style="left:540px;top:40px">
+      <div class="entity-head">🏢 Department <span style="font-size:10px;opacity:.6;margin-left:auto">Shared</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">department_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">name</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fname">code</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity esh" id="e-trail" style="left:800px;top:40px">
+      <div class="entity-head">📜 AuditTrail <span style="font-size:10px;opacity:.6;margin-left:auto">Shared</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">log_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">actor_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">action</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">entity_type</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fname">entity_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fname">detail</span><span class="ftype">text</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ GROUP A ENTITIES ═══════════════════════════════ -->
+    <div class="entity ega" id="e-doc" style="left:40px;top:360px">
+      <div class="entity-head">📄 Document <span style="font-size:10px;opacity:.6;margin-left:auto">Group A</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">document_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">document_code</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">title</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">document_type</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">department_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">owner_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">approver_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">current_version_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">updated_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity ega" id="e-docver" style="left:300px;top:360px">
+      <div class="entity-head">📋 DocumentVersion <span style="font-size:10px;opacity:.6;margin-left:auto">Group A</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">version_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">document_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">revision_no</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fname">issue_no</span><span class="ftype">int</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">file_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">effective_date</span><span class="ftype">date</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">published_by</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity ega" id="e-file" style="left:560px;top:360px">
+      <div class="entity-head">📎 DocumentFile <span style="font-size:10px;opacity:.6;margin-left:auto">Group A</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">file_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">original_name</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">storage_path</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">mime_type</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fname">file_size</span><span class="ftype">bigint</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">uploaded_by</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity ega" id="e-dar" style="left:40px;top:680px">
+      <div class="entity-head">📝 DAR <span style="font-size:10px;opacity:.6;margin-left:auto">Group A</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">dar_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">dar_no</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">document_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">action_type</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">reason</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">requester_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">approver_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">comment</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">submitted_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">resolved_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity ega" id="e-ack" style="left:300px;top:680px">
+      <div class="entity-head">✅ Acknowledgement <span style="font-size:10px;opacity:.6;margin-left:auto">Group A</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">ack_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">document_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">version_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">user_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">ack_at</span><span class="ftype">timestamp</span></div>
+        <div class="field"><span class="fname">ip_address</span><span class="ftype">varchar</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ GROUP B ENTITIES ═══════════════════════════════ -->
+    <div class="entity egb" id="e-record" style="left:820px;top:360px">
+      <div class="entity-head">🗂 Record <span style="font-size:10px;opacity:.6;margin-left:auto">Group B</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">record_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">document_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">record_type</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">title</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">file_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">created_by</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fname">record_date</span><span class="ftype">date</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity egb" id="e-audit" style="left:1060px;top:360px">
+      <div class="entity-head">🔍 Audit <span style="font-size:10px;opacity:.6;margin-left:auto">Group B</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">audit_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">title</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">audit_date</span><span class="ftype">date</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">scope</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">auditor_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fname">dept_scope</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity egb" id="e-finding" style="left:820px;top:660px">
+      <div class="entity-head">⚠ Finding <span style="font-size:10px;opacity:.6;margin-left:auto">Group B</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">finding_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">audit_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">document_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">record_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">finding_type</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">severity</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">clause_ref</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">description</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">evidence</span><span class="ftype">text</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+
+    <div class="entity egb" id="e-car" style="left:1060px;top:660px">
+      <div class="entity-head">🔧 CAR <span style="font-size:10px;opacity:.6;margin-left:auto">Group B</span></div>
+      <div class="entity-body">
+        <div class="field"><span class="pk-badge">PK</span><span class="fname">car_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">car_no</span><span class="ftype">varchar</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">finding_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">owner_id</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">due_date</span><span class="ftype">date</span></div>
+        <div class="field"><span class="nn-badge">NN</span><span class="fname">status</span><span class="ftype">enum</span></div>
+        <div class="field"><span class="fname">root_cause</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">corrective_action</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">evidence</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fk-badge">FK</span><span class="fname">verified_by</span><span class="ftype">uuid</span></div>
+        <div class="field"><span class="fname">verify_note</span><span class="ftype">text</span></div>
+        <div class="field"><span class="fname">closed_date</span><span class="ftype">date</span></div>
+        <div class="field"><span class="fname">created_at</span><span class="ftype">timestamp</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Entity Groups</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#94a3b8;border:2px solid #94a3b8"></div>Shared (User, Role, Dept, AuditTrail)</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#2463d9;border:2px solid #2463d9"></div>Group A (Document, DAR, ACK)</div>
+  <div class="leg-item"><div class="leg-dot" style="background:#7c3aed;border:2px solid #7c3aed"></div>Group B (Record, Audit, Finding, CAR)</div>
+  <div style="margin-top:10px;border-top:1px solid #f1f5f9;padding-top:8px;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Keys</div>
+  <div class="leg-item"><span class="pk-badge" style="font-size:10px">PK</span> Primary Key</div>
+  <div class="leg-item"><span class="fk-badge" style="font-size:10px">FK</span> Foreign Key</div>
+  <div class="leg-item"><span class="nn-badge" style="font-size:10px">NN</span> NOT NULL</div>
+</div>
+
+<!-- Export Panel -->
+<div id="export-panel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <h3>Export ERD</h3>
+    <button onclick="toggleExport()" style="background:none;border:none;cursor:pointer;color:#94a3b8;font-size:16px">✕</button>
+  </div>
+  <div class="export-tab">
+    <button class="etab active" onclick="switchTab('drawio')">draw.io XML</button>
+    <button class="etab" onclick="switchTab('mermaid')">Mermaid</button>
+    <button class="etab" onclick="switchTab('dbml')">DBML</button>
+    <button class="etab" onclick="switchTab('sql')">SQL DDL</button>
+  </div>
+  <div id="code-output" class="code-area"></div>
+  <button class="copy-btn" onclick="copyCode()">📋 Copy to Clipboard</button>
+  <div class="hint" id="export-hint"></div>
+</div>
+
+<script>
+// ── Canvas pan ─────────────────────────────────────────────────
+const wrap = document.getElementById('canvas-wrap');
+let isPanning = false, startX, startY, scrollLeft, scrollTop;
+wrap.addEventListener('mousedown', e => {
+  if (e.target.closest('.entity')) return;
+  isPanning = true; wrap.style.cursor = 'grabbing';
+  startX = e.pageX - wrap.offsetLeft; startY = e.pageY - wrap.offsetTop;
+  scrollLeft = wrap.scrollLeft; scrollTop = wrap.scrollTop;
+});
+wrap.addEventListener('mousemove', e => {
+  if (!isPanning) return;
+  e.preventDefault();
+  wrap.scrollLeft = scrollLeft - (e.pageX - wrap.offsetLeft - startX);
+  wrap.scrollTop  = scrollTop  - (e.pageY - wrap.offsetTop  - startY);
+});
+['mouseup','mouseleave'].forEach(ev => wrap.addEventListener(ev, () => { isPanning = false; wrap.style.cursor = 'grab'; }));
+
+// ── Entity drag ────────────────────────────────────────────────
+let dragEl=null, dragDx=0, dragDy=0;
+document.querySelectorAll('.entity').forEach(el => {
+  el.addEventListener('mousedown', e => {
+    dragEl = el;
+    const r = el.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+    dragDx = e.clientX - r.left; dragDy = e.clientY - r.top;
+    e.stopPropagation();
+  });
+});
+document.addEventListener('mousemove', e => {
+  if (!dragEl) return;
+  const wr = wrap.getBoundingClientRect();
+  dragEl.style.left = (e.clientX - wr.left + wrap.scrollLeft - dragDx) + 'px';
+  dragEl.style.top  = (e.clientY - wr.top  + wrap.scrollTop  - dragDy) + 'px';
+  drawLines();
+});
+document.addEventListener('mouseup', () => { dragEl = null; });
+
+// ── Relations ──────────────────────────────────────────────────
+const RELS = [
+  // Shared
+  { from:'e-user', to:'e-role',    label:'belongs to' },
+  { from:'e-user', to:'e-dept',    label:'in' },
+  { from:'e-trail',to:'e-user',    label:'actor' },
+  // Group A
+  { from:'e-doc',  to:'e-user',    label:'owner/approver' },
+  { from:'e-doc',  to:'e-dept',    label:'belongs to' },
+  { from:'e-doc',  to:'e-docver',  label:'has versions', color:'#2463d9' },
+  { from:'e-docver',to:'e-file',   label:'attached file', color:'#2463d9' },
+  { from:'e-dar',  to:'e-doc',     label:'for document', color:'#2463d9' },
+  { from:'e-dar',  to:'e-user',    label:'requester/approver', color:'#2463d9' },
+  { from:'e-ack',  to:'e-doc',     label:'acknowledges', color:'#2463d9' },
+  { from:'e-ack',  to:'e-docver',  label:'for version', color:'#2463d9' },
+  { from:'e-ack',  to:'e-user',    label:'by user', color:'#2463d9' },
+  // Group B
+  { from:'e-record',to:'e-doc',    label:'linked doc', color:'#7c3aed' },
+  { from:'e-record',to:'e-user',   label:'created by', color:'#7c3aed' },
+  { from:'e-audit', to:'e-user',   label:'auditor', color:'#7c3aed' },
+  { from:'e-finding',to:'e-audit', label:'in audit', color:'#7c3aed' },
+  { from:'e-finding',to:'e-doc',   label:'ref document', color:'#7c3aed' },
+  { from:'e-finding',to:'e-record',label:'evidence', color:'#7c3aed' },
+  { from:'e-car',   to:'e-finding',label:'from finding', color:'#7c3aed' },
+  { from:'e-car',   to:'e-user',   label:'owner/verifier', color:'#7c3aed' },
+];
+
+let showLines = true;
+function toggleLines() {
+  showLines = !showLines;
+  document.getElementById('svg-layer').style.display = showLines ? '' : 'none';
+  document.getElementById('line-btn').textContent = showLines ? '— Hide Relations' : '+ Show Relations';
+}
+
+function getCenter(id) {
+  const el = document.getElementById(id);
+  if (!el) return { x:0, y:0 };
+  return {
+    x: parseInt(el.style.left) + el.offsetWidth/2,
+    y: parseInt(el.style.top)  + el.offsetHeight/2,
+  };
+}
+
+function drawLines() {
+  const svg = document.getElementById('svg-layer');
+  let html = '<defs>';
+  const colors = ['#94a3b8','#2463d9','#7c3aed'];
+  colors.forEach((c,i) => {
+    html += `<marker id="arr${i}" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="${c}"/></marker>`;
+  });
+  html += '</defs>';
+
+  RELS.forEach(r => {
+    const a = getCenter(r.from), b = getCenter(r.to);
+    const col = r.color || '#94a3b8';
+    const mi = col==='#2463d9'?1:col==='#7c3aed'?2:0;
+    const mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+    const dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy);
+    const ox=-dy/d*28, oy=dx/d*28;
+    const cpx=mx+ox, cpy=my+oy;
+    html += `<path d="M${a.x},${a.y} Q${cpx},${cpy} ${b.x},${b.y}" fill="none" stroke="${col}" stroke-width="1.5" stroke-opacity=".6" marker-end="url(#arr${mi})"/>`;
+    if (r.label) {
+      html += `<text x="${cpx}" y="${cpy}" text-anchor="middle" font-size="9" fill="${col}" font-family="IBM Plex Sans Thai,sans-serif" opacity=".8">${r.label}</text>`;
+    }
+  });
+  svg.innerHTML = html;
+}
+
+function fitAll() {
+  wrap.scrollLeft = 0; wrap.scrollTop = 0;
+}
+
+setTimeout(drawLines, 100);
+
+// ── Export formats ─────────────────────────────────────────────
+const EXPORTS = {
+drawio: `<?xml version="1.0" encoding="UTF-8"?>
+<!-- draw.io ERD — ISO E-Filing Phase 1 -->
+<!-- วิธีใช้: เปิด draw.io → File → Import From → XML -->
+<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/>
+
+<!-- === SHARED === -->
+<mxCell id="User" value="&lt;b&gt;User&lt;/b&gt;" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;" vertex="1" parent="1"><mxGeometry x="40" y="40" width="200" height="200" as="geometry"/></mxCell>
+<mxCell id="U1" value="PK user_id (uuid)" style="shape=tableRow;horizontal=0;" vertex="1" parent="User"><mxGeometry y="30" width="200" height="25" as="geometry"/></mxCell>
+<mxCell id="U2" value="NN full_name (varchar)" style="shape=tableRow;" vertex="1" parent="User"><mxGeometry y="55" width="200" height="25" as="geometry"/></mxCell>
+<mxCell id="U3" value="NN email (varchar)" style="shape=tableRow;" vertex="1" parent="User"><mxGeometry y="80" width="200" height="25" as="geometry"/></mxCell>
+<mxCell id="U4" value="FK role_id (uuid)" style="shape=tableRow;" vertex="1" parent="User"><mxGeometry y="105" width="200" height="25" as="geometry"/></mxCell>
+<mxCell id="U5" value="FK department_id (uuid)" style="shape=tableRow;" vertex="1" parent="User"><mxGeometry y="130" width="200" height="25" as="geometry"/></mxCell>
+<mxCell id="U6" value="   active (boolean)" style="shape=tableRow;" vertex="1" parent="User"><mxGeometry y="155" width="200" height="25" as="geometry"/></mxCell>
+
+<mxCell id="Document" value="&lt;b&gt;Document (Group A)&lt;/b&gt;" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fillColor=#dbeafe;strokeColor=#93c5fd;" vertex="1" parent="1"><mxGeometry x="280" y="280" width="220" height="280" as="geometry"/></mxCell>
+<mxCell id="D1" value="PK document_id (uuid)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="30" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D2" value="NN document_code (varchar)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="55" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D3" value="NN title (varchar)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="80" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D4" value="NN document_type (enum)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="105" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D5" value="FK department_id (uuid)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="130" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D6" value="FK owner_id (uuid)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="155" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D7" value="FK approver_id (uuid)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="180" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D8" value="FK current_version_id (uuid)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="205" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="D9" value="NN status (enum)" style="shape=tableRow;" vertex="1" parent="Document"><mxGeometry y="230" width="220" height="25" as="geometry"/></mxCell>
+
+<mxCell id="DAR" value="&lt;b&gt;DAR (Group A)&lt;/b&gt;" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fillColor=#dbeafe;strokeColor=#93c5fd;" vertex="1" parent="1"><mxGeometry x="540" y="280" width="220" height="280" as="geometry"/></mxCell>
+<mxCell id="DA1" value="PK dar_id (uuid)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="30" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="DA2" value="NN dar_no (varchar)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="55" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="DA3" value="FK document_id (uuid)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="80" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="DA4" value="NN action_type (enum)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="105" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="DA5" value="NN reason (text)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="130" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="DA6" value="FK requester_id (uuid)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="155" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="DA7" value="FK approver_id (uuid)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="180" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="DA8" value="NN status (enum)" style="shape=tableRow;" vertex="1" parent="DAR"><mxGeometry y="205" width="220" height="25" as="geometry"/></mxCell>
+
+<mxCell id="CAR" value="&lt;b&gt;CAR (Group B)&lt;/b&gt;" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fillColor=#ede9fe;strokeColor=#c4b5fd;" vertex="1" parent="1"><mxGeometry x="800" y="280" width="220" height="330" as="geometry"/></mxCell>
+<mxCell id="CA1" value="PK car_id (uuid)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="30" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="CA2" value="NN car_no (varchar)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="55" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="CA3" value="FK finding_id (uuid)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="80" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="CA4" value="FK owner_id (uuid)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="105" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="CA5" value="NN due_date (date)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="130" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="CA6" value="NN status (enum)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="155" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="CA7" value="   root_cause (text)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="180" width="220" height="25" as="geometry"/></mxCell>
+<mxCell id="CA8" value="   corrective_action (text)" style="shape=tableRow;" vertex="1" parent="CAR"><mxGeometry y="205" width="220" height="25" as="geometry"/></mxCell>
+
+<!-- Relations -->
+<mxCell edge="1" source="U4" target="User" style="endArrow=ERmany;" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell edge="1" source="D6" target="User" style="endArrow=ERmany;strokeColor=#2463d9;" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell edge="1" source="DA3" target="Document" style="endArrow=ERmany;strokeColor=#2463d9;" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+<mxCell edge="1" source="CA3" target="DAR" style="endArrow=ERmany;strokeColor=#7c3aed;" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+</root></mxGraphModel>`,
+
+mermaid: `erDiagram
+%% ISO E-Filing Phase 1 ERD — Mermaid
+%% วิธีใช้: วางใน https://mermaid.live หรือ Notion / GitHub / VSCode Mermaid extension
+
+    User {
+        uuid user_id PK
+        varchar full_name
+        varchar email
+        uuid role_id FK
+        uuid department_id FK
+        varchar password_hash
+        boolean active
+        timestamp created_at
+    }
+
+    Role {
+        uuid role_id PK
+        varchar role_name
+        jsonb permissions
+    }
+
+    Department {
+        uuid department_id PK
+        varchar name
+        varchar code
+    }
+
+    AuditTrail {
+        uuid log_id PK
+        uuid actor_id FK
+        varchar action
+        varchar entity_type
+        uuid entity_id
+        text detail
+        timestamp created_at
+    }
+
+    Document {
+        uuid document_id PK
+        varchar document_code
+        varchar title
+        varchar document_type
+        uuid department_id FK
+        uuid owner_id FK
+        uuid approver_id FK
+        uuid current_version_id FK
+        varchar status
+        timestamp created_at
+    }
+
+    DocumentVersion {
+        uuid version_id PK
+        uuid document_id FK
+        varchar revision_no
+        int issue_no
+        uuid file_id FK
+        varchar status
+        date effective_date
+        uuid published_by FK
+        timestamp created_at
+    }
+
+    DocumentFile {
+        uuid file_id PK
+        varchar original_name
+        text storage_path
+        varchar mime_type
+        bigint file_size
+        uuid uploaded_by FK
+        timestamp created_at
+    }
+
+    DAR {
+        uuid dar_id PK
+        varchar dar_no
+        uuid document_id FK
+        varchar action_type
+        text reason
+        uuid requester_id FK
+        uuid approver_id FK
+        varchar status
+        text comment
+        timestamp submitted_at
+        timestamp resolved_at
+    }
+
+    Acknowledgement {
+        uuid ack_id PK
+        uuid document_id FK
+        uuid version_id FK
+        uuid user_id FK
+        timestamp ack_at
+        varchar ip_address
+    }
+
+    Record {
+        uuid record_id PK
+        uuid document_id FK
+        varchar record_type
+        varchar title
+        uuid file_id FK
+        uuid created_by FK
+        date record_date
+        timestamp created_at
+    }
+
+    Audit {
+        uuid audit_id PK
+        varchar title
+        date audit_date
+        text scope
+        uuid auditor_id FK
+        varchar status
+        timestamp created_at
+    }
+
+    Finding {
+        uuid finding_id PK
+        uuid audit_id FK
+        uuid document_id FK
+        uuid record_id FK
+        varchar finding_type
+        varchar severity
+        varchar clause_ref
+        text description
+        varchar status
+        timestamp created_at
+    }
+
+    CAR {
+        uuid car_id PK
+        varchar car_no
+        uuid finding_id FK
+        uuid owner_id FK
+        date due_date
+        varchar status
+        text root_cause
+        text corrective_action
+        uuid verified_by FK
+        date closed_date
+        timestamp created_at
+    }
+
+    User }o--|| Role : "has role"
+    User }o--|| Department : "in"
+    AuditTrail }o--|| User : "actor"
+    Document }o--|| User : "owner"
+    Document }o--|| Department : "belongs to"
+    Document ||--o{ DocumentVersion : "has"
+    DocumentVersion }o--|| DocumentFile : "attached"
+    DAR }o--|| Document : "for"
+    DAR }o--|| User : "requester"
+    Acknowledgement }o--|| Document : "acknowledges"
+    Acknowledgement }o--|| DocumentVersion : "for version"
+    Acknowledgement }o--|| User : "by"
+    Record }o--|| Document : "linked"
+    Record }o--|| User : "created by"
+    Audit }o--|| User : "auditor"
+    Finding }o--|| Audit : "in audit"
+    Finding }o--o| Document : "ref document"
+    Finding }o--o| Record : "evidence"
+    CAR }o--|| Finding : "from finding"
+    CAR }o--|| User : "owner"`,
+
+dbml: `// ISO E-Filing Phase 1 — DBML (Database Markup Language)
+// วิธีใช้: วางใน https://dbdiagram.io → Import DBML
+// หรือใช้ @dbml/core npm package เพื่อ generate SQL
+
+Table users [headercolor: #94a3b8, note: 'Shared'] {
+  user_id uuid [pk, not null]
+  full_name varchar [not null]
+  email varchar [not null, unique]
+  role_id uuid [ref: > roles.role_id, not null]
+  department_id uuid [ref: > departments.department_id]
+  password_hash varchar [not null]
+  active boolean [default: true]
+  created_at timestamp [default: \`now()\`]
+}
+
+Table roles [headercolor: #94a3b8, note: 'Shared'] {
+  role_id uuid [pk, not null]
+  role_name varchar [not null, unique]
+  description text
+  permissions jsonb
+}
+
+Table departments [headercolor: #94a3b8, note: 'Shared'] {
+  department_id uuid [pk, not null]
+  name varchar [not null]
+  code varchar
+  created_at timestamp [default: \`now()\`]
+}
+
+Table audit_trail [headercolor: #94a3b8, note: 'Shared'] {
+  log_id uuid [pk, not null]
+  actor_id uuid [ref: > users.user_id, not null]
+  action varchar [not null]
+  entity_type varchar [not null]
+  entity_id uuid
+  detail text
+  created_at timestamp [not null, default: \`now()\`]
+}
+
+Table documents [headercolor: #2463d9, note: 'Group A'] {
+  document_id uuid [pk, not null]
+  document_code varchar [not null, unique]
+  title varchar [not null]
+  document_type varchar [not null, note: 'QM|QP|SD|FM']
+  department_id uuid [ref: > departments.department_id]
+  owner_id uuid [ref: > users.user_id, not null]
+  approver_id uuid [ref: > users.user_id]
+  current_version_id uuid [ref: > document_versions.version_id]
+  status varchar [not null, default: 'Draft', note: 'Draft|Review|Approved|Published|Obsolete']
+  created_at timestamp [default: \`now()\`]
+  updated_at timestamp
+}
+
+Table document_versions [headercolor: #2463d9, note: 'Group A'] {
+  version_id uuid [pk, not null]
+  document_id uuid [ref: > documents.document_id, not null]
+  revision_no varchar [not null]
+  issue_no int [default: 1]
+  file_id uuid [ref: > document_files.file_id]
+  status varchar [not null, note: 'Draft|Approved|Published|Obsolete']
+  effective_date date
+  published_by uuid [ref: > users.user_id]
+  created_at timestamp [default: \`now()\`]
+}
+
+Table document_files [headercolor: #2463d9, note: 'Group A'] {
+  file_id uuid [pk, not null]
+  original_name varchar [not null]
+  storage_path text [not null]
+  mime_type varchar
+  file_size bigint
+  uploaded_by uuid [ref: > users.user_id]
+  created_at timestamp [default: \`now()\`]
+}
+
+Table dars [headercolor: #2463d9, note: 'Group A'] {
+  dar_id uuid [pk, not null]
+  dar_no varchar [not null, unique]
+  document_id uuid [ref: > documents.document_id, not null]
+  action_type varchar [not null, note: 'new|revise|obsolete']
+  reason text [not null]
+  requester_id uuid [ref: > users.user_id, not null]
+  approver_id uuid [ref: > users.user_id, not null]
+  status varchar [not null, default: 'Draft', note: 'Draft|Submitted|Reviewed|Approved|Rejected|Closed']
+  comment text
+  submitted_at timestamp
+  resolved_at timestamp
+  created_at timestamp [default: \`now()\`]
+}
+
+Table acknowledgements [headercolor: #2463d9, note: 'Group A'] {
+  ack_id uuid [pk, not null]
+  document_id uuid [ref: > documents.document_id, not null]
+  version_id uuid [ref: > document_versions.version_id, not null]
+  user_id uuid [ref: > users.user_id, not null]
+  ack_at timestamp [not null]
+  ip_address varchar
+
+  indexes {
+    (document_id, version_id, user_id) [unique]
+  }
+}
+
+Table records [headercolor: #7c3aed, note: 'Group B'] {
+  record_id uuid [pk, not null]
+  document_id uuid [ref: > documents.document_id]
+  record_type varchar [not null]
+  title varchar [not null]
+  file_id uuid [ref: > document_files.file_id]
+  created_by uuid [ref: > users.user_id, not null]
+  record_date date
+  created_at timestamp [default: \`now()\`]
+}
+
+Table audits [headercolor: #7c3aed, note: 'Group B'] {
+  audit_id uuid [pk, not null]
+  title varchar [not null]
+  audit_date date [not null]
+  scope text [not null]
+  auditor_id uuid [ref: > users.user_id, not null]
+  dept_scope varchar
+  status varchar [not null, default: 'Planned', note: 'Planned|In Progress|Completed']
+  created_at timestamp [default: \`now()\`]
+}
+
+Table findings [headercolor: #7c3aed, note: 'Group B'] {
+  finding_id uuid [pk, not null]
+  audit_id uuid [ref: > audits.audit_id]
+  document_id uuid [ref: > documents.document_id]
+  record_id uuid [ref: > records.record_id]
+  finding_type varchar [not null, note: 'NC|OFI|Observation']
+  severity varchar [not null, note: 'Major|Minor']
+  clause_ref varchar
+  description text [not null]
+  evidence text
+  status varchar [not null, default: 'Open', note: 'Open|CAR Opened|Closed']
+  created_at timestamp [default: \`now()\`]
+}
+
+Table cars [headercolor: #7c3aed, note: 'Group B'] {
+  car_id uuid [pk, not null]
+  car_no varchar [not null, unique]
+  finding_id uuid [ref: > findings.finding_id]
+  owner_id uuid [ref: > users.user_id, not null]
+  due_date date [not null]
+  status varchar [not null, default: 'Open', note: 'Open|In Progress|Submitted for Verification|Closed|Reopened']
+  root_cause text
+  corrective_action text
+  evidence text
+  verified_by uuid [ref: > users.user_id]
+  verify_note text
+  closed_date date
+  created_at timestamp [default: \`now()\`]
+}`,
+
+sql: `-- ISO E-Filing Phase 1 — PostgreSQL DDL
+-- วิธีใช้: รันใน psql หรือ pgAdmin / Supabase / Neon / Railway
+-- ต้องการ extension: uuid-ossp
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- ═══ SHARED ═══════════════════════════════════════════════════
+
+CREATE TABLE roles (
+  role_id       uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  role_name     varchar(50)  NOT NULL UNIQUE,
+  description   text,
+  permissions   jsonb,
+  created_at    timestamp    NOT NULL DEFAULT now()
+);
+
+CREATE TABLE departments (
+  department_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name          varchar(100) NOT NULL,
+  code          varchar(20),
+  created_at    timestamp    NOT NULL DEFAULT now()
+);
+
+CREATE TABLE users (
+  user_id         uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  full_name       varchar(100) NOT NULL,
+  email           varchar(150) NOT NULL UNIQUE,
+  role_id         uuid         REFERENCES roles(role_id),
+  department_id   uuid         REFERENCES departments(department_id),
+  password_hash   varchar(255) NOT NULL,
+  active          boolean      NOT NULL DEFAULT true,
+  created_at      timestamp    NOT NULL DEFAULT now()
+);
+
+CREATE TABLE audit_trail (
+  log_id      uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  actor_id    uuid         REFERENCES users(user_id),
+  action      varchar(100) NOT NULL,
+  entity_type varchar(100) NOT NULL,
+  entity_id   uuid,
+  detail      text,
+  created_at  timestamp    NOT NULL DEFAULT now()
+);
+
+-- ═══ GROUP A ══════════════════════════════════════════════════
+
+CREATE TYPE doc_type_enum   AS ENUM ('QM','QP','SD','FM');
+CREATE TYPE doc_status_enum AS ENUM ('Draft','Review','Approved','Published','Obsolete');
+CREATE TYPE dar_type_enum   AS ENUM ('new','revise','obsolete');
+CREATE TYPE dar_status_enum AS ENUM ('Draft','Submitted','Reviewed','Approved','Rejected','Closed');
+
+CREATE TABLE document_files (
+  file_id       uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  original_name varchar(255) NOT NULL,
+  storage_path  text         NOT NULL,
+  mime_type     varchar(100),
+  file_size     bigint,
+  uploaded_by   uuid         REFERENCES users(user_id),
+  created_at    timestamp    NOT NULL DEFAULT now()
+);
+
+CREATE TABLE documents (
+  document_id        uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  document_code      varchar(50)      NOT NULL UNIQUE,
+  title              varchar(255)     NOT NULL,
+  document_type      doc_type_enum    NOT NULL,
+  department_id      uuid             REFERENCES departments(department_id),
+  owner_id           uuid             NOT NULL REFERENCES users(user_id),
+  approver_id        uuid             REFERENCES users(user_id),
+  current_version_id uuid,           -- FK added after document_versions created
+  status             doc_status_enum  NOT NULL DEFAULT 'Draft',
+  created_at         timestamp        NOT NULL DEFAULT now(),
+  updated_at         timestamp
+);
+
+CREATE TABLE document_versions (
+  version_id     uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  document_id    uuid            NOT NULL REFERENCES documents(document_id) ON DELETE CASCADE,
+  revision_no    varchar(20)     NOT NULL,
+  issue_no       int             NOT NULL DEFAULT 1,
+  file_id        uuid            REFERENCES document_files(file_id),
+  status         doc_status_enum NOT NULL DEFAULT 'Draft',
+  effective_date date,
+  published_by   uuid            REFERENCES users(user_id),
+  created_at     timestamp       NOT NULL DEFAULT now()
+);
+
+-- Add FK for current_version_id after document_versions exists
+ALTER TABLE documents ADD CONSTRAINT fk_current_version
+  FOREIGN KEY (current_version_id) REFERENCES document_versions(version_id);
+
+CREATE TABLE dars (
+  dar_id        uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  dar_no        varchar(50)      NOT NULL UNIQUE,
+  document_id   uuid             NOT NULL REFERENCES documents(document_id),
+  action_type   dar_type_enum    NOT NULL,
+  reason        text             NOT NULL,
+  requester_id  uuid             NOT NULL REFERENCES users(user_id),
+  approver_id   uuid             NOT NULL REFERENCES users(user_id),
+  status        dar_status_enum  NOT NULL DEFAULT 'Draft',
+  comment       text,
+  submitted_at  timestamp,
+  resolved_at   timestamp,
+  created_at    timestamp        NOT NULL DEFAULT now()
+);
+
+CREATE TABLE acknowledgements (
+  ack_id      uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  document_id uuid      NOT NULL REFERENCES documents(document_id),
+  version_id  uuid      NOT NULL REFERENCES document_versions(version_id),
+  user_id     uuid      NOT NULL REFERENCES users(user_id),
+  ack_at      timestamp NOT NULL DEFAULT now(),
+  ip_address  varchar(45),
+  UNIQUE (document_id, version_id, user_id)
+);
+
+-- ═══ GROUP B ══════════════════════════════════════════════════
+
+CREATE TYPE finding_type_enum  AS ENUM ('NC','OFI','Observation');
+CREATE TYPE finding_sev_enum   AS ENUM ('Major','Minor');
+CREATE TYPE audit_status_enum  AS ENUM ('Planned','In Progress','Completed');
+CREATE TYPE car_status_enum    AS ENUM ('Open','In Progress','Submitted for Verification','Closed','Reopened');
+
+CREATE TABLE records (
+  record_id   uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  document_id uuid         REFERENCES documents(document_id),
+  record_type varchar(100) NOT NULL,
+  title       varchar(255) NOT NULL,
+  file_id     uuid         REFERENCES document_files(file_id),
+  created_by  uuid         NOT NULL REFERENCES users(user_id),
+  record_date date,
+  created_at  timestamp    NOT NULL DEFAULT now()
+);
+
+CREATE TABLE audits (
+  audit_id    uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title       varchar(200)      NOT NULL,
+  audit_date  date              NOT NULL,
+  scope       text              NOT NULL,
+  auditor_id  uuid              NOT NULL REFERENCES users(user_id),
+  dept_scope  varchar(255),
+  status      audit_status_enum NOT NULL DEFAULT 'Planned',
+  created_at  timestamp         NOT NULL DEFAULT now()
+);
+
+CREATE TABLE findings (
+  finding_id   uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  audit_id     uuid              REFERENCES audits(audit_id),
+  document_id  uuid              REFERENCES documents(document_id),
+  record_id    uuid              REFERENCES records(record_id),
+  finding_type finding_type_enum NOT NULL,
+  severity     finding_sev_enum  NOT NULL,
+  clause_ref   varchar(50),
+  description  text              NOT NULL,
+  evidence     text,
+  status       varchar(50)       NOT NULL DEFAULT 'Open',
+  created_at   timestamp         NOT NULL DEFAULT now()
+);
+
+CREATE TABLE cars (
+  car_id             uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  car_no             varchar(50)     NOT NULL UNIQUE,
+  finding_id         uuid            REFERENCES findings(finding_id),
+  owner_id           uuid            NOT NULL REFERENCES users(user_id),
+  due_date           date            NOT NULL,
+  status             car_status_enum NOT NULL DEFAULT 'Open',
+  root_cause         text,
+  corrective_action  text,
+  evidence           text,
+  verified_by        uuid            REFERENCES users(user_id),
+  verify_note        text,
+  closed_date        date,
+  created_at         timestamp       NOT NULL DEFAULT now()
+);
+
+-- ═══ INDEXES ══════════════════════════════════════════════════
+CREATE INDEX idx_documents_code    ON documents(document_code);
+CREATE INDEX idx_documents_status  ON documents(status);
+CREATE INDEX idx_dars_document     ON dars(document_id);
+CREATE INDEX idx_dars_status       ON dars(status);
+CREATE INDEX idx_ack_document      ON acknowledgements(document_id, version_id);
+CREATE INDEX idx_findings_audit    ON findings(audit_id);
+CREATE INDEX idx_cars_status       ON cars(status);
+CREATE INDEX idx_cars_due          ON cars(due_date) WHERE status != 'Closed';
+CREATE INDEX idx_trail_actor       ON audit_trail(actor_id);
+CREATE INDEX idx_trail_entity      ON audit_trail(entity_type, entity_id);`
+};
+
+let currentTab = 'drawio';
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.etab').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  showCode();
+}
+function showCode() {
+  document.getElementById('code-output').textContent = EXPORTS[currentTab];
+  const hints = {
+    drawio: '📌 วิธีใช้: เปิด draw.io (app.diagrams.net) → File → Import From → XML → วาง code นี้',
+    mermaid: '📌 วิธีใช้: วางใน mermaid.live | หรือใน Notion / GitHub Markdown ใช้ ```mermaid...```',
+    dbml: '📌 วิธีใช้: วางใน dbdiagram.io → Import DBML | หรือใช้ npm package @dbml/core',
+    sql: '📌 วิธีใช้: รันใน PostgreSQL / pgAdmin / Supabase SQL Editor | ต้องการ uuid-ossp extension',
+  };
+  document.getElementById('export-hint').textContent = hints[currentTab];
+}
+function copyCode() {
+  navigator.clipboard.writeText(EXPORTS[currentTab]).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy to Clipboard', 2000);
+  });
+}
+function toggleExport() {
+  const p = document.getElementById('export-panel');
+  const show = p.style.display === 'none' || p.style.display === '';
+  p.style.display = show ? 'block' : 'none';
+  if (show) showCode();
+}
+// show export on load
+toggleExport();
+</script>
+</body>
+</html>

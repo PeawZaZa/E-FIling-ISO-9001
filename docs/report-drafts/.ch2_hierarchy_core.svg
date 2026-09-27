@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="170 20 860 730" width="142mm" height="120.5mm">
+  <rect x="0" y="0" width="1200" height="780" fill="#ffffff" />
+
+  
+  <polygon points="600,40 760,180 440,180" fill="#1e40af" stroke="#1e3a8a" stroke-width="3" />
+  <text x="600" y="145" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#ffffff">QM</text>
+  <polygon points="437,190 763,190 823,320 377,320" fill="#2563eb" stroke="#1e3a8a" stroke-width="3" />
+  <text x="600" y="270" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#ffffff">QP</text>
+  <polygon points="374,330 826,330 886,460 314,460" fill="#3b82f6" stroke="#1e3a8a" stroke-width="3" />
+  <text x="600" y="410" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#ffffff">WI</text>
+  <polygon points="311,470 889,470 949,600 251,600" fill="#60a5fa" stroke="#1e3a8a" stroke-width="3" />
+  <text x="600" y="550" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#0f172a">SD</text>
+  <polygon points="248,610 952,610 1012,740 188,740" fill="#bfdbfe" stroke="#1e3a8a" stroke-width="3" />
+  <text x="600" y="678" text-anchor="middle" font-family="TH Sarabun New,Sarabun,Tahoma,sans-serif" font-size="38" font-weight="700" fill="#0f172a">FM</text>
+  </svg>

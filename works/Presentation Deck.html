@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>E-Filing ISO 9001:2015 — Phase 1 Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="deck-stage.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:#111}
+section{width:1920px;height:1080px;background:#fff;overflow:hidden;position:relative;display:flex;flex-direction:column;color:#0f172a}
+.pad{padding:72px 100px}
+.bg-navy{background:#1e3055;color:#fff}
+.bg-grad{background:linear-gradient(135deg,#1e3055 0%,#1a3a7a 100%);color:#fff}
+.bg-slate{background:#f0f4f8}
+.abar{height:8px;flex-shrink:0}
+.ab-blue{background:#2463d9}.ab-purple{background:#7c3aed}.ab-teal{background:#059669}.ab-amber{background:#f59e0b}
+.ab-multi{background:linear-gradient(90deg,#2463d9 0%,#2463d9 33%,#7c3aed 33%,#7c3aed 66%,#059669 66%)}
+.row{display:flex;flex-direction:row}.col{display:flex;flex-direction:column}
+.g16{gap:16px}.g20{gap:20px}.g24{gap:24px}.g28{gap:28px}.g32{gap:32px}.g40{gap:40px}.g48{gap:48px}
+.f1{flex:1}.fc{align-items:center;justify-content:center}
+.disp{font-size:90px;font-weight:800;line-height:1.05;letter-spacing:-.03em}
+.h1{font-size:72px;font-weight:700;line-height:1.1;letter-spacing:-.02em}
+.h2{font-size:54px;font-weight:700;line-height:1.15;letter-spacing:-.01em}
+.h3{font-size:40px;font-weight:700;line-height:1.25}
+.h4{font-size:30px;font-weight:600;line-height:1.35}
+.body{font-size:28px;font-weight:400;line-height:1.6}
+.sm{font-size:24px;font-weight:400;line-height:1.5}
+.lbl{font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.c-blue{color:#2463d9}.c-purple{color:#7c3aed}.c-teal{color:#059669}
+.c-amber{color:#f59e0b}.c-red{color:#ef4444}.c-muted{color:#64748b}.c-white{color:#fff}
+.w3{font-weight:300}.w8{font-weight:800}
+.divbar{width:80px;height:5px;border-radius:3px}
+.snum{position:absolute;bottom:40px;right:60px;font-size:24px;font-weight:500;color:rgba(255,255,255,.3)}
+.snum-d{position:absolute;bottom:40px;right:60px;font-size:24px;font-weight:500;color:#94a3b8}
+.logo{width:80px;height:80px;border-radius:18px;background:#2463d9;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;flex-shrink:0}
+/* Cards */
+.card{background:#fff;border-radius:16px;border:1px solid #e2e8f0;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:36px}
+.cb-blue{background:#eff6ff;border-color:#bfdbfe}
+.cb-purple{background:#f5f3ff;border-color:#ddd6fe}
+.cb-teal{background:#f0fdf4;border-color:#bbf7d0}
+.cb-amber{background:#fffbeb;border-color:#fde68a}
+.cb-red{background:#fef2f2;border-color:#fecaca}
+/* Accent left border modules */
+.mod{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:22px 26px;display:flex;align-items:flex-start;gap:16px}
+.mod-a{border-left:5px solid #2463d9}.mod-b{border-left:5px solid #7c3aed}.mod-s{border-left:5px solid #94a3b8}
+/* Tags */
+.tag{display:inline-block;padding:8px 22px;border-radius:24px;font-size:22px;font-weight:600}
+.tg-blue{background:#dbeafe;color:#1e40af}.tg-purple{background:#ede9fe;color:#4c1d95}
+.tg-teal{background:#d1fae5;color:#065f46}.tg-amber{background:#fef3c7;color:#92400e}
+.tg-gray{background:#f1f5f9;color:#475569}.tg-white{background:rgba(255,255,255,.12);color:#fff}
+/* Badge small */
+.bdg{display:inline-block;padding:3px 12px;border-radius:10px;font-size:18px;font-weight:600}
+.bd-g{background:#d1fae5;color:#065f46}.bd-a{background:#fef3c7;color:#92400e}
+.bd-b{background:#dbeafe;color:#1e40af}.bd-r{background:#fee2e2;color:#991b1b}
+.bd-p{background:#ede9fe;color:#4c1d95}.bd-s{background:#f1f5f9;color:#475569}
+/* Section panel deco */
+.deco{position:absolute;right:0;top:0;bottom:0;width:540px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+</style>
+<template id="__bundler_thumbnail">
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100" height="100" fill="#1e3055"/>
+  <rect x="10" y="10" width="80" height="50" rx="4" fill="#2463d9" opacity=".6"/>
+  <rect x="20" y="22" width="60" height="8" rx="2" fill="#fff" opacity=".9"/>
+  <rect x="20" y="34" width="40" height="5" rx="2" fill="#fff" opacity=".5"/>
+  <rect x="10" y="72" width="24" height="16" rx="3" fill="#2463d9" opacity=".8"/>
+  <rect x="38" y="72" width="24" height="16" rx="3" fill="#7c3aed" opacity=".8"/>
+  <rect x="66" y="72" width="24" height="16" rx="3" fill="#059669" opacity=".8"/>
+</svg>
+</template>
+</head>
+<body>
+<deck-stage>
+
+<!-- 01 TITLE ═══════════════════════════════════════════════════ -->
+<section class="bg-grad" data-screen-label="01 Title" style="justify-content:center">
+  <div style="position:absolute;inset:0;opacity:.12;background:radial-gradient(circle at 80% 20%,#2463d9 0%,transparent 50%),radial-gradient(circle at 10% 80%,#7c3aed 0%,transparent 40%)"></div>
+  <div class="pad col g40" style="position:relative;max-width:1500px">
+    <div class="row g24" style="align-items:center">
+      <div class="logo" style="width:90px;height:90px"></div>
+      <div>
+        <div class="lbl c-white" style="opacity:.7">คณะวิศวกรรมศาสตร์ · มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา</div>
+        <div class="sm c-white" style="opacity:.5;margin-top:4px">Faculty of Engineering · RMUTL</div>
+      </div>
+    </div>
+    <div class="divbar" style="background:rgba(255,255,255,.35)"></div>
+    <div>
+      <div class="disp c-white">ระบบ E-Filing</div>
+      <div class="disp" style="color:#93c5fd">ISO 9001:2015</div>
+      <div class="h3 c-white" style="opacity:.7;margin-top:20px;font-weight:400">Phase 1 MVP — Document Control · DAR · CAR · Quality Dashboard</div>
+    </div>
+    <div class="row g24" style="flex-wrap:wrap;margin-top:8px">
+      <div class="tag tg-white">📅 พฤษภาคม 2568</div>
+      <div class="tag tg-white">👥 ทีมพัฒนา Group A &amp; Group B</div>
+      <div class="tag tg-white">🏛 SRS v3.0 · BRD v2.0</div>
+    </div>
+  </div>
+  <div class="snum">01 / 14</div>
+</section>
+
+<!-- 02 AGENDA ════════════════════════════════════════════════════ -->
+<section class="bg-slate" data-screen-label="02 Agenda">
+  <div class="abar ab-blue"></div>
+  <div class="pad col g40" style="flex:1;justify-content:center">
+    <div>
+      <div class="lbl c-muted">สารบัญ</div>
+      <div class="h2" style="margin-top:10px">วันนี้เราจะพูดถึง</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="row g24" style="align-items:center;background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #e2e8f0">
+        <div style="width:60px;height:60px;border-radius:50%;background:#ef444418;color:#ef4444;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0">01</div>
+        <div class="h4">ปัญหาที่พบในปัจจุบัน</div>
+      </div>
+      <div class="row g24" style="align-items:center;background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #e2e8f0">
+        <div style="width:60px;height:60px;border-radius:50%;background:#f59e0b18;color:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0">02</div>
+        <div class="h4">วิสัยทัศน์และทางออก</div>
+      </div>
+      <div class="row g24" style="align-items:center;background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #e2e8f0">
+        <div style="width:60px;height:60px;border-radius:50%;background:#2463d918;color:#2463d9;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0">03</div>
+        <div class="h4">ขอบเขตระบบ Phase 1</div>
+      </div>
+      <div class="row g24" style="align-items:center;background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #e2e8f0">
+        <div style="width:60px;height:60px;border-radius:50%;background:#7c3aed18;color:#7c3aed;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0">04</div>
+        <div class="h4">สถาปัตยกรรมระบบ</div>
+      </div>
+      <div class="row g24" style="align-items:center;background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #e2e8f0">
+        <div style="width:60px;height:60px;border-radius:50%;background:#05996918;color:#059669;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0">05</div>
+        <div class="h4">ฟีเจอร์หลักและตัวอย่าง UI</div>
+      </div>
+      <div class="row g24" style="align-items:center;background:#fff;border-radius:14px;padding:28px 32px;border:1px solid #e2e8f0">
+        <div style="width:60px;height:60px;border-radius:50%;background:#1e305518;color:#1e3055;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;flex-shrink:0">06</div>
+        <div class="h4">Roadmap &amp; สิ่งที่ต้องตัดสินใจ</div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">02 / 14</div>
+</section>
+
+<!-- 03 SECTION PAIN ═════════════════════════════════════════════ -->
+<section class="bg-navy" data-screen-label="03 Section Pain">
+  <div class="deco" style="background:linear-gradient(135deg,#1a3a7a,#2463d9)">
+    <div style="font-size:220px;opacity:.12;line-height:1">📋</div>
+  </div>
+  <div class="pad col g32" style="flex:1;justify-content:center;max-width:1200px">
+    <div class="lbl c-white" style="opacity:.5">ส่วนที่ 01</div>
+    <div class="h1 c-white">ปัญหาที่พบ<br/>ในปัจจุบัน</div>
+    <div class="body c-white" style="opacity:.65;max-width:680px">ระบบเอกสารกระดาษในองค์กรสร้างความเสี่ยงและเพิ่มภาระงานอย่างไร?</div>
+    <div class="divbar" style="background:#60a5fa;width:60px"></div>
+  </div>
+  <div class="snum">03 / 14</div>
+</section>
+
+<!-- 04 PAIN POINTS ══════════════════════════════════════════════ -->
+<section data-screen-label="04 Pain Points">
+  <div class="abar ab-blue" style="background:#ef4444"></div>
+  <div class="pad col g28" style="flex:1">
+    <div>
+      <div class="lbl c-muted">ปัญหาปัจจุบัน</div>
+      <div class="h2" style="margin-top:8px">5 ปัญหาหลักที่ระบบกระดาษสร้าง</div>
+    </div>
+    <div class="col g18" style="gap:18px;flex:1;justify-content:center">
+      <div style="display:flex;align-items:flex-start;gap:28px;padding:26px 34px;border-radius:14px;border:1px solid #e2e8f0;background:#fff">
+        <div style="font-size:38px;flex-shrink:0;width:52px;text-align:center">🗂</div>
+        <div style="flex:1"><div class="h4 c-red" style="margin-bottom:4px">เอกสารกระดาษยุ่งยาก</div><div class="body c-muted">จัดเก็บ ค้นหา และบำรุงรักษาเอกสารจำนวนมากใช้เวลาและพื้นที่มาก</div></div>
+        <div style="width:5px;background:#ef4444;border-radius:4px;align-self:stretch;flex-shrink:0"></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:28px;padding:26px 34px;border-radius:14px;border:1px solid #e2e8f0;background:#fff">
+        <div style="font-size:38px;flex-shrink:0;width:52px;text-align:center">🔍</div>
+        <div style="flex:1"><div class="h4" style="color:#f97316;margin-bottom:4px">ค้นหาล่าช้า ไม่แม่นยำ</div><div class="body c-muted">ต้องค้นหาในแฟ้มจริง ใช้เวลานาน เสียโอกาสในการตรวจสอบ</div></div>
+        <div style="width:5px;background:#f97316;border-radius:4px;align-self:stretch;flex-shrink:0"></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:28px;padding:26px 34px;border-radius:14px;border:1px solid #e2e8f0;background:#fff">
+        <div style="font-size:38px;flex-shrink:0;width:52px;text-align:center">⚠️</div>
+        <div style="flex:1"><div class="h4 c-amber" style="margin-bottom:4px">เสี่ยงใช้เอกสารผิดเวอร์ชัน</div><div class="body c-muted">ไม่มีระบบควบคุม Current Version ทำให้นำเอกสารเก่าไปใช้งาน</div></div>
+        <div style="width:5px;background:#f59e0b;border-radius:4px;align-self:stretch;flex-shrink:0"></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:28px;padding:26px 34px;border-radius:14px;border:1px solid #e2e8f0;background:#fff">
+        <div style="font-size:38px;flex-shrink:0;width:52px;text-align:center">📊</div>
+        <div style="flex:1"><div class="h4 c-purple" style="margin-bottom:4px">ติดตาม CAR / Finding ไม่ได้</div><div class="body c-muted">หลักฐาน audit และ corrective action กระจายอยู่หลายไฟล์ ตรวจสอบยาก</div></div>
+        <div style="width:5px;background:#7c3aed;border-radius:4px;align-self:stretch;flex-shrink:0"></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:28px;padding:26px 34px;border-radius:14px;border:1px solid #e2e8f0;background:#fff">
+        <div style="font-size:38px;flex-shrink:0;width:52px;text-align:center">💰</div>
+        <div style="flex:1"><div class="h4 c-muted" style="margin-bottom:4px">ต้นทุนสูงและสิ้นเปลือง</div><div class="body c-muted">ค่าพิมพ์ กระดาษ หมึก และพื้นที่จัดเก็บที่ไม่จำเป็น</div></div>
+        <div style="width:5px;background:#94a3b8;border-radius:4px;align-self:stretch;flex-shrink:0"></div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">04 / 14</div>
+</section>
+
+<!-- 05 VISION ═══════════════════════════════════════════════════ -->
+<section class="bg-grad" data-screen-label="05 Vision" style="justify-content:center">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 70% 50%,rgba(36,99,217,.2) 0%,transparent 60%)"></div>
+  <div class="pad col g40" style="position:relative">
+    <div class="lbl c-white" style="opacity:.5">วิสัยทัศน์</div>
+    <div>
+      <div style="font-size:60px;font-weight:700;color:#fff;line-height:1.25">
+        <span style="color:#93c5fd">ISO</span> ทำให้องค์กร
+      </div>
+      <div style="font-size:60px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:28px">
+        "รู้ว่าต้องควบคุมอะไร"
+      </div>
+      <div style="font-size:60px;font-weight:700;color:#fff;line-height:1.25">
+        <span style="color:#a5f3c7">E-Filing</span> ทำให้องค์กร
+      </div>
+      <div style="font-size:60px;font-weight:800;color:#fff;line-height:1.25">
+        "ควบคุมได้จริง"
+      </div>
+    </div>
+    <div class="divbar" style="background:rgba(255,255,255,.3);width:100px"></div>
+    <div class="body c-white" style="opacity:.72;max-width:960px">
+      คือ <strong>Digital Transformation</strong> ของระบบบริหารงานคุณภาพ ISO 9001:2015<br/>
+      จากกระดาษสู่ระบบดิจิทัลที่ตรวจสอบได้ แม่นยำ และลด Human Error
+    </div>
+  </div>
+  <div class="snum">05 / 14</div>
+</section>
+
+<!-- 06 SECTION SCOPE ════════════════════════════════════════════ -->
+<section class="bg-navy" data-screen-label="06 Section Scope">
+  <div class="deco" style="background:linear-gradient(180deg,#2463d9,#7c3aed)">
+    <div style="font-size:200px;opacity:.15;line-height:1">⚙</div>
+  </div>
+  <div class="pad col g32" style="flex:1;justify-content:center;max-width:1200px">
+    <div class="lbl c-white" style="opacity:.5">ส่วนที่ 02</div>
+    <div class="h1 c-white">ขอบเขตระบบ<br/>Phase 1 MVP</div>
+    <div class="body c-white" style="opacity:.65;max-width:680px">ระบบแบ่งการพัฒนาเป็น 2 ทีม ครอบคลุม 9 โมดูลหลัก</div>
+    <div class="divbar" style="background:#60a5fa;width:60px"></div>
+  </div>
+  <div class="snum">06 / 14</div>
+</section>
+
+<!-- 07 SCOPE MODULES ════════════════════════════════════════════ -->
+<section class="bg-slate" data-screen-label="07 Scope Modules">
+  <div class="abar ab-multi"></div>
+  <div class="pad col g28" style="flex:1">
+    <div>
+      <div class="lbl c-muted">ขอบเขต Phase 1</div>
+      <div class="h2" style="margin-top:8px">2 ทีมพัฒนา · 9 Module หลัก</div>
+    </div>
+    <div class="row g24" style="flex:1">
+      <!-- Shared -->
+      <div class="col g16" style="width:300px">
+        <div class="tag tg-gray" style="align-self:flex-start">⬡ SHARED</div>
+        <div class="mod mod-s"><span style="font-size:26px">🔐</span><div><div class="h4 c-muted">Login &amp; Auth</div><div class="sm c-muted" style="margin-top:2px">JWT · RBAC</div></div></div>
+        <div class="mod mod-s"><span style="font-size:26px">👥</span><div><div class="h4 c-muted">User Management</div><div class="sm c-muted" style="margin-top:2px">User · Role · Dept.</div></div></div>
+        <div class="mod mod-s"><span style="font-size:26px">📜</span><div><div class="h4 c-muted">Audit Trail</div><div class="sm c-muted" style="margin-top:2px">Who · What · When</div></div></div>
+      </div>
+      <!-- Group A -->
+      <div class="col g14 f1" style="gap:14px">
+        <div class="tag tg-blue" style="align-self:flex-start">▦ GROUP A — Document Control</div>
+        <div class="mod mod-a"><span style="font-size:26px">📄</span><div><div class="h4 c-blue">Document Control</div><div class="sm c-muted" style="margin-top:2px">CRUD · Version · Status Lifecycle</div></div></div>
+        <div class="mod mod-a"><span style="font-size:26px">📋</span><div><div class="h4 c-blue">DAR Workflow</div><div class="sm c-muted" style="margin-top:2px">สร้าง · Submit · Approve/Reject</div></div></div>
+        <div class="mod mod-a"><span style="font-size:26px">🚀</span><div><div class="h4 c-blue">Publication</div><div class="sm c-muted" style="margin-top:2px">Publish Current · Obsolete · Revision History</div></div></div>
+        <div class="mod mod-a"><span style="font-size:26px">✅</span><div><div class="h4 c-blue">Acknowledgement</div><div class="sm c-muted" style="margin-top:2px">มอบหมาย · รับทราบ · ติดตาม</div></div></div>
+      </div>
+      <!-- Group B -->
+      <div class="col g14 f1" style="gap:14px">
+        <div class="tag tg-purple" style="align-self:flex-start">▦ GROUP B — Quality Assurance</div>
+        <div class="mod mod-b"><span style="font-size:26px">🗂</span><div><div class="h4 c-purple">Records &amp; Evidence</div><div class="sm c-muted" style="margin-top:2px">บันทึกหลักฐาน · ผูก Document</div></div></div>
+        <div class="mod mod-b"><span style="font-size:26px">🔍</span><div><div class="h4 c-purple">Audit &amp; Finding</div><div class="sm c-muted" style="margin-top:2px">Internal Audit · NC / OFI</div></div></div>
+        <div class="mod mod-b"><span style="font-size:26px">🔧</span><div><div class="h4 c-purple">CAR Management</div><div class="sm c-muted" style="margin-top:2px">Root Cause · Action · Verify · Close</div></div></div>
+        <div class="mod mod-b"><span style="font-size:26px">📊</span><div><div class="h4 c-purple">Operational Dashboard</div><div class="sm c-muted" style="margin-top:2px">KPI · Charts · ACK Rate · Overdue</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">07 / 14</div>
+</section>
+
+<!-- 08 ARCHITECTURE ═════════════════════════════════════════════ -->
+<section data-screen-label="08 Architecture">
+  <div class="abar ab-purple"></div>
+  <div class="pad col g36" style="flex:1;gap:32px">
+    <div>
+      <div class="lbl c-muted">สถาปัตยกรรมระบบ</div>
+      <div class="h2" style="margin-top:8px">3-Tier Architecture · React + Node.js + PostgreSQL</div>
+    </div>
+    <div class="row g28" style="flex:1;align-items:center">
+      <!-- Frontend -->
+      <div class="card col g20 f1" style="height:520px;justify-content:space-between;border-top:7px solid #2463d9">
+        <div><div class="lbl c-blue">FRONTEND</div><div class="h3" style="margin-top:8px">React.js</div><div class="sm c-muted" style="margin-top:4px">หรือ Next.js</div></div>
+        <div class="col g14" style="gap:14px">
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">📱</span><div><div class="h4" style="font-size:24px">Responsive Web</div><div style="font-size:22px;color:#64748b">Desktop + Mobile</div></div></div>
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">🎨</span><div><div class="h4" style="font-size:24px">Group A UI</div><div style="font-size:22px;color:#64748b">Document / DAR / ACK</div></div></div>
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">🖥</span><div><div class="h4" style="font-size:24px">Group B UI</div><div style="font-size:22px;color:#64748b">Records / CAR / Dashboard</div></div></div>
+        </div>
+      </div>
+      <!-- Arrow -->
+      <div class="col g16" style="align-items:center;width:110px;gap:14px">
+        <div style="font-size:44px;color:#2463d9">⇄</div>
+        <div style="font-size:22px;color:#64748b;text-align:center">REST API<br/>JWT Auth</div>
+        <div style="border-top:2px dashed #cbd5e1;width:70px"></div>
+        <div style="font-size:34px;color:#7c3aed">⇄</div>
+        <div style="font-size:22px;color:#64748b;text-align:center">Shared<br/>Contract</div>
+      </div>
+      <!-- Backend -->
+      <div class="card col g20 f1" style="height:520px;justify-content:space-between;border-top:7px solid #7c3aed">
+        <div><div class="lbl c-purple">BACKEND</div><div class="h3" style="margin-top:8px">Node.js + Express</div><div class="sm c-muted" style="margin-top:4px">หรือ Next.js API Routes</div></div>
+        <div class="col g14" style="gap:14px">
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">📦</span><div><div class="h4" style="font-size:24px">Group A API</div><div style="font-size:22px;color:#64748b">Document · DAR · ACK</div></div></div>
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">📦</span><div><div class="h4" style="font-size:24px">Group B API</div><div style="font-size:22px;color:#64748b">Records · CAR · Dashboard</div></div></div>
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">🔗</span><div><div class="h4" style="font-size:24px">Integration API</div><div style="font-size:22px;color:#64748b">A → B Contract</div></div></div>
+        </div>
+      </div>
+      <!-- Arrow -->
+      <div style="font-size:44px;color:#059669;width:60px;text-align:center">⇄</div>
+      <!-- DB -->
+      <div class="card col g20" style="width:320px;height:520px;justify-content:space-between;border-top:7px solid #059669">
+        <div><div class="lbl c-teal">DATABASE</div><div class="h3" style="margin-top:8px">PostgreSQL</div><div class="sm c-muted" style="margin-top:4px">+ File Storage</div></div>
+        <div class="col g14" style="gap:14px">
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">🗃</span><div><div class="h4" style="font-size:24px">Shared Tables</div><div style="font-size:22px;color:#64748b">User · Role · Trail</div></div></div>
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">📂</span><div><div class="h4" style="font-size:24px">Group A</div><div style="font-size:22px;color:#64748b">Document · DAR · ACK</div></div></div>
+          <div style="display:flex;gap:14px;align-items:center;background:#f8fafc;border-radius:10px;padding:16px 20px"><span style="font-size:24px">📂</span><div><div class="h4" style="font-size:24px">Group B</div><div style="font-size:22px;color:#64748b">Record · Finding · CAR</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">08 / 14</div>
+</section>
+
+<!-- 09 SECTION FEATURES ═════════════════════════════════════════ -->
+<section class="bg-navy" data-screen-label="09 Section Features">
+  <div class="deco" style="background:linear-gradient(135deg,#059669,#0891b2)">
+    <div style="font-size:200px;opacity:.18;line-height:1">💻</div>
+  </div>
+  <div class="pad col g32" style="flex:1;justify-content:center;max-width:1200px">
+    <div class="lbl c-white" style="opacity:.5">ส่วนที่ 03</div>
+    <div class="h1 c-white">ฟีเจอร์หลัก<br/>&amp; ตัวอย่าง UI</div>
+    <div class="body c-white" style="opacity:.65;max-width:680px">ภาพตัวอย่างการใช้งานจริงของระบบ E-Filing Phase 1</div>
+    <div class="divbar" style="background:#a5f3c7;width:60px"></div>
+  </div>
+  <div class="snum">09 / 14</div>
+</section>
+
+<!-- 10 GROUP A DEMO ═════════════════════════════════════════════ -->
+<section data-screen-label="10 Group A Demo">
+  <div class="abar ab-blue"></div>
+  <div class="pad col g24" style="flex:1">
+    <div class="row g20" style="align-items:center">
+      <div class="tag tg-blue">▦ GROUP A — Document Control</div>
+      <div class="sm c-muted">Document · DAR Workflow · Acknowledgement</div>
+    </div>
+    <div class="row g24" style="flex:1">
+      <!-- Doc List -->
+      <div class="col g14 f1" style="gap:14px">
+        <div class="h4 c-blue">📄 Document Control</div>
+        <div style="flex:1;background:#f8fafc;border-radius:14px;border:1px solid #bfdbfe;overflow:hidden">
+          <div style="background:#eff6ff;padding:16px 22px;border-bottom:1px solid #bfdbfe;font-size:20px;font-weight:700;color:#1e40af">ทะเบียนเอกสาร ISO</div>
+          <div style="padding:18px 22px">
+            <div style="background:#fff;border:1px solid #d1d5db;border-radius:7px;padding:10px 14px;font-size:18px;color:#94a3b8;margin-bottom:14px">🔍 ค้นหา รหัส / ชื่อเอกสาร...</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9"><span style="font-family:monospace;font-size:16px;color:#2463d9;width:168px;flex-shrink:0">QM-2301-01</span><span style="flex:1;font-size:17px;font-weight:500">คู่มือคุณภาพ</span><span class="bdg bd-b">QM</span><span class="bdg bd-g">Published</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9"><span style="font-family:monospace;font-size:16px;color:#2463d9;width:168px;flex-shrink:0">QP-2301-0107</span><span style="flex:1;font-size:17px;font-weight:500">ระเบียบควบคุมเอกสาร</span><span class="bdg bd-p">QP</span><span class="bdg bd-g">Published</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f1f5f9"><span style="font-family:monospace;font-size:16px;color:#2463d9;width:168px;flex-shrink:0">SD-2301-002</span><span style="flex:1;font-size:17px;font-weight:500">นโยบายคุณภาพ</span><span class="bdg bd-g">SD</span><span class="bdg bd-a">Review</span></div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px 0"><span style="font-family:monospace;font-size:16px;color:#2463d9;width:168px;flex-shrink:0">QP-2301-0108</span><span style="flex:1;font-size:17px;font-weight:500">ระเบียบจัดการความเสี่ยง</span><span class="bdg bd-p">QP</span><span class="bdg bd-s">Draft</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- DAR -->
+      <div class="col g14 f1" style="gap:14px">
+        <div class="h4 c-blue">📋 DAR Workflow</div>
+        <div style="flex:1;background:#f8fafc;border-radius:14px;border:1px solid #bfdbfe;overflow:hidden">
+          <div style="background:#eff6ff;padding:16px 22px;border-bottom:1px solid #bfdbfe;font-size:20px;font-weight:700;color:#1e40af">Approval Queue <span style="background:#ef4444;color:#fff;border-radius:20px;padding:2px 12px;font-size:16px;margin-left:8px">1</span></div>
+          <div style="padding:20px 22px">
+            <div style="border:1px solid #e2e8f0;border-radius:10px;padding:20px;border-left:5px solid #f59e0b;margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px">
+                <div>
+                  <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center"><span style="font-family:monospace;font-size:17px;font-weight:700;color:#7c3aed">DAR-2567-002</span><span class="bdg bd-a">Submitted</span></div>
+                  <div style="font-size:18px;font-weight:600;margin-bottom:6px">SD-2301-002 — นโยบายคุณภาพ</div>
+                  <div style="font-size:17px;color:#64748b">ปรับนโยบายให้สอดคล้องแผนยุทธศาสตร์ 2567–2570</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+                  <button style="background:#059669;color:#fff;border:none;border-radius:7px;padding:10px 18px;font-size:17px;font-weight:600;cursor:pointer">✓ Approve</button>
+                  <button style="background:#dc2626;color:#fff;border:none;border-radius:7px;padding:10px 18px;font-size:17px;font-weight:600;cursor:pointer">✕ Reject</button>
+                </div>
+              </div>
+            </div>
+            <div style="font-size:17px;color:#94a3b8;text-align:center">✅ ไม่มี DAR รออนุมัติอื่น</div>
+          </div>
+        </div>
+      </div>
+      <!-- ACK -->
+      <div class="col g14" style="width:380px;gap:14px">
+        <div class="h4 c-blue">✅ Acknowledgement</div>
+        <div style="flex:1;background:#f8fafc;border-radius:14px;border:1px solid #bfdbfe;overflow:hidden">
+          <div style="background:#eff6ff;padding:16px 22px;border-bottom:1px solid #bfdbfe;font-size:20px;font-weight:700;color:#1e40af">สถานะการรับทราบ</div>
+          <div style="padding:20px 22px;display:flex;flex-direction:column;gap:14px">
+            <div><div style="display:flex;justify-content:space-between;font-size:17px;margin-bottom:5px"><span style="font-family:monospace;color:#2463d9">QM-2301-01</span><span style="font-weight:700;color:#f59e0b">50%</span></div><div style="height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden"><div style="width:50%;height:100%;background:#f59e0b;border-radius:4px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:17px;margin-bottom:5px"><span style="font-family:monospace;color:#2463d9">QP-2301-0107</span><span style="font-weight:700;color:#059669">100%</span></div><div style="height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden"><div style="width:100%;height:100%;background:#059669;border-radius:4px"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:17px;margin-bottom:5px"><span style="font-family:monospace;color:#2463d9">QP-2301-0109</span><span style="font-weight:700;color:#ef4444">25%</span></div><div style="height:8px;background:#f1f5f9;border-radius:4px;overflow:hidden"><div style="width:25%;height:100%;background:#ef4444;border-radius:4px"></div></div></div>
+            <div style="background:#fef3c7;border-radius:9px;padding:14px 18px;font-size:17px;color:#92400e;margin-top:6px">⚠ มี 2 เอกสารที่ยังรอการรับทราบ</div>
+            <div style="background:#f0fdf4;border-radius:9px;padding:14px 18px;font-size:17px;color:#065f46">✓ ผู้ใช้ 9 จาก 12 คนรับทราบเอกสารแล้ว</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">10 / 14</div>
+</section>
+
+<!-- 11 GROUP B DEMO ═════════════════════════════════════════════ -->
+<section data-screen-label="11 Group B Demo">
+  <div class="abar ab-purple"></div>
+  <div class="pad col g24" style="flex:1">
+    <div class="row g20" style="align-items:center">
+      <div class="tag tg-purple">▦ GROUP B — Quality Assurance</div>
+      <div class="sm c-muted">Dashboard · Records · Audit/Finding · CAR Management</div>
+    </div>
+    <div class="row g24" style="flex:1">
+      <!-- Dashboard -->
+      <div class="col g14 f1" style="gap:14px">
+        <div class="h4 c-purple">📊 Operational Dashboard</div>
+        <div style="flex:1;background:#f8fafc;border-radius:14px;border:1px solid #ddd6fe;padding:20px;overflow:hidden">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-align:center"><div style="font-size:28px;font-weight:800;color:#2463d9">10</div><div style="font-size:15px;color:#94a3b8">Total Docs</div></div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-align:center"><div style="font-size:28px;font-weight:800;color:#ef4444">2</div><div style="font-size:15px;color:#94a3b8">Open CARs</div></div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-align:center"><div style="font-size:28px;font-weight:800;color:#059669">68%</div><div style="font-size:15px;color:#94a3b8">ACK Rate</div></div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-align:center"><div style="font-size:28px;font-weight:800;color:#f59e0b">1</div><div style="font-size:15px;color:#94a3b8">Overdue</div></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px">
+              <div style="font-size:16px;font-weight:700;margin-bottom:8px">Document Status</div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="18" fill="none" stroke="#d1fae5" stroke-width="8"/><circle cx="28" cy="28" r="18" fill="none" stroke="#059669" stroke-width="8" stroke-dasharray="68 45" stroke-dashoffset="-11" transform="rotate(-90 28 28)"/></svg>
+                <div style="font-size:14px;line-height:2;color:#374151"><div>● Published <strong>6</strong></div><div style="color:#f59e0b">● Review <strong>1</strong></div><div style="color:#94a3b8">● Draft <strong>2</strong></div></div>
+              </div>
+            </div>
+            <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px">
+              <div style="font-size:16px;font-weight:700;margin-bottom:8px">CAR Status</div>
+              <div style="display:flex;align-items:flex-end;gap:6px;height:48px">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1"><div style="font-size:13px;color:#f97316;font-weight:700">1</div><div style="width:100%;background:#f97316;border-radius:2px;height:50%"></div><div style="font-size:12px;color:#94a3b8">Open</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1"><div style="font-size:13px;color:#8b5cf6;font-weight:700">1</div><div style="width:100%;background:#8b5cf6;border-radius:2px;height:50%"></div><div style="font-size:12px;color:#94a3b8">Prog.</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1"><div style="font-size:13px;color:#ef4444;font-weight:700">1</div><div style="width:100%;background:#ef4444;border-radius:2px;height:75%"></div><div style="font-size:12px;color:#94a3b8">Over.</div></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1"><div style="font-size:13px;color:#059669;font-weight:700">1</div><div style="width:100%;background:#059669;border-radius:2px;height:50%"></div><div style="font-size:12px;color:#94a3b8">Closed</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- CAR -->
+      <div class="col g14 f1" style="gap:14px">
+        <div class="h4 c-purple">🔧 CAR Management</div>
+        <div style="flex:1;background:#f8fafc;border-radius:14px;border:1px solid #ddd6fe;overflow:hidden">
+          <div style="background:#f5f3ff;padding:16px 22px;border-bottom:1px solid #ddd6fe;font-size:20px;font-weight:700;color:#4c1d95">Corrective Action Requests</div>
+          <div style="padding:18px 22px;display:flex;flex-direction:column;gap:12px">
+            <div style="border:1px solid #e2e8f0;border-radius:9px;padding:16px;border-left:5px solid #059669">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-family:monospace;font-size:16px;font-weight:700;color:#7c3aed">CAR-2567-001</span><span class="bdg bd-g">Closed</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:15px;color:#64748b"><span style="font-family:monospace;color:#2463d9">QP-2301-0107</span><span>👤 อ.ธนิต</span></div>
+            </div>
+            <div style="border:1px solid #fca5a5;border-radius:9px;padding:16px;border-left:5px solid #ef4444;background:#fff5f5">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-family:monospace;font-size:16px;font-weight:700;color:#7c3aed">CAR-2567-002</span><span class="bdg bd-r">Overdue</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:15px;color:#64748b"><span style="font-family:monospace;color:#2463d9">SD-2301-001</span><span style="color:#ef4444;font-weight:700">⚠ เลย 20 วัน</span></div>
+            </div>
+            <div style="border:1px solid #e2e8f0;border-radius:9px;padding:16px;border-left:5px solid #8b5cf6">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-family:monospace;font-size:16px;font-weight:700;color:#7c3aed">CAR-2567-003</span><span class="bdg bd-p" style="background:#ede9fe;color:#4c1d95">In Progress</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:15px;color:#64748b"><span style="font-family:monospace;color:#2463d9">QP-2301-0102</span><span>เหลือ 30 วัน</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Audit Trail -->
+      <div class="col g14" style="width:380px;gap:14px">
+        <div class="h4 c-purple">📜 Audit Trail</div>
+        <div style="flex:1;background:#f8fafc;border-radius:14px;border:1px solid #ddd6fe;overflow:hidden">
+          <div style="background:#f5f3ff;padding:16px 22px;border-bottom:1px solid #ddd6fe;font-size:20px;font-weight:700;color:#4c1d95">Who · What · When</div>
+          <div style="padding:18px 22px;display:flex;flex-direction:column;gap:12px;position:relative">
+            <div style="position:absolute;left:30px;top:18px;bottom:18px;width:2px;background:#e2e8f0"></div>
+            <div style="display:flex;gap:10px;align-items:flex-start;position:relative;z-index:1">
+              <div style="width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid #059669;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">🚀</div>
+              <div style="background:#fff;border-radius:7px;padding:9px 12px;flex:1;border:1px solid #e2e8f0"><div style="font-size:14px;font-weight:700;color:#059669">PUBLISH</div><div style="font-size:14px;color:#475569">Publish QP-2301-0107 v1.2</div></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;position:relative;z-index:1">
+              <div style="width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid #059669;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✅</div>
+              <div style="background:#fff;border-radius:7px;padding:9px 12px;flex:1;border:1px solid #e2e8f0"><div style="font-size:14px;font-weight:700;color:#059669">APPROVE DAR</div><div style="font-size:14px;color:#475569">Approve DAR-2567-001</div></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;position:relative;z-index:1">
+              <div style="width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid #ef4444;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">🔍</div>
+              <div style="background:#fff;border-radius:7px;padding:9px 12px;flex:1;border:1px solid #e2e8f0"><div style="font-size:14px;font-weight:700;color:#ef4444">NC FINDING</div><div style="font-size:14px;color:#475569">NC Major — Audit 1/2567</div></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;position:relative;z-index:1">
+              <div style="width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid #059669;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">✓</div>
+              <div style="background:#fff;border-radius:7px;padding:9px 12px;flex:1;border:1px solid #e2e8f0"><div style="font-size:14px;font-weight:700;color:#059669">CLOSE CAR</div><div style="font-size:14px;color:#475569">Close CAR-2567-001</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">11 / 14</div>
+</section>
+
+<!-- 12 BENEFITS ═════════════════════════════════════════════════ -->
+<section class="bg-slate" data-screen-label="12 Benefits">
+  <div class="abar ab-teal"></div>
+  <div class="pad col g36" style="flex:1;gap:32px">
+    <div>
+      <div class="lbl c-muted">ประโยชน์ที่ได้รับ</div>
+      <div class="h2" style="margin-top:8px">E-Filing เปลี่ยนองค์กรอย่างไร?</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:22px">
+      <div class="card col g16" style="text-align:center;align-items:center;border-top:6px solid #2463d9">
+        <div style="font-size:52px">⚡</div>
+        <div class="h4 c-blue">ลดเวลาค้นหา</div>
+        <div class="body c-muted" style="text-align:center">จาก ~15 นาที<br/>เหลือ &lt; 1 นาที</div>
+      </div>
+      <div class="card col g16" style="text-align:center;align-items:center;border-top:6px solid #7c3aed">
+        <div style="font-size:52px">🛡</div>
+        <div class="h4 c-purple">ลด Human Error</div>
+        <div class="body c-muted" style="text-align:center">ป้องกันการใช้เอกสาร<br/>ผิดเวอร์ชัน 100%</div>
+      </div>
+      <div class="card col g16" style="text-align:center;align-items:center;border-top:6px solid #059669">
+        <div style="font-size:52px">🔍</div>
+        <div class="h4 c-teal">Traceability</div>
+        <div class="body c-muted" style="text-align:center">ตรวจสอบย้อนหลังได้<br/>ครบทุก event</div>
+      </div>
+      <div class="card col g16" style="text-align:center;align-items:center;border-top:6px solid #f59e0b">
+        <div style="font-size:52px">💰</div>
+        <div class="h4 c-amber">ลดต้นทุน</div>
+        <div class="body c-muted" style="text-align:center">กระดาษ · หมึก<br/>พื้นที่จัดเก็บ</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px">
+      <div style="background:#fff;border-radius:14px;padding:28px 34px;border:1px solid #e2e8f0;display:flex;gap:22px;align-items:center">
+        <div style="font-size:48px">📋</div>
+        <div><div class="h4 c-muted">ก่อน E-Filing</div><div class="body" style="margin-top:6px;color:#374151">แฟ้มกระดาษ · ค้นหาช้า · เวอร์ชันไม่แน่ใจ · ACK ไม่มีหลักฐาน</div></div>
+      </div>
+      <div style="background:#f0fdf4;border-radius:14px;padding:28px 34px;border:1px solid #bbf7d0;display:flex;gap:22px;align-items:center">
+        <div style="font-size:48px">💻</div>
+        <div><div class="h4 c-teal">หลัง E-Filing</div><div class="body" style="margin-top:6px;color:#374151">ค้นหา 1 คลิก · Current Version ถูกต้อง · ACK มีหลักฐาน · Dashboard Real-time</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">12 / 14</div>
+</section>
+
+<!-- 13 ROADMAP + OPEN ISSUES ════════════════════════════════════ -->
+<section data-screen-label="13 Roadmap">
+  <div class="abar ab-amber"></div>
+  <div class="pad col g28" style="flex:1">
+    <div>
+      <div class="lbl c-muted">แผนการดำเนินงาน</div>
+      <div class="h2" style="margin-top:8px">Roadmap 3 Phase · สิ่งที่ต้องตัดสินใจ</div>
+    </div>
+    <div class="row g20" style="flex:1">
+      <!-- Phases -->
+      <div class="col g16 f1">
+        <div style="background:#fef2f2;border:2px solid #fca5a5;border-radius:14px;padding:26px 30px;display:flex;gap:20px;align-items:flex-start">
+          <div style="font-size:28px;flex-shrink:0">🔴</div>
+          <div><div class="h4 c-red" style="margin-bottom:4px">Phase 1 — MVP · 3 เดือน (ปัจจุบัน)</div><div class="body c-muted">Document Control · DAR · CAR · Dashboard</div></div>
+        </div>
+        <div style="background:#fffbeb;border:2px solid #fde68a;border-radius:14px;padding:26px 30px;display:flex;gap:20px;align-items:flex-start">
+          <div style="font-size:28px;flex-shrink:0">🟡</div>
+          <div><div class="h4 c-amber" style="margin-bottom:4px">Phase 2 — Expand · 3–6 เดือน</div><div class="body c-muted">Risk Register · HR/Training Matrix · Management Review</div></div>
+        </div>
+        <div style="background:#f0fdf4;border:2px solid #bbf7d0;border-radius:14px;padding:26px 30px;display:flex;gap:20px;align-items:flex-start">
+          <div style="font-size:28px;flex-shrink:0">🟢</div>
+          <div><div class="h4 c-teal" style="margin-bottom:4px">Phase 3 — Optimize · 6–12 เดือน</div><div class="body c-muted">Advanced Dashboard · KPI Analytics · Data-driven QMS</div></div>
+        </div>
+      </div>
+      <!-- Open Issues -->
+      <div class="col g16" style="width:740px">
+        <div class="h4 c-amber">❓ สิ่งที่ต้องการคำตอบจากท่าน</div>
+        <div class="col g10" style="gap:10px">
+          <div style="background:#fff;border:1px solid #fde68a;border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start">
+            <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;margin-top:12px"></div>
+            <div><div class="sm" style="font-weight:700;color:#92400e;margin-bottom:3px">Approval Flow</div><div class="body c-muted">Approver กับ Document Owner เป็นคนเดียวกันได้ไหม?</div></div>
+          </div>
+          <div style="background:#fff;border:1px solid #fde68a;border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start">
+            <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;margin-top:12px"></div>
+            <div><div class="sm" style="font-weight:700;color:#92400e;margin-bottom:3px">Ack Assignment</div><div class="body c-muted">เอกสารใดบ้างที่ต้องบังคับ Acknowledge และกำหนดกลุ่มอย่างไร?</div></div>
+          </div>
+          <div style="background:#fff;border:1px solid #fde68a;border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start">
+            <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;margin-top:12px"></div>
+            <div><div class="sm" style="font-weight:700;color:#92400e;margin-bottom:3px">CAR Close Authority</div><div class="body c-muted">ใครมีสิทธิ์ Verify Effectiveness และ Close CAR?</div></div>
+          </div>
+          <div style="background:#fff;border:1px solid #fde68a;border-radius:10px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start">
+            <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;margin-top:12px"></div>
+            <div><div class="sm" style="font-weight:700;color:#92400e;margin-bottom:3px">User &amp; File Storage</div><div class="body c-muted">ใช้รายชื่อผู้ใช้จริง? · จัดเก็บไฟล์ใน Server หรือ Cloud?</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="snum-d">13 / 14</div>
+</section>
+
+<!-- 14 NEXT STEPS ═══════════════════════════════════════════════ -->
+<section class="bg-grad" data-screen-label="14 Next Steps" style="justify-content:center">
+  <div style="position:absolute;inset:0;background:radial-gradient(circle at 75% 30%,rgba(36,99,217,.25) 0%,transparent 50%)"></div>
+  <div class="pad col g44" style="position:relative;gap:40px">
+    <div>
+      <div class="lbl c-white" style="opacity:.5">ขั้นตอนต่อไป</div>
+      <div class="h2 c-white" style="margin-top:8px">Next Steps สู่ Phase 1 MVP</div>
+    </div>
+    <div class="row g18" style="gap:18px;flex-wrap:wrap">
+      <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:26px 30px;flex:1;min-width:260px">
+        <div style="font-size:40px;font-weight:800;color:#93c5fd;margin-bottom:10px">1.</div>
+        <div class="h4 c-white" style="margin-bottom:6px">Lock ERD + Shared Contract</div>
+        <div class="sm c-white" style="opacity:.65">ออกแบบ Database Schema กลาง</div>
+      </div>
+      <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:26px 30px;flex:1;min-width:260px">
+        <div style="font-size:40px;font-weight:800;color:#a5f3c7;margin-bottom:10px">2.</div>
+        <div class="h4 c-white" style="margin-bottom:6px">API Contract Review</div>
+        <div class="sm c-white" style="opacity:.65">ยืนยัน endpoint ทุก module</div>
+      </div>
+      <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:26px 30px;flex:1;min-width:260px">
+        <div style="font-size:40px;font-weight:800;color:#fde68a;margin-bottom:10px">3.</div>
+        <div class="h4 c-white" style="margin-bottom:6px">Development Sprint</div>
+        <div class="sm c-white" style="opacity:.65">Group A + Group B พัฒนาควบคู่</div>
+      </div>
+      <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:26px 30px;flex:1;min-width:260px">
+        <div style="font-size:40px;font-weight:800;color:#c4b5fd;margin-bottom:10px">4.</div>
+        <div class="h4 c-white" style="margin-bottom:6px">Integration Testing</div>
+        <div class="sm c-white" style="opacity:.65">ทดสอบ A↔B API และ data flow</div>
+      </div>
+      <div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:26px 30px;flex:1;min-width:260px">
+        <div style="font-size:40px;font-weight:800;color:#fca5a5;margin-bottom:10px">5.</div>
+        <div class="h4 c-white" style="margin-bottom:6px">UAT &amp; Sign-off</div>
+        <div class="sm c-white" style="opacity:.65">ทดสอบกับผู้ใช้งานจริงและลงนาม</div>
+      </div>
+    </div>
+    <div class="divbar" style="background:rgba(255,255,255,.25)"></div>
+    <div class="row g32" style="align-items:center">
+      <div class="logo"></div>
+      <div>
+        <div class="h3 c-white">ขอบคุณสำหรับเวลา</div>
+        <div class="body c-white" style="opacity:.65;margin-top:6px">คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา</div>
+        <div class="sm c-white" style="opacity:.4;margin-top:4px">E-Filing Phase 1 MVP · SRS v3.0 · พฤษภาคม 2568</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="body c-white" style="opacity:.65">มีคำถามหรือข้อเสนอแนะ?</div>
+        <div class="h3 c-white" style="margin-top:8px">🙋 Q &amp; A</div>
+      </div>
+    </div>
+  </div>
+  <div class="snum">14 / 14</div>
+</section>
+
+</deck-stage>
+</body>
+</html>

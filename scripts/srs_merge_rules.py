@@ -82,6 +82,12 @@ def feature(n, side):
 def convert(text, side):
     for old, new in corrections[side].items():
         text = text.replace(old, new)
+    # A reference range must be expanded before its endpoints are remapped:
+    # the unified REF register is not ordered like either source register.
+    text = re.sub(r'REF-'+side+r'-(\d{2})–(\d{2})(?!\d)',
+                  lambda m: ', '.join(f'REF-{side}-{n:02d}'
+                                      for n in range(int(m[1]), int(m[2]) + 1)),
+                  text)
     text = module_name(text)
     # The A -> B references just handled above already use their final numbers.
     protected = {}

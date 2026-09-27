@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>โมดูลควบคุมเอกสาร — ใบขอดำเนินการเอกสาร</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#ffffff;--ink:#1f2430;--muted:#5b6472;--soft:#8a919e;
+        --rule:rgba(31,36,48,0.14);--accent:#1f6f8b;}
+  *{box-sizing:border-box}
+  body{margin:0;padding:2.5rem 2rem;background:var(--paper);
+       font-family:'Sarabun',sans-serif;color:var(--ink)}
+  .wrap{max-width:1200px;margin:0 auto}
+  .eyebrow{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+           text-transform:uppercase;color:var(--muted);margin:0 0 .4rem}
+  h1{font-weight:600;font-size:1.5rem;margin:0 0 .3rem;line-height:1.35}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.6rem;line-height:1.6}
+  svg{width:100%;height:auto;display:block}
+  footer{margin-top:1.8rem;padding-top:.8rem;border-top:1px solid var(--rule);
+         font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.12em;
+         text-transform:uppercase;color:var(--soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Database Design · Figure 4 of 7</p>
+  <h1>โมดูลควบคุมเอกสาร — ใบขอดำเนินการเอกสาร</h1>
+  <p class="sub">ผลตรวจรับ ทบทวน และอนุมัติ เก็บแยกเป็นระเบียนของแต่ละหน้าที่และทุกรอบ ไม่เขียนทับกัน เพราะ §6.1.1 ห้ามย้ายผลเดิมไปรับรองฉบับใหม่ · ประวัติสถานะเป็นตารางเพิ่มอย่างเดียว</p>
+
+<svg viewBox="0 0 1280 936" role="img" aria-labelledby="er_04_dar-title er_04_dar-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="er_04_dar-title">ตารางใบขอดำเนินการเอกสารและผลตัดสินรายขั้น</title>
+  <desc id="er_04_dar-desc">แผนภาพความสัมพันธ์แสดงใบขอดำเนินการเอกสารหนึ่งใบที่ระบุรายการเป้าหมายได้หลายรายการ มีผลตัดสินแยกตามขั้นตรวจรับ ทบทวน และอนุมัติ มีประวัติการเปลี่ยนสถานะแบบเพิ่มอย่างเดียว และเป็นต้นเหตุให้เกิดฉบับเอกสารใหม่ได้</desc>
+
+  <rect width="1280" height="936" fill="#ffffff"/>
+
+  <!-- ===== ความสัมพันธ์ (วาดก่อนกล่อง) ===== -->
+
+  <line x1="696" y1="180" x2="848" y2="180" stroke="#5b6472" stroke-width="1.2"/><text x="708" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="836" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">0..N</text><rect x="734" y="161" width="77" height="12" rx="2" fill="#ffffff"/><text x="772" y="170" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ทำให้เกิดฉบับ</text>
+
+  <path d="M 504,288 V 360 Q 504,368 496,368 H 192 Q 184,368 184,376 V 400" fill="none" stroke="#5b6472" stroke-width="1.2"/><rect x="303" y="349" width="82" height="12" rx="2" fill="#ffffff"/><text x="344" y="358" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">รายการเป้าหมาย</text><text x="520" y="308" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="200" y="392" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text>
+
+  <line x1="576" y1="288" x2="576" y2="400" stroke="#5b6472" stroke-width="1.2"/><rect x="604" y="339" width="57" height="12" rx="2" fill="#ffffff"/><text x="632" y="348" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ผลรายขั้น</text><text x="592" y="308" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="592" y="392" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text>
+
+  <path d="M 648,288 V 360 Q 648,368 656,368 H 960 Q 968,368 968,376 V 400" fill="none" stroke="#5b6472" stroke-width="1.2"/><rect x="772" y="349" width="72" height="12" rx="2" fill="#ffffff"/><text x="808" y="358" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ประวัติสถานะ</text><text x="664" y="308" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="984" y="392" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text>
+
+  <!-- ===== เอนทิตี ===== -->
+
+  <rect x="456" y="112" width="240" height="176" rx="6" fill="#ffffff"/>
+  <rect x="456" y="112" width="240" height="176" rx="6" fill="rgba(31,111,139,0.06)" stroke="#1f6f8b" stroke-width="1"/>
+  <text x="472" y="134" fill="#1f6f8b" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · หลัก</text>
+  <text x="472" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">dar</text>
+  <line x1="456" y1="164" x2="696" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="472" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="680" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="200" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">dar_no</text>
+  <text x="680" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">nnn/พ.ศ.</text>
+  <text x="472" y="220" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">request_type</text>
+  <text x="680" y="220" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum · 6 ค่า</text>
+  <text x="472" y="240" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ requester_user_id</text>
+  <text x="680" y="240" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="260" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">status</text>
+  <text x="680" y="260" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="472" y="280" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">closed_at</text>
+  <text x="680" y="280" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">timestamptz?</text>
+
+  <rect x="848" y="112" width="240" height="96" rx="6" fill="#ffffff"/>
+  <rect x="848" y="112" width="240" height="96" rx="6" fill="rgba(31,36,48,0.04)" stroke="#8a919e" stroke-width="1" stroke-dasharray="5,4"/>
+  <text x="864" y="134" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · อีกภาพ</text>
+  <text x="864" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">document_version</text>
+  <line x1="848" y1="164" x2="1088" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="1072" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="200" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ originating_dar_id</text>
+  <text x="1072" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid?</text>
+
+  <rect x="64" y="400" width="240" height="136" rx="6" fill="#ffffff"/>
+  <rect x="64" y="400" width="240" height="136" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="80" y="422" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="80" y="440" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">dar_target_item</text>
+  <line x1="64" y1="452" x2="304" y2="452" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="80" y="468" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="288" y="468" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="488" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ dar_id</text>
+  <text x="288" y="488" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="508" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ document_id</text>
+  <text x="288" y="508" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid?</text>
+  <text x="80" y="528" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ version_id</text>
+  <text x="288" y="528" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid?</text>
+
+  <rect x="456" y="400" width="240" height="176" rx="6" fill="#ffffff"/>
+  <rect x="456" y="400" width="240" height="176" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="472" y="422" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="472" y="440" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">dar_decision</text>
+  <line x1="456" y1="452" x2="696" y2="452" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="472" y="468" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="680" y="468" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="488" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ dar_id</text>
+  <text x="680" y="488" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="508" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">step</text>
+  <text x="680" y="508" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="472" y="528" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">result</text>
+  <text x="680" y="528" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="472" y="548" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ decided_by</text>
+  <text x="680" y="548" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="568" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">actor_role</text>
+  <text x="680" y="568" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+
+  <rect x="848" y="400" width="240" height="156" rx="6" fill="#ffffff"/>
+  <rect x="848" y="400" width="240" height="156" rx="6" fill="rgba(31,36,48,0.04)" stroke="#1f2430" stroke-width="1"/>
+  <text x="864" y="422" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · เพิ่มอย่างเดียว</text>
+  <text x="864" y="440" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">dar_status_history</text>
+  <line x1="848" y1="452" x2="1088" y2="452" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="468" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="1072" y="468" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="488" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ dar_id</text>
+  <text x="1072" y="488" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="508" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">from_status</text>
+  <text x="1072" y="508" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum?</text>
+  <text x="864" y="528" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">to_status</text>
+  <text x="1072" y="528" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="864" y="548" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ actor_user_id</text>
+  <text x="1072" y="548" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+
+  <!-- ===== คำอธิบายสัญลักษณ์ ===== -->
+
+  <line x1="48" y1="616" x2="1232" y2="616" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="48" y="636" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+  <rect x="148" y="627" width="14" height="10" rx="2" fill="rgba(31,111,139,0.06)" stroke="#1f6f8b" stroke-width="1"/>
+  <text x="170" y="636" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางหลักของภาพ</text>
+  <rect x="287" y="627" width="14" height="10" rx="2" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="309" y="636" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางของโมดูลนั้น</text>
+  <rect x="436" y="627" width="14" height="10" rx="2" fill="rgba(31,36,48,0.04)" stroke="#8a919e" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="458" y="636" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางที่แสดงเต็มในภาพอื่น</text>
+  <line x1="625" y1="632" x2="639" y2="632" stroke="#8a919e" stroke-width="1.2" stroke-dasharray="5,4"/>
+  <text x="647" y="636" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">อ้างข้ามภาพ</text>
+  <!-- CURRENT IMPLEMENTATION REFINEMENTS: FK destinations are named in cards -->
+  <text x="48" y="726" fill="#5b6472" font-size="11" font-family="'Geist Mono',monospace">CURRENT IMPLEMENTATION REFINEMENTS</text>
+  <rect x="64" y="744" width="350" height="124" rx="6" fill="#ffffff" stroke="#1f6f8b" stroke-width="1.4"/>
+  <text x="79" y="765" fill="#1f6f8b" font-size="9" font-family="'Geist Mono',monospace" letter-spacing="0.10em">CURRENT TABLE</text>
+  <text x="79" y="786" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">dar_round</text>
+  <line x1="64" y1="795" x2="414" y2="795" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="79" y="814" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="79" y="834" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ dar_id → dar</text>
+  <text x="79" y="854" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">UNIQUE (dar_id, round_no)</text>
+  <rect x="456" y="744" width="350" height="124" rx="6" fill="#ffffff" stroke="#1f6f8b" stroke-width="1.4"/>
+  <text x="471" y="765" fill="#1f6f8b" font-size="9" font-family="'Geist Mono',monospace" letter-spacing="0.10em">CURRENT TABLE</text>
+  <text x="471" y="786" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">dar_file</text>
+  <line x1="456" y1="795" x2="806" y2="795" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="471" y="814" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="471" y="834" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ dar_id → dar</text>
+  <text x="471" y="854" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">round_no · scalar, not FK</text>
+  <text x="848" y="766" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">Both tables depend on dar. Files may be uploaded</text>
+  <text x="848" y="788" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">before a submitted round exists; round_no is a</text>
+  <text x="848" y="810" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">logical match.</text>
+  <text x="48" y="912" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">See Database_Design.md for all keys, unique constraints, and cross-figure relationships.</text>
+</svg>
+
+<footer>E-FILING PHASE 1 · DATABASE DESIGN v0.2 · อ้างอิง prisma/schema.prisma และ SRS_v1.md · แก้ที่ .html แล้วส่งออก .svg ใหม่เสมอ</footer>
+</div>
+</body>
+</html>

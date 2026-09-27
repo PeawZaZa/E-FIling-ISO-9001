@@ -1,134 +1,91 @@
-# โครงงาน SE02 Group B — ปริญญานิพนธ์ วิศวกรรมซอฟต์แวร์ มทร.ล้านนา
+# E-Filing ISO 9001
 
-ระบบทะเบียนหลักฐาน การตรวจติดตามภายใน การติดตามการแก้ไขและการป้องกัน พร้อมแดชบอร์ดปฏิบัติการ
-สำหรับระบบบริหารงานคุณภาพ ISO 9001:2015 ของสำนักงานคณบดีคณะวิศวกรรมศาสตร์
+## Start here
 
-ผู้จัดทำ: ปวริศ คูณศรี (หัวหน้าโครงงาน) และ อภิรญา สายนาคำ · อาจารย์ที่ปรึกษา: อาจารย์ธนิต เกตุแก้ว
+1. Read `PROJECT_STATE.md`.
+2. Read only the documents relevant to the current task.
 
-**ที่เก็บนี้ไม่ใช่ repo โค้ด แต่เป็นที่เก็บเอกสารโครงงาน** งานหลักคือการเขียนรูปเล่มปริญญานิพนธ์
+Do not scan the whole repository automatically.
 
-**เป็น git repo แล้ว** อยู่บน GitHub แบบ private ที่ `github.com/PeawZaZa/E-FIling-ISO-9001` (ต่อผ่าน SSH) ใช้คำสั่ง git ได้ตามปกติ — **ห้ามเปลี่ยนเป็น public** เพราะมีเอกสารคุณภาพภายในจริงของหน่วยงาน ขั้นตอนการทำงานข้ามเครื่องดูหัวข้อ 0 ของ `PROJECT_SUMMARY.md`
+If `PROJECT_STATE.md` appears outdated or conflicts with the code,
+verify only the affected files. Do not rescan the entire repository.
 
-## บริบทที่ต้องรู้ก่อนทำงาน
+## Sources
 
-โครงงาน E-Filing Phase 1 แบ่งเป็น 2 กลุ่มที่ทำงานคู่กัน
+- Current project state → `PROJECT_STATE.md`
+- Project/file overview → `PROJECT_SUMMARY.md`
+- Requirements → `SRS_v1.md`
+- Architecture → `GroupB_Architecture_Decisions.md`
+- Tool-specific notes → `docs/TOOL_NOTES.md`
+- Report formatting → `docs/REPORT_RULES.md`
+- Report rules → `docs/REPORT_RULES.md`
 
-- **กลุ่ม A** ทำ Document Control / DAR / Acknowledgement — เป็นเจ้าของข้อมูลเอกสาร
-- **กลุ่ม B (โครงงานนี้)** ทำ Records / Audit / Finding / CAR / Dashboard — **อ่าน**ข้อมูลเอกสารและสถานะการรับทราบผ่านส่วนเชื่อมต่อ ห้ามสร้างหรือแก้ข้อมูลเอกสารซ้ำ (Single Source of Truth)
+If something doesn't exist, scan related files if needed.
 
-> **มติ 7 ก.ย. 2569:** ทั้งสองเป็น **สองโมดูลในระบบเดียวกัน ไม่ใช่สองระบบ** จึงเรียกส่วนเชื่อมต่อว่า **Internal Module Interface** และเลิกเขียนว่า "ดึงข้อมูลจากกลุ่ม A" ในเอกสารความต้องการ
+Use `PROJECT_SUMMARY.md` for navigation, not as guaranteed current state.
+Prefer `PROJECT_STATE.md` and the relevant source files for current behavior.
 
-## โครงสร้างโฟลเดอร์
+## Requirements
 
-| โฟลเดอร์ | เนื้อหา |
-|---|---|
-| `Proposal/` | SE02 Group B.docx — แบบเสนอหัวข้อที่ผ่านแล้ว (19 หัวข้อ + ภาคผนวก ก/ข) |
-| `Project report/` | รูปเล่มจริง: บทที่ 1 (.docx), บทที่ 2 (.md), figures/ch2/, ผล research จาก Gemini |
-| `Rules for project report/` | คู่มือปริญญานิพนธ์ 2568 คณะวิศวกรรมศาสตร์ — กฎการจัดพิมพ์ทั้งหมด |
-| `Example/` | บทที่ 2 ของกลุ่มโครงงานมือเทียม — ใช้เป็นต้นแบบรูปแบบการเขียน |
-| `Extra details/` | BRD, SRS, Use Case Spec, Traceability Matrix, ASIS Handbook (มีทั้ง .docx และ .md — **.md คือ source of truth** .docx เป็น export ที่อาจล้าหลัง) + images/ 7 รูป + .drawio |
-| `PROJECT_SUMMARY.md` | สารบัญไฟล์ทั้งหมดในโครงงาน + สถานะความคืบหน้า — อ่านก่อนเมื่อกลับมาทำงานหลังเว้นช่วง |
-| `GroupB_SRS_v2.md` | **เอกสารข้อกำหนดความต้องการฉบับหลัก** จัดตามแบบฟอร์ม IEEE SRS ในเทมเพลต `guide/ENGSE206_CaseX_SRS_v1.0_TH.docx` — §1–6 + ภาคผนวก ก–ฉ · รหัส `FR-B-01`–`42`, `NFR-B-01`–`07`, `BR-B-01`–`18`, `CON-B-01`–`07`, `US-B-01`–`12`, `UC-B-01`–`16`, `AC-B-01`–`29`, `M-B-01`–`13`, `TBD-B-01`–`23` · **ขอบเขตเฉพาะโมดูลกลุ่ม B** จะรวมกับโมดูลควบคุมเอกสารเป็น SRS ฉบับเดียวภายหลัง |
-| `ISO_Source_Notes.md` | สาระที่อ่านจากเอกสารคุณภาพต้นฉบับโดยตรง (QP-2301-0109 และ QP-2301-0102 ครบทุกหน้า) พร้อมวิธีอ่าน PDF สแกนซ้ำ |
-| `ISO files/` | **เอกสารคุณภาพต้นฉบับ 33 ฉบับ** (เพิ่ม 7 ก.ย. 2569) — QM, QP ทั้งชุด · **ทุกฉบับเป็นไฟล์สแกน ไม่มีชั้นข้อความ** อ่านด้วยวิธีในหัวข้อเคล็ดลับ · **ต้นฉบับมีลายน้ำ Uncontrolled Document** ต้องขอฉบับควบคุมก่อนถือเป็นข้อผูกพัน |
-| `Requirements_Carryover.md` | วัตถุดิบตั้งต้นที่ใช้เขียน `GroupB_SRS_v2.md` — ยกตาราง Stakeholder (11 actor) จาก `Archive/SRS_A+B.md` §2.3 และรายละเอียด Use Case 12 ตัว (`UC-B-01`–`UC-B-12`) จาก `Archive/GroupB_SRS.md` §3.2 มารวมไว้ พร้อมตารางเทียบรหัสและประเด็นเปิดที่ยังไม่ตัดสิน — **ไม่ใช่ SRS ฉบับสมบูรณ์** ใช้เป็นจุดเริ่มวางแผนโครงเอกสารใหม่เท่านั้น |
-| `Archive/` | **เอกสารความต้องการชุดเดิมที่ยุบแล้ว** (ย้าย 7 ก.ย. 2569) รวม `SRS_A+B.md`, `GroupB_SRS.md`, `GroupB_Software_Requirements.md`, `SRS_AB_Review.md`, `SRS_Review_Report.md`, `SRS_Reminder.md` — อ้างอิงได้แต่ห้ามแก้และห้ามถือเป็นแหล่งความจริง ดู `Archive/README.md` ก่อนใช้ |
-| `efiling/` | **โค้ดระบบจริง** โมโนรีโป React + Node/Express + PostgreSQL + Prisma — อ่าน `efiling/README.md` ก่อนแตะโค้ด |
-| `guide/` | เอกสารประกอบการสอนที่กำหนดรูปแบบเอกสาร — **เทมเพลต SRS ตาม ISO 29148** (ตัวกำหนดโครงสร้าง), User Story, Use Case Diagram, สไลด์ Week06 · อ่านก่อนแก้ SRS ทุกครั้ง |
+`SRS_v1.md` is generated.
+Do not edit it directly.
 
-## สถานะงาน
+Before changing requirements, check the merge scripts
+and the current instructions in `PROJECT_STATE.md`.
 
-- ✅ **บทที่ 1 บทนำ** เสร็จแล้ว (`Project report/บทที่ 1 บทนำ.docx`) — 1.1 ที่มา, 1.2 **วัตถุประสงค์ 6 ข้อ** (1.2.1 จัดเก็บ records/หลักฐาน, 1.2.2 บันทึก finding + สรุปผล audit เบื้องต้น, 1.2.3 บริหารจัดการ CAR จนปิดงาน, 1.2.4 ติดตาม Overdue อัตโนมัติ, **1.2.5 Dashboard + รายงานสรุป**, **1.2.6 Shared Contract กับโมดูลควบคุมเอกสาร**) — บันทึกเดิมในไฟล์นี้เคยระบุผิดว่ามี 4 ข้อและไม่มีข้อ Dashboard **แก้แล้ว 8 ก.ย. 2569 หลังเปิด .docx ตรวจ**, 1.3 ขอบเขต, 1.4 สมมติฐาน 5 ข้อ, 1.5 ประโยชน์, 1.6 สถานที่, 1.7 แผนงาน
-- ✅ **บทที่ 2 ทฤษฎีและงานวิจัยที่เกี่ยวข้อง** เสร็จแล้ว (`Project report/บทที่ 2 ทฤษฎีและงานวิจัยที่เกี่ยวข้อง.md`) — เนื้อบท ~63,700 ตัวอักษร, 2.1 ทฤษฎี 12 หัวข้อ, 2.2 เครื่องมือ 10 หัวข้อ, 2.3 งานวิจัย 10 เรื่อง, รูป 24, ตาราง 7, บรรณานุกรม 33 รายการ **ยังไม่ได้จัดลง Word**
-- ✅ **แผนภาพ 13 รูป** วาดเป็น .svg ไว้ใน `Project report/figures/ch2/` + รูปที่สกัดจาก proposal 4 รูป (.png)
-- ⬜ **บทที่ 3 การออกแบบระบบ** ยังไม่เริ่ม
-- ⬜ **ตัวระบบจริง** ยังไม่เริ่มพัฒนา
+## Working rules
 
-## ข้อตัดสินใจที่ล็อกแล้ว — อย่าเปลี่ยนโดยไม่ถามผู้ใช้ก่อน
+- Read only files needed for the task.
+- Prefer targeted search over opening large files.
+- Do not read all ISO PDFs automatically.
+- Do not read `Archive/` unless historical context is required.
+- Do not reread unchanged files within the same task.
+- Prefer targeted tests for changed features/files.
+- Do not run the full test suite unless necessary or requested.
+- Do not perform broad refactors unless requested.
+- Do not inspect unrelated modules just to "understand the project."
+- Keep progress reports concise.
+- Avoid repeating information already available in `PROJECT_STATE.md`.
 
-| เรื่อง | ค่าที่ใช้ |
-|---|---|
-| Tech stack | React + Node.js/Express + PostgreSQL + **Prisma** (เลือก Prisma เพราะ parameterized query โดยค่าเริ่มต้น กัน SQL injection + มี migration ในตัว) |
-| สถานะใบคำร้อง | **8 สถานะ ชื่อภาษาไทยเป็นหลัก** เปิดใบ → อยู่ระหว่างแก้ไขเฉพาะหน้า → อยู่ระหว่างวิเคราะห์สาเหตุและจัดทำแผน → **รออนุมัติแผน (QMR)** → อยู่ระหว่างดำเนินการตามแผน → รอตรวจสอบประสิทธิผล → รอปิดใบ → ปิดใบแล้ว · ครอบเก้าขั้นของ QP-2301-0109 · เส้นทางย้อนกลับ 3 เส้น **ไม่มีสถานะเปิดซ้ำ** · ตารางจับคู่ชื่อไทยกับรหัสระบบอยู่ที่ `GroupB_SRS_v2.md` §4.18 **แห่งเดียว** · **ขัดกับบทที่ 1 §1.4.5.1 ที่ระบุ 4 สถานะ — ยังไม่ได้แจ้งอาจารย์ (`TBD-B-04`)** |
-| Overdue | ไม่ใช่สถานะหลัก เป็นค่าที่ระบบคำนวณจาก `due_date < วันนี้ AND status ≠ Closed` |
-| บทบาทผู้ใช้ | **10 บทบาท** ตามระเบียบปฏิบัติจริง (มีผู้ใช้งานจริงในโมดูลนี้ 7 บทบาท) · **หลักแยกหน้าที่สามชั้น** ผู้รับผิดชอบการแก้ไข ≠ ผู้ตรวจสอบประสิทธิผล ≠ ผู้ปิดใบ · **ผู้ใช้หนึ่งคนถือได้หลายบทบาท แต่ใช้งานได้ครั้งละหนึ่ง สิทธิ์คิดจากบทบาทใช้งานปัจจุบันเท่านั้น** · **ขัดกับบทที่ 1 §1.4.1.1 ที่ระบุ 4 บทบาท — ยังไม่ได้แจ้งอาจารย์ (`TBD-B-01`)** |
-| ไลบรารีกราฟ | **ยังไม่เลือก** บทที่ 2 เขียนกลาง ๆ ไว้ รอเติมชื่อในหัวข้อ 2.2.8, รูปที่ 2.22 และบรรณานุกรม [21] |
-| ระบบอ้างอิง | ตามตัวอย่างกลุ่มมือเทียม: เนื้อความใช้ "ชื่อผู้แต่ง (ปี) ได้ศึกษา…" **ไม่ใส่ [n] ในเนื้อความ** / บรรณานุกรมท้ายบทเป็นเลข `[1]`–`[n]` เรียงตามลำดับที่กล่าวถึง เนื้อรายการแบบ APA |
-| ปีในเนื้อความ | งานไทยใช้ พ.ศ. งานต่างประเทศใช้ ค.ศ. ให้ตรงกับเลขปีในบรรณานุกรม |
-| การผูกหลักฐาน | เอนทิตี `Evidence` มีคีย์นอกสามตัวแบบ nullable คือ `record_id`, `finding_id`, `car_id` — แนบหลักฐานเข้ากับบันทึกข้อมูล ประเด็นที่พบ หรือใบคำร้องได้โดยตรง (มติ 3 ก.ย. 2569 จากผลตรวจ `Archive/SRS_Review_Report.md` MAJOR-1) |
-| การสำรองข้อมูล | เป็นข้อกำหนดที่ระบบต้องมี อยู่ใน **NFR-04 ข้อ (ข)** ภายใต้ความเชื่อถือได้ (ISO 25010 จัด Recoverability ไว้ใต้ Reliability) ต้องสำรองทั้งฐานข้อมูลและไฟล์หลักฐาน และกู้คืนแล้วข้อมูลกับไฟล์ต้องสอดคล้องกัน (มติ 3 ก.ย. 2569 จาก MAJOR-3 ใน `Archive/SRS_Review_Report.md`) |
-| รหัสผู้ใช้ร่วมกับกลุ่ม A | **FR-20** ระบบต้องใช้ `user_id`/`role_id` ชุดกลางร่วมกับกลุ่ม A ไม่สร้างชุดของตัวเองแยก — เดิมข้อกำหนดนี้ตกหล่นตอนเปลี่ยนรหัส ดึงกลับมาแล้ว (มติ 3 ก.ย. 2569 จาก MAJOR-5 ใน `Archive/SRS_Review_Report.md`) **ต้องตกลงรูปแบบกับกลุ่ม A ก่อนเริ่มพัฒนา** |
-| ข้อกำหนดที่ยึดตอนเขียนโค้ด | **ยึด `GroupB_SRS_v2.md` เป็นแหล่งความจริงเดียว** · ชื่อสถานะและบทบาทใช้ภาษาไทยบนหน้าจอ รหัสอังกฤษใช้เฉพาะในฐานข้อมูลและส่วนเชื่อมต่อ **ห้ามแสดงรหัสต่อผู้ใช้** · ค่ามาตรฐานกำหนดเวลารายขั้นต้องเป็นข้อมูลตั้งค่า ไม่ใช่ค่าคงที่ในโปรแกรม (`BR-B-16`) |
-| ฐานข้อมูลเครื่องพัฒนา | PostgreSQL 17.2 แบบพกพาที่ `C:\\Users\\marie\\pgsql-portable` ไม่ต้องใช้สิทธิ์ผู้ดูแลระบบ · เริ่มด้วย `efiling/scripts/db-start.sh` · ฐานข้อมูลและผู้ใช้ชื่อ `efiling` · **ไม่มี Docker ในเครื่องนี้** |
-| สถาปัตยกรรม | **สถาปัตยกรรมสามชั้น (Three-tier) + Modular Service Design** ตามบทที่ 1 §1.4.2.1 และบทที่ 2 §2.1.7 — **ห้ามใช้คำว่า monolith** (ไม่มีในบทที่ 2 เลย) · **ไม่แยกเป็น microservices** (Scalability 4/15 ต่ำสุด) · **ไม่ตั้งศัพท์ Layered Architecture** เป็นทางการ (บทที่ 2 ปิดที่ 33 รายการอ้างอิงแล้ว) แต่ยังแบ่ง Controller/Service/Repository ในโค้ดจริงตาม NFR-05 · เหตุผลเต็มอยู่ใน `GroupB_Architecture_Decisions.md` |
+## Report work
 
-## ลำดับความสำคัญของ Quality Attribute — ใช้ตอนออกแบบสถาปัตยกรรม
+When creating or editing the project/thesis report:
 
-ทีมโหวตให้คะแนน Quality Attribute ไว้ (ผู้โหวต 3 คน คนละ 0–5 คะแนน รวมเต็ม 15) ใช้เป็นเกณฑ์ตัดสินใจเวลาออกแบบสถาปัตยกรรมและเวลาต้อง trade-off ระหว่างคุณลักษณะที่ขัดกัน
+- Read `docs/REPORT_RULES.md` first and `PROJECT_STATE.md` for current state.
+- Use `docs/report-examples/` only as writing/structure references; read only
+  the example relevant to the chapter being worked on.
+- Use `SRS_v1.md` for requirements when relevant, and inspect architecture,
+  source, or tests only as needed to verify claims. Do not scan the repository.
+- Do not reread the original thesis manual unless `docs/REPORT_RULES.md` is
+  incomplete, ambiguous, or requires verification.
+- Never invent implementation details, test results, statistics, references,
+  requirements, or unresolved business rules.
+- Clearly distinguish requirements, design, implementation, testing/results,
+  limitations, and TBD decisions.
+- If an example conflicts with `docs/REPORT_RULES.md`, follow the rules; if it
+  conflicts with verified E-Filing facts, follow the verified project sources.
 
-| อันดับ | Quality Attribute | คะแนนรวม | ความหมายต่อการออกแบบ |
-|---|---|---|---|
-| 1 (ร่วม) | **Security** | 15/15 | สำคัญสูงสุด เต็มทุกเสียง — RBAC, audit trail, Separation of Duty ต้องมาก่อนความสะดวก |
-| 1 (ร่วม) | **Usability** | 15/15 | สำคัญสูงสุด เต็มทุกเสียง — ผู้ใช้จริงคือเจ้าหน้าที่ ISO/QA ที่ไม่ใช่สายเทคนิค |
-| 3 | **Availability** | 12/15 | ระบบต้องพร้อมใช้ช่วงรอบตรวจติดตาม |
-| 4 | **Modifiability** | 10/15 | แยก module/business logic ให้แก้ไขต่อได้ (สอดคล้อง NFR-05) |
-| 5 | **Performance** | 8/15 | สำคัญปานกลาง ชุดข้อมูล pilot ไม่ใหญ่ |
-| 6 | **Scalability** | 4/15 | **ต่ำสุด** ระบบใช้ในหน่วยงานเดียว ไม่ต้องออกแบบเผื่อ scale ใหญ่ — อย่าเพิ่มความซับซ้อนเพื่อการนี้ |
+## Project state updates
 
-**วิธีใช้:** เวลาออกแบบแล้วเจอทางเลือกที่ขัดกัน ให้เลือกฝั่งที่ได้คะแนนสูงกว่า เช่น ถ้าต้องเลือกระหว่างความปลอดภัย/ใช้ง่าย กับความเร็ว/รองรับผู้ใช้จำนวนมาก → เลือกฝั่งแรกเสมอ และไม่ควรลงทุนกับ Scalability เกินจำเป็นเพราะทีมให้คะแนนต่ำสุดชัดเจน
+After completing a meaningful feature or changing project behavior:
 
-## กฎการจัดพิมพ์จากคู่มือปริญญานิพนธ์ 2568
+- Update `PROJECT_STATE.md` with the new current state.
+- Keep the update concise.
+- Do not rewrite the entire file if only one section changed.
+- Update `PROJECT_SUMMARY.md` only when the project structure,
+  major modules, important files, or overall architecture changes.
 
-> **หมายเหตุ (3 ก.ย. 2569):** งานเขียนรูปเล่มปริญญานิพนธ์ **มอบหมายให้ผู้อื่นรับผิดชอบแล้ว** หัวข้อนี้เก็บไว้เพื่ออ้างอิงและส่งต่อข้อมูลให้ผู้ที่ทำรูปเล่ม ไม่ใช่งานที่ต้องทำในที่เก็บนี้ · งานหลักตอนนี้คือ **เอกสาร SRS และการออกแบบระบบ** ตามเทมเพลตในโฟลเดอร์ `guide/`
+Do not update state files for trivial formatting or comment-only changes.
 
-- ตัวอักษร **TH Sarabun New 16 pt** จัดข้อความแบบ "กระจายแบบไทย" ทั้งเล่ม
-- ชื่อบท: "บทที่ N" กลางหน้า + ชื่อบทกลางหน้า **ตัวหนา 18 pt** ไม่ขีดเส้นใต้ ขึ้นหน้าใหม่เสมอ
-- หัวข้อสำคัญชิดซ้ายตัวหนา 16 pt → หัวข้อย่อยเว้น 0.5 นิ้ว → ลำดับ `2.1` → `2.1.1` → `2.1.1.1` → `1)`
-- ขอบกระดาษ: หัว 1.5 นิ้ว / ซ้าย 1.5 นิ้ว / ขวา 1 นิ้ว / ล่าง 1 นิ้ว
-- **ตาราง: คำอธิบายอยู่บนตาราง** ชิดซ้าย ตัวหนา `ตารางที่ 2.1` เนื้อในตาราง 12 pt / ถ้าอ้างจากแหล่งอื่นใส่ที่มาใต้ตาราง
-- **รูป: คำอธิบายอยู่ใต้รูป** กลางหน้า ตัวหนา `รูปที่ 2.1` ตัวอักษรในรูป 16 pt / ถ้าอ้างจากแหล่งอื่นใส่ `ที่มา (URL)` ต่อท้าย
-- เลขรูปและตารางต้องเป็นรูปแบบ `บท.ลำดับ` เท่านั้น (ตัวอย่างของกลุ่มอื่นหลุดเป็น `2.4.1` — ไม่ทำตาม)
-- สมการใช้ Times New Roman ตัวเอน 12 pt เลขสมการ `(2.1)`
-- Word 2016+ แทรกไฟล์ `.svg` ได้ตรง ๆ รูปในโครงงานนี้ออกแบบไว้ที่ความกว้าง **14.5 ซม.**
+## Testing
 
-## กฎเรื่องแหล่งอ้างอิง — สำคัญที่สุด
+- Start with tests directly related to changed files/features.
+- Expand testing only when targeted tests reveal integration issues.
+- Run the full test suite only when necessary or explicitly requested.
+- Do not repeatedly run unchanged passing tests without a reason.
 
-**ห้ามใส่รายการอ้างอิงที่ยังเปิดต้นฉบับยืนยันไม่ได้ เด็ดขาด** ระหว่างทำบทที่ 2 พบว่า
+## Safety
 
-- ผลค้นจาก Gemini (`Project report/research from gemini for chapter 2.md`) **ผิด 7 จาก 9 รายการ** ทั้งชื่อวารสาร ชื่อเรื่อง ปี เลขหน้า และจำนวนผู้แต่ง
-- บรรณานุกรมใน proposal **ผิด 4 รายการ** รวมถึงระบุชื่อผู้เขียนผิดคน
-
-รายการที่ตรวจสอบและแก้ไขแล้วทั้งหมดอยู่ใน **ภาคผนวก จ ของไฟล์บทที่ 2** ให้อ่านก่อนแตะเรื่องอ้างอิงทุกครั้ง อย่าตรวจซ้ำโดยไม่จำเป็น และอย่าเชื่อไฟล์ของ Gemini โดยตรง
-
-ตัวเลขผลการทดลองที่พิมพ์ในบทที่ 2 ทุกตัวเปิดต้นฉบับยืนยันแล้ว งานที่อ่านได้แค่บทคัดย่อ (Gröger, Granlund) เขียนเชิงคุณภาพโดยไม่ใส่ตัวเลข — รักษามาตรฐานนี้ในบทถัดไปด้วย
-
-## เคล็ดลับเครื่องมือในเครื่องนี้ (เจอมาแล้ว ประหยัดเวลาได้มาก)
-
-1. **อ่าน .docx**: ไม่มี python-docx ให้ใช้ `zipfile` อ่าน `word/document.xml` แล้ว regex ตัดแท็ก — แทน `</w:p>` ด้วยขึ้นบรรทัดใหม่ก่อน
-2. **ภาษาไทยใน stdout ของ Git Bash**: ต้องนำหน้าด้วย `PYTHONIOENCODING=utf-8` ไม่งั้น UnicodeEncodeError (cp1252)
-3. **อ่าน PDF**: Read tool เปิด PDF ไม่ได้ (ไม่มี pdftoppm) ให้ใช้ `pdftotext -enc UTF-8` ที่มีอยู่แล้วใน `/mingw64/bin`
-4. **pdftotext เปิดไฟล์ชื่อภาษาไทยไม่ได้** เพราะ ANSI codepage ของเครื่องเป็น 1252 → คัดลอกไฟล์ไปที่ scratchpad โดยตั้งชื่อเป็นอักษรอังกฤษก่อน แล้วค่อย pdftotext
-5. **ตรวจบรรณานุกรมจาก PDF ออนไลน์**: เรียก WebFetch ที่ URL ของ PDF ตัวโมเดลจะอ่านไม่ออกแต่ระบบ**บันทึกไฟล์ไว้ในเครื่อง**และบอก path มาให้ → เอา path นั้นไป `pdftotext` ต่อ วิธีนี้ได้ชื่อผู้แต่ง เลขหน้า และตัวเลขผลการทดลองครบ
-6. ThaiJO: URL แบบ `/article/view/xxxx` ใช้ WebFetch อ่าน metadata ได้ดี ส่วน `/article/download/xxxx/yyyy` จะได้ไฟล์ PDF มาใช้กับข้อ 5
-7. `dspace.spu.ac.th` ตอบ 403 กับ WebFetch
-8. **อ่านเอกสารใน `ISO files/`**: ทุกฉบับเป็นไฟล์สแกน อักษรไทย 0 ตัวในชั้นข้อความ `pdftotext` ใช้ไม่ได้ → `python -m pip install pymupdf` แล้วคัดลอกไฟล์ไป scratchpad ตั้งชื่ออังกฤษ · แปลงหน้าเป็น PNG ด้วย `pymupdf.open(path)` + `page.get_pixmap(dpi=170).save(...)` แล้วเปิดด้วย Read tool อ่านเอง — **แม่นกว่า OCR ภาษาไทยมาก**
-9. **แผนภาพในภาคผนวก ข**: ทำด้วยปลั๊กอิน `diagram-design` เป็น `.html` ที่ `Project report/figures/ch3/` แล้วส่งออก `.svg` · **แก้ที่ `.html` เสมอ ห้ามแก้ `.svg` โดยตรง** เพราะจะถูกเขียนทับ · ฟอนต์ Sarabun (ตระกูลเดียวกับ TH Sarabun New) · ตรวจก่อนส่งด้วย `python scripts/self_check.py <file>` ในโฟลเดอร์ปลั๊กอิน
-10. **ตรวจ SVG ที่สร้างเอง**: `python -c "import xml.etree.ElementTree as ET; ET.parse('file.svg')"` ก่อนส่งมอบเสมอ
-
-## งานที่เหลือ
-
-1. **จัดบทที่ 2 ลง Word** — ก็อปจากไฟล์ .md แทรกรูปตามตารางภาคผนวก ก และดาวน์โหลดโลโก้ 9 ตัวตามภาคผนวก ข (แนะนำทดลอง 1 หัวข้อก่อน เช่น 2.2.2 React แล้วเช็คฟอนต์กับการแทรก .svg)
-2. **เลือกไลบรารีกราฟ** แล้วเติมหัวข้อ 2.2.8 รูปที่ 2.22 และบรรณานุกรม [21]
-3. **แก้บรรณานุกรมของ proposal 4 รายการ** ตามภาคผนวก จ.2 และแจ้งอาจารย์ที่ปรึกษา เพราะฉบับที่ส่งไปแล้วมีข้อมูลผิด
-4. ~~แก้สถานะ CAR ใน `Extra details/` จาก 5 สถานะให้เหลือ 4 สถานะ~~ ✅ แก้แล้วทั้ง SRS Revised, `02_SRS_UseCase_Phase1_Updated...md`, Use Case Spec, Traceability Matrix — เหลือ re-export ไฟล์ `.docx` คู่กันให้ตรงกับ `.md`
-5. ~~เขียนเอกสารความต้องการชุดใหม่~~ ✅ **เสร็จแล้ว 8 ก.ย. 2569** — `GroupB_SRS_v2.md` ครบ §1–6 + ภาคผนวก ก–ฉ พร้อมแผนภาพ 3 รูป
-6. **ปิดรายการค้างใน `GroupB_SRS_v2.md` ภาคผนวก ค** 23 รายการ · ที่ต้องทำก่อนอย่างอื่นคือ **แจ้งอาจารย์เรื่องข้อขัดแย้งกับบทที่ 1 สามจุด** (บทบาท 4 vs 10 · สถานะ 4 vs 8 · ถ้อยคำวัตถุประสงค์ 1.2.6) และ **ขอฉบับควบคุมของเอกสารคุณภาพ** แทนสำเนา Uncontrolled
-7. **ตัดสินเรื่องวงจรพึ่งพาระหว่างส่วนประกอบ** ที่บันทึกไว้ใน ภาคผนวก ฉ §F.3 — §4.6 `A1` ทำให้ส่วนประกอบการตรวจติดตามต้องอ่านข้อมูลจากใบคำร้อง ขณะที่ใบคำร้องก็พึ่งการตรวจติดตามอยู่แล้ว **ต้องแก้ก่อนเริ่มออกแบบระบบ**
-8. **ตกลงส่วนเชื่อมต่อระหว่างโมดูลกับผู้พัฒนาอีกฝ่าย** — ข้อมูลขั้นต่ำกำหนดไว้แล้วใน `GroupB_SRS_v2.md` §3.3.1
-9. **บทที่ 3 การออกแบบระบบ** — ใช้ `GroupB_SRS_v2.md` เป็นวัตถุดิบหลัก · รูปในภาคผนวก ข ใช้ต่อได้เลย
-
-## ทิศทางการเขียนที่ยึดมาตลอด
-
-- ภาษาไทยเชิงวิชาการ ไม่ใช้สรรพนามบุรุษที่หนึ่ง ศัพท์เทคนิคใส่ภาษาอังกฤษในวงเล็บครั้งแรกที่กล่าวถึง
-- หลีกเลี่ยงสำนวนที่อ่านออกว่าเขียนด้วย AI เช่น "อย่างสมบูรณ์แบบ" "อย่างยิ่งยวด" และอย่าให้มีเลขอ้างอิงลอยติดท้ายประโยคหรือเครื่องหมาย escape แปลก ๆ หลงเหลือ
-- ทุกหัวข้อทฤษฎีต้องผูกกลับไปยังวัตถุประสงค์หรือสมมติฐานในบทที่ 1 ได้ และเนื้อหาต้องอ้างเอกสารคุณภาพจริงของหน่วยงาน (QP-2301-0102 การตรวจติดตามคุณภาพภายใน, QP-2301-0109 การแก้ไขและการป้องกัน, QP-2301-0107 การควบคุมเอกสาร) ไม่ใช่พูดลอย ๆ ตามทฤษฎีทั่วไป
+- Repository must remain private.
+- Do not change locked architectural/business decisions
+  without asking the user.

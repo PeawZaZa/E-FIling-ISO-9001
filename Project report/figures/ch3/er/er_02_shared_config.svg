@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1280 1088" role="img" aria-labelledby="er_02_shared_config-title er_02_shared_config-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="er_02_shared_config-title">ตารางข้อมูลส่วนกลางและข้อมูลตั้งค่าของระบบ E-Filing</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap');</style>
+  </defs>
+  <desc id="er_02_shared_config-desc">แผนภาพความสัมพันธ์แสดงตารางส่วนกลางสามตารางคือกลุ่มงาน ผู้ใช้ และบทบาทของผู้ใช้ โดยผู้ใช้หนึ่งคนถือได้หลายบทบาท และตารางตั้งค่าสี่ตารางคือปฏิทินวันทำการ ค่าตั้งค่าระบบ ค่ามาตรฐานกำหนดเวลารายขั้น และตัวนับเลขที่เอกสารรายปี ซึ่งสามตารางหลังไม่มีคีย์นอกเชื่อมกับตารางอื่น</desc>
+
+  <rect width="1280" height="1088" fill="#ffffff"/>
+
+  <!-- ===== ความสัมพันธ์ (วาดก่อนกล่อง) ===== -->
+
+  <line x1="304" y1="180" x2="456" y2="180" stroke="#5b6472" stroke-width="1.2"/><text x="316" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="444" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">N</text><rect x="359" y="161" width="42" height="12" rx="2" fill="#ffffff"/><text x="380" y="170" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">สังกัด</text>
+
+  <line x1="696" y1="180" x2="848" y2="180" stroke="#5b6472" stroke-width="1.2"/><text x="708" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="836" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">N</text><rect x="746" y="161" width="52" height="12" rx="2" fill="#ffffff"/><text x="772" y="170" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ถือบทบาท</text>
+
+  <line x1="576" y1="288" x2="576" y2="400" stroke="#5b6472" stroke-width="1.2"/><rect x="583" y="341" width="82" height="12" rx="2" fill="#ffffff"/><text x="624" y="350" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">แก้ไขล่าสุดโดย</text><text x="592" y="308" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="592" y="392" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text>
+
+  <!-- ===== เอนทิตี ===== -->
+
+  <rect x="64" y="112" width="240" height="136" rx="6" fill="#ffffff"/>
+  <rect x="64" y="112" width="240" height="136" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="80" y="134" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="80" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">department</text>
+  <line x1="64" y1="164" x2="304" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="80" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="288" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="200" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">code</text>
+  <text x="288" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">unique</text>
+  <text x="80" y="220" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">name_th</text>
+  <text x="288" y="220" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">varchar</text>
+  <text x="80" y="240" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">is_active</text>
+  <text x="288" y="240" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">bool</text>
+
+  <rect x="456" y="112" width="240" height="176" rx="6" fill="#ffffff"/>
+  <rect x="456" y="112" width="240" height="176" rx="6" fill="rgba(31,111,139,0.06)" stroke="#1f6f8b" stroke-width="1"/>
+  <text x="472" y="134" fill="#1f6f8b" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · หลัก</text>
+  <text x="472" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">app_user</text>
+  <line x1="456" y1="164" x2="696" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="472" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="680" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="200" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">username</text>
+  <text x="680" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">unique</text>
+  <text x="472" y="220" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">full_name</text>
+  <text x="680" y="220" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">varchar</text>
+  <text x="472" y="240" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ department_id</text>
+  <text x="680" y="240" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid?</text>
+  <text x="472" y="260" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">password_hash</text>
+  <text x="680" y="260" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">varchar</text>
+  <text x="472" y="280" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">is_active</text>
+  <text x="680" y="280" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">bool</text>
+
+  <rect x="848" y="112" width="240" height="136" rx="6" fill="#ffffff"/>
+  <rect x="848" y="112" width="240" height="136" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="864" y="134" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="864" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">user_role</text>
+  <line x1="848" y1="164" x2="1088" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="1072" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="200" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ user_id</text>
+  <text x="1072" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="220" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">role</text>
+  <text x="1072" y="220" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum · 14 ค่า</text>
+  <text x="864" y="240" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">is_active</text>
+  <text x="1072" y="240" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">bool</text>
+
+  <rect x="64" y="400" width="240" height="116" rx="6" fill="#ffffff"/>
+  <rect x="64" y="400" width="240" height="116" rx="6" fill="rgba(31,36,48,0.04)" stroke="#1f2430" stroke-width="1"/>
+  <text x="80" y="422" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · ตั้งค่า</text>
+  <text x="80" y="440" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">working_calendar</text>
+  <line x1="64" y1="452" x2="304" y2="452" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="80" y="468" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># calendar_date</text>
+  <text x="288" y="468" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">date</text>
+  <text x="80" y="488" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">is_working_day</text>
+  <text x="288" y="488" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">bool</text>
+  <text x="80" y="508" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">note</text>
+  <text x="288" y="508" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">varchar?</text>
+
+  <rect x="456" y="400" width="240" height="116" rx="6" fill="#ffffff"/>
+  <rect x="456" y="400" width="240" height="116" rx="6" fill="rgba(31,36,48,0.04)" stroke="#1f2430" stroke-width="1"/>
+  <text x="472" y="422" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · ตั้งค่า</text>
+  <text x="472" y="440" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">system_setting</text>
+  <line x1="456" y1="452" x2="696" y2="452" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="472" y="468" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># key</text>
+  <text x="680" y="468" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">varchar</text>
+  <text x="472" y="488" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">value</text>
+  <text x="680" y="488" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">jsonb</text>
+  <text x="472" y="508" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ updated_by</text>
+  <text x="680" y="508" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid?</text>
+
+  <rect x="848" y="400" width="240" height="156" rx="6" fill="#ffffff"/>
+  <rect x="848" y="400" width="240" height="156" rx="6" fill="rgba(31,36,48,0.04)" stroke="#1f2430" stroke-width="1"/>
+  <text x="864" y="422" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · ตั้งค่า</text>
+  <text x="864" y="440" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">stage_deadline_setting</text>
+  <line x1="848" y1="452" x2="1088" y2="452" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="468" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="1072" y="468" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="488" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">status</text>
+  <text x="1072" y="488" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="864" y="508" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">standard_working_days</text>
+  <text x="1072" y="508" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">int</text>
+  <text x="864" y="528" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">counts_from</text>
+  <text x="1072" y="528" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">varchar</text>
+  <text x="864" y="548" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">effective_from</text>
+  <text x="1072" y="548" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">date</text>
+
+  <rect x="848" y="612" width="240" height="116" rx="6" fill="#ffffff"/>
+  <rect x="848" y="612" width="240" height="116" rx="6" fill="rgba(31,36,48,0.04)" stroke="#1f2430" stroke-width="1"/>
+  <text x="864" y="634" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · ตั้งค่า</text>
+  <text x="864" y="652" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">number_sequence</text>
+  <line x1="848" y1="664" x2="1088" y2="664" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="680" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># series</text>
+  <text x="1072" y="680" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="864" y="700" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># buddhist_year</text>
+  <text x="1072" y="700" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">int</text>
+  <text x="864" y="720" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">last_number</text>
+  <text x="1072" y="720" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">int</text>
+
+  <!-- ===== คำอธิบายสัญลักษณ์ ===== -->
+
+  <line x1="48" y1="768" x2="1232" y2="768" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="48" y="788" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+  <rect x="148" y="779" width="14" height="10" rx="2" fill="rgba(31,111,139,0.06)" stroke="#1f6f8b" stroke-width="1"/>
+  <text x="170" y="788" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางหลักของภาพ</text>
+  <rect x="287" y="779" width="14" height="10" rx="2" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="309" y="788" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางของโมดูลนั้น</text>
+  <rect x="436" y="779" width="14" height="10" rx="2" fill="rgba(31,36,48,0.04)" stroke="#8a919e" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="458" y="788" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางตั้งค่า ปรับได้โดยไม่แก้โปรแกรม</text>
+  <!-- CURRENT IMPLEMENTATION REFINEMENTS: FK destinations are named in cards -->
+  <text x="48" y="878" fill="#5b6472" font-size="11" font-family="'Geist Mono',monospace">CURRENT IMPLEMENTATION REFINEMENTS</text>
+  <rect x="64" y="896" width="350" height="104" rx="6" fill="#ffffff" stroke="#1f6f8b" stroke-width="1.4"/>
+  <text x="79" y="917" fill="#1f6f8b" font-size="9" font-family="'Geist Mono',monospace" letter-spacing="0.10em">CURRENT TABLE</text>
+  <text x="79" y="938" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">document_code_sequence</text>
+  <line x1="64" y1="947" x2="414" y2="947" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="79" y="966" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace"># key</text>
+  <text x="79" y="986" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">last_number · counter</text>
+  <text x="456" y="918" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">Document-code numbering is separate from the</text>
+  <text x="456" y="940" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">request/DAR number_sequence; neither is a</text>
+  <text x="456" y="962" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">dashboard table.</text>
+  <text x="48" y="1064" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">See Database_Design.md for all keys, unique constraints, and cross-figure relationships.</text>
+</svg>

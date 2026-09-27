@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1280 1136" role="img" aria-labelledby="er_06_request_cycle-title er_06_request_cycle-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="er_06_request_cycle-title">ตารางใบคำร้อง การแก้ไข แผนการปฏิบัติการ การตรวจสอบประสิทธิผล และการปิดใบ</title>
+  <defs>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap');</style>
+  </defs>
+  <desc id="er_06_request_cycle-desc">แผนภาพความสัมพันธ์แสดงใบคำร้องหนึ่งใบที่มีการแก้ไขเฉพาะหน้า การวิเคราะห์สาเหตุรากเหง้า และแผนการปฏิบัติการแก้ไขซึ่งมีเลขฉบับและมีกิจกรรมหลายรายการ แต่ละกิจกรรมมีผู้รับผิดชอบและกำหนดเวลาของตนเอง ผลการอนุมัติแผนผูกกับแผนฉบับที่พิจารณา และการปิดใบผูกกับผลการตรวจสอบประสิทธิผลแบบหนึ่งต่อหนึ่ง</desc>
+
+  <rect width="1280" height="1136" fill="#ffffff"/>
+
+  <!-- ===== ความสัมพันธ์ (วาดก่อนกล่อง) ===== -->
+
+  <line x1="304" y1="180" x2="456" y2="180" stroke="#5b6472" stroke-width="1.2"/><text x="316" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text><text x="444" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">1</text><rect x="339" y="161" width="82" height="12" rx="2" fill="#ffffff"/><text x="380" y="170" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">แก้ไขเฉพาะหน้า</text>
+
+  <line x1="696" y1="180" x2="848" y2="180" stroke="#5b6472" stroke-width="1.2"/><text x="708" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="836" y="196" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">N</text><rect x="731" y="161" width="82" height="12" rx="2" fill="#ffffff"/><text x="772" y="170" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">สาเหตุรากเหง้า</text>
+
+  <line x1="576" y1="288" x2="576" y2="376" stroke="#1f6f8b" stroke-width="1.4"/><rect x="604" y="327" width="72" height="12" rx="2" fill="#ffffff"/><text x="640" y="336" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">แผน หลายฉบับ</text><text x="592" y="308" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="592" y="368" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text>
+
+  <line x1="304" y1="444" x2="456" y2="444" stroke="#5b6472" stroke-width="1.2"/><text x="316" y="460" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text><text x="444" y="460" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">1</text><rect x="344" y="425" width="72" height="12" rx="2" fill="#ffffff"/><text x="380" y="434" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">กิจกรรมในแผน</text>
+
+  <line x1="696" y1="444" x2="848" y2="444" stroke="#5b6472" stroke-width="1.2"/><text x="708" y="460" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="836" y="460" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">N</text><rect x="744" y="425" width="57" height="12" rx="2" fill="#ffffff"/><text x="772" y="434" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ผลอนุมัติ</text>
+
+  <path d="M 504,288 V 320 Q 504,328 496,328 H 400 Q 392,328 392,336 V 592 Q 392,600 400,600 H 496 Q 504,600 504,608 V 640" fill="none" stroke="#5b6472" stroke-width="1.2"/><rect x="417" y="309" width="62" height="12" rx="2" fill="#ffffff"/><text x="448" y="318" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ส่งตรวจสอบ</text><text x="520" y="308" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="520" y="632" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">N</text>
+
+  <line x1="696" y1="708" x2="848" y2="708" stroke="#5b6472" stroke-width="1.2"/><text x="708" y="724" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="start">1</text><text x="836" y="724" fill="#5b6472" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">0..1</text><rect x="746" y="689" width="52" height="12" rx="2" fill="#ffffff"/><text x="772" y="698" fill="#8a919e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle" letter-spacing="0.06em">ใช้ปิดใบ</text>
+
+  <!-- ===== เอนทิตี ===== -->
+
+  <rect x="64" y="112" width="240" height="136" rx="6" fill="#ffffff"/>
+  <rect x="64" y="112" width="240" height="136" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="80" y="134" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="80" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">correction</text>
+  <line x1="64" y1="164" x2="304" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="80" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="288" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="200" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ request_id</text>
+  <text x="288" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="220" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">detail</text>
+  <text x="288" y="220" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">text</text>
+  <text x="80" y="240" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ recorded_by</text>
+  <text x="288" y="240" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+
+  <rect x="456" y="112" width="240" height="176" rx="6" fill="#ffffff"/>
+  <rect x="456" y="112" width="240" height="176" rx="6" fill="rgba(31,111,139,0.06)" stroke="#1f6f8b" stroke-width="1"/>
+  <text x="472" y="134" fill="#1f6f8b" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE · หลัก</text>
+  <text x="472" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">corrective_request</text>
+  <line x1="456" y1="164" x2="696" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="472" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="680" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="200" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">request_no</text>
+  <text x="680" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">nnn/พ.ศ.</text>
+  <text x="472" y="220" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ finding_id</text>
+  <text x="680" y="220" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="240" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">request_type</text>
+  <text x="680" y="240" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum · CAR/NCR</text>
+  <text x="472" y="260" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">current_status</text>
+  <text x="680" y="260" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum · 8 ค่า</text>
+  <text x="472" y="280" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ owner_user_id</text>
+  <text x="680" y="280" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid?</text>
+
+  <rect x="848" y="112" width="240" height="136" rx="6" fill="#ffffff"/>
+  <rect x="848" y="112" width="240" height="136" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="864" y="134" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="864" y="152" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">root_cause_analysis</text>
+  <line x1="848" y1="164" x2="1088" y2="164" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="180" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="1072" y="180" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="200" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ request_id</text>
+  <text x="1072" y="200" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="220" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">root_cause</text>
+  <text x="1072" y="220" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">text</text>
+  <text x="864" y="240" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">technique</text>
+  <text x="1072" y="240" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">varchar</text>
+
+  <rect x="64" y="376" width="240" height="156" rx="6" fill="#ffffff"/>
+  <rect x="64" y="376" width="240" height="156" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="80" y="398" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="80" y="416" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">action_plan_activity</text>
+  <line x1="64" y1="428" x2="304" y2="428" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="80" y="444" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="288" y="444" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="464" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ plan_id</text>
+  <text x="288" y="464" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="484" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">kind</text>
+  <text x="288" y="484" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="80" y="504" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ responsible_user_id</text>
+  <text x="288" y="504" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="80" y="524" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">due_date</text>
+  <text x="288" y="524" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">date</text>
+
+  <rect x="456" y="376" width="240" height="176" rx="6" fill="#ffffff"/>
+  <rect x="456" y="376" width="240" height="176" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="472" y="398" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="472" y="416" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">action_plan</text>
+  <line x1="456" y1="428" x2="696" y2="428" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="472" y="444" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="680" y="444" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="464" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ request_id</text>
+  <text x="680" y="464" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="484" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">revision</text>
+  <text x="680" y="484" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">int</text>
+  <text x="472" y="504" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">corrective_summary</text>
+  <text x="680" y="504" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">text</text>
+  <text x="472" y="524" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">preventive_summary</text>
+  <text x="680" y="524" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">text</text>
+  <text x="472" y="544" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">is_current</text>
+  <text x="680" y="544" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">bool</text>
+
+  <rect x="848" y="376" width="240" height="156" rx="6" fill="#ffffff"/>
+  <rect x="848" y="376" width="240" height="156" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="864" y="398" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="864" y="416" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">plan_approval</text>
+  <line x1="848" y1="428" x2="1088" y2="428" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="444" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="1072" y="444" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="464" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ plan_id</text>
+  <text x="1072" y="464" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="484" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">result</text>
+  <text x="1072" y="484" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="864" y="504" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ decided_by</text>
+  <text x="1072" y="504" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="524" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">actor_role</text>
+  <text x="1072" y="524" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+
+  <rect x="456" y="640" width="240" height="136" rx="6" fill="#ffffff"/>
+  <rect x="456" y="640" width="240" height="136" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="472" y="662" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="472" y="680" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">verification</text>
+  <line x1="456" y1="692" x2="696" y2="692" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="472" y="708" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="680" y="708" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="728" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ request_id</text>
+  <text x="680" y="728" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="472" y="748" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace">result</text>
+  <text x="680" y="748" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">enum</text>
+  <text x="472" y="768" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ verified_by</text>
+  <text x="680" y="768" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+
+  <rect x="848" y="640" width="240" height="136" rx="6" fill="#ffffff"/>
+  <rect x="848" y="640" width="240" height="136" rx="6" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="864" y="662" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">TABLE</text>
+  <text x="864" y="680" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">closure</text>
+  <line x1="848" y1="692" x2="1088" y2="692" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="864" y="708" fill="#1f2430" font-size="10" font-family="'Geist Mono',monospace"># id</text>
+  <text x="1072" y="708" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+  <text x="864" y="728" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ request_id</text>
+  <text x="1072" y="728" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">unique</text>
+  <text x="864" y="748" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ verification_id</text>
+  <text x="1072" y="748" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">unique</text>
+  <text x="864" y="768" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ closed_by</text>
+  <text x="1072" y="768" fill="#8a919e" font-size="9" font-family="'Geist Mono',monospace" text-anchor="end">uuid</text>
+
+  <!-- ===== คำอธิบายสัญลักษณ์ ===== -->
+
+  <line x1="48" y1="816" x2="1232" y2="816" stroke="rgba(31,36,48,0.14)" stroke-width="0.8"/>
+  <text x="48" y="836" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.14em">LEGEND</text>
+  <rect x="148" y="827" width="14" height="10" rx="2" fill="rgba(31,111,139,0.06)" stroke="#1f6f8b" stroke-width="1"/>
+  <text x="170" y="836" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางหลักของภาพ</text>
+  <rect x="287" y="827" width="14" height="10" rx="2" fill="#ffffff" stroke="#1f2430" stroke-width="1"/>
+  <text x="309" y="836" fill="#5b6472" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.06em">ตารางของโมดูลนั้น</text>
+  <!-- CURRENT IMPLEMENTATION REFINEMENTS: FK destinations are named in cards -->
+  <text x="48" y="926" fill="#5b6472" font-size="11" font-family="'Geist Mono',monospace">CURRENT IMPLEMENTATION REFINEMENTS</text>
+  <rect x="64" y="944" width="350" height="124" rx="6" fill="#ffffff" stroke="#1f6f8b" stroke-width="1.4"/>
+  <text x="79" y="965" fill="#1f6f8b" font-size="9" font-family="'Geist Mono',monospace" letter-spacing="0.10em">CURRENT TABLE</text>
+  <text x="79" y="986" fill="#1f2430" font-size="13" font-weight="600" font-family="'Geist Mono',monospace">activity_record_link</text>
+  <line x1="64" y1="995" x2="414" y2="995" stroke="rgba(31,36,48,0.14)" stroke-width="1"/>
+  <text x="79" y="1014" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace"># (activity_id, record_id)</text>
+  <text x="79" y="1034" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ activity_id → action_plan_activity</text>
+  <text x="79" y="1054" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">→ record_id → quality_record</text>
+  <text x="456" y="966" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">Cross-module evidence reuse; quality_record is</text>
+  <text x="456" y="988" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">shown in Figure 5. Closure exists but its write</text>
+  <text x="456" y="1010" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">path is deferred.</text>
+  <text x="48" y="1112" fill="#5b6472" font-size="10" font-family="'Geist Mono',monospace">See Database_Design.md for all keys, unique constraints, and cross-figure relationships.</text>
+</svg>

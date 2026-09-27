@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Screen Flow — ISO E-Filing Phase 1</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:#f0f4f8;color:#1e293b;font-size:13px}
+header{background:#1e3055;color:#fff;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100}
+header h1{font-size:17px;font-weight:700;letter-spacing:-0.02em}
+header p{font-size:11px;color:#7da4e0;margin-top:2px}
+.legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:#cbd5e1}
+.leg-dot{width:12px;height:12px;border-radius:3px}
+.toolbar{display:flex;gap:8px;padding:14px 28px 0;flex-wrap:wrap;align-items:center}
+.toolbar-btn{padding:5px 14px;border:1px solid #d1d5db;border-radius:20px;background:#fff;font-size:12px;cursor:pointer;font-family:inherit;color:#475569;transition:all .15s}
+.toolbar-btn.active,.toolbar-btn:hover{background:#2463d9;color:#fff;border-color:#2463d9}
+.toolbar-sep{color:#d1d5db;font-size:16px;margin:0 2px}
+.diagram-row{display:flex;gap:0;padding:16px 28px;overflow:hidden}
+.svg-scroll{overflow-x:auto;overflow-y:visible;flex:1;border-radius:12px;border:1px solid #e2e8f0;background:#fff}
+.detail-panel{width:340px;flex-shrink:0;background:#fff;border:1px solid #e2e8f0;border-radius:12px;margin-left:14px;overflow-y:auto;max-height:680px;transition:width .2s}
+.detail-panel.hidden{width:0;border:none;margin:0;overflow:hidden}
+.dp-header{padding:16px;border-bottom:1px solid #f1f5f9;position:sticky;top:0;background:#fff;z-index:10}
+.dp-id{font-size:11px;font-family:'IBM Plex Mono',monospace;font-weight:600;margin-bottom:4px}
+.dp-name{font-size:16px;font-weight:700;color:#0f172a}
+.dp-body{padding:16px}
+.dp-section{margin-bottom:14px}
+.dp-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#94a3b8;margin-bottom:5px}
+.dp-value{font-size:12px;color:#374151;line-height:1.6}
+.dp-value code{font-family:'IBM Plex Mono',monospace;font-size:11px;background:#f1f5f9;padding:1px 5px;border-radius:3px;color:#1e40af}
+.dp-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin:2px 2px 2px 0}
+.actor-chip{background:#eff6ff;color:#1e40af}
+.fr-chip{background:#f0fdf4;color:#166534}
+.nfr-chip{background:#fef3c7;color:#92400e}
+.sc-chip{background:#f5f3ff;color:#4c1d95}
+.tc-chip{background:#fdf2f8;color:#9d174d}
+.api-line{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1e40af;background:#eff6ff;padding:6px 10px;border-radius:6px;margin-bottom:4px;word-break:break-all}
+.entity-tag{display:inline-block;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:2px 7px;font-size:11px;color:#475569;margin:2px}
+.close-btn{position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;color:#94a3b8;font-size:16px;line-height:1}
+
+/* Table section */
+.table-section{padding:24px 28px}
+.table-section h2{font-size:16px;font-weight:700;color:#0f172a;margin-bottom:4px}
+.table-section p{font-size:12px;color:#64748b;margin-bottom:14px}
+.tbl-scroll{overflow-x:auto;border-radius:10px;border:1px solid #e2e8f0}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:1200px}
+thead tr{background:#f8fafc}
+th{padding:10px 12px;text-align:left;font-size:10px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;border-bottom:1px solid #e2e8f0}
+td{padding:9px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top;color:#374151}
+tr:hover td{background:#f8fafc}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:11px}
+.grp-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.grp-shared{background:#f1f5f9;color:#475569}
+.grp-a{background:#dbeafe;color:#1e40af}
+.grp-b{background:#ede9fe;color:#4c1d95}
+
+@media print{
+  header{position:static}
+  .toolbar{display:none}
+  .detail-panel{display:none}
+  .diagram-row{padding:0}
+  .svg-scroll{border:none;border-radius:0}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Screen Flow Diagram — ISO E-Filing Phase 1 MVP</h1>
+    <p>คณะวิศวกรรมศาสตร์ มทร.ล้านนา · SRS v3.0 · Traceability Matrix v1.0</p>
+  </div>
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#64748b"></div>Shared</div>
+    <div class="leg"><div class="leg-dot" style="background:#2463d9"></div>Group A — Document Control</div>
+    <div class="leg"><div class="leg-dot" style="background:#7c3aed"></div>Group B — Quality Assurance</div>
+    <div class="leg"><div class="leg-dot" style="background:#94a3b8;border:2px dashed #64748b"></div>Integration API</div>
+    <span style="color:#475569;font-size:12px;margin-left:8px">🖨 Ctrl+P → Save as PDF</span>
+  </div>
+</header>
+
+<div class="toolbar">
+  <span style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em">Filter:</span>
+  <button class="toolbar-btn active" onclick="filterGroup('all',this)">ทั้งหมด</button>
+  <button class="toolbar-btn" onclick="filterGroup('shared',this)">Shared</button>
+  <button class="toolbar-btn" onclick="filterGroup('groupa',this)">Group A</button>
+  <button class="toolbar-btn" onclick="filterGroup('groupb',this)">Group B</button>
+  <span class="toolbar-sep">|</span>
+  <button class="toolbar-btn" onclick="toggleLabels()">Toggle Labels</button>
+  <button class="toolbar-btn" onclick="window.print()">🖨 Print / PDF</button>
+  <span id="hint" style="font-size:11px;color:#94a3b8;margin-left:4px">คลิกที่ Screen เพื่อดู Mapping</span>
+</div>
+
+<div class="diagram-row">
+  <div class="svg-scroll" id="svg-scroll">
+    <svg id="flow-svg" viewBox="0 0 1500 760" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:1100px;display:block"></svg>
+  </div>
+  <div class="detail-panel hidden" id="detail-panel"></div>
+</div>
+
+<div class="table-section">
+  <h2>SRS Mapping Reference Table</h2>
+  <p>ตาราง mapping ทุก Screen → Actor → Use Case → FR/NFR → API → Entity → Test Case (จาก SRS v3.0 + Traceability Matrix v1.0)</p>
+  <div class="tbl-scroll"><table id="ref-table"></table></div>
+</div>
+
+<script>
+// ── Data ─────────────────────────────────────────────────────────────────────
+
+const ACTORS = {
+  'ACT-01':'End User','ACT-02':'Document Owner','ACT-03':'Approver',
+  'ACT-04':'ISO/QA Admin','ACT-05':'Auditor','ACT-06':'CAR Owner',
+  'ACT-07':'IT/Admin','ACT-08':'Group A System','ACT-09':'Group B System',
+};
+
+const NODES = [
+  // ── Shared ────────────────────────────────────────────────────────────────
+  { id:'UI-S01', label:'Login', sub:'Auth & Session', group:'shared', cx:140, cy:90,
+    uc:'UC-S01', fr:['FR-SH01','FR-SH02'], nfr:['NFR-01'],
+    actors:['ACT-01','ACT-02','ACT-03','ACT-04','ACT-05','ACT-06','ACT-07'],
+    api:['POST /auth/login','GET /me'],
+    entities:['User','Role'],
+    tc:'TC-S01', scenarios:['SC-S01-01','SC-S01-02','SC-S01-03'],
+    desc:'จุดเข้าสู่ระบบ ตรวจสอบ credentials สร้าง session และแสดงเมนูตาม role' },
+
+  { id:'UI-S02', label:'User Management', sub:'ผู้ใช้ & บทบาท', group:'shared', cx:900, cy:90,
+    uc:'UC-S02', fr:['FR-SH02','FR-SH03','FR-SH05'], nfr:['NFR-01'],
+    actors:['ACT-07','ACT-04'],
+    api:['GET /users','POST /users','PATCH /users/{id}/roles'],
+    entities:['User','Role','Department'],
+    tc:'TC-S02', scenarios:['SC-S02-01'],
+    desc:'จัดการผู้ใช้งาน กำหนด role และ department ใช้ได้โดย IT/Admin และ ISO/QA Admin' },
+
+  { id:'UI-S03', label:'Audit Trail Viewer', sub:'บันทึกการดำเนินการ', group:'shared', cx:1260, cy:90,
+    uc:'UC-S03', fr:['FR-SH04'], nfr:['NFR-02'],
+    actors:['ACT-04','ACT-05','ACT-07'],
+    api:['GET /audit-trails'],
+    entities:['AuditTrail'],
+    tc:'TC-S03', scenarios:['SC-S03-01'],
+    desc:'ดูบันทึก who/what/when ของทุก event สำคัญในระบบ ใช้ได้โดย Admin, Auditor, ISO Admin' },
+
+  // ── Group A ───────────────────────────────────────────────────────────────
+  { id:'UI-A01', label:'Document List', sub:'ทะเบียนเอกสาร', group:'groupa', cx:140, cy:290,
+    uc:'UC-A06', fr:['FR-A09'], nfr:['NFR-03','NFR-04'],
+    actors:['ACT-01','ACT-02','ACT-04','ACT-05'],
+    api:['GET /documents?filters'],
+    entities:['Document','DocumentVersion'],
+    tc:'TC-A06', scenarios:['SC-A06-01','SC-A06-02'],
+    desc:'ค้นหาและ filter เอกสาร ด้วย code/title/type/status End User เห็นเฉพาะ Published' },
+
+  { id:'UI-A02', label:'Document Form', sub:'Create / Edit Draft', group:'groupa', cx:440, cy:400,
+    uc:'UC-A01', fr:['FR-A01','FR-A02','FR-A03'], nfr:['NFR-02'],
+    actors:['ACT-02','ACT-04'],
+    api:['POST /documents','POST /documents/{id}/files'],
+    entities:['Document','DocumentVersion','FileReference','AuditTrail'],
+    tc:'TC-A01', scenarios:['SC-A01-01','SC-A01-02','SC-A01-03'],
+    desc:'กรอก metadata (code, title, type, dept, owner, approver) และ upload file สร้าง Draft' },
+
+  { id:'UI-A03', label:'Document Detail', sub:'View / Publish / Obsolete', group:'groupa', cx:440, cy:290,
+    uc:'UC-A04, UC-A05, UC-A06', fr:['FR-A03','FR-A04','FR-A07','FR-A08','FR-A09'], nfr:['NFR-07'],
+    actors:['ACT-01','ACT-02','ACT-03','ACT-04'],
+    api:['GET /documents/{id}','POST /documents/{id}/publish','POST /documents/{id}/obsolete'],
+    entities:['Document','DocumentVersion','FileReference'],
+    tc:'TC-A04, TC-A05, TC-A06', scenarios:['SC-A04-01','SC-A04-02','SC-A04-03','SC-A05-01'],
+    desc:'ดูรายละเอียด metadata, ไฟล์, revision history ISO Admin: Publish / Obsolete document' },
+
+  { id:'UI-A04', label:'DAR Form', sub:'สร้างและส่ง DAR', group:'groupa', cx:740, cy:290,
+    uc:'UC-A02', fr:['FR-A04','FR-A05'], nfr:['NFR-02'],
+    actors:['ACT-02','ACT-04'],
+    api:['POST /dars','POST /dars/{id}/submit'],
+    entities:['DAR','Document','AuditTrail'],
+    tc:'TC-A02', scenarios:['SC-A02-01','SC-A02-02','SC-A02-03'],
+    desc:'เลือก action_type (new/revise/obsolete) ระบุเหตุผล เลือก approver และ submit DAR' },
+
+  { id:'UI-A05', label:'Approval Queue', sub:'Review / Approve / Reject', group:'groupa', cx:1040, cy:290,
+    uc:'UC-A03', fr:['FR-A04','FR-A06','FR-A08'], nfr:['NFR-02'],
+    actors:['ACT-03','ACT-04'],
+    api:['GET /approval-tasks','POST /dars/{id}/approve','POST /dars/{id}/reject'],
+    entities:['DAR','ApprovalLog','DocumentVersion','AuditTrail'],
+    tc:'TC-A03', scenarios:['SC-A03-01','SC-A03-02','SC-A03-03'],
+    desc:'Approver เปิดคิว review DAR approve/reject พร้อม comment document status เปลี่ยนตาม' },
+
+  { id:'UI-A06', label:'Acknowledgement Panel', sub:'รับทราบเอกสาร', group:'groupa', cx:740, cy:400,
+    uc:'UC-A07', fr:['FR-A10','FR-A11'], nfr:['NFR-02'],
+    actors:['ACT-01','ACT-02','ACT-03','ACT-06'],
+    api:['POST /documents/{id}/ack','GET /documents/{id}/ack-summary'],
+    entities:['Acknowledgement','DocumentVersion','User'],
+    tc:'TC-A07', scenarios:['SC-A07-01','SC-A07-02'],
+    desc:'กดรับทราบเอกสาร ระบบบันทึก user/time/version แสดง summary ว่าใครรับทราบแล้ว/ยังไม่รับทราบ' },
+
+  // ── Group B ───────────────────────────────────────────────────────────────
+  { id:'UI-B05', label:'Operational Dashboard', sub:'ภาพรวม ISO Quality', group:'groupb', cx:140, cy:580,
+    uc:'UC-B08', fr:['FR-B11','FR-B12','FR-B13'], nfr:['NFR-06','NFR-04'],
+    actors:['ACT-04','ACT-05'],
+    api:['GET /dashboard/summary','GET /integration/document-summary','GET /integration/ack-summary'],
+    entities:['DocumentSummary','AckSummary','Finding','CAR'],
+    tc:'TC-B08', scenarios:['SC-B08-01','SC-B08-02','SC-B08-03'],
+    desc:'แสดง KPI cards, charts, recent lists จากข้อมูลจริง Group A (doc/ack) + Group B (CAR/finding)' },
+
+  { id:'UI-B01', label:'Record List/Form', sub:'Records & Evidence', group:'groupb', cx:440, cy:580,
+    uc:'UC-B01', fr:['FR-B01','FR-B02'], nfr:['NFR-02'],
+    actors:['ACT-04','ACT-05','ACT-06'],
+    api:['POST /records','POST /records/{id}/files'],
+    entities:['Record','FileReference','DocumentRef','AuditTrail'],
+    tc:'TC-B01', scenarios:['SC-B01-01','SC-B01-02'],
+    desc:'สร้าง record/evidence ผูกกับ document_id จาก Group A หรือ finding/CAR แนบ evidence file' },
+
+  { id:'UI-B02', label:'Audit / Finding Form', sub:'Internal Audit & Findings', group:'groupb', cx:740, cy:580,
+    uc:'UC-B02, UC-B03', fr:['FR-B03','FR-B04','FR-B05'], nfr:['NFR-02'],
+    actors:['ACT-05','ACT-04'],
+    api:['POST /audits','POST /findings'],
+    entities:['Audit','Finding','Record','DocumentRef','AuditTrail'],
+    tc:'TC-B02, TC-B03', scenarios:['SC-B02-01','SC-B03-01','SC-B03-02'],
+    desc:'สร้าง audit session บันทึก finding (NC/OFI) พร้อม type/severity/clause/evidence อ้าง document' },
+
+  { id:'UI-B03', label:'CAR List / Detail', sub:'Create · Update · Verify · Close', group:'groupb', cx:1040, cy:580,
+    uc:'UC-B04, UC-B05, UC-B06', fr:['FR-B06','FR-B07','FR-B08','FR-B10'], nfr:['NFR-02'],
+    actors:['ACT-04','ACT-05','ACT-06'],
+    api:['POST /cars','PATCH /cars/{id}','POST /cars/{id}/evidence','POST /cars/{id}/close','POST /cars/{id}/reopen'],
+    entities:['CAR','Finding','VerificationLog','AuditTrail'],
+    tc:'TC-B04, TC-B05, TC-B06', scenarios:['SC-B04-01','SC-B04-02','SC-B05-01','SC-B05-02','SC-B06-01','SC-B06-02'],
+    desc:'เปิด CAR จาก finding กรอก root cause/action/evidence ส่ง verify Auditor/ISO Admin close หรือ reopen' },
+
+  { id:'UI-B04', label:'Overdue Monitor', sub:'CAR เกินกำหนด', group:'groupb', cx:1330, cy:580,
+    uc:'UC-B07', fr:['FR-B09','FR-B13'], nfr:['NFR-04'],
+    actors:['ACT-04','ACT-06'],
+    api:['GET /cars?status=overdue'],
+    entities:['CAR'],
+    tc:'TC-B07', scenarios:['SC-B07-01'],
+    desc:'แสดง CAR ที่ due_date < today และ status ≠ Closed filter by owner/status/date' },
+];
+
+const EDGES = [
+  // Shared internal
+  { f:'UI-S01', t:'UI-S02', label:'IT/Admin', tp:'shared', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-S02', t:'UI-S03', label:'', tp:'shared', fx:'r', fy:'m', tx:'l', ty:'m' },
+
+  // Login → Group A
+  { f:'UI-S01', t:'UI-A01', label:'Login', tp:'shared', fx:'b', fy:'m', tx:'t', ty:'m' },
+
+  // Group A flows
+  { f:'UI-A01', t:'UI-A03', label:'เปิด Detail', tp:'groupa', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-A01', t:'UI-A02', label:'+ Create', tp:'groupa', fx:'b', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-A02', t:'UI-A03', label:'Save', tp:'groupa', fx:'r', fy:'m', tx:'b', ty:'m' },
+  { f:'UI-A03', t:'UI-A04', label:'+ DAR', tp:'groupa', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-A04', t:'UI-A05', label:'Submit', tp:'groupa', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-A05', t:'UI-A03', label:'Approve / Reject', tp:'groupa-return', fx:'b', fy:'m', tx:'r', ty:'m' },
+  { f:'UI-A03', t:'UI-A06', label:'Acknowledge', tp:'groupa', fx:'b', fy:'m', tx:'t', ty:'m' },
+  { f:'UI-A04', t:'UI-A06', label:'(DAR → ACK)', tp:'groupa', fx:'b', fy:'m', tx:'r', ty:'m' },
+
+  // Integration
+  { f:'UI-A01', t:'UI-B05', label:'Integration API', tp:'integration', fx:'b', fy:'m', tx:'t', ty:'m' },
+
+  // Group B flows
+  { f:'UI-B05', t:'UI-B01', label:'Records', tp:'groupb', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-B01', t:'UI-B02', label:'Evidence', tp:'groupb', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-B02', t:'UI-B03', label:'Open CAR', tp:'groupb', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-B03', t:'UI-B04', label:'Monitor', tp:'groupb', fx:'r', fy:'m', tx:'l', ty:'m' },
+  { f:'UI-B05', t:'UI-B02', label:'Audit', tp:'groupb-up', fx:'r', fy:'t', tx:'l', ty:'b' },
+  { f:'UI-B05', t:'UI-B03', label:'CARs', tp:'groupb-up', fx:'r', fy:'t', tx:'l', ty:'t' },
+];
+
+const GROUP_COLORS = { shared:'#475569', groupa:'#2463d9', groupb:'#7c3aed' };
+const GROUP_LIGHT  = { shared:'#f1f5f9', groupa:'#eff6ff', groupb:'#f5f3ff' };
+const GROUP_BORDER = { shared:'#94a3b8', groupa:'#93c5fd', groupb:'#c4b5fd' };
+const GROUP_LABEL  = { shared:'SHARED', groupa:'GROUP A — Document Control / DAR / Acknowledgement', groupb:'GROUP B — Records / Audit / CAR / Dashboard' };
+
+const NW=162, NH=56; // node width/height
+
+// Helper: node edge point
+function ep(n, side, pos='m') {
+  const hx = NW/2, hy = NH/2;
+  const cx=n.cx, cy=n.cy;
+  const offsets = {
+    l:{ x:cx-hx, y:cy }, r:{ x:cx+hx, y:cy },
+    t:{ x:cx, y:cy-hy }, b:{ x:cx, y:cy+hy },
+  };
+  return offsets[side] || {x:cx,y:cy};
+}
+
+// ── SVG Render ────────────────────────────────────────────────────────────────
+let showLabels = true;
+let activeGroup = 'all';
+let activeNode = null;
+
+function renderSVG() {
+  const svg = document.getElementById('flow-svg');
+
+  // Swimlane definitions
+  const lanes = [
+    { group:'shared', y:30,  h:130, x:10, w:1480 },
+    { group:'groupa', y:205, h:250, x:10, w:1180 },
+    { group:'groupb', y:500, h:150, x:10, w:1480 },
+  ];
+
+  let html = `<defs>
+    <marker id="arr-shared"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>
+    <marker id="arr-groupa"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2463d9"/></marker>
+    <marker id="arr-groupb"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#7c3aed"/></marker>
+    <marker id="arr-return"   markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>
+    <marker id="arr-integ"    markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#6b7280"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>`;
+
+  // Swimlane backgrounds
+  lanes.forEach(l => {
+    const op = activeGroup !== 'all' && activeGroup !== l.group ? 0.3 : 1;
+    html += `<rect x="${l.x}" y="${l.y}" width="${l.w}" height="${l.h}" rx="10"
+      fill="${GROUP_LIGHT[l.group]}" stroke="${GROUP_BORDER[l.group]}" stroke-width="1.5" opacity="${op}"/>
+    <text x="${l.x+14}" y="${l.y+18}" font-size="10" font-weight="700" font-family="IBM Plex Sans Thai,sans-serif"
+      fill="${GROUP_COLORS[l.group]}" opacity="${op}" letter-spacing="0.08em">${GROUP_LABEL[l.group]}</text>`;
+  });
+
+  // Edges (draw behind nodes)
+  EDGES.forEach(e => {
+    const fn = NODES.find(n=>n.id===e.f);
+    const tn = NODES.find(n=>n.id===e.t);
+    if (!fn || !tn) return;
+
+    // Dim if filtering
+    const groups = [fn.group, tn.group];
+    const visible = activeGroup==='all' || groups.includes(activeGroup) || e.tp==='integration';
+    const op = visible ? 1 : 0.1;
+
+    const from = ep(fn, e.fx);
+    const to   = ep(tn, e.tx);
+
+    let color='#94a3b8', dashArr='none', markerId='arr-shared';
+    if (e.tp==='groupa')        { color='#2463d9'; markerId='arr-groupa'; }
+    if (e.tp==='groupa-return') { color='#f59e0b'; markerId='arr-return'; }
+    if (e.tp==='groupb' || e.tp==='groupb-up') { color='#7c3aed'; markerId='arr-groupb'; }
+    if (e.tp==='integration')   { color='#6b7280'; dashArr='6,4'; markerId='arr-integ'; }
+
+    // Compute path
+    let pathD;
+    const dx = to.x - from.x, dy = to.y - from.y;
+    const mx = (from.x+to.x)/2, my = (from.y+to.y)/2;
+
+    if (e.tp==='groupa-return') {
+      // Arc over from A05 back to A03
+      const cp1x = from.x, cp1y = from.y+50;
+      const cp2x = to.x+20, cp2y = to.y+50;
+      pathD = `M${from.x},${from.y} C${cp1x},${cp1y} ${cp2x},${cp2y} ${to.x},${to.y}`;
+    } else if (e.f==='UI-A01' && e.t==='UI-A02') {
+      pathD = `M${from.x},${from.y} C${from.x},${from.y+60} ${to.x-60},${to.y} ${to.x},${to.y}`;
+    } else if (e.f==='UI-A02' && e.t==='UI-A03') {
+      pathD = `M${from.x},${from.y} C${from.x+40},${from.y} ${to.x},${to.y+40} ${to.x},${to.y}`;
+    } else if (e.f==='UI-A04' && e.t==='UI-A06') {
+      pathD = `M${from.x},${from.y} C${from.x},${from.y+40} ${to.x+20},${to.y-30} ${to.x},${to.y}`;
+    } else if (e.tp==='groupb-up') {
+      const cp1x=from.x + dx*0.3, cp1y=from.y-30;
+      const cp2x=to.x - dx*0.3, cp2y=to.y+30;
+      pathD = `M${from.x},${from.y} C${cp1x},${cp1y} ${cp2x},${cp2y} ${to.x},${to.y}`;
+    } else if (Math.abs(dy) > 100) {
+      // Long vertical
+      const cx1=from.x+(to.x-from.x)*0.15, cy1=from.y+(to.y-from.y)*0.5;
+      pathD = `M${from.x},${from.y} C${from.x},${from.y+80} ${to.x},${to.y-80} ${to.x},${to.y}`;
+    } else {
+      pathD = `M${from.x},${from.y} C${mx},${from.y} ${mx},${to.y} ${to.x},${to.y}`;
+    }
+
+    html += `<path d="${pathD}" fill="none" stroke="${color}" stroke-width="${e.tp==='integration'?1.5:1.8}"
+      stroke-dasharray="${dashArr}" marker-end="url(#${markerId})" opacity="${op}"/>`;
+
+    // Edge label
+    if (showLabels && e.label && op > 0.5) {
+      const lx=(from.x+to.x)/2, ly=(from.y+to.y)/2 - 7;
+      html += `<rect x="${lx-28}" y="${ly-10}" width="56" height="14" rx="4" fill="white" opacity="0.85"/>
+        <text x="${lx}" y="${ly+1}" text-anchor="middle" font-size="9" fill="${color}" font-family="IBM Plex Sans Thai,sans-serif">${e.label}</text>`;
+    }
+  });
+
+  // Nodes
+  NODES.forEach(n => {
+    const x=n.cx-NW/2, y=n.cy-NH/2;
+    const active = n.id===activeNode;
+    const dimmed = (activeGroup!=='all' && n.group!==activeGroup);
+    const op = dimmed ? 0.25 : 1;
+    const color = GROUP_COLORS[n.group];
+    const border = active ? color : GROUP_BORDER[n.group];
+    const strokeW = active ? 2.5 : 1.5;
+    const fill = active ? GROUP_LIGHT[n.group] : '#ffffff';
+    const shadow = active ? 'url(#shadow)' : 'none';
+
+    html += `<g class="node" data-id="${n.id}" style="cursor:pointer" opacity="${op}"
+      onclick="selectNode('${n.id}')">
+      <rect x="${x}" y="${y}" width="${NW}" height="${NH}" rx="8"
+        fill="${fill}" stroke="${border}" stroke-width="${strokeW}" filter="${shadow}"/>
+      <rect x="${x}" y="${y}" width="5" height="${NH}" rx="4" fill="${color}"/>
+      <text x="${x+14}" y="${y+16}" font-size="9.5" font-weight="700" font-family="IBM Plex Mono,monospace" fill="${color}">${n.id}</text>
+      <text x="${x+14}" y="${y+32}" font-size="12" font-weight="600" fill="#0f172a" font-family="IBM Plex Sans Thai,sans-serif">${n.label}</text>
+      <text x="${x+14}" y="${y+46}" font-size="9.5" fill="#94a3b8" font-family="IBM Plex Sans Thai,sans-serif">${n.sub}</text>
+    </g>`;
+  });
+
+  // UC labels (small, below each node)
+  NODES.forEach(n => {
+    if (!showLabels) return;
+    const dimmed = (activeGroup!=='all' && n.group!==activeGroup);
+    const op = dimmed ? 0.15 : 0.8;
+    const uc = n.uc.split(',')[0].trim();
+    html += `<text x="${n.cx}" y="${n.cy+NH/2+14}" text-anchor="middle"
+      font-size="9" fill="${GROUP_COLORS[n.group]}" font-family="IBM Plex Mono,monospace" opacity="${op}">${uc}</text>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+// ── Detail Panel ─────────────────────────────────────────────────────────────
+function selectNode(id) {
+  activeNode = activeNode===id ? null : id;
+  renderSVG();
+  const panel = document.getElementById('detail-panel');
+
+  if (!activeNode) {
+    panel.classList.add('hidden');
+    panel.innerHTML = '';
+    return;
+  }
+
+  const n = NODES.find(x=>x.id===id);
+  if (!n) return;
+  panel.classList.remove('hidden');
+
+  const color = GROUP_COLORS[n.group];
+  const actorHtml = n.actors.map(a=>`<span class="dp-pill actor-chip">👤 ${ACTORS[a]||a} (${a})</span>`).join('');
+  const frHtml = n.fr.map(f=>`<span class="dp-pill fr-chip">${f}</span>`).join('');
+  const nfrHtml = n.nfr.map(f=>`<span class="dp-pill nfr-chip">${f}</span>`).join('');
+  const scHtml = n.scenarios.map(s=>`<span class="dp-pill sc-chip">${s}</span>`).join('');
+  const apiHtml = n.api.map(a=>`<div class="api-line">${a}</div>`).join('');
+  const entHtml = n.entities.map(e=>`<span class="entity-tag">${e}</span>`).join('');
+
+  // Edges from/to
+  const incoming = EDGES.filter(e=>e.t===id).map(e=>`<span class="dp-pill" style="background:#f1f5f9;color:#475569">← ${e.f}: ${e.label||'navigate'}</span>`).join('');
+  const outgoing = EDGES.filter(e=>e.f===id).map(e=>`<span class="dp-pill" style="background:#f1f5f9;color:#475569">→ ${e.t}: ${e.label||'navigate'}</span>`).join('');
+
+  panel.innerHTML = `
+    <div class="dp-header" style="border-left:4px solid ${color}">
+      <button class="close-btn" onclick="selectNode('${id}')">✕</button>
+      <div class="dp-id" style="color:${color}">${n.id}</div>
+      <div class="dp-name">${n.label}</div>
+      <div style="font-size:11px;color:#64748b;margin-top:3px">${n.sub}</div>
+    </div>
+    <div class="dp-body">
+      <div class="dp-section">
+        <div class="dp-label">คำอธิบาย</div>
+        <div class="dp-value">${n.desc}</div>
+      </div>
+      <div class="dp-section">
+        <div class="dp-label">Use Case</div>
+        <div class="dp-value" style="font-family:'IBM Plex Mono',monospace;color:${color};font-weight:600">${n.uc}</div>
+      </div>
+      <div class="dp-section">
+        <div class="dp-label">Actors</div>
+        <div>${actorHtml}</div>
+      </div>
+      <div class="dp-section">
+        <div class="dp-label">Functional Requirements</div>
+        <div>${frHtml}</div>
+        ${n.nfr.length?`<div style="margin-top:4px">${nfrHtml}</div>`:''}
+      </div>
+      <div class="dp-section">
+        <div class="dp-label">API Endpoints</div>
+        ${apiHtml}
+      </div>
+      <div class="dp-section">
+        <div class="dp-label">Main Entities</div>
+        <div>${entHtml}</div>
+      </div>
+      <div class="dp-section">
+        <div class="dp-label">Test Case / Scenarios</div>
+        <div style="margin-bottom:4px"><span class="dp-pill tc-chip">🧪 ${n.tc}</span></div>
+        <div>${scHtml}</div>
+      </div>
+      ${incoming?`<div class="dp-section"><div class="dp-label">Incoming Flows</div><div>${incoming}</div></div>`:''}
+      ${outgoing?`<div class="dp-section"><div class="dp-label">Outgoing Flows</div><div>${outgoing}</div></div>`:''}
+    </div>`;
+}
+
+// ── Reference Table ───────────────────────────────────────────────────────────
+function renderTable() {
+  const t = document.getElementById('ref-table');
+  const grpLabel = { shared:'Shared', groupa:'Group A', groupb:'Group B' };
+  const grpClass = { shared:'grp-shared', groupa:'grp-a', groupb:'grp-b' };
+
+  let html = `<thead><tr>
+    <th>Screen ID</th><th>Screen Name</th><th>Group</th><th>Use Case</th>
+    <th>FR Mapping</th><th>NFR</th><th>Primary Actors</th>
+    <th>API Candidates</th><th>Main Entities</th><th>Test Case</th><th>Scenarios</th>
+  </tr></thead><tbody>`;
+
+  NODES.forEach(n => {
+    const actors = n.actors.map(a=>`${a}`).join(', ');
+    const apis = n.api.map(a=>`<code class="mono">${a}</code>`).join('<br>');
+    const entities = n.entities.join(', ');
+    html += `<tr onclick="selectNode('${n.id}')" style="cursor:pointer">
+      <td class="mono" style="color:${GROUP_COLORS[n.group]};font-weight:700">${n.id}</td>
+      <td><strong>${n.label}</strong><br><span style="color:#94a3b8;font-size:11px">${n.sub}</span></td>
+      <td><span class="grp-badge ${grpClass[n.group]}">${grpLabel[n.group]}</span></td>
+      <td class="mono" style="color:${GROUP_COLORS[n.group]}">${n.uc}</td>
+      <td>${n.fr.join('<br>')}</td>
+      <td>${n.nfr.join(', ')}</td>
+      <td style="font-size:11px">${actors}</td>
+      <td>${apis}</td>
+      <td style="font-size:11px">${entities}</td>
+      <td class="mono" style="font-size:11px">${n.tc}</td>
+      <td style="font-size:10px;color:#64748b">${n.scenarios.join(', ')}</td>
+    </tr>`;
+  });
+
+  html += '</tbody>';
+  t.innerHTML = html;
+}
+
+// ── Controls ──────────────────────────────────────────────────────────────────
+function filterGroup(g, btn) {
+  activeGroup = g;
+  activeNode = null;
+  document.querySelectorAll('.toolbar-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('detail-panel').classList.add('hidden');
+  renderSVG();
+}
+
+function toggleLabels() {
+  showLabels = !showLabels;
+  renderSVG();
+}
+
+// Init
+renderSVG();
+renderTable();
+</script>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#1e3055"/>
+    <rect x="5" y="5" width="90" height="20" rx="3" fill="#2463d9" opacity="0.8"/>
+    <rect x="5" y="32" width="40" height="12" rx="2" fill="#2463d9" opacity="0.9"/>
+    <rect x="55" y="32" width="40" height="12" rx="2" fill="#2463d9" opacity="0.9"/>
+    <rect x="5" y="55" width="25" height="12" rx="2" fill="#7c3aed" opacity="0.9"/>
+    <rect x="38" y="55" width="25" height="12" rx="2" fill="#7c3aed" opacity="0.9"/>
+    <rect x="71" y="55" width="25" height="12" rx="2" fill="#7c3aed" opacity="0.9"/>
+    <line x1="25" y1="44" x2="35" y2="55" stroke="#2463d9" stroke-width="1.5"/>
+    <line x1="75" y1="44" x2="50" y2="55" stroke="#2463d9" stroke-width="1.5"/>
+    <text x="50" y="92" font-size="8" text-anchor="middle" fill="#7da4e0">Screen Flow</text>
+  </svg>
+</template>
+
+</body>
+</html>
